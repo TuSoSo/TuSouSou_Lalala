@@ -14,6 +14,8 @@
 		0F9875A12044E72E00C34111 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98759F2044E72E00C34111 /* LaunchScreen.storyboard */; };
 		0F9875AC2044E72F00C34111 /* TuSouSouTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875AB2044E72F00C34111 /* TuSouSouTests.swift */; };
 		0F9875B72044E72F00C34111 /* TuSouSouUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875B62044E72F00C34111 /* TuSouSouUITests.swift */; };
+		0F9875DD2044ED8000C34111 /* AFHTTPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875DC2044ED8000C34111 /* AFHTTPManager.swift */; };
+		A8B70B82E46E0F842404D321 /* libPods-TuSouSou.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5454A3766D8276E0D284FC0 /* libPods-TuSouSou.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,11 @@
 		0F9875B22044E72F00C34111 /* TuSouSouUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TuSouSouUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F9875B62044E72F00C34111 /* TuSouSouUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuSouSouUITests.swift; sourceTree = "<group>"; };
 		0F9875B82044E72F00C34111 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0F9875D82044E98900C34111 /* TuSouSou-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TuSouSou-Bridging-Header.h"; sourceTree = "<group>"; };
+		0F9875DC2044ED8000C34111 /* AFHTTPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFHTTPManager.swift; sourceTree = "<group>"; };
+		461B93E68B998FB59970634D /* Pods-TuSouSou.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.release.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.release.xcconfig"; sourceTree = "<group>"; };
+		5C5004F705772966345F46E2 /* Pods-TuSouSou.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.debug.xcconfig"; sourceTree = "<group>"; };
+		D5454A3766D8276E0D284FC0 /* libPods-TuSouSou.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TuSouSou.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8B70B82E46E0F842404D321 /* libPods-TuSouSou.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +89,8 @@
 				0F9875AA2044E72F00C34111 /* TuSouSouTests */,
 				0F9875B52044E72F00C34111 /* TuSouSouUITests */,
 				0F9875942044E72E00C34111 /* Products */,
+				DB45E10CA59DE3D96F2F8B91 /* Pods */,
+				758FB1391E2E3F9959FA6227 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,10 +109,12 @@
 			children = (
 				0F9875962044E72E00C34111 /* AppDelegate.swift */,
 				0F9875982044E72E00C34111 /* ViewController.swift */,
+				0F9875DC2044ED8000C34111 /* AFHTTPManager.swift */,
 				0F98759A2044E72E00C34111 /* Main.storyboard */,
 				0F98759D2044E72E00C34111 /* Assets.xcassets */,
 				0F98759F2044E72E00C34111 /* LaunchScreen.storyboard */,
 				0F9875A22044E72E00C34111 /* Info.plist */,
+				0F9875D82044E98900C34111 /* TuSouSou-Bridging-Header.h */,
 			);
 			path = TuSouSou;
 			sourceTree = "<group>";
@@ -125,6 +137,23 @@
 			path = TuSouSouUITests;
 			sourceTree = "<group>";
 		};
+		758FB1391E2E3F9959FA6227 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D5454A3766D8276E0D284FC0 /* libPods-TuSouSou.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DB45E10CA59DE3D96F2F8B91 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5C5004F705772966345F46E2 /* Pods-TuSouSou.debug.xcconfig */,
+				461B93E68B998FB59970634D /* Pods-TuSouSou.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +161,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0F9875BB2044E72F00C34111 /* Build configuration list for PBXNativeTarget "TuSouSou" */;
 			buildPhases = (
+				4EE1DFCD1305D34F5A7A8685 /* [CP] Check Pods Manifest.lock */,
 				0F98758F2044E72E00C34111 /* Sources */,
 				0F9875902044E72E00C34111 /* Frameworks */,
 				0F9875912044E72E00C34111 /* Resources */,
+				969BFBFFF5F4FA39D03B232E /* [CP] Embed Pods Frameworks */,
+				A5F87F968039FAE0D1C90F48 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -193,6 +225,7 @@
 				TargetAttributes = {
 					0F9875922044E72E00C34111 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					0F9875A62044E72F00C34111 = {
@@ -254,11 +287,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4EE1DFCD1305D34F5A7A8685 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TuSouSou-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		969BFBFFF5F4FA39D03B232E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5F87F968039FAE0D1C90F48 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou-resources.sh",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0F98758F2044E72E00C34111 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F9875DD2044ED8000C34111 /* AFHTTPManager.swift in Sources */,
 				0F9875992044E72E00C34111 /* ViewController.swift in Sources */,
 				0F9875972044E72E00C34111 /* AppDelegate.swift in Sources */,
 			);
@@ -424,31 +512,40 @@
 		};
 		0F9875BC2044E72F00C34111 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C5004F705772966345F46E2 /* Pods-TuSouSou.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GP8BUACAG4;
 				INFOPLIST_FILE = TuSouSou/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Aipuyifeng.TuSouSou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TuSouSou/TuSouSou-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		0F9875BD2044E72F00C34111 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 461B93E68B998FB59970634D /* Pods-TuSouSou.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GP8BUACAG4;
 				INFOPLIST_FILE = TuSouSou/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Aipuyifeng.TuSouSou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TuSouSou/TuSouSou-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
