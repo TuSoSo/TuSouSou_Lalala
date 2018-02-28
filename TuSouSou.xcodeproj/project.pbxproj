@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F65340F2046471000FF347F /* NetworkTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65340E2046471000FF347F /* NetworkTools.swift */; };
 		0F9875972044E72E00C34111 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875962044E72E00C34111 /* AppDelegate.swift */; };
 		0F9875992044E72E00C34111 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875982044E72E00C34111 /* ViewController.swift */; };
 		0F98759C2044E72E00C34111 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98759A2044E72E00C34111 /* Main.storyboard */; };
@@ -14,8 +15,7 @@
 		0F9875A12044E72E00C34111 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98759F2044E72E00C34111 /* LaunchScreen.storyboard */; };
 		0F9875AC2044E72F00C34111 /* TuSouSouTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875AB2044E72F00C34111 /* TuSouSouTests.swift */; };
 		0F9875B72044E72F00C34111 /* TuSouSouUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875B62044E72F00C34111 /* TuSouSouUITests.swift */; };
-		0F9875DD2044ED8000C34111 /* AFHTTPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875DC2044ED8000C34111 /* AFHTTPManager.swift */; };
-		A8B70B82E46E0F842404D321 /* libPods-TuSouSou.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5454A3766D8276E0D284FC0 /* libPods-TuSouSou.a */; };
+		AB0B537FD70EC5357A512087 /* Pods_TuSouSou.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F65340E2046471000FF347F /* NetworkTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTools.swift; sourceTree = "<group>"; };
 		0F9875932044E72E00C34111 /* TuSouSou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TuSouSou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F9875962044E72E00C34111 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F9875982044E72E00C34111 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -50,10 +51,9 @@
 		0F9875B62044E72F00C34111 /* TuSouSouUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuSouSouUITests.swift; sourceTree = "<group>"; };
 		0F9875B82044E72F00C34111 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F9875D82044E98900C34111 /* TuSouSou-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TuSouSou-Bridging-Header.h"; sourceTree = "<group>"; };
-		0F9875DC2044ED8000C34111 /* AFHTTPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFHTTPManager.swift; sourceTree = "<group>"; };
 		461B93E68B998FB59970634D /* Pods-TuSouSou.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.release.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.release.xcconfig"; sourceTree = "<group>"; };
 		5C5004F705772966345F46E2 /* Pods-TuSouSou.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.debug.xcconfig"; sourceTree = "<group>"; };
-		D5454A3766D8276E0D284FC0 /* libPods-TuSouSou.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TuSouSou.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TuSouSou.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8B70B82E46E0F842404D321 /* libPods-TuSouSou.a in Frameworks */,
+				AB0B537FD70EC5357A512087 /* Pods_TuSouSou.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,7 +109,7 @@
 			children = (
 				0F9875962044E72E00C34111 /* AppDelegate.swift */,
 				0F9875982044E72E00C34111 /* ViewController.swift */,
-				0F9875DC2044ED8000C34111 /* AFHTTPManager.swift */,
+				0F65340E2046471000FF347F /* NetworkTools.swift */,
 				0F98759A2044E72E00C34111 /* Main.storyboard */,
 				0F98759D2044E72E00C34111 /* Assets.xcassets */,
 				0F98759F2044E72E00C34111 /* LaunchScreen.storyboard */,
@@ -140,7 +140,7 @@
 		758FB1391E2E3F9959FA6227 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D5454A3766D8276E0D284FC0 /* libPods-TuSouSou.a */,
+				FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -312,9 +312,20 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -346,7 +357,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F9875DD2044ED8000C34111 /* AFHTTPManager.swift in Sources */,
+				0F65340F2046471000FF347F /* NetworkTools.swift in Sources */,
 				0F9875992044E72E00C34111 /* ViewController.swift in Sources */,
 				0F9875972044E72E00C34111 /* AppDelegate.swift in Sources */,
 			);

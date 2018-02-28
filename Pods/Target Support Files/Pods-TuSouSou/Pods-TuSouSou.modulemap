@@ -1,0 +1,6 @@
+framework module Pods_TuSouSou {
+  umbrella header "Pods-TuSouSou-umbrella.h"
+
+  export *
+  module * { export * }
+}
