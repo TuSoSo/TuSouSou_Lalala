@@ -10,10 +10,12 @@
 		0F45F492204E39A10043E96F /* XL_QuanJu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F491204E39A10043E96F /* XL_QuanJu.swift */; };
 		0F45F494204E43140043E96F /* XL_GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F493204E43140043E96F /* XL_GuideViewController.swift */; };
 		0F45F49C204E7A6A0043E96F /* XL_Navi_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F49B204E7A6A0043E96F /* XL_Navi_ViewController.swift */; };
+		0F45F4A0204E9B690043E96F /* XL_LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F49F204E9B690043E96F /* XL_LeftMenuViewController.swift */; };
+		0F45F4A3204E9F790043E96F /* XL_DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F4A2204E9F790043E96F /* XL_DrawerViewController.swift */; };
+		0F45F4A5204EA29F0043E96F /* XL_ShouYe_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */; };
 		0F65341220466D4800FF347F /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65341020466D4800FF347F /* MainTableViewController.swift */; };
 		0F65341520466F2E00FF347F /* secViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65341420466F2E00FF347F /* secViewController.swift */; };
 		0F9875972044E72E00C34111 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875962044E72E00C34111 /* AppDelegate.swift */; };
-		0F9875992044E72E00C34111 /* XL_Shouye_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875982044E72E00C34111 /* XL_Shouye_ViewController.swift */; };
 		0F98759C2044E72E00C34111 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98759A2044E72E00C34111 /* Main.storyboard */; };
 		0F98759E2044E72E00C34111 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F98759D2044E72E00C34111 /* Assets.xcassets */; };
 		0F9875A12044E72E00C34111 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98759F2044E72E00C34111 /* LaunchScreen.storyboard */; };
@@ -43,11 +45,13 @@
 		0F45F491204E39A10043E96F /* XL_QuanJu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_QuanJu.swift; sourceTree = "<group>"; };
 		0F45F493204E43140043E96F /* XL_GuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GuideViewController.swift; sourceTree = "<group>"; };
 		0F45F49B204E7A6A0043E96F /* XL_Navi_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_Navi_ViewController.swift; sourceTree = "<group>"; };
+		0F45F49F204E9B690043E96F /* XL_LeftMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_LeftMenuViewController.swift; sourceTree = "<group>"; };
+		0F45F4A2204E9F790043E96F /* XL_DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DrawerViewController.swift; sourceTree = "<group>"; };
+		0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_ShouYe_ViewController.swift; sourceTree = "<group>"; };
 		0F65341020466D4800FF347F /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		0F65341420466F2E00FF347F /* secViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = secViewController.swift; sourceTree = "<group>"; };
 		0F9875932044E72E00C34111 /* TuSouSou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TuSouSou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F9875962044E72E00C34111 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0F9875982044E72E00C34111 /* XL_Shouye_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_Shouye_ViewController.swift; sourceTree = "<group>"; };
 		0F98759B2044E72E00C34111 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0F98759D2044E72E00C34111 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F9875A02044E72E00C34111 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -108,20 +112,10 @@
 			path = "OC-Swift桥连接";
 			sourceTree = "<group>";
 		};
-		0F45F48E204E38CF0043E96F /* 启动页+引导页 */ = {
-			isa = PBXGroup;
-			children = (
-				0F98759F2044E72E00C34111 /* LaunchScreen.storyboard */,
-				0F45F493204E43140043E96F /* XL_GuideViewController.swift */,
-				0F45F49B204E7A6A0043E96F /* XL_Navi_ViewController.swift */,
-			);
-			name = "启动页+引导页";
-			sourceTree = "<group>";
-		};
 		0F45F48F204E38F30043E96F /* 首页 */ = {
 			isa = PBXGroup;
 			children = (
-				0F9875982044E72E00C34111 /* XL_Shouye_ViewController.swift */,
+				0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */,
 			);
 			path = "首页";
 			sourceTree = "<group>";
@@ -132,6 +126,25 @@
 				0F45F491204E39A10043E96F /* XL_QuanJu.swift */,
 			);
 			path = "全项目全局常量";
+			sourceTree = "<group>";
+		};
+		0F45F49D204E843B0043E96F /* 启动页+引导页 */ = {
+			isa = PBXGroup;
+			children = (
+				0F98759F2044E72E00C34111 /* LaunchScreen.storyboard */,
+				0F45F493204E43140043E96F /* XL_GuideViewController.swift */,
+				0F45F49B204E7A6A0043E96F /* XL_Navi_ViewController.swift */,
+			);
+			path = "启动页+引导页";
+			sourceTree = "<group>";
+		};
+		0F45F4A1204E9F440043E96F /* 侧滑栏 */ = {
+			isa = PBXGroup;
+			children = (
+				0F45F4A2204E9F790043E96F /* XL_DrawerViewController.swift */,
+				0F45F49F204E9B690043E96F /* XL_LeftMenuViewController.swift */,
+			);
+			path = "侧滑栏";
 			sourceTree = "<group>";
 		};
 		0F98758A2044E72E00C34111 = {
@@ -159,9 +172,10 @@
 		0F9875952044E72E00C34111 /* TuSouSou */ = {
 			isa = PBXGroup;
 			children = (
+				0F45F4A1204E9F440043E96F /* 侧滑栏 */,
 				0F45F490204E39490043E96F /* 全项目全局常量 */,
 				0F45F48F204E38F30043E96F /* 首页 */,
-				0F45F48E204E38CF0043E96F /* 启动页+引导页 */,
+				0F45F49D204E843B0043E96F /* 启动页+引导页 */,
 				0F45F48D204E38910043E96F /* OC-Swift桥连接 */,
 				0F45F48C204E38700043E96F /* 基础 */,
 				0F65341020466D4800FF347F /* MainTableViewController.swift */,
@@ -411,11 +425,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F65341220466D4800FF347F /* MainTableViewController.swift in Sources */,
-				0F9875992044E72E00C34111 /* XL_Shouye_ViewController.swift in Sources */,
 				0F45F49C204E7A6A0043E96F /* XL_Navi_ViewController.swift in Sources */,
 				0F65341520466F2E00FF347F /* secViewController.swift in Sources */,
+				0F45F4A0204E9B690043E96F /* XL_LeftMenuViewController.swift in Sources */,
 				0F45F494204E43140043E96F /* XL_GuideViewController.swift in Sources */,
 				0F45F492204E39A10043E96F /* XL_QuanJu.swift in Sources */,
+				0F45F4A3204E9F790043E96F /* XL_DrawerViewController.swift in Sources */,
+				0F45F4A5204EA29F0043E96F /* XL_ShouYe_ViewController.swift in Sources */,
 				0F9875972044E72E00C34111 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

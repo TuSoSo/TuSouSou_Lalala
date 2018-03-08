@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yYG-NO-mAr">
-                                <rect key="frame" x="147" y="560" width="80" height="30"/>
+                                <rect key="frame" x="147.5" y="560" width="80" height="30"/>
                                 <color key="backgroundColor" red="0.23921568627450981" green="0.61960784313725492" blue="0.86274509803921573" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="ftg-Al-SMF"/>
@@ -69,10 +69,10 @@
             </objects>
             <point key="canvasLocation" x="-1593" y="-123"/>
         </scene>
-        <!--View Controller-->
+        <!--Shou Ye View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TuSouSou" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="shouye" id="BYZ-38-t0r" customClass="XL_ShouYe_ViewController" customModule="TuSouSou" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="937-TW-mPU"/>
                         <viewControllerLayoutGuide type="bottom" id="esN-tP-9Xr"/>
@@ -80,13 +80,28 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="0.29293360026125248" blue="0.24978283197390816" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="46Q-d0-awb"/>
+                    <navigationItem key="navigationItem" id="46Q-d0-awb">
+                        <barButtonItem key="leftBarButtonItem" image="个人" id="1Tz-eF-8Ue">
+                            <connections>
+                                <action selector="zuoanniu:" destination="BYZ-38-t0r" id="OYL-dv-lGB"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="签到" id="qdL-cw-p8A">
+                            <connections>
+                                <action selector="you:" destination="BYZ-38-t0r" id="9yi-LF-yDd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-823" y="-122"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="个人" width="28" height="31"/>
+        <image name="签到" width="33" height="33"/>
+    </resources>
 </document>

@@ -1,5 +1,5 @@
 //
-//  XL_Navi_ViewController.swift
+//  XL_ShouYe_ViewController.swift
 //  TuSouSou
 //
 //  Created by 斌小狼 on 2018/3/6.
@@ -8,16 +8,30 @@
 
 import UIKit
 
-class XL_Navi_ViewController: UINavigationController {
-
+class XL_ShouYe_ViewController: UIViewController,UIPopoverPresentationControllerDelegate {
+    @IBAction func zuoanniu(_ sender: UIBarButtonItem) {
+        XL_DrawerViewController.shareDrawer?.openLeftMenu()
+    }
+  
+    @IBAction func you(_ sender: Any) {
+        
+    }
+    var window: UIWindow?
+   
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("已经到了导航页")
+       
         // Do any additional setup after loading the view.
     }
-    override var prefersStatusBarHidden: Bool{
-        return false
+    // popoverPresentControllerDelegate
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
+    
+    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

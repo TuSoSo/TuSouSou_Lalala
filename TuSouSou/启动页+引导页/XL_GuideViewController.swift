@@ -43,10 +43,16 @@ class XL_GuideViewController: UIViewController,UIScrollViewDelegate{
         startButton.alpha = 0.0
         startButton.addTarget(self, action: #selector(tiaoye), for: .touchUpInside)
     }
+  
     @objc func tiaoye() {
         let NaviVC: XL_Navi_ViewController = storyboard!.instantiateViewController(withIdentifier: "Navi") as! XL_Navi_ViewController
-        self.present(NaviVC, animated: true, completion: nil)
         
+        let leftVC = XL_LeftMenuViewController()
+        let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+        let delegate = UIApplication.shared
+        delegate.keyWindow?.rootViewController = XL_DrawerViewController(mainVC: tabBarVC!, leftMenuVC: leftVC, leftWidth: 300)
+        self.present(NaviVC, animated: false, completion: nil)
+      
     }
     //隐藏状态栏
     override var prefersStatusBarHidden: Bool{

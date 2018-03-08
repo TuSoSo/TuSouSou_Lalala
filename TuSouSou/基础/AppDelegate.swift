@@ -30,7 +30,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let guideVc : XL_GuideViewController! = storyboard.instantiateViewController(withIdentifier: "GuideViewController") as! XL_GuideViewController
             
             self.window?.rootViewController = guideVc
+            window?.makeKeyAndVisible()
+        }else{
+            let leftVC = XL_LeftMenuViewController()
+            let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+            window?.rootViewController = XL_DrawerViewController(mainVC: tabBarVC!, leftMenuVC: leftVC, leftWidth: 300)
+            window?.makeKeyAndVisible()
+            
         }
+        
         
         return true
     }
