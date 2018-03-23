@@ -1,14 +1,15 @@
 //
-//  XL_DrawerViewController
-//  TuSouSou
+//  XL_DrawerViewController.swift
+//  抽屉效果
 //
-//  Created by 斌小狼 on 2018/2/27.
-//  Copyright © 2018年 爱普易峰. All rights reserved.
+//  Created by administrator on 2017/3/10.
+//  Copyright © 2017年 WL. All rights reserved.
 //
 
 import UIKit
 
 class XL_DrawerViewController: UIViewController {
+    
     let screenW = UIScreen.main.bounds.width
     
     var mainVC: UIViewController?
@@ -180,5 +181,4 @@ class XL_DrawerViewController: UIViewController {
     
     
 }
-
 

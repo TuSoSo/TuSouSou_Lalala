@@ -7,12 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F03E34F205FC190007A42D0 /* XL_dizhi_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F03E34E205FC190007A42D0 /* XL_dizhi_ViewController.swift */; };
+		0F03E351205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F03E350205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift */; };
+		0F03E353205FC390007A42D0 /* XL_baiduditu_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F03E352205FC390007A42D0 /* XL_baiduditu_ViewController.swift */; };
+		0F1197AE2057610A00CA0AFB /* XL_GGXQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1197AD2057610A00CA0AFB /* XL_GGXQViewController.swift */; };
+		0F3F8B5320567C2500783C53 /* XL_DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3F8B5220567C2500783C53 /* XL_DrawerViewController.swift */; };
 		0F45F492204E39A10043E96F /* XL_QuanJu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F491204E39A10043E96F /* XL_QuanJu.swift */; };
 		0F45F494204E43140043E96F /* XL_GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F493204E43140043E96F /* XL_GuideViewController.swift */; };
 		0F45F49C204E7A6A0043E96F /* XL_Navi_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F49B204E7A6A0043E96F /* XL_Navi_ViewController.swift */; };
-		0F45F4A0204E9B690043E96F /* XL_LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F49F204E9B690043E96F /* XL_LeftMenuViewController.swift */; };
-		0F45F4A3204E9F790043E96F /* XL_DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F4A2204E9F790043E96F /* XL_DrawerViewController.swift */; };
 		0F45F4A5204EA29F0043E96F /* XL_ShouYe_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */; };
+		0F54B4A320566AA1004CFF7F /* XL_chengshiListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54B4A220566AA1004CFF7F /* XL_chengshiListViewController.swift */; };
+		0F5D7CC920513DD500411262 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CC820513DD500411262 /* CoreLocation.framework */; };
+		0F5D7CCB20513DDD00411262 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CCA20513DDD00411262 /* SystemConfiguration.framework */; };
+		0F5D7CCD20513DE300411262 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CCC20513DE300411262 /* Security.framework */; };
+		0F5D7CCF20513DEE00411262 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CCE20513DEE00411262 /* libsqlite3.0.tbd */; };
+		0F5D7CD120513DFE00411262 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CD020513DFE00411262 /* CoreTelephony.framework */; };
+		0F5D7CD320513E0A00411262 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CD220513E0A00411262 /* libstdc++.6.0.9.tbd */; };
+		0F5D7CD520513E1800411262 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CD420513E1800411262 /* AdSupport.framework */; };
 		0F65341220466D4800FF347F /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65341020466D4800FF347F /* MainTableViewController.swift */; };
 		0F65341520466F2E00FF347F /* secViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65341420466F2E00FF347F /* secViewController.swift */; };
 		0F9875972044E72E00C34111 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875962044E72E00C34111 /* AppDelegate.swift */; };
@@ -21,6 +32,11 @@
 		0F9875A12044E72E00C34111 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98759F2044E72E00C34111 /* LaunchScreen.storyboard */; };
 		0F9875AC2044E72F00C34111 /* TuSouSouTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875AB2044E72F00C34111 /* TuSouSouTests.swift */; };
 		0F9875B72044E72F00C34111 /* TuSouSouUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875B62044E72F00C34111 /* TuSouSouUITests.swift */; };
+		0FBD75F120567CD1004A8571 /* XL_LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBD75F020567CD1004A8571 /* XL_LeftMenuViewController.swift */; };
+		0FDDB4032056DD0400522188 /* XL_GuanggaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FDDB4022056DD0400522188 /* XL_GuanggaoViewController.swift */; };
+		0FE54CE320523627005ADCC0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE54CE220523627005ADCC0 /* QuartzCore.framework */; };
+		0FE54CE52052362E005ADCC0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE54CE42052362E005ADCC0 /* OpenGLES.framework */; };
+		0FE54CE72052363F005ADCC0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE54CE62052363F005ADCC0 /* CoreGraphics.framework */; };
 		AB0B537FD70EC5357A512087 /* Pods_TuSouSou.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,12 +58,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F03E34E205FC190007A42D0 /* XL_dizhi_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_dizhi_ViewController.swift; sourceTree = "<group>"; };
+		0F03E350205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_Dizhibu_ViewController.swift; sourceTree = "<group>"; };
+		0F03E352205FC390007A42D0 /* XL_baiduditu_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_baiduditu_ViewController.swift; sourceTree = "<group>"; };
+		0F1197AD2057610A00CA0AFB /* XL_GGXQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GGXQViewController.swift; sourceTree = "<group>"; };
+		0F3F8B5220567C2500783C53 /* XL_DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DrawerViewController.swift; sourceTree = "<group>"; };
 		0F45F491204E39A10043E96F /* XL_QuanJu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_QuanJu.swift; sourceTree = "<group>"; };
 		0F45F493204E43140043E96F /* XL_GuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GuideViewController.swift; sourceTree = "<group>"; };
 		0F45F49B204E7A6A0043E96F /* XL_Navi_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_Navi_ViewController.swift; sourceTree = "<group>"; };
-		0F45F49F204E9B690043E96F /* XL_LeftMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_LeftMenuViewController.swift; sourceTree = "<group>"; };
-		0F45F4A2204E9F790043E96F /* XL_DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DrawerViewController.swift; sourceTree = "<group>"; };
 		0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_ShouYe_ViewController.swift; sourceTree = "<group>"; };
+		0F54B4A220566AA1004CFF7F /* XL_chengshiListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_chengshiListViewController.swift; sourceTree = "<group>"; };
+		0F5D7CC820513DD500411262 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		0F5D7CCA20513DDD00411262 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		0F5D7CCC20513DE300411262 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		0F5D7CCE20513DEE00411262 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		0F5D7CD020513DFE00411262 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		0F5D7CD220513E0A00411262 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		0F5D7CD420513E1800411262 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		0F65341020466D4800FF347F /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		0F65341420466F2E00FF347F /* secViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = secViewController.swift; sourceTree = "<group>"; };
 		0F9875932044E72E00C34111 /* TuSouSou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TuSouSou.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +90,12 @@
 		0F9875B62044E72F00C34111 /* TuSouSouUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuSouSouUITests.swift; sourceTree = "<group>"; };
 		0F9875B82044E72F00C34111 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F9875D82044E98900C34111 /* TuSouSou-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TuSouSou-Bridging-Header.h"; sourceTree = "<group>"; };
+		0FBD75F020567CD1004A8571 /* XL_LeftMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_LeftMenuViewController.swift; sourceTree = "<group>"; };
+		0FDBE002205231A6005C03FA /* TuSouSou.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TuSouSou.entitlements; sourceTree = "<group>"; };
+		0FDDB4022056DD0400522188 /* XL_GuanggaoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GuanggaoViewController.swift; sourceTree = "<group>"; };
+		0FE54CE220523627005ADCC0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0FE54CE42052362E005ADCC0 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		0FE54CE62052363F005ADCC0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		461B93E68B998FB59970634D /* Pods-TuSouSou.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.release.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.release.xcconfig"; sourceTree = "<group>"; };
 		5C5004F705772966345F46E2 /* Pods-TuSouSou.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.debug.xcconfig"; sourceTree = "<group>"; };
 		FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TuSouSou.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,6 +106,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FE54CE72052363F005ADCC0 /* CoreGraphics.framework in Frameworks */,
+				0FE54CE52052362E005ADCC0 /* OpenGLES.framework in Frameworks */,
+				0FE54CE320523627005ADCC0 /* QuartzCore.framework in Frameworks */,
+				0F5D7CD520513E1800411262 /* AdSupport.framework in Frameworks */,
+				0F5D7CD320513E0A00411262 /* libstdc++.6.0.9.tbd in Frameworks */,
+				0F5D7CD120513DFE00411262 /* CoreTelephony.framework in Frameworks */,
+				0F5D7CCF20513DEE00411262 /* libsqlite3.0.tbd in Frameworks */,
+				0F5D7CCD20513DE300411262 /* Security.framework in Frameworks */,
+				0F5D7CCB20513DDD00411262 /* SystemConfiguration.framework in Frameworks */,
+				0F5D7CC920513DD500411262 /* CoreLocation.framework in Frameworks */,
 				AB0B537FD70EC5357A512087 /* Pods_TuSouSou.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,6 +137,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F03E34D205FC175007A42D0 /* 地址簿 */ = {
+			isa = PBXGroup;
+			children = (
+				0F03E34E205FC190007A42D0 /* XL_dizhi_ViewController.swift */,
+				0F03E350205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift */,
+				0F03E352205FC390007A42D0 /* XL_baiduditu_ViewController.swift */,
+			);
+			path = "地址簿";
+			sourceTree = "<group>";
+		};
+		0F0DB34820566A39006E7537 /* 城市列表 */ = {
+			isa = PBXGroup;
+			children = (
+				0F54B4A220566AA1004CFF7F /* XL_chengshiListViewController.swift */,
+			);
+			path = "城市列表";
+			sourceTree = "<group>";
+		};
+		0F3F8B5120567BD600783C53 /* 侧滑栏 */ = {
+			isa = PBXGroup;
+			children = (
+				0F3F8B5220567C2500783C53 /* XL_DrawerViewController.swift */,
+				0FBD75F020567CD1004A8571 /* XL_LeftMenuViewController.swift */,
+			);
+			path = "侧滑栏";
+			sourceTree = "<group>";
+		};
 		0F45F48C204E38700043E96F /* 基础 */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +186,8 @@
 			isa = PBXGroup;
 			children = (
 				0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */,
+				0F03E34D205FC175007A42D0 /* 地址簿 */,
+				0F0DB34820566A39006E7537 /* 城市列表 */,
 			);
 			path = "首页";
 			sourceTree = "<group>";
@@ -128,23 +200,16 @@
 			path = "全项目全局常量";
 			sourceTree = "<group>";
 		};
-		0F45F49D204E843B0043E96F /* 启动页+引导页 */ = {
+		0F45F49D204E843B0043E96F /* 启动页+广告页+引导页 */ = {
 			isa = PBXGroup;
 			children = (
 				0F98759F2044E72E00C34111 /* LaunchScreen.storyboard */,
 				0F45F493204E43140043E96F /* XL_GuideViewController.swift */,
 				0F45F49B204E7A6A0043E96F /* XL_Navi_ViewController.swift */,
+				0FDDB4022056DD0400522188 /* XL_GuanggaoViewController.swift */,
+				0F1197AD2057610A00CA0AFB /* XL_GGXQViewController.swift */,
 			);
-			path = "启动页+引导页";
-			sourceTree = "<group>";
-		};
-		0F45F4A1204E9F440043E96F /* 侧滑栏 */ = {
-			isa = PBXGroup;
-			children = (
-				0F45F4A2204E9F790043E96F /* XL_DrawerViewController.swift */,
-				0F45F49F204E9B690043E96F /* XL_LeftMenuViewController.swift */,
-			);
-			path = "侧滑栏";
+			path = "启动页+广告页+引导页";
 			sourceTree = "<group>";
 		};
 		0F98758A2044E72E00C34111 = {
@@ -172,10 +237,11 @@
 		0F9875952044E72E00C34111 /* TuSouSou */ = {
 			isa = PBXGroup;
 			children = (
-				0F45F4A1204E9F440043E96F /* 侧滑栏 */,
+				0FDBE002205231A6005C03FA /* TuSouSou.entitlements */,
+				0F3F8B5120567BD600783C53 /* 侧滑栏 */,
 				0F45F490204E39490043E96F /* 全项目全局常量 */,
 				0F45F48F204E38F30043E96F /* 首页 */,
-				0F45F49D204E843B0043E96F /* 启动页+引导页 */,
+				0F45F49D204E843B0043E96F /* 启动页+广告页+引导页 */,
 				0F45F48D204E38910043E96F /* OC-Swift桥连接 */,
 				0F45F48C204E38700043E96F /* 基础 */,
 				0F65341020466D4800FF347F /* MainTableViewController.swift */,
@@ -206,6 +272,16 @@
 		758FB1391E2E3F9959FA6227 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FE54CE62052363F005ADCC0 /* CoreGraphics.framework */,
+				0FE54CE42052362E005ADCC0 /* OpenGLES.framework */,
+				0FE54CE220523627005ADCC0 /* QuartzCore.framework */,
+				0F5D7CD420513E1800411262 /* AdSupport.framework */,
+				0F5D7CD220513E0A00411262 /* libstdc++.6.0.9.tbd */,
+				0F5D7CD020513DFE00411262 /* CoreTelephony.framework */,
+				0F5D7CCE20513DEE00411262 /* libsqlite3.0.tbd */,
+				0F5D7CCC20513DE300411262 /* Security.framework */,
+				0F5D7CCA20513DDD00411262 /* SystemConfiguration.framework */,
+				0F5D7CC820513DD500411262 /* CoreLocation.framework */,
 				FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */,
 			);
 			name = Frameworks;
@@ -294,6 +370,11 @@
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					0F9875A62044E72F00C34111 = {
 						CreatedOnToolsVersion = 9.2;
@@ -406,11 +487,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou-resources.sh",
-				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/BaiduMapKit/BaiduMapKit/BaiduMapAPI_Map.framework/Resources/mapapi.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mapapi.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -426,13 +507,19 @@
 			files = (
 				0F65341220466D4800FF347F /* MainTableViewController.swift in Sources */,
 				0F45F49C204E7A6A0043E96F /* XL_Navi_ViewController.swift in Sources */,
+				0FDDB4032056DD0400522188 /* XL_GuanggaoViewController.swift in Sources */,
 				0F65341520466F2E00FF347F /* secViewController.swift in Sources */,
-				0F45F4A0204E9B690043E96F /* XL_LeftMenuViewController.swift in Sources */,
+				0F03E351205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift in Sources */,
 				0F45F494204E43140043E96F /* XL_GuideViewController.swift in Sources */,
+				0F03E34F205FC190007A42D0 /* XL_dizhi_ViewController.swift in Sources */,
+				0F03E353205FC390007A42D0 /* XL_baiduditu_ViewController.swift in Sources */,
+				0F54B4A320566AA1004CFF7F /* XL_chengshiListViewController.swift in Sources */,
 				0F45F492204E39A10043E96F /* XL_QuanJu.swift in Sources */,
-				0F45F4A3204E9F790043E96F /* XL_DrawerViewController.swift in Sources */,
 				0F45F4A5204EA29F0043E96F /* XL_ShouYe_ViewController.swift in Sources */,
+				0F3F8B5320567C2500783C53 /* XL_DrawerViewController.swift in Sources */,
+				0FBD75F120567CD1004A8571 /* XL_LeftMenuViewController.swift in Sources */,
 				0F9875972044E72E00C34111 /* AppDelegate.swift in Sources */,
+				0F1197AE2057610A00CA0AFB /* XL_GGXQViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,8 +687,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = TuSouSou/TuSouSou.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GP8BUACAG4;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = TuSouSou/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -620,8 +709,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = TuSouSou/TuSouSou.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GP8BUACAG4;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = TuSouSou/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

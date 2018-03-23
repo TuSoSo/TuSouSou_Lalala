@@ -9,20 +9,28 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder,BMKGeneralDelegate,UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    var _mapManager: BMKMapManager?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+//百度地图
+        _mapManager = BMKMapManager()
+        // 如果要关注网络及授权验证事件，请设定generalDelegate参数
+        let ret = _mapManager?.start("44xyBYXqaNGwSh8ci2L0EDiQX1XQbn3A", generalDelegate: self)
+        if ret == false {
+            NSLog("manager start failed!")
+        }
+
+// 引导页是否显示
 //        取得当前版本号
         let infoDic = Bundle.main.infoDictionary
         let currentAppVersion = infoDic! ["CFBundleShortVersionString"] as! String
 //        取得之前版本号
         let userDefaults = UserDefaults.standard
         let appVersion = userDefaults.string(forKey: "appVersion")
-        print("当前版本号：\(currentAppVersion)\n原来版本号：\(String(describing: appVersion))")
-        
 //        如果appVersion 为nil 则为第一次启动；若appVersion 不等于 currenAppVersion 则为更新了
         if appVersion == nil || appVersion != currentAppVersion {
 //            保存现在版本号
@@ -32,20 +40,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = guideVc
             window?.makeKeyAndVisible()
         }else{
-            let leftVC = XL_LeftMenuViewController()
-            let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-            window?.rootViewController = XL_DrawerViewController(mainVC: tabBarVC!, leftMenuVC: leftVC, leftWidth: 300)
+            let advertiseVC: XL_GuanggaoViewController! = storyboard.instantiateViewController(withIdentifier: "guanggao") as! XL_GuanggaoViewController
+            
+            window?.rootViewController = advertiseVC
             window?.makeKeyAndVisible()
+//            let leftVC = XL_LeftMenuViewController()
+//            let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+//            window?.rootViewController = XL_DrawerViewController(mainVC: tabBarVC!, leftMenuVC: leftVC, leftWidth: 300)
+//            window?.makeKeyAndVisible()
             
         }
-        
+
         
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+       
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {

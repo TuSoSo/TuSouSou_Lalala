@@ -1,19 +1,26 @@
 //
 //  XL_LeftMenuViewController.swift
-//  TuSouSou
+//  抽屉效果
 //
-//  Created by 斌小狼 on 2018/3/6.
-//  Copyright © 2018年 爱普易峰. All rights reserved.
+//  Created by administrator on 2017/3/10.
+//  Copyright © 2017年 WL. All rights reserved.
 //
 
 import UIKit
 
+//protocol XL_LeftMenuViewControllerDelegate: NSObjectProtocol {
+//
+//    func LeftViewController(didSelectRowAt indexPath: IndexPath)
+//
+//}
+
 class XL_LeftMenuViewController: UIViewController {
+    
     fileprivate let cellIdentifier = "WLCellIdentifier"
     //    weak var delegate: XL_LeftMenuViewControllerDelegate?
     let headerViewH: CGFloat = 200
     
-    var dataArray = [["我的商城","引导1"],["QQ钱包","引导1"],["个性装扮","引导1"],["我的收藏","引导1"],["我的相册","引导1"],["我的文件","引导1"]]
+    var dataArray = [["我的商城","sidebar_business"],["QQ钱包","sidebar_purse"],["个性装扮","sidebar_decoration"],["我的收藏","sidebar_favorit"],["我的相册","sidebar_album"],["我的文件","sidebar_file"]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +34,6 @@ class XL_LeftMenuViewController: UIViewController {
     private lazy var tableView: UITableView = {
         
         let tab = UITableView(frame: CGRect(x: 0, y: self.headerViewH, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - self.headerViewH), style: .plain)
-
         tab.backgroundColor = UIColor(red: 13.0 / 255.0, green: 184.0 / 255.0, blue: 246.0 / 255.0, alpha: 1.0)
         tab.separatorStyle = UITableViewCellSeparatorStyle.none
         tab.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
@@ -43,7 +49,7 @@ class XL_LeftMenuViewController: UIViewController {
         
         let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: self.headerViewH))
         let bgImageView = UIImageView(frame: view.frame)
-        bgImageView.image = UIImage(named: "引导3")
+        bgImageView.image = UIImage(named: "引导2")
         bgImageView.contentMode = UIViewContentMode.scaleAspectFill
         bgImageView.clipsToBounds = true
         view.addSubview(bgImageView)
@@ -77,6 +83,6 @@ extension XL_LeftMenuViewController: UITableViewDelegate, UITableViewDataSource 
         vc.view.backgroundColor = UIColor.white
         vc.title = dataArray[indexPath.row][0]
         XL_DrawerViewController.shareDrawer?.LeftViewController(didSelectController: vc)
-        
+        
     }
 }
