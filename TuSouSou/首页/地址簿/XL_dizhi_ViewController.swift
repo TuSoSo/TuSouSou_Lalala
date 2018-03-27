@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import ContactsUI
 
-class XL_dizhi_ViewController: UIViewController{
+class XL_dizhi_ViewController: UIViewController,CNContactPickerDelegate{
 
     var Shei:String?
     
@@ -22,34 +23,24 @@ class XL_dizhi_ViewController: UIViewController{
     var dixiang: Dibody?
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        switch Shei {
-        case "jijian"?:
-            title(title: "寄件")
-        case "shoujian"?:
-            title(title: "收件")
-        case "qujian"?:
-            title(title: "取件")
-        case ""?:
-            title(title: "空白")
-        default:
-            break
-        }
+        biao()
+        
         
     }
-    func title(title: String) -> () {
-        self.title = "\(title)详址"
-        shiFouButton.setTitle("保存到\(title)人地址簿", for: .normal)
-    }
-    
+  
     @IBAction func ShiFouAnNiu(_ sender: Any) {
+        if shiFouButton.isSelected == true {
+            shiFouButton.isSelected = false
+        }else{
+            shiFouButton.isSelected = true
+        }
     }
     
     @IBAction func baiDudiTu(_ sender: Any) {
+        let baiduditu: XL_baiduditu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "baiduditu") as! XL_baiduditu_ViewController
+        self.navigationController?.pushViewController(baiduditu, animated: true)
     }
     
-    @IBAction func DianHuanBen(_ sender: Any) {
-    }
     @IBAction func queding(_ sender: Any) {
         
         //点击列表给city赋值
@@ -59,6 +50,55 @@ class XL_dizhi_ViewController: UIViewController{
             block(dic)
         }
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func DianHuanBen(_ sender: Any) {
+        // 1.创建联系人选择的控制器
+        let cpvc = CNContactPickerViewController()
+        
+        // 2.设置代理
+        cpvc.delegate = self
+        
+        // 3.弹出控制器
+        present(cpvc, animated: true, completion: nil)
+        
+    }
+    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+        let lastname = contact.familyName
+        let firstname = contact.givenName
+        Name.text = "\(lastname)\(firstname)"
+        let phones = contact.phoneNumbers
+        let xxx = phones[0].value.stringValue
+        let xx = xxx.components(separatedBy: NSCharacterSet.init(charactersIn: "0123456789").inverted as CharacterSet).joined()
+        
+//        NSString *pureNumbers = [[phoneNumberString componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
+        
+        Pone.text = xx
+        
+//        for phone in phones {
+//            let phoneLabel = phone.label
+//            let phoneValue = phone.value.stringValue
+//            print("phoneValue:\(phoneValue)")
+//        }
+    }
+   
+    
+    func biao() {
+        switch Shei {
+        case "jijian"?:
+            title(title: "寄件")
+        case "shoujian"?:
+            title(title: "收件")
+        case "qujian"?:
+            title(title: "取件")
+        default:
+            break
+        }
+    }
+    func title(title: String) -> () {
+        self.title = "\(title)详址"
+        shiFouButton.setTitle("保存到\(title)人地址簿", for: .normal)
+        shiFouButton.setTitle("保存到\(title)人地址簿", for: .selected)
     }
     /*
     // MARK: - Navigation

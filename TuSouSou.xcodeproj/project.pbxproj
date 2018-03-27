@@ -692,7 +692,7 @@
 				DEVELOPMENT_TEAM = GP8BUACAG4;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = TuSouSou/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Aipuyifeng.TuSouSou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -714,7 +714,7 @@
 				DEVELOPMENT_TEAM = GP8BUACAG4;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = TuSouSou/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Aipuyifeng.TuSouSou;
 				PRODUCT_NAME = "$(TARGET_NAME)";

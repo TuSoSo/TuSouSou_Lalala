@@ -15,6 +15,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     var city: String?
     var weizhi:String?
     
+    var leixingInt: Int?
+    
     var daohang: Int?
     var Pan = 0
     //地址详情
@@ -55,8 +57,18 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         //跳页，回调到地址栏
         if JianPanhuishou(){
             let dizhibu: XL_Dizhibu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhibu") as! XL_Dizhibu_ViewController
-            //block 传值调用
+            if daohang == 1 {
+                dizhibu.biaoti = "1"
+            }else{
+                dizhibu.biaoti = "2"
+            }
             
+            //block 传值调用
+            dizhibu.xuanzhiBody = {(xuanzhiBody: [String: String]) in
+                self.shangName.text = xuanzhiBody["name"]
+                self.shangPhone.text = xuanzhiBody["phone"]
+                self.shDZOutlet.text = xuanzhiBody["dizhi"]
+            }
             self.navigationController?.pushViewController(dizhibu, animated: true)
         }
         
@@ -66,25 +78,39 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         //跳页，回调到地址栏
         if JianPanhuishou(){
             let dizhibu: XL_Dizhibu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhibu") as! XL_Dizhibu_ViewController
+            dizhibu.biaoti = "3"
             //block 传值调用
-            
+            dizhibu.xuanzhiBody = {(xuanzhiBody: [String: String]) in
+                self.xiaName.text = xuanzhiBody["name"]
+                self.xiaPhone.text = xuanzhiBody["phone"]
+                self.xiaDZOutlet.text = xuanzhiBody["dizhi"]
+            }
             self.navigationController?.pushViewController(dizhibu, animated: true)
         }
     }
-    @IBOutlet weak var xiaPhone: UILabel!
-    @IBOutlet weak var xiaName: UILabel!
-    @IBOutlet weak var shangPhone: UILabel!
-    @IBOutlet weak var shangName: UILabel!
     @IBOutlet weak var touOutlet: UIButton!
-    @IBOutlet weak var xiaDZOutlet: UILabel!
-    @IBOutlet weak var shDZOutlet: UILabel!
-    @IBOutlet weak var shuliang: UITextField!
+    @IBOutlet weak var jiqujianView: UIView!
     @IBOutlet weak var jijianOutlet: UIButton!
     @IBOutlet weak var shangchengOutlet: UIButton!
     @IBOutlet weak var qujianOutlet: UIButton!
-    @IBOutlet weak var xiatuOutlet: UIImageView!
-    @IBOutlet weak var shangtuPutlet: UIImageView!
     
+    @IBOutlet weak var shangPhone: UILabel!
+    @IBOutlet weak var shangName: UILabel!
+    @IBOutlet weak var shDZOutlet: UILabel!
+     @IBOutlet weak var shangtuPutlet: UIImageView!
+    @IBOutlet weak var xiaPhone: UILabel!
+    @IBOutlet weak var xiaName: UILabel!
+    @IBOutlet weak var xiaDZOutlet: UILabel!
+     @IBOutlet weak var xiatuOutlet: UIImageView!
+    //托物类型
+    @IBOutlet weak var yin: UIImageView!
+    @IBOutlet weak var hua: UIImageView!
+    @IBOutlet weak var wen: UIImageView!
+    @IBOutlet weak var shui: UIImageView!
+    @IBOutlet weak var qi: UIImageView!
+    
+    @IBOutlet weak var shuliang: UITextField!
+
     //MARK：侧滑栏
     @IBAction func zuoanniu(_ sender: UIBarButtonItem) {
         XL_DrawerViewController.shareDrawer?.openLeftMenu()
@@ -113,6 +139,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        leixingInt = 1
+        leixing(lei: leixingInt!)
         daohang = 1
         self.title = ""
         //键盘弹出监听
@@ -278,18 +306,17 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     }
     //寄件 1  取件 2  商城 3
     func shangjiemian() {
+       jijianOutlet.setImage(UIImage(named:"jijian_dark"), for: .normal)
+       qujianOutlet.setImage(UIImage(named:"qujian_dark"), for: .normal)
+       shangchengOutlet.setImage(UIImage(named:"shangcheng_dark"), for: .normal)
         switch daohang {
         case 1?:
             jijianOutlet.setImage(UIImage(named:"jijian_light"), for: .normal)
-            qujianOutlet.setImage(UIImage(named:"qujian_dark"), for: .normal)
-            shangchengOutlet.setImage(UIImage(named:"shangcheng_dark"), for: .normal)
+            
         case 2?:
-            jijianOutlet.setImage(UIImage(named:"jijian_dark"), for: .normal)
             qujianOutlet.setImage(UIImage(named:"qujian_light"), for: .normal)
-            shangchengOutlet.setImage(UIImage(named:"shangcheng_dark"), for: .normal)
+            
         case 3?:
-            jijianOutlet.setImage(UIImage(named:"jijian_dark"), for: .normal)
-            qujianOutlet.setImage(UIImage(named:"qujian_dark"), for: .normal)
             shangchengOutlet.setImage(UIImage(named:"shangcheng_light"), for: .normal)
         default:
             break
@@ -354,5 +381,45 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         }
         return true
     }
-    
+    @IBAction func shipin(_ sender: Any) {
+        leixingInt = 1
+        leixing(lei: leixingInt!)
+    }
+    @IBAction func xianhua(_ sender: Any) {
+        leixingInt = 2
+        leixing(lei: leixingInt!)
+    }
+    @IBAction func wenjian(_ sender: Any) {
+        leixingInt = 3
+        leixing(lei: leixingInt!)
+    }
+    @IBAction func shuiguo(_ sender: Any) {
+        leixingInt = 4
+        leixing(lei: leixingInt!)
+    }
+    @IBAction func qita(_ sender: Any) {
+        leixingInt = 5
+        leixing(lei: leixingInt!)
+    }
+    func leixing(lei: Int) {
+        yin.image = UIImage(named:"yinliao_dark")
+        hua.image = UIImage(named:"xianhua_dark")
+        wen.image = UIImage(named:"wenjian_dark")
+        shui.image = UIImage(named:"shouguo_dark")
+        qi.image = UIImage(named:"qita_dark")
+        switch lei {
+        case 1:
+            yin.image = UIImage(named:"yinliao_light")
+        case 2:
+            hua.image = UIImage(named:"xianhua_light")
+        case 3:
+            wen.image = UIImage(named:"wenjian_light")
+        case 4:
+            shui.image = UIImage(named:"shuiguo_light")
+        case 5:
+            qi.image = UIImage(named:"qita_light")
+        default:
+            break
+        }
+    }
 }

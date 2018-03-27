@@ -21,7 +21,7 @@ class AppDelegate: UIResponder,BMKGeneralDelegate,UIApplicationDelegate {
         // 如果要关注网络及授权验证事件，请设定generalDelegate参数
         let ret = _mapManager?.start("44xyBYXqaNGwSh8ci2L0EDiQX1XQbn3A", generalDelegate: self)
         if ret == false {
-            NSLog("manager start failed!")
+            NSLog("地图初始化失败！")
         }
 
 // 引导页是否显示
