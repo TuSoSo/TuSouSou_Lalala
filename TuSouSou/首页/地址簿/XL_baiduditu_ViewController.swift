@@ -8,88 +8,118 @@
 
 import UIKit
 
-class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,BMKMapViewDelegate,BMKPoiSearchDelegate {
-    //地图视图
-    var _mapView: BMKMapView?
-    //POI检索
-    var _searcher: BMKPoiSearch?
-    //大头针
-    var pointAnnotation: BMKPointAnnotation?
+class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,BMKMapViewDelegate,BMKPoiSearchDelegate,UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource {
     
+    @IBOutlet weak var tableviewtop: NSLayoutConstraint!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var dituView: UIView!
+    @IBOutlet weak var tableView: UITableView!
+    
+    typealias baidudizhi = (String) -> ()
+    var baidudizhi: baidudizhi?
+    
+    //地图视图
+    var _mapView: BMKMapView!
     //定位
-    var locationService : BMKLocationService!
-    var geoCodeSearch : BMKGeoCodeSearch!
-    var lat = Double()
-    var lon = Double()
-    //下列表数据
-    var array: NSMutableArray?
+    var _locService: BMKLocationService!
+    //大头针
+    var pointAnnotation: BMKPointAnnotation!
+    //周边检索
+    var _poisearch: BMKPoiSearch!
+    //周边信息
+    var _geocodesearch: BMKGeoCodeSearch!
+    //是否第一次调地图
+    var isFirst: Bool = true
+    //周围信息列表
+    var poiLisrArray: [[String]] = []
+    //当前城市
+    var city: String!
+    
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        initUI()
-        
+        initMapUI()
+        initSearchBar()
+        tableviewDelegate()
+        //        self.navigationController?.navigationBar.isTranslucent = false
+    }
+    func initMapUI() {
+        _mapView = BMKMapView.init(frame: CGRect(x: 0, y: 0, width: dituView.frame.size.width, height: dituView.frame.size.height))
+        _mapView.zoomLevel = 18
+        _mapView.userTrackingMode = BMKUserTrackingModeNone
+        _mapView.showsUserLocation = true
+        dituView.addSubview(_mapView)
+        _locService = BMKLocationService()
+        _locService.delegate = self
+        _locService.startUserLocationService()
+        _geocodesearch = BMKGeoCodeSearch()
+        _poisearch = BMKPoiSearch()
+    }
+    func tableviewDelegate()  {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+    }
+    func initSearchBar()  {
+        searchBar.delegate = self
+        searchBar.isTranslucent = true
+        //        searchBar.placeholder = "搜索"
+        searchBar.showsCancelButton = true
+        (searchBar.value(forKey: "cancelButton") as! UIButton).setTitle("取消", for: .normal)
     }
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.shadowImage = UIImage(named:"")
-        
-        _mapView?.viewWillAppear()
-        _mapView?.delegate = self // 此处记得不用的时候需要置nil，否则影响内存的释放
-        geoCodeSearch.delegate = self
-        locationService.delegate = self
+        _mapView.viewWillAppear()
+        _mapView.delegate = self
+        _locService.delegate = self
+        _geocodesearch.delegate = self;
+        _poisearch.delegate = self
     }
-    
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        _mapView?.viewWillDisappear()
-        _mapView?.delegate = nil // 不用时，置nil
-        geoCodeSearch.delegate = nil
-        locationService.delegate = nil
+        _mapView.viewWillDisappear()
+        _mapView.delegate = nil
+        _locService.delegate = nil;
+        _geocodesearch.delegate = nil;
+        _poisearch.delegate = nil
     }
     override func viewDidAppear(_ animated: Bool) {
         customLocationAccurayCircle()
-        addpointAnnotation()
     }
-    func initUI() {
-        //定位
-        geoCodeSearch = BMKGeoCodeSearch()
-        locationService = BMKLocationService()
-        locationService.startUserLocationService()
+    //MARK:百度地图定位及周边
+    func didUpdate(_ userLocation: BMKUserLocation!) {
+        _mapView.updateLocationData(userLocation)
+        if isFirst == true {
+            _mapView.centerCoordinate = _locService.userLocation.location.coordinate
+            self.sousuo(la: userLocation.location.coordinate.latitude, lo: userLocation.location.coordinate.longitude)
+        }
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(userLocation.location) { (placemarks: [CLPlacemark]?, error: Error?) in
+            if (placemarks?.count)! > 0{
+                let placemark = placemarks![0]
+                self.city = placemark.locality
+            }
+        }
         
-        _mapView = BMKMapView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
-        self.view.addSubview(_mapView!)
-        _mapView?.delegate = self
-        locationService.delegate = self
-        
-        
-        //以下_mapView为BMKMapView对象
-        _mapView?.showsUserLocation = true;//显示定位图层
-        _mapView?.userTrackingMode = BMKUserTrackingModeNone;//设置定位的状态为普通定位模式
-        _mapView?.zoomLevel = 20
-        refreshView()
+        _locService.stopUserLocationService()
     }
-    func refreshView() {
-        let time: TimeInterval = 1.0
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time){
-            
+    func dealloc() {
+        if _geocodesearch != nil {
+            _geocodesearch = nil
+        }
+        if _mapView != nil {
+            _mapView = nil
         }
     }
-    
-    func didUpdate(_ userLocation: BMKUserLocation!) {
-
-        //那么定位点置中
-        _mapView?.centerCoordinate = locationService.userLocation.location.coordinate;
-        locationService.stopUserLocationService()
-        self.lat = userLocation.location.coordinate.latitude
-        self.lon = userLocation.location.coordinate.longitude
+    //搜索周边信息（根据一点）
+    func sousuo(la: Double, lo: Double) {
         let reverseGeocodeSearchOption = BMKReverseGeoCodeOption()
-        reverseGeocodeSearchOption.reverseGeoPoint = CLLocationCoordinate2DMake(self.lat, self.lon)
-       
-        print("目标位置:\(self.lat)\(self.lon)")
+        reverseGeocodeSearchOption.reverseGeoPoint = CLLocationCoordinate2DMake(la, lo)
+        let array = _mapView.annotations
+        _mapView.removeAnnotations(array)
+        pointAnnotation = BMKPointAnnotation()
+        pointAnnotation.coordinate = CLLocationCoordinate2DMake(la, lo)
+        _mapView.addAnnotation(pointAnnotation)
         //发送反编码请求.并返回是否成功
-        let flag = geoCodeSearch.reverseGeoCode(reverseGeocodeSearchOption)
-
+        let flag = _geocodesearch.reverseGeoCode(reverseGeocodeSearchOption)
+        
         if (flag)
         {
             print("反geo检索发送成功")
@@ -103,49 +133,137 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
         param.accuracyCircleStrokeColor = UIColor.purple
         param.accuracyCircleFillColor = UIColor.red
     }
-    //添加大头针
-    func addpointAnnotation() {
-        pointAnnotation = BMKPointAnnotation()
-        var coor = CLLocationCoordinate2D()
-        coor.latitude = self.lat
-        coor.longitude = self.lon
-        pointAnnotation?.coordinate = coor
-        _mapView?.addAnnotation(pointAnnotation)
-    }
-    func mapView(_ mapView: BMKMapView!, viewFor annotation: BMKAnnotation!) -> BMKAnnotationView! {
-        let AnnontationViewID = "renameMark"
-        let newAnnotation: BMKPinAnnotationView = BMKPinAnnotationView.init(annotation: annotation, reuseIdentifier: AnnontationViewID)
-        //设置颜色
-        newAnnotation.pinColor = UInt(BMKPinAnnotationColorPurple)
-        //天上掉下效果
-        newAnnotation.animatesDrop = true
-        //  可拖拽
-        newAnnotation.isDraggable = true
-        //气泡可弹出
-        newAnnotation.canShowCallout = true
-        //设置大头针
-//        newAnnotation.image = UIImage(named:"location")
-        return newAnnotation
-        
-        
-    }
-    func onGetReverseGeoCodeResult(_ searcher: BMKGeoCodeSearch!, result: BMKReverseGeoCodeResult!, errorCode error: BMKSearchErrorCode) {
-        print("返回错误信息%@",error)
-        
-        
-        if (error == BMK_SEARCH_NO_ERROR) {
-            print("返回正常")
-            print(result.address)
-            
-            //周边信息列表
-            for dic in result.poiList {
-                print((dic as AnyObject).address)
-                array?.add((dic as AnyObject).address)
-            }
-            
-        } else{
-            print("返回错误....")
+    //地图移动（取地图中间点搜索周边信息）
+    func mapView(_ mapView: BMKMapView!, regionDidChangeAnimated animated: Bool) {
+        if isFirst == false {
+            var regron = BMKCoordinateRegion()
+            let centerCoordinate: CLLocationCoordinate2D = mapView.region.center
+            regron.center = centerCoordinate
+            self.sousuo(la: regron.center.latitude, lo: regron.center.longitude)
+        }else{
+            isFirst = false
         }
     }
-
+    //大头针更新
+    func mapView(_ mapView: BMKMapView!, viewFor annotation: BMKAnnotation!) -> BMKAnnotationView! {
+        let AnnotationViewID = "disanjk"
+        //        var AnnotationView: BMKAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: AnnotationViewID)
+        //        if AnnotationView.isEqual(nil) {
+        let  AnnotationView = BMKPinAnnotationView.init(annotation: annotation, reuseIdentifier: AnnotationViewID)
+        AnnotationView?.pinColor = UInt(BMKPinAnnotationColorPurple)
+        AnnotationView?.animatesDrop = true
+        //        }
+        AnnotationView?.centerOffset = CGPoint(x: 0, y: -((AnnotationView?.frame.size.height)!/2))
+        AnnotationView?.canShowCallout = true
+        AnnotationView?.annotation = annotation
+        return AnnotationView
+    }
+    //周边信息返回
+    func onGetGeoCodeResult(_ searcher: BMKGeoCodeSearch!, result: BMKGeoCodeResult!, errorCode error: BMKSearchErrorCode) {
+        print(result.address)
+    }
+    //周边信息反编译
+    func onGetReverseGeoCodeResult(_ searcher: BMKGeoCodeSearch!, result: BMKReverseGeoCodeResult!, errorCode error: BMKSearchErrorCode) {
+        poiLisrArray.removeAll()
+        let array: Array = result.poiList
+        for i in 0..<array.count {
+            poiLisrArray.append([(array[i] as AnyObject).name, (array[i] as AnyObject).address])
+        }
+        print(poiLisrArray)
+        //tableview 滑动到顶部
+        tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        tableviewtop.constant = 0.0
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
+            self.tableView.reloadData()
+        }
+    }
+    func didUpdateUserHeading(_ userLocation: BMKUserLocation!) {
+        _mapView.updateLocationData(userLocation)
+    }
+    
+    func onGetPoiResult(_ searcher: BMKPoiSearch!, result poiResult: BMKPoiResult!, errorCode: BMKSearchErrorCode) {
+        if errorCode == BMK_SEARCH_NO_ERROR {
+            poiLisrArray.removeAll()
+            for i in 0..<poiResult.poiInfoList.count{
+                var poi: BMKPoiInfo!
+                poi = poiResult.poiInfoList[i] as! BMKPoiInfo
+                print("\(poi.name)\n\(poi.address)")
+                poiLisrArray.append([poi.address,poi.name])
+            }
+            tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            tableviewtop.constant = (-self.view.frame.height/2 + 94.0)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
+                
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    //MARK：tableview delegate
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 73
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return poiLisrArray.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellString = "choosedizhi"
+        var cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellString)!
+        if cell.isEqual(nil) {
+            cell = UITableViewCell(style: .default, reuseIdentifier: cellString)
+        }
+        
+        let Name: UILabel = cell.viewWithTag(201) as! UILabel
+        let address: UILabel = cell.viewWithTag(202) as! UILabel
+        if poiLisrArray.count > indexPath.row {
+            Name.text = poiLisrArray[indexPath.row][0]
+            address.text = poiLisrArray[indexPath.row][1]
+        }
+        return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let str = "\(poiLisrArray[indexPath.row][0])_\(poiLisrArray[indexPath.row][1])"
+        
+        if let block = self.baidudizhi {
+            block(str)
+        }
+        self.navigationController?.popViewController(animated: true)
+        
+    }
+    //MARK: SearchBar Delegate
+    ///实时监控输入的文字
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let citySearchOption = BMKCitySearchOption()
+        citySearchOption.pageIndex = 0
+        citySearchOption.pageCapacity = 50
+        citySearchOption.city = city
+        citySearchOption.keyword = searchBar.text
+        let flag: Bool = _poisearch.poiSearch(inCity: citySearchOption)
+        if flag {
+            print("POI成功")
+        }else{
+            print("POI失败")
+        }
+        searchBar.resignFirstResponder()
+        
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        tableviewtop.constant = 0.0
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
+            self.tableView.reloadData()
+        }
+    }
+    ///文字过滤后放入显示框
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        return true
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        searchBar.resignFirstResponder()
+    }
 }

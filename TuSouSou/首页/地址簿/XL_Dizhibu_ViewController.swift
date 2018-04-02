@@ -16,11 +16,31 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
     
     typealias Xuanzhibody = ([String:String]) -> ()
     var xuanzhiBody: Xuanzhibody?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //刷新界面
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         let biaotiArr = ["1":"寄件人地址簿","2":"取件人地址簿","3":"收件人地址簿"]
         self.title = biaotiArr[biaoti!]
+        let item = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(tiaoye))
+        self.navigationItem.rightBarButtonItem = item
         Delegate()
+    }
+    @objc func tiaoye() {
+        let tianjiadizhi: XL_dizhi_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhi") as! XL_dizhi_ViewController
+        switch biaoti {
+        case "1":
+            tianjiadizhi.Shei = "jijian"
+        case "2":
+            tianjiadizhi.Shei = "qujian"
+        case "3":
+            tianjiadizhi.Shei = "shoujian"
+        default:
+            break
+        }
+        self.navigationController?.pushViewController(tianjiadizhi, animated: true)
     }
     func Delegate() {
         tableView.delegate = self

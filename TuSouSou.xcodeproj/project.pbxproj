@@ -33,6 +33,8 @@
 		0F9875AC2044E72F00C34111 /* TuSouSouTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875AB2044E72F00C34111 /* TuSouSouTests.swift */; };
 		0F9875B72044E72F00C34111 /* TuSouSouUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875B62044E72F00C34111 /* TuSouSouUITests.swift */; };
 		0FBD75F120567CD1004A8571 /* XL_LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBD75F020567CD1004A8571 /* XL_LeftMenuViewController.swift */; };
+		0FC9D80E2071D68D002EAB4C /* XL_waringBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC9D80D2071D68D002EAB4C /* XL_waringBox.swift */; };
+		0FC9D81120721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC9D81020721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift */; };
 		0FDDB4032056DD0400522188 /* XL_GuanggaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FDDB4022056DD0400522188 /* XL_GuanggaoViewController.swift */; };
 		0FE54CE320523627005ADCC0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE54CE220523627005ADCC0 /* QuartzCore.framework */; };
 		0FE54CE52052362E005ADCC0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE54CE42052362E005ADCC0 /* OpenGLES.framework */; };
@@ -91,6 +93,8 @@
 		0F9875B82044E72F00C34111 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F9875D82044E98900C34111 /* TuSouSou-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TuSouSou-Bridging-Header.h"; sourceTree = "<group>"; };
 		0FBD75F020567CD1004A8571 /* XL_LeftMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_LeftMenuViewController.swift; sourceTree = "<group>"; };
+		0FC9D80D2071D68D002EAB4C /* XL_waringBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_waringBox.swift; sourceTree = "<group>"; };
+		0FC9D81020721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_KuaiDixiadan_ViewController.swift; sourceTree = "<group>"; };
 		0FDBE002205231A6005C03FA /* TuSouSou.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TuSouSou.entitlements; sourceTree = "<group>"; };
 		0FDDB4022056DD0400522188 /* XL_GuanggaoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GuanggaoViewController.swift; sourceTree = "<group>"; };
 		0FE54CE220523627005ADCC0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -186,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */,
+				0FC9D80F20721B0A002EAB4C /* 快递下单 */,
 				0F03E34D205FC175007A42D0 /* 地址簿 */,
 				0F0DB34820566A39006E7537 /* 城市列表 */,
 			);
@@ -247,6 +252,7 @@
 				0F65341020466D4800FF347F /* MainTableViewController.swift */,
 				0F65341420466F2E00FF347F /* secViewController.swift */,
 				0F9875A22044E72E00C34111 /* Info.plist */,
+				0FC9D80C2071D649002EAB4C /* waringBox */,
 			);
 			path = TuSouSou;
 			sourceTree = "<group>";
@@ -267,6 +273,22 @@
 				0F9875B82044E72F00C34111 /* Info.plist */,
 			);
 			path = TuSouSouUITests;
+			sourceTree = "<group>";
+		};
+		0FC9D80C2071D649002EAB4C /* waringBox */ = {
+			isa = PBXGroup;
+			children = (
+				0FC9D80D2071D68D002EAB4C /* XL_waringBox.swift */,
+			);
+			path = waringBox;
+			sourceTree = "<group>";
+		};
+		0FC9D80F20721B0A002EAB4C /* 快递下单 */ = {
+			isa = PBXGroup;
+			children = (
+				0FC9D81020721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift */,
+			);
+			path = "快递下单";
 			sourceTree = "<group>";
 		};
 		758FB1391E2E3F9959FA6227 /* Frameworks */ = {
@@ -506,8 +528,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F65341220466D4800FF347F /* MainTableViewController.swift in Sources */,
+				0FC9D80E2071D68D002EAB4C /* XL_waringBox.swift in Sources */,
 				0F45F49C204E7A6A0043E96F /* XL_Navi_ViewController.swift in Sources */,
 				0FDDB4032056DD0400522188 /* XL_GuanggaoViewController.swift in Sources */,
+				0FC9D81120721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift in Sources */,
 				0F65341520466F2E00FF347F /* secViewController.swift in Sources */,
 				0F03E351205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift in Sources */,
 				0F45F494204E43140043E96F /* XL_GuideViewController.swift in Sources */,

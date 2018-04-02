@@ -28,7 +28,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             tianjiadizhi.dixiang = {(diBody: [String: String]) in
                 self.xiaName.text = diBody["name"]
                 self.xiaPhone.text = diBody["phone"]
-                self.xiaDZOutlet.text = diBody["dizhi"]
+                self.xiaDZOutlet.text = "\(diBody["dizhi"] as! String)\(diBody["xiangzhi"] as! String)"
             }
             self.navigationController?.pushViewController(tianjiadizhi, animated: true)
             
@@ -47,7 +47,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             tianjiadizhi.dixiang = {(diBody: [String: String]) in
                 self.shangName.text = diBody["name"]
                 self.shangPhone.text = diBody["phone"]
-                self.shDZOutlet.text = diBody["dizhi"]
+                self.shDZOutlet.text = "\(diBody["dizhi"] as! String)\(diBody["xiangzhi"] as! String)"
             }
             self.navigationController?.pushViewController(tianjiadizhi, animated: true)
         }

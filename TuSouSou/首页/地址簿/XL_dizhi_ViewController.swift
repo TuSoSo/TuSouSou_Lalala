@@ -9,10 +9,10 @@
 import UIKit
 import ContactsUI
 
-class XL_dizhi_ViewController: UIViewController,CNContactPickerDelegate{
-
-    var Shei:String?
+class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNContactPickerDelegate,UITextFieldDelegate{
     
+    var Shei:String?
+    var locationManager = CLLocationManager()
     @IBOutlet weak var shiFouButton: UIButton!
     @IBOutlet weak var Name: UITextField!
     @IBOutlet weak var Pone: UITextField!
@@ -24,10 +24,35 @@ class XL_dizhi_ViewController: UIViewController,CNContactPickerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         biao()
-        
+        loadLocation()
+        textDelegate()
+    }
+    func textDelegate() {
+        XiangZhi.delegate = self
+        Name.delegate = self
+        Pone.delegate = self
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case XiangZhi:
+            XiangZhi.resignFirstResponder()
+            Name.becomeFirstResponder()
+        case Name:
+            Name.resignFirstResponder()
+            Pone.becomeFirstResponder()
+        default:
+            break
+        }
+        return true
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let str = "\(textField.text!)\(string)"
+        if str.count > 11 {
+            return false
+        }
+        return true
         
     }
-  
     @IBAction func ShiFouAnNiu(_ sender: Any) {
         if shiFouButton.isSelected == true {
             shiFouButton.isSelected = false
@@ -38,18 +63,29 @@ class XL_dizhi_ViewController: UIViewController,CNContactPickerDelegate{
     
     @IBAction func baiDudiTu(_ sender: Any) {
         let baiduditu: XL_baiduditu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "baiduditu") as! XL_baiduditu_ViewController
+        baiduditu.baidudizhi = {(baidudizhi: String) in
+            self.dingweiDZ.text = baidudizhi
+        }
         self.navigationController?.pushViewController(baiduditu, animated: true)
     }
     
     @IBAction func queding(_ sender: Any) {
-        
-        //点击列表给city赋值
-        let dic = ["name":"崔海斌","phone":"15545457012","dizhi":"大河向东流"]
-        
-        if let block = self.dixiang {
-            block(dic)
+        if Name.text?.count == 0 || Pone.text?.count == 0 || dingweiDZ.text?.count == 0 {
+            XL_waringBox().warningBoxModeText(message: "请完善信息！", view: self.view)
+        }else{
+            //点击列表给city赋值
+            let dic = ["name": Name.text,"phone": Pone.text,"dizhi": dingweiDZ.text,"xiangzhi": XiangZhi.text]
+            
+            if let block = self.dixiang {
+                block(dic as! [String: String])
+            }
+            //判断是否调用保存接口
+            if shiFouButton.isSelected == true{
+                //调接口
+            }else{
+                self.navigationController?.popViewController(animated: true)
+            }
         }
-        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func DianHuanBen(_ sender: Any) {
@@ -64,24 +100,22 @@ class XL_dizhi_ViewController: UIViewController,CNContactPickerDelegate{
         
     }
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+        //去符号
         let lastname = contact.familyName
         let firstname = contact.givenName
         Name.text = "\(lastname)\(firstname)"
         let phones = contact.phoneNumbers
         let xxx = phones[0].value.stringValue
-        let xx = xxx.components(separatedBy: NSCharacterSet.init(charactersIn: "0123456789").inverted as CharacterSet).joined()
-        
-//        NSString *pureNumbers = [[phoneNumberString componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
-        
+        var xx = xxx.components(separatedBy: NSCharacterSet.init(charactersIn: "0123456789").inverted as CharacterSet).joined()
+        //去86
+        if xx.count != 11 {
+            print(xx)
+            let startIndex = xx.index(xx.startIndex, offsetBy: 1)
+            xx.removeSubrange(...startIndex)
+        }
         Pone.text = xx
-        
-//        for phone in phones {
-//            let phoneLabel = phone.label
-//            let phoneValue = phone.value.stringValue
-//            print("phoneValue:\(phoneValue)")
-//        }
     }
-   
+    
     
     func biao() {
         switch Shei {
@@ -99,15 +133,81 @@ class XL_dizhi_ViewController: UIViewController,CNContactPickerDelegate{
         self.title = "\(title)详址"
         shiFouButton.setTitle("保存到\(title)人地址簿", for: .normal)
         shiFouButton.setTitle("保存到\(title)人地址簿", for: .selected)
+        Name.placeholder = "\(title)人姓名"
+        Pone.placeholder = "\(title)人电话"
+    }
+    //MARK: 原生定位初始化
+    func loadLocation() {
+        locationManager.delegate = self
+        //定位方式
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        //更新距离
+        locationManager.distanceFilter = 100
+        //发出授权请求
+        locationManager.requestAlwaysAuthorization()
+        
+        if (CLLocationManager.locationServicesEnabled()){
+            //允许使用定位服务的话，开始定位服务更新
+            locationManager.startUpdatingLocation()
+            print("定位开始")
+            
+        }else{
+            print("权限未开启")
+        }
+    }
+    //    MARK:定位代理实现
+    
+    //获取定位信息
+    var currLocation: CLLocation?
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        //取得locations数组的最后一个
+        currLocation = locations.last!
+        LonLatToCity()
+        //停止定位
+        locationManager.stopUpdatingLocation()
+    }
+    
+    //出现错误
+    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
+        print(error as Any)
+    }
+    
+    ///将经纬度转换为城市名
+    func LonLatToCity(){
+        let geocoder: CLGeocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation((currLocation)!) { (placemark, error) -> Void in
+            
+            if(error == nil)
+            {
+                let array = placemark! as NSArray
+                let mark = array.firstObject as! CLPlacemark
+                //省
+                let State: String = (mark.addressDictionary! as NSDictionary).value(forKey: "State") as! String
+                //区
+                let SubLocality: NSString = (mark.addressDictionary! as NSDictionary).value(forKey: "SubLocality") as! NSString
+                //城市
+                let city: String = (mark.addressDictionary! as NSDictionary).value(forKey: "City") as! String
+                //街道
+                let Street: String = (mark.addressDictionary! as NSDictionary).value(forKey: "Street") as! String
+                //当前位置显示的
+                let weizhi = State + city + (SubLocality as String) + Street
+                self.dingweiDZ.text = weizhi
+            }
+            else
+            {
+                print(error as Any)
+            }
+        }
     }
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
