@@ -178,6 +178,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     }
     
     @IBAction func xiadanButton(_ sender: Any) {
+        let xiadan: XL_KuaiDixiadan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "kuaidixiadan") as? XL_KuaiDixiadan_ViewController
+        self.navigationController?.pushViewController(xiadan!, animated: true)
     }
     //MARK:下边整体界面 除了商城
     func xiajiemian() {

@@ -1302,6 +1302,79 @@
             </objects>
             <point key="canvasLocation" x="-204.34782608695653" y="-127.17391304347827"/>
         </scene>
+        <!--Kuai Dixiadan View Controller-->
+        <scene sceneID="COB-xV-vIK">
+            <objects>
+                <viewController storyboardIdentifier="kuaidixiadan" id="sKi-8O-K3X" customClass="XL_KuaiDixiadan_ViewController" customModule="TuSouSou" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wfR-JV-OMk"/>
+                        <viewControllerLayoutGuide type="bottom" id="Rcr-ny-8Z0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="J63-bv-aZ2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y1m-iP-ejc">
+                                <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="合计:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2b1-Cl-mid">
+                                        <rect key="frame" x="8" y="12" width="42" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="42" id="HX1-CV-oJ3"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xhG-pX-LZk">
+                                        <rect key="frame" x="274" y="4" width="120" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="C7o-hn-dlI"/>
+                                            <constraint firstAttribute="width" constant="120" id="GGJ-c9-E5C"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="确认支付" backgroundImage="按钮背景2">
+                                            <color key="titleColor" red="0.9861351612" green="0.9896013709" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="querenzhifu:" destination="sKi-8O-K3X" eventType="touchUpInside" id="62e-Yw-o5T"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¥9.83" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73L-aI-RiO">
+                                        <rect key="frame" x="58" y="10" width="208" height="23"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <color key="textColor" red="0.94693201780000003" green="0.65046960119999997" blue="0.24300459029999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="2b1-Cl-mid" firstAttribute="centerY" secondItem="y1m-iP-ejc" secondAttribute="centerY" id="8Kg-9h-Mis"/>
+                                    <constraint firstItem="73L-aI-RiO" firstAttribute="leading" secondItem="2b1-Cl-mid" secondAttribute="trailing" constant="8" id="AMo-OQ-X1x"/>
+                                    <constraint firstItem="xhG-pX-LZk" firstAttribute="centerY" secondItem="y1m-iP-ejc" secondAttribute="centerY" id="DFi-yA-Hqc"/>
+                                    <constraint firstItem="xhG-pX-LZk" firstAttribute="leading" secondItem="73L-aI-RiO" secondAttribute="trailing" constant="8" id="Oib-wX-cHC"/>
+                                    <constraint firstAttribute="trailing" secondItem="xhG-pX-LZk" secondAttribute="trailing" constant="20" id="m48-iY-aS6"/>
+                                    <constraint firstItem="73L-aI-RiO" firstAttribute="centerY" secondItem="y1m-iP-ejc" secondAttribute="centerY" id="mHA-Yp-Z0e"/>
+                                    <constraint firstItem="2b1-Cl-mid" firstAttribute="leading" secondItem="y1m-iP-ejc" secondAttribute="leading" constant="8" id="vQl-7q-cEC"/>
+                                    <constraint firstAttribute="height" constant="44" id="vav-dG-mXF"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Rcr-ny-8Z0" firstAttribute="top" secondItem="y1m-iP-ejc" secondAttribute="bottom" id="8cq-tA-yJF"/>
+                            <constraint firstAttribute="trailing" secondItem="y1m-iP-ejc" secondAttribute="trailing" id="AWr-fC-4or"/>
+                            <constraint firstItem="y1m-iP-ejc" firstAttribute="leading" secondItem="J63-bv-aZ2" secondAttribute="leading" id="a39-im-LbJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="HeJijine" destination="73L-aI-RiO" id="0I1-2S-WdF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7O1-X3-mfO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-888.40579710144937" y="702.71739130434787"/>
+        </scene>
         <!--Dizhibu View Controller-->
         <scene sceneID="eWd-N1-EtK">
             <objects>
@@ -1498,6 +1571,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7sl-bv-VXQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-886.95652173913049" y="-927.71739130434787"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Pwt-nj-9mV">
+            <objects>
+                <viewController id="jbA-1Y-xZN" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ido-Fe-tSJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="i6I-Re-Rk7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1Ea-27-aEK">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b07-6J-7E6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>

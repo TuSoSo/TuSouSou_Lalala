@@ -15,6 +15,9 @@ let BizMethod = "/sys/login"
 let QianWaiWangIP = "www.yaopandian.com"
 let urlString = "\(Scheme)\(QianWaiWangIP)\(AppName)\(apath)\(BizMethod)"
 
+let Height = UIScreen.main.bounds.height
+let Width = UIScreen.main.bounds.width
+
 
 
 

@@ -26,6 +26,7 @@
 		0F5D7CD520513E1800411262 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CD420513E1800411262 /* AdSupport.framework */; };
 		0F65341220466D4800FF347F /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65341020466D4800FF347F /* MainTableViewController.swift */; };
 		0F65341520466F2E00FF347F /* secViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65341420466F2E00FF347F /* secViewController.swift */; };
+		0F7019DB2080A7B8000F7F67 /* XL_PaoMaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7019DA2080A7B8000F7F67 /* XL_PaoMaView.swift */; };
 		0F9875972044E72E00C34111 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875962044E72E00C34111 /* AppDelegate.swift */; };
 		0F98759C2044E72E00C34111 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98759A2044E72E00C34111 /* Main.storyboard */; };
 		0F98759E2044E72E00C34111 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F98759D2044E72E00C34111 /* Assets.xcassets */; };
@@ -79,6 +80,7 @@
 		0F5D7CD420513E1800411262 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		0F65341020466D4800FF347F /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		0F65341420466F2E00FF347F /* secViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = secViewController.swift; sourceTree = "<group>"; };
+		0F7019DA2080A7B8000F7F67 /* XL_PaoMaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_PaoMaView.swift; sourceTree = "<group>"; };
 		0F9875932044E72E00C34111 /* TuSouSou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TuSouSou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F9875962044E72E00C34111 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F98759B2044E72E00C34111 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				0F45F491204E39A10043E96F /* XL_QuanJu.swift */,
+				0F7019DA2080A7B8000F7F67 /* XL_PaoMaView.swift */,
 			);
 			path = "全项目全局常量";
 			sourceTree = "<group>";
@@ -532,6 +535,7 @@
 				0F45F49C204E7A6A0043E96F /* XL_Navi_ViewController.swift in Sources */,
 				0FDDB4032056DD0400522188 /* XL_GuanggaoViewController.swift in Sources */,
 				0FC9D81120721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift in Sources */,
+				0F7019DB2080A7B8000F7F67 /* XL_PaoMaView.swift in Sources */,
 				0F65341520466F2E00FF347F /* secViewController.swift in Sources */,
 				0F03E351205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift in Sources */,
 				0F45F494204E43140043E96F /* XL_GuideViewController.swift in Sources */,
