@@ -13,3 +13,13 @@
 #import <BaiduMapAPI_Radar/BMKRadarComponent.h>//引入周边雷达功能所有的头文件
 #import <BaiduMapAPI_Map/BMKMapView.h>//只引入所需的单个头文件
 #import <MBProgressHUD/MBProgressHUD.h>
+
+//#import <UIKit/UIKit.h>
+#import "APRSASigner.h"
+//#import "openssl_wrapper.h"
+#import "APOrderInfo.h"
+#import "APAuthInfo.h"
+#import <AlipaySDK/AlipaySDK.h>
+
+#import "WXApi.h"
+#import "WXApiObject.h"

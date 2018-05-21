@@ -9,14 +9,13 @@
 import UIKit
 import CoreLocation
 
-class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationManagerDelegate,UIPopoverPresentationControllerDelegate {
-    
+class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationManagerDelegate,UIPopoverPresentationControllerDelegate ,UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource{
     var locationManager = CLLocationManager()
     var city: String?
     var weizhi:String?
     
     var leixingInt: Int?
-    
+    var searchBar = UISearchBar()
     var daohang: Int?
     var Pan = 0
     //地址详情
@@ -88,6 +87,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             self.navigationController?.pushViewController(dizhibu, animated: true)
         }
     }
+     @IBOutlet weak var jiqushangView: UIView!
     @IBOutlet weak var touOutlet: UIButton!
     @IBOutlet weak var jiqujianView: UIView!
     @IBOutlet weak var jijianOutlet: UIButton!
@@ -111,6 +111,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     
     @IBOutlet weak var shuliang: UITextField!
 
+    var _tableView = UITableView()
+    
     //MARK：侧滑栏
     @IBAction func zuoanniu(_ sender: UIBarButtonItem) {
         XL_DrawerViewController.shareDrawer?.openLeftMenu()
@@ -142,6 +144,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         leixingInt = 1
         leixing(lei: leixingInt!)
         daohang = 1
+        self.TableViewDelegate()
         self.title = ""
         //键盘弹出监听
         NotificationCenter.default.addObserver(self,
@@ -185,6 +188,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     func xiajiemian() {
         switch daohang {
         case 1?:
+            jiqujianView.isHidden = false
             shangtuPutlet.image = UIImage(named:"ji")
             xiatuOutlet.image = UIImage(named:"shou")
             shDZOutlet.text = weizhi
@@ -193,7 +197,9 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             xiaPhone.text = "收件人电话"
             shangName.text = "寄件人姓名"
             shangPhone.text = "寄件人电话"
+            _tableView.isHidden = true
         case 2?:
+            jiqujianView.isHidden = false
             shangtuPutlet.image = UIImage(named:"qu")
             xiatuOutlet.image = UIImage(named:"shou")
             shDZOutlet.text = "取件人地址"
@@ -202,11 +208,208 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             xiaDZOutlet.text = weizhi
             xiaName.text = "收件人姓名"
             xiaPhone.text = "收件人电话"
-            
+            _tableView.isHidden = true
+        case 3?:
+            jiqujianView.isHidden = true
+            _tableView.isHidden = false
         default:
             break
         }
         
+    }
+    //MARK: tableviewDelegate
+    func TableViewDelegate() {
+        let hei = jiqushangView.frame.origin.y + jiqushangView.frame.height
+        
+        _tableView = UITableView(frame: CGRect(x: 0, y: hei, width: Width - 0, height: Height - hei))
+        self.view.addSubview(_tableView)
+        _tableView.delegate = self
+        _tableView.dataSource = self
+        _tableView.tableFooterView = UIView()
+        _tableView.showsVerticalScrollIndicator = false
+        if #available(iOS 11.0, *) {
+            if UIDevice.current.isX() {
+                _tableView.frame = CGRect(x: 0, y: hei + 30, width: Width, height: Height - hei - 30)
+            }
+            _tableView.contentInsetAdjustmentBehavior = .automatic
+        }
+        _tableView.isHidden = true
+        _tableView.register(UITableViewCell.self, forCellReuseIdentifier: "shangcheng")
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 4
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 3 {
+            return 44
+        }
+        return 8
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 3 {
+            let VV = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: 44))
+            VV.backgroundColor = UIColor(hexString: "f7f7f7")
+            let shu = UIView(frame: CGRect(x: 0, y: 8, width: 5, height: 28))
+            shu.backgroundColor = UIColor.orange
+            VV.addSubview(shu)
+            let jingxuan = UILabel(frame: CGRect(x: 20, y: 8, width: 200, height: 28))
+            jingxuan.text = "精选商家"
+            VV.addSubview(jingxuan)
+            return VV
+        }
+        return nil
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 1 {
+            return 120
+        }else if indexPath.section == 2 {
+            return 150
+        }else if indexPath.section == 3 {
+            return 80
+        }
+        return 44
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        }else if section == 1 {
+            return 1
+        }else if section == 2 {
+            return 1
+        }else{
+            return 8
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellString = "shangcheng"
+        let cell = (_tableView.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
+        cell.selectionStyle = .none
+        for v: UIView in cell.subviews {
+            v.removeFromSuperview()
+        }
+        if indexPath.section == 0 {
+            searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: Width - 0, height: 44))
+            searchBar.backgroundImage = UIImage()
+            searchBar.placeholder = "输入商家或商品名称"
+            searchBar.delegate = self
+            cell.addSubview(searchBar)
+            
+        }
+        if indexPath.section == 1 {
+            let scroll = self.scrollViewUI()
+            cell.addSubview(scroll)
+        }
+        if indexPath.section == 2 {
+            let View1 = UIImageView(frame: CGRect(x: 0, y: 0, width: Width/3 - 1, height: 150))
+            let tapGR1 = UITapGestureRecognizer(target: self, action: #selector(view1Action(sender:)))
+            View1.addGestureRecognizer(tapGR1)
+            View1.backgroundColor = UIColor.red
+            
+            let View2 = UIImageView(frame: CGRect(x: Width/3, y: 0, width: Width*2/3, height: 74))
+            let tapGR2 = UITapGestureRecognizer(target: self, action: #selector(view2Action(sender:)))
+            View2.addGestureRecognizer(tapGR2)
+            View2.backgroundColor = UIColor.blue
+            
+            let View3 = UIImageView(frame: CGRect(x: Width/3, y: 75, width: Width/3 - 1, height: 75))
+            let tapGR3 = UITapGestureRecognizer(target: self, action: #selector(view3Action(sender:)))
+            View3.addGestureRecognizer(tapGR3)
+            View3.backgroundColor = UIColor.green
+            
+            let View4 = UIImageView(frame: CGRect(x: Width*2/3, y: 75, width: Width/3, height: 75))
+            let tapGR4 = UITapGestureRecognizer(target: self, action: #selector(view4Action(sender:)))
+            View4.addGestureRecognizer(tapGR4)
+            View4.backgroundColor = UIColor.orange
+            
+            cell.addSubview(View4)
+            cell.addSubview(View3)
+            cell.addSubview(View2)
+            cell.addSubview(View1)
+            
+        }
+        if indexPath.section == 3 {
+            let imageview = UIImageView(frame: CGRect(x: 8, y: 8, width: Width/3 - 20, height: 64))
+            imageview.image = UIImage(named: "广告页")
+            let gongsiName = UILabel(frame: CGRect(x: Width/3 + 8, y: 10, width: Width*2/3 - 20, height: 20))
+            gongsiName.text = "国云数据科技有限公司"
+            
+            let imageDizhi = UIImageView(frame: CGRect(x: Width/3 + 8, y: 42, width: 6, height: 12))
+            imageDizhi.image = UIImage(named: "位置2")
+            let imageDianhua = UIImageView(frame: CGRect(x: Width/3 + 8, y: 62, width: 6, height: 12))
+            imageDianhua.image = UIImage(named: "电话")
+            
+            let DDZZ = UILabel(frame: CGRect(x: Width/3 + 24, y: 32, width: Width*2/3 - 40, height: 30))
+            DDZZ.numberOfLines = 2
+            DDZZ.font = UIFont.systemFont(ofSize: 12)
+            DDZZ.textColor = UIColor(hexString: "6e6e6e")
+            DDZZ.text = "黑龙江省哈尔滨市香坊区红旗大街178号"
+            let DDHH = UILabel(frame: CGRect(x: Width/3 + 24, y: 56, width: Width*2/3 - 40, height: 20))
+            DDHH.font = UIFont.systemFont(ofSize: 12)
+            DDHH.textColor = UIColor(hexString: "6e6e6e")
+            let phoneNum = "15545457012"
+            DDHH.text = "+86\(phoneNum)"
+            
+            cell.addSubview(imageview)
+            cell.addSubview(gongsiName)
+            cell.addSubview(imageDizhi)
+            cell.addSubview(imageDianhua)
+            cell.addSubview(DDZZ)
+            cell.addSubview(DDHH)
+        }
+        //(cityList?[indexPath.row] as! NSDictionary).value(forKey: "cityname") as? String
+        //        cell.selectionStyle = .none
+        return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 3 {
+            print(indexPath.row)
+        }
+    }
+    @objc func view1Action(sender: UITapGestureRecognizer) {
+        print("红色")
+    }
+    @objc func view2Action(sender: UITapGestureRecognizer) {
+        print("蓝色")
+    }
+    @objc func view3Action(sender: UITapGestureRecognizer) {
+        print("绿色")
+    }
+    @objc func view4Action(sender: UITapGestureRecognizer) {
+        print("橘黄色")
+    }
+    func scrollViewUI() -> (UIScrollView) {
+        let scroll = UIScrollView();
+        scroll.tag = 999994
+//        scroll.backgroundColor = UIColor.gray
+        let tuhuaArray: Array = ["广告页","启动页","广告页","启动页","广告页","启动页","广告页"]
+        scroll.frame = CGRect(x: 0, y: 0, width: Width - 0, height: 120)  //设置scrollview的大小
+        scroll.contentSize = CGSize(width: 100 * tuhuaArray.count, height: 0)   //内容大小
+        scroll.isPagingEnabled = false                 //是否支持分页
+        scroll.isUserInteractionEnabled = true
+        scroll.showsHorizontalScrollIndicator = false
+        for i:Int in 0..<tuhuaArray.count {
+            let imageView =  UIImageView(image: UIImage(named: tuhuaArray[i]))
+            imageView.frame = CGRect(x: Int((Width - 20) / 4) * i + 10, y:10, width: Int((Width - 20) / 4 - 10), height: 130)
+            imageView.tag = 600 + i
+            imageView.isUserInteractionEnabled = true
+            let tapGR = UITapGestureRecognizer(target: self, action: #selector(DianjiTuPian(sender:)))
+            imageView.addGestureRecognizer(tapGR)
+            scroll.addSubview(imageView)
+        }
+        return scroll
+    }
+    @objc func DianjiTuPian(sender: UITapGestureRecognizer) {
+        let imageView: UIImageView = sender.view as! UIImageView
+        //跳页到 imageView.tag - 600 的页面
+        print(imageView.tag - 600)
+        let DP: XL_DPliebiaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpliebiao") as? XL_DPliebiaoViewController
+        self.navigationController?.pushViewController(DP!, animated: true)
+        
+    }
+    //MARK: searchBarDelegate
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let sousuo: XL_SCsousuoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "scsousuo") as? XL_SCsousuoViewController
+        self.navigationController?.pushViewController(sousuo!, animated: true)
     }
     //MARK:定位的那个地址
     func dizhi()  {
@@ -328,6 +531,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     //MARK:UITextFiledDelegate
     
     override func viewWillAppear(_ animated: Bool) {
+        self.view.endEditing(true)
+        searchBar.text = ""
         //表头透明
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -335,6 +540,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         
     }
     override func viewWillDisappear(_ animated: Bool) {
+        self.view.endEditing(true)
         self.navigationController?.navigationBar.isTranslucent = false
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -356,6 +562,9 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     }
     // 键盘改变
     @objc func keyboardWillChange(_ notification: Notification) {
+        if searchBar.isFirstResponder == true {
+            print("不动")
+        }else{
         if Pan == 0{
             Pan = 1
         }else{
@@ -374,6 +583,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                             self.view.frame = CGRect(x: 0, y: -intersection.height, width: self.view.frame.width, height: self.view.frame.height)
                             
             }, completion: nil)
+        }
         }
     }
     func JianPanhuishou() -> Bool {
@@ -423,5 +633,14 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         default:
             break
         }
+    }
+}
+extension UIDevice {
+    public func isX() -> Bool {
+        if UIScreen.main.bounds.height == 812 {
+            return true
+        }
+        
+        return false
     }
 }

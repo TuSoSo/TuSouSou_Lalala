@@ -58,12 +58,22 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView(frame: CGRect.zero)
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .automatic
+        }
+//        tableView.addConstraints(<#T##constraints: [NSLayoutConstraint]##[NSLayoutConstraint]#>)
+//        [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(myAddressLabel.mas_bottom);
+//            make.left.right.bottom.mas_offset(0);
+//            }];
     }
     func initSearchBar()  {
         searchBar.delegate = self
         searchBar.isTranslucent = true
+        searchBar.backgroundImage = UIImage()
         //        searchBar.placeholder = "搜索"
         searchBar.showsCancelButton = true
+        searchBar.alpha = 0.5
         (searchBar.value(forKey: "cancelButton") as! UIButton).setTitle("取消", for: .normal)
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -184,6 +194,7 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
     func onGetPoiResult(_ searcher: BMKPoiSearch!, result poiResult: BMKPoiResult!, errorCode: BMKSearchErrorCode) {
         if errorCode == BMK_SEARCH_NO_ERROR {
             poiLisrArray.removeAll()
+            if poiResult.poiInfoList.count != 0 {
             for i in 0..<poiResult.poiInfoList.count{
                 var poi: BMKPoiInfo!
                 poi = poiResult.poiInfoList[i] as! BMKPoiInfo
@@ -196,6 +207,12 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
                 
                 self.tableView.reloadData()
             }
+            }else{
+                XL_waringBox().warningBoxModeText(message: "搜索不到\(searchBar.text as! String)", view: self.view)
+            }
+        }
+        else{
+            XL_waringBox().warningBoxModeText(message: "搜索不到\(searchBar.text as! String)", view: self.view)
         }
     }
     
@@ -233,7 +250,11 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
     //MARK: SearchBar Delegate
     ///实时监控输入的文字
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+       
+    }
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.alpha = 1
+        return true
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let citySearchOption = BMKCitySearchOption()
@@ -252,6 +273,7 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
+        searchBar.alpha = 0.5
         searchBar.resignFirstResponder()
         tableviewtop.constant = 0.0
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {
