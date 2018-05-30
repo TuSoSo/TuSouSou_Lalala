@@ -35,8 +35,10 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
     //当前城市
     var city: String!
     
-    
     override func viewDidLoad() {
+        
+        
+        
         initMapUI()
         initSearchBar()
         tableviewDelegate()
@@ -53,6 +55,8 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
         _locService.startUserLocationService()
         _geocodesearch = BMKGeoCodeSearch()
         _poisearch = BMKPoiSearch()
+        _geocodesearch.delegate = self;
+        _poisearch.delegate = self
     }
     func tableviewDelegate()  {
         tableView.delegate = self
@@ -101,10 +105,10 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
             self.sousuo(la: userLocation.location.coordinate.latitude, lo: userLocation.location.coordinate.longitude)
         }
         let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(userLocation.location) { (placemarks: [CLPlacemark]?, error: Error?) in
+        geocoder.reverseGeocodeLocation(userLocation.location!) { (placemarks: [CLPlacemark]?, error: Error?) in
             if (placemarks?.count)! > 0{
                 let placemark = placemarks![0]
-                self.city = placemark.locality
+                self.city = placemark.locality!
             }
         }
         
@@ -121,15 +125,16 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
     //搜索周边信息（根据一点）
     func sousuo(la: Double, lo: Double) {
         let reverseGeocodeSearchOption = BMKReverseGeoCodeOption()
-        reverseGeocodeSearchOption.reverseGeoPoint = CLLocationCoordinate2DMake(la, lo)
+        let pt = CLLocationCoordinate2D(latitude: la, longitude: lo)
+        
+        reverseGeocodeSearchOption.reverseGeoPoint = pt
         let array = _mapView.annotations
         _mapView.removeAnnotations(array)
         pointAnnotation = BMKPointAnnotation()
-        pointAnnotation.coordinate = CLLocationCoordinate2DMake(la, lo)
+        pointAnnotation.coordinate = pt
         _mapView.addAnnotation(pointAnnotation)
         //发送反编码请求.并返回是否成功
         let flag = _geocodesearch.reverseGeoCode(reverseGeocodeSearchOption)
-        
         if (flag)
         {
             print("反geo检索发送成功")

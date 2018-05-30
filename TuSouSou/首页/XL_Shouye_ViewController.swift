@@ -27,7 +27,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             tianjiadizhi.dixiang = {(diBody: [String: String]) in
                 self.xiaName.text = diBody["name"]
                 self.xiaPhone.text = diBody["phone"]
-                self.xiaDZOutlet.text = "\(diBody["dizhi"] as! String)\(diBody["xiangzhi"] as! String)"
+                self.xiaDZOutlet.text = "\(diBody["dizhi"]!)\(diBody["xiangzhi"]!)"
             }
             self.navigationController?.pushViewController(tianjiadizhi, animated: true)
             
@@ -489,13 +489,13 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     }
     
     //MARK: 侧滑方法
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.none
-    }
+//    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+//        return UIModalPresentationStyle.none
+//    }
     
-    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
-        return true
-    }
+//    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+//        return true
+//    }
     //MARK:寄件取件商城切换
     @IBAction func jijianButton(_ sender: Any) {
         daohang = 1
@@ -594,6 +594,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     func JianPanhuishou() -> Bool {
         if Pan == 1 {
             self.view.endEditing(true)
+            Pan = 0
             return false
         }
         return true

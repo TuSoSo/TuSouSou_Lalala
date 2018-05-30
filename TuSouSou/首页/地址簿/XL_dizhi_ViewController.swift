@@ -200,6 +200,12 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
             }
         }
     }
+    override func viewWillDisappear(_ animated: Bool) {
+          self.view.endEditing(true)
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     /*
      // MARK: - Navigation
      
