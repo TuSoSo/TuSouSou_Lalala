@@ -22,6 +22,7 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBOutlet weak var tableZhonglei: UITableView!
     
     @IBOutlet weak var tableShangpin: UITableView!
+    let HJjine = "0.00"
     let ArrZhonglei = ["啤酒","饮料","矿泉水","黯然销魂饭","瓜子"]
     override func viewWillAppear(_ animated: Bool) {
         TBDelgate()
@@ -32,8 +33,12 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.title = "商铺的名称"
+        DDView()
         let dic: Dictionary = ["":""]
         Viewinit(dic: dic)
+//        tableShangpin.isHidden = true
+//        tableZhonglei.isHidden = true
         
     }
 
@@ -44,6 +49,41 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
         DPdianhua.text = "1554545XXXX"
         YYshijian.text = "6:00 - 22:00"
         
+    }
+    func DDView() {
+        let ddView = UIView()
+        if UIDevice.current.isX() {
+            ddView.frame = CGRect(x: 0, y: Height - 150, width: Width, height: 60)
+        }else{
+            ddView.frame = CGRect(x: 0, y: Height - 120, width: Width, height: 60)
+        }
+//        ddView.backgroundColor = UIColor.blue
+        let hengxian = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: 1))
+        hengxian.backgroundColor = UIColor(hexString: "f2f2f2")
+        let Label = UILabel(frame: CGRect(x: 8, y: 15, width: 40, height: 30))
+        Label.font = UIFont.systemFont(ofSize: 15)
+        Label.text = "合计:"
+        let JE = UILabel(frame: CGRect(x: 56, y: 12, width: 150, height: 36))
+        JE.text = "¥\(HJjine)"
+        JE.textColor = UIColor.orange
+        let XiaDanButton = UIButton(frame: CGRect(x: 2/3 * Width - 20, y: 5, width: Width/3, height: 46))
+        XiaDanButton.addTarget(self, action: #selector(XDaction), for: .touchUpInside)
+        XiaDanButton.setTitle("立即下单", for: .normal)
+        XiaDanButton.tintColor = UIColor.white
+        XiaDanButton.backgroundColor = UIColor.orange
+        ddView.addSubview(hengxian)
+        ddView.addSubview(Label)
+        ddView.addSubview(JE)
+        ddView.addSubview(XiaDanButton)
+        self.view.addSubview(ddView)
+        
+        
+    }
+    @objc func XDaction() {
+        //跳页
+        let DP: XL_SPxiadanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spxiadan") as? XL_SPxiadanViewController
+        
+        self.navigationController?.pushViewController(DP!, animated: true)
     }
     //MARK:tableviewdelegate
     func TBDelgate() {
@@ -133,7 +173,7 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == tableShangpin {
-            //跳页
+           //没有点击事件
             
         }else{
             let selIndex = NSIndexPath(row: 0, section: 0)
@@ -162,6 +202,10 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
     //MARK: UITextFieldDelegate
     //最多三位数
     //判断是哪个cell
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreate d.

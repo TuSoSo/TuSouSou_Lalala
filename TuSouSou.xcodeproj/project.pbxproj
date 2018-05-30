@@ -11,7 +11,10 @@
 		0F03E351205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F03E350205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift */; };
 		0F03E353205FC390007A42D0 /* XL_baiduditu_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F03E352205FC390007A42D0 /* XL_baiduditu_ViewController.swift */; };
 		0F1197AE2057610A00CA0AFB /* XL_GGXQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1197AD2057610A00CA0AFB /* XL_GGXQViewController.swift */; };
+		0F1A803F20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1A803E20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift */; };
+		0F1A804220BC266200CEC8A4 /* XL_GRziliaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1A804120BC266200CEC8A4 /* XL_GRziliaoViewController.swift */; };
 		0F3F8B5320567C2500783C53 /* XL_DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3F8B5220567C2500783C53 /* XL_DrawerViewController.swift */; };
+		0F40C1DD20B79CFF006B1602 /* XL_GeRenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F40C1DC20B79CFF006B1602 /* XL_GeRenViewController.swift */; };
 		0F45F492204E39A10043E96F /* XL_QuanJu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F491204E39A10043E96F /* XL_QuanJu.swift */; };
 		0F45F494204E43140043E96F /* XL_GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F493204E43140043E96F /* XL_GuideViewController.swift */; };
 		0F45F49C204E7A6A0043E96F /* XL_Navi_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F49B204E7A6A0043E96F /* XL_Navi_ViewController.swift */; };
@@ -26,6 +29,12 @@
 		0F5D7CD520513E1800411262 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CD420513E1800411262 /* AdSupport.framework */; };
 		0F65341220466D4800FF347F /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65341020466D4800FF347F /* MainTableViewController.swift */; };
 		0F65341520466F2E00FF347F /* secViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65341420466F2E00FF347F /* secViewController.swift */; };
+		0F6EE57920BD4ED60062039C /* XL_Denglu_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6EE57820BD4ED60062039C /* XL_Denglu_ViewController.swift */; };
+		0F6EE57D20BD776E0062039C /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6EE57B20BD776E0062039C /* TencentOpenAPI.framework */; };
+		0F6EE57E20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F6EE57C20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle */; };
+		0F6EE58020BD77CE0062039C /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6EE57F20BD77CD0062039C /* libiconv.tbd */; };
+		0F6EE58220BD77EE0062039C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6EE58120BD77ED0062039C /* libsqlite3.tbd */; };
+		0F6EE58420BD77FF0062039C /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6EE58320BD77FF0062039C /* libstdc++.tbd */; };
 		0F7019DB2080A7B8000F7F67 /* XL_PaoMaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7019DA2080A7B8000F7F67 /* XL_PaoMaView.swift */; };
 		0F7019E12085DC6B000F7F67 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7019E02085DC6B000F7F67 /* libc++.tbd */; };
 		0F7019E32085DC72000F7F67 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7019E22085DC72000F7F67 /* libz.tbd */; };
@@ -53,7 +62,7 @@
 		0F9875AC2044E72F00C34111 /* TuSouSouTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875AB2044E72F00C34111 /* TuSouSouTests.swift */; };
 		0F9875B72044E72F00C34111 /* TuSouSouUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9875B62044E72F00C34111 /* TuSouSouUITests.swift */; };
 		0FBD75F120567CD1004A8571 /* XL_LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBD75F020567CD1004A8571 /* XL_LeftMenuViewController.swift */; };
-		0FC49C8020A0580B00F5561B /* XL_SPxiangqingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC49C7F20A0580B00F5561B /* XL_SPxiangqingViewController.swift */; };
+		0FC49C8020A0580B00F5561B /* XL_SPxiadanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC49C7F20A0580B00F5561B /* XL_SPxiadanViewController.swift */; };
 		0FC49C8220A0585300F5561B /* XL_DPliebiaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC49C8120A0585300F5561B /* XL_DPliebiaoViewController.swift */; };
 		0FC9D80E2071D68D002EAB4C /* XL_waringBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC9D80D2071D68D002EAB4C /* XL_waringBox.swift */; };
 		0FC9D81120721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC9D81020721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift */; };
@@ -87,7 +96,10 @@
 		0F03E350205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_Dizhibu_ViewController.swift; sourceTree = "<group>"; };
 		0F03E352205FC390007A42D0 /* XL_baiduditu_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_baiduditu_ViewController.swift; sourceTree = "<group>"; };
 		0F1197AD2057610A00CA0AFB /* XL_GGXQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GGXQViewController.swift; sourceTree = "<group>"; };
+		0F1A803E20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDdingdanViewController.swift; sourceTree = "<group>"; };
+		0F1A804120BC266200CEC8A4 /* XL_GRziliaoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GRziliaoViewController.swift; sourceTree = "<group>"; };
 		0F3F8B5220567C2500783C53 /* XL_DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DrawerViewController.swift; sourceTree = "<group>"; };
+		0F40C1DC20B79CFF006B1602 /* XL_GeRenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GeRenViewController.swift; sourceTree = "<group>"; };
 		0F45F491204E39A10043E96F /* XL_QuanJu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_QuanJu.swift; sourceTree = "<group>"; };
 		0F45F493204E43140043E96F /* XL_GuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GuideViewController.swift; sourceTree = "<group>"; };
 		0F45F49B204E7A6A0043E96F /* XL_Navi_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_Navi_ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +114,12 @@
 		0F5D7CD420513E1800411262 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		0F65341020466D4800FF347F /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		0F65341420466F2E00FF347F /* secViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = secViewController.swift; sourceTree = "<group>"; };
+		0F6EE57820BD4ED60062039C /* XL_Denglu_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_Denglu_ViewController.swift; sourceTree = "<group>"; };
+		0F6EE57B20BD776E0062039C /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
+		0F6EE57C20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		0F6EE57F20BD77CD0062039C /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		0F6EE58120BD77ED0062039C /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		0F6EE58320BD77FF0062039C /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		0F7019DA2080A7B8000F7F67 /* XL_PaoMaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_PaoMaView.swift; sourceTree = "<group>"; };
 		0F7019E02085DC6B000F7F67 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0F7019E22085DC72000F7F67 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -215,7 +233,7 @@
 		0F9875B82044E72F00C34111 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F9875D82044E98900C34111 /* TuSouSou-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TuSouSou-Bridging-Header.h"; sourceTree = "<group>"; };
 		0FBD75F020567CD1004A8571 /* XL_LeftMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_LeftMenuViewController.swift; sourceTree = "<group>"; };
-		0FC49C7F20A0580B00F5561B /* XL_SPxiangqingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SPxiangqingViewController.swift; sourceTree = "<group>"; };
+		0FC49C7F20A0580B00F5561B /* XL_SPxiadanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SPxiadanViewController.swift; sourceTree = "<group>"; };
 		0FC49C8120A0585300F5561B /* XL_DPliebiaoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DPliebiaoViewController.swift; sourceTree = "<group>"; };
 		0FC9D80D2071D68D002EAB4C /* XL_waringBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_waringBox.swift; sourceTree = "<group>"; };
 		0FC9D81020721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_KuaiDixiadan_ViewController.swift; sourceTree = "<group>"; };
@@ -235,6 +253,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F7019E32085DC72000F7F67 /* libz.tbd in Frameworks */,
+				0F6EE58420BD77FF0062039C /* libstdc++.tbd in Frameworks */,
+				0F6EE58220BD77EE0062039C /* libsqlite3.tbd in Frameworks */,
+				0F6EE58020BD77CE0062039C /* libiconv.tbd in Frameworks */,
 				0F8836DA208DF001000C6CA6 /* Alamofire.framework in Frameworks */,
 				0F701C4F20871FDF000F7F67 /* libssl.a in Frameworks */,
 				0F7019ED2085DCC3000F7F67 /* CoreMotion.framework in Frameworks */,
@@ -242,8 +264,8 @@
 				0F7019E92085DCAD000F7F67 /* Foundation.framework in Frameworks */,
 				0F7019E72085DCA2000F7F67 /* UIKit.framework in Frameworks */,
 				0F7019E52085DC92000F7F67 /* CoreText.framework in Frameworks */,
-				0F7019E32085DC72000F7F67 /* libz.tbd in Frameworks */,
 				0F7019E12085DC6B000F7F67 /* libc++.tbd in Frameworks */,
+				0F6EE57D20BD776E0062039C /* TencentOpenAPI.framework in Frameworks */,
 				0FE54CE72052363F005ADCC0 /* CoreGraphics.framework in Frameworks */,
 				0FE54CE52052362E005ADCC0 /* OpenGLES.framework in Frameworks */,
 				0FE54CE320523627005ADCC0 /* QuartzCore.framework in Frameworks */,
@@ -295,6 +317,22 @@
 			path = "城市列表";
 			sourceTree = "<group>";
 		};
+		0F1A803D20BBF20700CEC8A4 /* 我的订单 */ = {
+			isa = PBXGroup;
+			children = (
+				0F1A803E20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift */,
+			);
+			path = "我的订单";
+			sourceTree = "<group>";
+		};
+		0F1A804020BC264C00CEC8A4 /* 个人资料 */ = {
+			isa = PBXGroup;
+			children = (
+				0F1A804120BC266200CEC8A4 /* XL_GRziliaoViewController.swift */,
+			);
+			path = "个人资料";
+			sourceTree = "<group>";
+		};
 		0F3F8B5120567BD600783C53 /* 侧滑栏 */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */,
+				0FF4D94B20B79CC800942383 /* 个人中心 */,
 				0FB777E220A01CF7005901D0 /* 商城 */,
 				0FC9D80F20721B0A002EAB4C /* 快递下单 */,
 				0F03E34D205FC175007A42D0 /* 地址簿 */,
@@ -353,6 +392,23 @@
 				0F1197AD2057610A00CA0AFB /* XL_GGXQViewController.swift */,
 			);
 			path = "启动页+广告页+引导页";
+			sourceTree = "<group>";
+		};
+		0F6EE57720BD303E0062039C /* 登陆 */ = {
+			isa = PBXGroup;
+			children = (
+				0F6EE57820BD4ED60062039C /* XL_Denglu_ViewController.swift */,
+			);
+			path = "登陆";
+			sourceTree = "<group>";
+		};
+		0F6EE57A20BD773A0062039C /* qq三方登录 */ = {
+			isa = PBXGroup;
+			children = (
+				0F6EE57C20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle */,
+				0F6EE57B20BD776E0062039C /* TencentOpenAPI.framework */,
+			);
+			path = "qq三方登录";
 			sourceTree = "<group>";
 		};
 		0F701BEF20871FDE000F7F67 /* 支付宝 */ = {
@@ -492,6 +548,7 @@
 				0FDBE002205231A6005C03FA /* TuSouSou.entitlements */,
 				0F3F8B5120567BD600783C53 /* 侧滑栏 */,
 				0F45F490204E39490043E96F /* 全项目全局常量 */,
+				0F6EE57720BD303E0062039C /* 登陆 */,
 				0F45F48F204E38F30043E96F /* 首页 */,
 				0F45F49D204E843B0043E96F /* 启动页+广告页+引导页 */,
 				0F45F48D204E38910043E96F /* OC-Swift桥连接 */,
@@ -500,6 +557,7 @@
 				0F65341420466F2E00FF347F /* secViewController.swift */,
 				0F9875A22044E72E00C34111 /* Info.plist */,
 				0FC9D80C2071D649002EAB4C /* waringBox */,
+				0F6EE57A20BD773A0062039C /* qq三方登录 */,
 			);
 			path = TuSouSou;
 			sourceTree = "<group>";
@@ -527,7 +585,7 @@
 			children = (
 				0FD9EC6820A01D6D009B0AED /* XL_SCsousuoViewController.swift */,
 				0FC49C8120A0585300F5561B /* XL_DPliebiaoViewController.swift */,
-				0FC49C7F20A0580B00F5561B /* XL_SPxiangqingViewController.swift */,
+				0FC49C7F20A0580B00F5561B /* XL_SPxiadanViewController.swift */,
 			);
 			path = "商城";
 			sourceTree = "<group>";
@@ -550,9 +608,22 @@
 			path = "快递下单";
 			sourceTree = "<group>";
 		};
+		0FF4D94B20B79CC800942383 /* 个人中心 */ = {
+			isa = PBXGroup;
+			children = (
+				0F40C1DC20B79CFF006B1602 /* XL_GeRenViewController.swift */,
+				0F1A804020BC264C00CEC8A4 /* 个人资料 */,
+				0F1A803D20BBF20700CEC8A4 /* 我的订单 */,
+			);
+			path = "个人中心";
+			sourceTree = "<group>";
+		};
 		758FB1391E2E3F9959FA6227 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F6EE58320BD77FF0062039C /* libstdc++.tbd */,
+				0F6EE58120BD77ED0062039C /* libsqlite3.tbd */,
+				0F6EE57F20BD77CD0062039C /* libiconv.tbd */,
 				0F8836D9208DF001000C6CA6 /* Alamofire.framework */,
 				0F701BF020871FDE000F7F67 /* libcrypto.a */,
 				0F701BFA20871FDE000F7F67 /* libssl.a */,
@@ -705,6 +776,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F6EE57E20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				0F701C4A20871FDF000F7F67 /* AlipaySDK.bundle in Resources */,
 				0F9875A12044E72E00C34111 /* LaunchScreen.storyboard in Resources */,
 				0F98759E2044E72E00C34111 /* Assets.xcassets in Resources */,
@@ -759,6 +831,7 @@
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SMSegmentView/SMSegmentView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -766,6 +839,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SMSegmentView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -799,11 +873,14 @@
 			files = (
 				0F65341220466D4800FF347F /* MainTableViewController.swift in Sources */,
 				0FC9D80E2071D68D002EAB4C /* XL_waringBox.swift in Sources */,
+				0F40C1DD20B79CFF006B1602 /* XL_GeRenViewController.swift in Sources */,
 				0F45F49C204E7A6A0043E96F /* XL_Navi_ViewController.swift in Sources */,
 				0F8836DE208EBCF1000C6CA6 /* SwiftyJSON.swift in Sources */,
+				0F1A804220BC266200CEC8A4 /* XL_GRziliaoViewController.swift in Sources */,
 				0FDDB4032056DD0400522188 /* XL_GuanggaoViewController.swift in Sources */,
 				0FC9D81120721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift in Sources */,
 				0F701C4B20871FDF000F7F67 /* APOrderInfo.m in Sources */,
+				0F1A803F20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift in Sources */,
 				0FD9EC6920A01D6D009B0AED /* XL_SCsousuoViewController.swift in Sources */,
 				0F701C4C20871FDF000F7F67 /* APAuthInfo.m in Sources */,
 				0F7019DB2080A7B8000F7F67 /* XL_PaoMaView.swift in Sources */,
@@ -818,7 +895,8 @@
 				0F54B4A320566AA1004CFF7F /* XL_chengshiListViewController.swift in Sources */,
 				0F701C4E20871FDF000F7F67 /* APRSASigner.m in Sources */,
 				0F45F492204E39A10043E96F /* XL_QuanJu.swift in Sources */,
-				0FC49C8020A0580B00F5561B /* XL_SPxiangqingViewController.swift in Sources */,
+				0F6EE57920BD4ED60062039C /* XL_Denglu_ViewController.swift in Sources */,
+				0FC49C8020A0580B00F5561B /* XL_SPxiadanViewController.swift in Sources */,
 				0F45F4A5204EA29F0043E96F /* XL_ShouYe_ViewController.swift in Sources */,
 				0F3F8B5320567C2500783C53 /* XL_DrawerViewController.swift in Sources */,
 				0FBD75F120567CD1004A8571 /* XL_LeftMenuViewController.swift in Sources */,
@@ -993,13 +1071,14 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TuSouSou/TuSouSou.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GP8BUACAG4;
+				DEVELOPMENT_TEAM = ZX7GYT2Q58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TuSouSou/全项目全局常量",
 					"$(PROJECT_DIR)/TuSouSou/支付宝",
 					"$(PROJECT_DIR)/支付宝",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/TuSouSou/qq三方登录",
 				);
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				HEADER_SEARCH_PATHS = (
@@ -1018,7 +1097,68 @@
 					"$(PROJECT_DIR)",
 					"\"$(SRCROOT)/支付宝\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Aipuyifeng.TuSouSou;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"WeChatSDK\"",
+					"-l\"c++\"",
+					"-l\"crypto\"",
+					"-l\"jcore-ios-1.1.9\"",
+					"-l\"jpush-ios-3.0.9\"",
+					"-l\"resolv\"",
+					"-l\"sqlite3.0\"",
+					"-l\"ssl\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"BaiduMapAPI_Base\"",
+					"-framework",
+					"\"BaiduMapAPI_Cloud\"",
+					"-framework",
+					"\"BaiduMapAPI_Location\"",
+					"-framework",
+					"\"BaiduMapAPI_Map\"",
+					"-framework",
+					"\"BaiduMapAPI_Radar\"",
+					"-framework",
+					"\"BaiduMapAPI_Search\"",
+					"-framework",
+					"\"BaiduMapAPI_Utils\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"MBProgressHUD\"",
+					"-framework",
+					"\"MJRefresh\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SMSegmentView\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Tusousou.TuSouSou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TuSouSou/OC-Swift桥连接/TuSouSou-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1035,13 +1175,14 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TuSouSou/TuSouSou.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GP8BUACAG4;
+				DEVELOPMENT_TEAM = ZX7GYT2Q58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TuSouSou/全项目全局常量",
 					"$(PROJECT_DIR)/TuSouSou/支付宝",
 					"$(PROJECT_DIR)/支付宝",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/TuSouSou/qq三方登录",
 				);
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				HEADER_SEARCH_PATHS = (
@@ -1060,7 +1201,68 @@
 					"$(PROJECT_DIR)",
 					"\"$(SRCROOT)/支付宝\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Aipuyifeng.TuSouSou;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"WeChatSDK\"",
+					"-l\"c++\"",
+					"-l\"crypto\"",
+					"-l\"jcore-ios-1.1.9\"",
+					"-l\"jpush-ios-3.0.9\"",
+					"-l\"resolv\"",
+					"-l\"sqlite3.0\"",
+					"-l\"ssl\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"BaiduMapAPI_Base\"",
+					"-framework",
+					"\"BaiduMapAPI_Cloud\"",
+					"-framework",
+					"\"BaiduMapAPI_Location\"",
+					"-framework",
+					"\"BaiduMapAPI_Map\"",
+					"-framework",
+					"\"BaiduMapAPI_Radar\"",
+					"-framework",
+					"\"BaiduMapAPI_Search\"",
+					"-framework",
+					"\"BaiduMapAPI_Utils\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"MBProgressHUD\"",
+					"-framework",
+					"\"MJRefresh\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SMSegmentView\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Tusousou.TuSouSou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TuSouSou/OC-Swift桥连接/TuSouSou-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;

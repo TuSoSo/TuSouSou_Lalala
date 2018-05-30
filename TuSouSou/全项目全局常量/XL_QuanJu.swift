@@ -18,6 +18,14 @@ let Height = UIScreen.main.bounds.height
 let Width = UIScreen.main.bounds.width
 
 let WeiXin_AppID = "wx678a8d37c4aec635"
+let WX_APPSecret = "12331718a11c60a7bd1a298aa5307a3a"
+let qqAppID = "1106864369"
+let JPush_AppKey = "52e431d282ea45ce6fab0437"
+
+
+let userDefaults = UserDefaults.standard
+//微信 openId : WXopenid
+//qq openId : QQopenid
 
 class XL_QuanJu: NSObject {
 

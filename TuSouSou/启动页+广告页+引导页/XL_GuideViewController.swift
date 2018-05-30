@@ -6,6 +6,7 @@
 //  Copyright © 2018年 爱普易峰. All rights reserved.
 //
 
+//引导页
 import UIKit
 
 class XL_GuideViewController: UIViewController,UIScrollViewDelegate{
@@ -45,14 +46,18 @@ class XL_GuideViewController: UIViewController,UIScrollViewDelegate{
     }
   
     @objc func tiaoye() {
-//        let NaviVC: XL_Navi_ViewController = storyboard!.instantiateViewController(withIdentifier: "Navi") as! XL_Navi_ViewController
+        let NaviVC: XL_Navi_ViewController = storyboard!.instantiateViewController(withIdentifier: "Navi") as! XL_Navi_ViewController
         
-        let leftVC = XL_LeftMenuViewController()
-        let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+//        let leftVC = XL_LeftMenuViewController()
+//        let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
         let delegate = UIApplication.shared
-        delegate.keyWindow?.rootViewController = XL_DrawerViewController(mainVC: tabBarVC!, leftMenuVC: leftVC, leftWidth: 300)
-//        delegate.keyWindow?.rootViewController = NaviVC
-//        self.present(NaviVC, animated: false, completion: nil)
+//        delegate.keyWindow?.rootViewController = XL_DrawerViewController(mainVC: tabBarVC!, leftMenuVC: leftVC, leftWidth: 300)
+        delegate.keyWindow?.rootViewController = NaviVC
+        self.present(NaviVC, animated: false, completion: nil)
+//        let ShouVC : XL_ShouYe_ViewController! = storyboard!.instantiateViewController(withIdentifier: "shouye") as! XL_ShouYe_ViewController
+//        let delegate = UIApplication.shared
+//        delegate.keyWindow?.rootViewController = ShouVC
+//        delegate.keyWindow?.makeKeyAndVisible()
       
     }
     //隐藏状态栏

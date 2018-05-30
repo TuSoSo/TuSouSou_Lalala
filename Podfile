@@ -7,5 +7,6 @@ pod 'JPush'
 pod 'Alamofire'
 pod 'BaiduMapKit'
 pod 'WechatOpenSDK'
+pod 'SMSegmentView'
 use_frameworks!
 end

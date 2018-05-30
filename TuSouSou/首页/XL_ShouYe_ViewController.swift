@@ -115,7 +115,10 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     
     //MARK：侧滑栏
     @IBAction func zuoanniu(_ sender: UIBarButtonItem) {
-        XL_DrawerViewController.shareDrawer?.openLeftMenu()
+//        XL_DrawerViewController.shareDrawer?.openLeftMenu()
+        //个人中心  XL_GeRenViewController
+        let geren: XL_GeRenViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "geren") as? XL_GeRenViewController
+        self.navigationController?.pushViewController(geren!, animated: false)
     }
     //MARK:跳页到城市列表，回调改变城市
     @IBAction func touButton(_ sender: Any) {
@@ -141,6 +144,9 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //从广告页跳转到详情
+        let name = Notification.Name(rawValue: "pushtoad")
+        NotificationCenter.default.addObserver(self, selector: #selector(pushToad(notification:)), name: name, object:  nil)
         leixingInt = 1
         leixing(lei: leixingInt!)
         daohang = 1
@@ -150,20 +156,15 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(XL_ShouYe_ViewController.keyboardWillChange(_:)),
                                                name: .UIKeyboardWillChangeFrame, object: nil)
-        //从广告页跳转到详情
-        let name = Notification.Name(rawValue: "pushtoad")
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(pushToad(notification:)),
-                                               name: name, object: nil)
-        
         delegate()
         shangjiemian()
         loadLocation()
     }
-    @objc func pushToad (notification: NSNotification){
+   
+    @objc func pushToad(notification: NSNotification){
         let adVC: XL_GGXQViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ggxq") as? XL_GGXQViewController
         //添加广告地址
-        
+        adVC?.urlstring = notification.userInfo!["webURL"] as! String
         self.navigationController?.pushViewController(adVC!, animated: false)
     }
     
@@ -181,8 +182,12 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     }
     
     @IBAction func xiadanButton(_ sender: Any) {
-        let xiadan: XL_KuaiDixiadan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "kuaidixiadan") as? XL_KuaiDixiadan_ViewController
+        //MARK:测试
+        let xiadan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
         self.navigationController?.pushViewController(xiadan!, animated: true)
+        
+//        let xiadan: XL_KuaiDixiadan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "kuaidixiadan") as? XL_KuaiDixiadan_ViewController
+//        self.navigationController?.pushViewController(xiadan!, animated: true)
     }
     //MARK:下边整体界面 除了商城
     func xiajiemian() {

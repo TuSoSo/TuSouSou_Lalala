@@ -9,16 +9,32 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDelegate {
+class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDelegate,TencentSessionDelegate,JPUSHRegisterDelegate {
     
     var window: UIWindow?
     var _mapManager: BMKMapManager?
+    var tencentAuth: TencentOAuth!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        tencentAuth = TencentOAuth(appId: qqAppID, andDelegate: self)
         WXApi.registerApp(WeiXin_AppID)
         if #available(iOS 11.0, *) {
             UIScrollView.appearance().contentInsetAdjustmentBehavior = .never
             //            appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
+        //极光推送
+        // 通知注册实体类
+        let entity = JPUSHRegisterEntity();
+        entity.types = Int(JPAuthorizationOptions.alert.rawValue) |  Int(JPAuthorizationOptions.sound.rawValue) |  Int(JPAuthorizationOptions.badge.rawValue);
+        JPUSHService.register(forRemoteNotificationConfig: entity, delegate: self);
+        // 注册极光推送
+        //apsForProduction : false 为开发环境 ，true 为生产环境
+        JPUSHService.setup(withOption: launchOptions, appKey: JPush_AppKey, channel:"App Store" , apsForProduction: false);
+        
+        JPUSHService.registrationIDCompletionHandler { (resCode, registrationID) in
+            if resCode == 0 {
+                self.method()
+            }
         }
         
         //百度地图
@@ -48,87 +64,206 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
             let advertiseVC: XL_GuanggaoViewController! = storyboard.instantiateViewController(withIdentifier: "guanggao") as! XL_GuanggaoViewController
             
             window?.rootViewController = advertiseVC
-            window?.makeKeyAndVisible()
-            //            let leftVC = XL_LeftMenuViewController()
-            //            let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-            //            window?.rootViewController = XL_DrawerViewController(mainVC: tabBarVC!, leftMenuVC: leftVC, leftWidth: 300)
-            //            window?.makeKeyAndVisible()
-            
         }
         
         
         return true
     }
     
-    func applicationWillResignActive(_ application: UIApplication) {
-        
-    }
     
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-    
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
-    
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-    
-    //    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-    //
-    //    }
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        if url.host == "safepay" {
-            AlipaySDK.defaultService().processOrder(withPaymentResult: url) { (resultDic) in
-                if resultDic!["resultStatus"] as! String == "9000" {
-                    let Box = XL_waringBox()
-                    Box.warningBoxModeText(message: "支付成功", view: (self.window?.rootViewController?.view)! )
-                }else{
-                    let Box = XL_waringBox()
-                    Box.warningBoxModeText(message: resultDic!["memo"] as! String, view: (self.window?.rootViewController?.view)! )
-                }
-            }
-            AlipaySDK.defaultService().processAuthResult(url) { (resultDic) in
-                print(resultDic as Any)
-            }
-            AlipaySDK.defaultService().processAuth_V2Result(url) { (resultDic) in
-                print(resultDic as Any)
-            }
-            
-            
-        }
-        if url.host == "platformapi" {
-            
+    //MARK:微信三方登录
+    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
+        if url.scheme == WeiXin_AppID {
+            WXApi.handleOpen(url as URL?, delegate: self)
         }
         return true
     }
-    
-    
-    private func onResp(resp: BaseResp!) {
-        var strTitle = "支付结果"
-        var strMsg = "(resp.errCode)"
-        if resp.isKind(of: PayResp.self) {
-            
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        if url.scheme == WeiXin_AppID {
+            WXApi.handleOpen(url as URL?, delegate: self)
         }
-        if resp.isKind(of: PayResp.self) {
+        return true
+    }
+    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        print("openURL:\(String(describing: url.absoluteString))")
+        if url.scheme == WeiXin_AppID {
+            return WXApi.handleOpen(url as URL?, delegate: self)
+        }
+        return true
+    }
+    func onReq(_ req: BaseReq!) {
+        //onReq是微信终端向第三方程序发起请求，要求第三方程序响应。第三方程序响应完后必须调用sendRsp返回。在调用sendRsp返回时，会切回到微信终端程序界面。
+        print(req.type)
+    }
+    
+    /**  微信回调  */
+    func onResp(_ resp: BaseResp!) {
+        
+        if resp.isKind(of: SendMessageToWXResp.self) {//确保是对我们分享操作的回调
+            if resp.errCode == WXSuccess.rawValue{//分享成功
+                NSLog("分享成功")
+            }else{//分享失败
+                NSLog("分享失败，错误码：%d, 错误描述：%@", resp.errCode, resp.errStr)
+            }
+        }
+        else if resp.isKind(of: PayResp.self) {
+            var strMsg = "(resp.errCode)"
             switch resp.errCode {
             case 0 :
                 print("支付成功")
-//                NSNotificationCenter.defaultCenter().postNotificationName(WXPaySuccessNotification, object: nil)
+            //                NSNotificationCenter.defaultCenter().postNotificationName(WXPaySuccessNotification, object: nil)
             default:
                 strMsg = "支付失败，请您重新支付!"
                 print("retcode = (resp.errCode), retstr = (resp.errStr)")
             }
+            let alert = UIAlertView(title: nil, message: strMsg, delegate: nil, cancelButtonTitle: "好的")
+            alert.show()
+        }else if resp.errCode == 0 && resp.type == 0 {//授权成功
+            let response = resp as! SendAuthResp
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WXLoginSuccessNotification"), object: response.code)
         }
-        let alert = UIAlertView(title: nil, message: strMsg, delegate: nil, cancelButtonTitle: "好的")
-        alert.show()
+    
+}
+//    //支付宝回调信息
+//    private func onResp(resp: BaseResp!) {
+//        var strTitle = "支付结果"
+//        var strMsg = "(resp.errCode)"
+//        if resp.isKind(of: PayResp.self) {
+//
+//        }
+//        if resp.isKind(of: PayResp.self) {
+//            switch resp.errCode {
+//            case 0 :
+//                print("支付成功")
+//            //                NSNotificationCenter.defaultCenter().postNotificationName(WXPaySuccessNotification, object: nil)
+//            default:
+//                strMsg = "支付失败，请您重新支付!"
+//                print("retcode = (resp.errCode), retstr = (resp.errStr)")
+//            }
+//        }
+//        let alert = UIAlertView(title: nil, message: strMsg, delegate: nil, cancelButtonTitle: "好的")
+//        alert.show()
+//    }
+
+//MARK:支付宝支付
+func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    //微信回调
+    if url.scheme == WeiXin_AppID {
+        WXApi.handleOpen(url as URL?, delegate: self)
     }
+    //qq回调
+    let urlKey: String = options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String
+    if urlKey == "com.tencent.mqq" {
+        // QQ 的回调
+        return  TencentOAuth.handleOpen(url)
+    }
+    //支付宝回调
+    if url.host == "safepay" {
+        AlipaySDK.defaultService().processOrder(withPaymentResult: url) { (resultDic) in
+            if resultDic!["resultStatus"] as! String == "9000" {
+                let Box = XL_waringBox()
+                Box.warningBoxModeText(message: "支付成功", view: (self.window?.rootViewController?.view)! )
+            }else{
+                let Box = XL_waringBox()
+                Box.warningBoxModeText(message: resultDic!["memo"] as! String, view: (self.window?.rootViewController?.view)! )
+            }
+        }
+        AlipaySDK.defaultService().processAuthResult(url) { (resultDic) in
+            print(resultDic as Any)
+        }
+        AlipaySDK.defaultService().processAuth_V2Result(url) { (resultDic) in
+            print(resultDic as Any)
+        }
+    }
+    if url.host == "platformapi" {
+        
+    }
+    return true
+}
+
+
+func tencentDidLogin() {
+    // 登录成功后要调用一下这个方法, 才能获取到个人信息
+    self.tencentAuth.getUserInfo()
+}
+
+func tencentDidNotNetWork() {
+    // 网络异常
+}
+
+func tencentDidNotLogin(_ cancelled: Bool) {
+    
+}
+
+func getUserInfoResponse(_ response: APIResponse!) {
+    // 获取个人信息
+    if response.retCode == 0 {
+        
+        if (response.jsonResponse) != nil {
+            
+            if let uid = self.tencentAuth.getUserOpenID() {
+                // 获取uid
+                print(uid)
+            }
+        }
+    } else {
+        // 获取授权信息异常
+    }
+}
+// MARK: -JPUSHRegisterDelegate
+
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    JPUSHService.registerDeviceToken(deviceToken)
+}
+func method()  {
+    var alias: String = ""
+    if nil != userDefaults.value(forKey: "userId") {
+        alias = userDefaults.value(forKey: "userId") as! String
+    }
+    
+    JPUSHService.setAlias(alias, completion: { (iResCode, alias, aa) in
+        print("\(iResCode)\n别名:  \(alias)\n\(aa)")
+    }, seq: 1)
+    
+}
+// iOS 10.x 需要
+@available(iOS 10.0, *)
+func jpushNotificationCenter(_ center: UNUserNotificationCenter!, willPresent notification: UNNotification!, withCompletionHandler completionHandler: ((Int) -> Void)!) {
+    
+    let userInfo = notification.request.content.userInfo;
+    if notification.request.trigger is UNPushNotificationTrigger {
+        JPUSHService.handleRemoteNotification(userInfo);
+        //小红点通知显示
+    }
+    completionHandler(Int(UNNotificationPresentationOptions.alert.rawValue))
+}
+@available(iOS 10.0, *)
+func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
+    
+    let userInfo = response.notification.request.content.userInfo;
+    if response.notification.request.trigger is UNPushNotificationTrigger {
+        JPUSHService.handleRemoteNotification(userInfo);
+    }
+    completionHandler();
+    // 应用打开的时候收到推送消息
+    UIApplication.shared.applicationIconBadgeNumber = 0;
+    
+    //        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationName_ReceivePush), object: NotificationObject_Sueecess, userInfo: userInfo)
+}
+
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    
+    JPUSHService.handleRemoteNotification(userInfo);
+    //小红点通知显示
+    
+    
+    completionHandler(UIBackgroundFetchResult.newData);
+}
+func applicationWillEnterForeground(_ application: UIApplication) {
+    application.cancelAllLocalNotifications()
+}
+func applicationDidEnterBackground(_ application: UIApplication) {
+    application.applicationIconBadgeNumber = 0
+}
 }
 

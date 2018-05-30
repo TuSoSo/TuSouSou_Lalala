@@ -5,7 +5,7 @@
 //  Created by 斌小狼 on 2018/3/6.
 //  Copyright © 2018年 爱普易峰. All rights reserved.
 //
-
+//导航页
 import UIKit
 
 class XL_Navi_ViewController: UINavigationController {

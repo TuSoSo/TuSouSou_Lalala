@@ -5,14 +5,17 @@
 //  Created by 斌小狼 on 2018/3/13.
 //  Copyright © 2018年 爱普易峰. All rights reserved.
 //
-
+//广告详情
 import UIKit
 
 class XL_GGXQViewController: UIViewController {
-
+var urlstring: String?
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("广告详情")
+        let web = UIWebView(frame: CGRect(x: 0, y: 0, width: Width, height: Height))
+        let request = NSURLRequest(url: NSURL(string: "http://" + urlstring!)! as URL)
+        web.loadRequest(request as URLRequest)
+        view.addSubview(web)
     }
 
     override func didReceiveMemoryWarning() {

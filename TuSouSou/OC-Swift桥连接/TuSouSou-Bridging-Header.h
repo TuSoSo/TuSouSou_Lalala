@@ -3,7 +3,12 @@
 //
 //#import <MBProgressHUD.h>
 //#import <MJRefresh.h>
-//#import <JPUSHService.h>
+#import "JPUSHService.h"
+// iOS10注册APNs所需头文件
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
+
 #import <BaiduMapAPI_Base/BMKBaseComponent.h>//引入base相关所有的头文件
 #import <BaiduMapAPI_Map/BMKMapComponent.h>//引入地图功能所有的头文件
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>//引入检索功能所有的头文件
@@ -20,6 +25,10 @@
 #import "APOrderInfo.h"
 #import "APAuthInfo.h"
 #import <AlipaySDK/AlipaySDK.h>
-
+//weixin
 #import "WXApi.h"
 #import "WXApiObject.h"
+//qq
+#import <TencentOpenAPI/TencentOAuth.h>
+#import <TencentOpenAPI/QQApiInterfaceObject.h>
+#import <TencentOpenAPI/QQApiInterface.h>
