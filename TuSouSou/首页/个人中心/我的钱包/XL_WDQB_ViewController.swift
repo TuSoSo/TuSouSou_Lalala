@@ -1,21 +1,20 @@
 //
-//  XL_GGXQViewController.swift
+//  XL_WDQB_ViewController.swift
 //  TuSouSou
 //
-//  Created by 斌小狼 on 2018/3/13.
+//  Created by 斌小狼 on 2018/6/2.
 //  Copyright © 2018年 爱普易峰. All rights reserved.
 //
-//广告详情
+
 import UIKit
 
-class XL_GGXQViewController: UIViewController {
-    @IBOutlet weak var webView: UIWebView!
-    var urlstring: String?
+class XL_WDQB_ViewController: UIViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        let request = NSURLRequest(url: NSURL(string: "http://" + urlstring!)! as URL)
-        webView.loadRequest(request as URLRequest)
-        
+
+        self.title = "我的钱包"
+        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

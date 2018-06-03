@@ -311,7 +311,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         let cellString = "queren"
         let cell = (tableView.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
         cell.selectionStyle = .none
-        for v: UIView in cell.subviews {
+        for v: UIView in cell.contentView.subviews {
             v.removeFromSuperview()
         }
         if indexPath.section == 0 {
@@ -331,10 +331,10 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             let shuliang = UILabel(frame: CGRect(x: Width - 48, y: 50, width: 40, height: 30))
             shuliang.font = UIFont.systemFont(ofSize: 14)
             shuliang.text = "x1"
-            cell.addSubview(shuliang)
-            cell.addSubview(imageView)
-            cell.addSubview(jiaqian)
-            cell.addSubview(name)
+            cell.contentView.addSubview(shuliang)
+            cell.contentView.addSubview(imageView)
+            cell.contentView.addSubview(jiaqian)
+            cell.contentView.addSubview(name)
         }else if indexPath.section == 1 {
             if indexPath.row == 0 {
                 //收件人信息
@@ -352,11 +352,11 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 shouLoction.text = "收件人地址"
                 shouLoction.textColor = UIColor(hexString: "8e8e8e")
                 shouLoction.font = UIFont.systemFont(ofSize: 14)
-                let dizhibu = UILabel(frame: CGRect(x: Width - 64, y: 70, width: 52, height: 30))
+                let dizhibu = UILabel(frame: CGRect(x: Width - 64, y: 64, width: 52, height: 30))
                 dizhibu.text = "地址簿"
                 dizhibu.font = UIFont.systemFont(ofSize: 15)
                 dizhibu.textColor = UIColor.orange
-                let imageloc = UIImageView(frame: CGRect(x: Width - 52, y: 28, width: 22, height: 32))
+                let imageloc = UIImageView(frame: CGRect(x: Width - 52, y: 32, width: 18, height: 24))
                 imageloc.image = UIImage(named: "位置2")
                 
                 let shuxian = UIView(frame: CGRect(x: Width - 73, y: 26, width: 1, height: 60))
@@ -364,14 +364,14 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
 
                 let imageJT = UIImageView(frame: CGRect(x: Width - 90, y: 46, width: 13, height: 20))
                 imageJT.image = UIImage(named: "arrow_right_grey")
-                cell.addSubview(imageJT)
-                cell.addSubview(shuxian)
-                cell.addSubview(imageloc)
-                cell.addSubview(dizhibu)
-                cell.addSubview(imageview)
-                cell.addSubview(shouName)
-                cell.addSubview(shouPhone)
-                cell.addSubview(shouLoction)
+                cell.contentView.addSubview(imageJT)
+                cell.contentView.addSubview(shuxian)
+                cell.contentView.addSubview(imageloc)
+                cell.contentView.addSubview(dizhibu)
+                cell.contentView.addSubview(imageview)
+                cell.contentView.addSubview(shouName)
+                cell.contentView.addSubview(shouPhone)
+                cell.contentView.addSubview(shouLoction)
             }
         }else if indexPath.section == 2 {
             if indexPath.row == 0 {
@@ -386,8 +386,8 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 shijian.textColor = UIColor(hexString: "8e8e8e")
                 shijian.font = UIFont.systemFont(ofSize: 15)
                 cell.accessoryType = .disclosureIndicator
-                cell.addSubview(shijian)
-                cell.addSubview(liji)
+                cell.contentView.addSubview(shijian)
+                cell.contentView.addSubview(liji)
             }else if indexPath.row == 1 {
                 //直拿直送
                 let zhina = UILabel(frame: CGRect(x: 16, y: 8, width: 150, height: 28))
@@ -396,26 +396,26 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 zhina.textColor = UIColor(hexString: "727272")
                 SwitchAnniu.frame = CGRect(x: Width - 72, y: 8, width: 60, height: 30)
                 SwitchAnniu.addTarget(self, action: #selector(switchDidChange), for:.valueChanged)
-                cell.addSubview(zhina)
-                cell.addSubview(SwitchAnniu)
+                cell.contentView.addSubview(zhina)
+                cell.contentView.addSubview(SwitchAnniu)
             }else{
                 //备注
                 let beizhu = UILabel(frame: CGRect(x: 16, y: 8, width: 60, height: 30))
                 beizhu.text = "备注:"
                 beizhu.font = UIFont.systemFont(ofSize: 15)
                 beizhu.textColor = UIColor(hexString: "727272")
-                cell.addSubview(beizhu)
-                cell.addSubview(beizhuTF)
+                cell.contentView.addSubview(beizhu)
+                cell.contentView.addSubview(beizhuTF)
             }
         }else {
             if indexPath.row == 0 {
                 //飕飕币
                 self.gundongDonghua(string: "飕飕币剩余(0.00)") //"剩余(¥\(body["qian"]))支付"
                 JJE.text = "¥46.10"
-                cell.addSubview(JJE)
-                cell.addSubview(DiKou)
-                cell.addSubview(souBzhiF)
-                cell.addSubview(sousoubiView!)
+                cell.contentView.addSubview(JJE)
+                cell.contentView.addSubview(DiKou)
+                cell.contentView.addSubview(souBzhiF)
+                cell.contentView.addSubview(sousoubiView!)
             }else if indexPath.row == 1 {
                 //余额
                 self.gundongDonghua(string: "余额(¥0.00)支付")//"剩余(¥\(body["qian"]))支付"
@@ -423,26 +423,26 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                  如果够 - 则添加zhifuButton2
                  如果不够 - 泽添加yueLabel
                  */
-                cell.addSubview(yueLabel)
-                cell.addSubview(yueView!)
+                cell.contentView.addSubview(yueLabel)
+                cell.contentView.addSubview(yueView!)
             }else if indexPath.row == 2{
                 //支付宝
                 let ZFImage = UIImageView(frame: CGRect(x: 16, y: 12, width: 24, height: 24))
                 ZFImage.image = UIImage(named: "支付-支付宝")
                 let zuolabel = UILabel(frame: CGRect(x: 48, y: 9, width: 100, height: 32))
                 zuolabel.text = "支付宝支付"//"剩余(¥\(body["qian"]))支付"
-                cell.addSubview(zhifuButton0)
-                cell.addSubview(ZFImage)
-                cell.addSubview(zuolabel)
+                cell.contentView.addSubview(zhifuButton0)
+                cell.contentView.addSubview(ZFImage)
+                cell.contentView.addSubview(zuolabel)
             }else {
                 //微信
                 let ZFImage = UIImageView(frame: CGRect(x: 16, y: 12, width: 24, height: 24))
                 ZFImage.image = UIImage(named: "支付-微信")
                 let zuolabel = UILabel(frame: CGRect(x: 48, y: 9, width: 100, height: 32))
                 zuolabel.text = "微信支付"
-                cell.addSubview(zhifuButton1)
-                cell.addSubview(ZFImage)
-                cell.addSubview(zuolabel)
+                cell.contentView.addSubview(zhifuButton1)
+                cell.contentView.addSubview(ZFImage)
+                cell.contentView.addSubview(zuolabel)
             }
         }
         

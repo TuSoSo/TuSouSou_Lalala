@@ -32,7 +32,7 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationController?.navigationBar.topItem?.title = ""
         self.title = "商铺的名称"
         DDView()
         let dic: Dictionary = ["":""]
@@ -119,7 +119,7 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
         }
         let cell = (tableView.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
         cell.selectionStyle = .none
-        for v: UIView in cell.subviews {
+        for v: UIView in cell.contentView.subviews {
             v.removeFromSuperview()
         }
         if tableView == tableZhonglei {
@@ -140,8 +140,8 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
             if 1300 == shuxian.tag {
                 shuxian.backgroundColor = UIColor.orange
             }
-            cell.addSubview(zhonglei)
-            cell.addSubview(shuxian)
+            cell.contentView.addSubview(zhonglei)
+            cell.contentView.addSubview(shuxian)
         }else{
             let imageView = UIImageView(frame: CGRect(x: 8, y: 12, width: 56, height: 56))
             imageView.image = UIImage(named: "广告页")
@@ -161,12 +161,12 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
             shuzi.keyboardType = UIKeyboardType.decimalPad
             shuzi.text = "0"
             shuzi.delegate = self
-            cell.addSubview(imageView)
-            cell.addSubview(SPName)
-            cell.addSubview(danjia)
-            cell.addSubview(imageJian)
-            cell.addSubview(shuzi)
-            cell.addSubview(imageAdd)
+            cell.contentView.addSubview(imageView)
+            cell.contentView.addSubview(SPName)
+            cell.contentView.addSubview(danjia)
+            cell.contentView.addSubview(imageJian)
+            cell.contentView.addSubview(shuzi)
+            cell.contentView.addSubview(imageAdd)
 
         }
         return cell

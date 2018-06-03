@@ -118,7 +118,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
 //        XL_DrawerViewController.shareDrawer?.openLeftMenu()
         //个人中心  XL_GeRenViewController
         let geren: XL_GeRenViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "geren") as? XL_GeRenViewController
-        self.navigationController?.pushViewController(geren!, animated: false)
+        self.navigationController?.pushViewController(geren!, animated: true)
     }
     //MARK:跳页到城市列表，回调改变城市
     @IBAction func touButton(_ sender: Any) {
@@ -144,6 +144,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let item = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = item
         //从广告页跳转到详情
         let name = Notification.Name(rawValue: "pushtoad")
         NotificationCenter.default.addObserver(self, selector: #selector(pushToad(notification:)), name: name, object:  nil)
@@ -183,11 +185,11 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     
     @IBAction func xiadanButton(_ sender: Any) {
         //MARK:测试
-        let xiadan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
-        self.navigationController?.pushViewController(xiadan!, animated: true)
-        
-//        let xiadan: XL_KuaiDixiadan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "kuaidixiadan") as? XL_KuaiDixiadan_ViewController
+//        let xiadan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
 //        self.navigationController?.pushViewController(xiadan!, animated: true)
+        
+        let xiadan: XL_KuaiDixiadan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "kuaidixiadan") as? XL_KuaiDixiadan_ViewController
+        self.navigationController?.pushViewController(xiadan!, animated: true)
     }
     //MARK:下边整体界面 除了商城
     func xiajiemian() {
@@ -270,7 +272,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         }else if indexPath.section == 2 {
             return 150
         }else if indexPath.section == 3 {
-            return 80
+            return 112
         }
         return 44
     }
@@ -290,7 +292,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         let cellString = "shangcheng"
         let cell = (_tableView.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
         cell.selectionStyle = .none
-        for v: UIView in cell.subviews {
+        for v: UIView in cell.contentView.subviews {
             v.removeFromSuperview()
         }
         if indexPath.section == 0 {
@@ -298,12 +300,12 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             searchBar.backgroundImage = UIImage()
             searchBar.placeholder = "输入商家或商品名称"
             searchBar.delegate = self
-            cell.addSubview(searchBar)
+            cell.contentView.addSubview(searchBar)
             
         }
         if indexPath.section == 1 {
             let scroll = self.scrollViewUI()
-            cell.addSubview(scroll)
+            cell.contentView.addSubview(scroll)
         }
         if indexPath.section == 2 {
             let View1 = UIImageView(frame: CGRect(x: 0, y: 0, width: Width/3 - 1, height: 150))
@@ -326,40 +328,40 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             View4.addGestureRecognizer(tapGR4)
             View4.backgroundColor = UIColor.orange
             
-            cell.addSubview(View4)
-            cell.addSubview(View3)
-            cell.addSubview(View2)
-            cell.addSubview(View1)
+            cell.contentView.addSubview(View4)
+            cell.contentView.addSubview(View3)
+            cell.contentView.addSubview(View2)
+            cell.contentView.addSubview(View1)
             
         }
         if indexPath.section == 3 {
-            let imageview = UIImageView(frame: CGRect(x: 8, y: 8, width: Width/3 - 20, height: 64))
+            let imageview = UIImageView(frame: CGRect(x: 8, y: 8, width: Width/3 - 20, height: 96))
             imageview.image = UIImage(named: "广告页")
-            let gongsiName = UILabel(frame: CGRect(x: Width/3 + 8, y: 10, width: Width*2/3 - 20, height: 20))
+            let gongsiName = UILabel(frame: CGRect(x: Width/3 + 8, y: 10, width: Width*2/3 - 20, height: 24))
             gongsiName.text = "国云数据科技有限公司"
-            
-            let imageDizhi = UIImageView(frame: CGRect(x: Width/3 + 8, y: 42, width: 6, height: 12))
+            gongsiName.font = UIFont.systemFont(ofSize: 19)
+            let imageDizhi = UIImageView(frame: CGRect(x: Width/3 + 8, y: 48, width: 10, height: 16))
             imageDizhi.image = UIImage(named: "位置2")
-            let imageDianhua = UIImageView(frame: CGRect(x: Width/3 + 8, y: 62, width: 6, height: 12))
+            let imageDianhua = UIImageView(frame: CGRect(x: Width/3 + 8, y: 88, width: 10, height: 16))
             imageDianhua.image = UIImage(named: "电话")
             
-            let DDZZ = UILabel(frame: CGRect(x: Width/3 + 24, y: 32, width: Width*2/3 - 40, height: 30))
+            let DDZZ = UILabel(frame: CGRect(x: Width/3 + 24, y: 40, width: Width*2/3 - 40, height: 40))
             DDZZ.numberOfLines = 2
-            DDZZ.font = UIFont.systemFont(ofSize: 12)
+            DDZZ.font = UIFont.systemFont(ofSize: 15)
             DDZZ.textColor = UIColor(hexString: "6e6e6e")
             DDZZ.text = "黑龙江省哈尔滨市香坊区红旗大街178号"
-            let DDHH = UILabel(frame: CGRect(x: Width/3 + 24, y: 56, width: Width*2/3 - 40, height: 20))
-            DDHH.font = UIFont.systemFont(ofSize: 12)
+            let DDHH = UILabel(frame: CGRect(x: Width/3 + 24, y: 84, width: Width*2/3 - 40, height: 24))
+            DDHH.font = UIFont.systemFont(ofSize: 15)
             DDHH.textColor = UIColor(hexString: "6e6e6e")
             let phoneNum = "15545457012"
             DDHH.text = "+86\(phoneNum)"
             
-            cell.addSubview(imageview)
-            cell.addSubview(gongsiName)
-            cell.addSubview(imageDizhi)
-            cell.addSubview(imageDianhua)
-            cell.addSubview(DDZZ)
-            cell.addSubview(DDHH)
+            cell.contentView.addSubview(imageview)
+            cell.contentView.addSubview(gongsiName)
+            cell.contentView.addSubview(imageDizhi)
+            cell.contentView.addSubview(imageDianhua)
+            cell.contentView.addSubview(DDZZ)
+            cell.contentView.addSubview(DDHH)
         }
         //(cityList?[indexPath.row] as! NSDictionary).value(forKey: "cityname") as? String
         //        cell.selectionStyle = .none

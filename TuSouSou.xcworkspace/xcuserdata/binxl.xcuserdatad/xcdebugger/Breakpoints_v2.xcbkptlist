@@ -169,22 +169,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x9996;&#x9875;/XL_ShouYe_ViewController.swift"
-            timestampString = "549376767.41048"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "xia_DZB(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "TuSouSou/&#x9996;&#x9875;/&#x5730;&#x5740;&#x7c3f;/XL_baiduditu_ViewController.swift"
             timestampString = "549376767.410527"
             startingColumnNumber = "9223372036854775807"

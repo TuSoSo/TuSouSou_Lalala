@@ -30,7 +30,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         return DDArr.count
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 152
+        return 200
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellString = "wodedingdan"
@@ -44,6 +44,8 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         let nameXIA: UILabel = cell.viewWithTag(645) as! UILabel
         let phoneXIA: UILabel = cell.viewWithTag(646) as! UILabel
         let state: UILabel = cell.viewWithTag(647) as! UILabel
+        let Jine: UILabel = cell.viewWithTag(648) as! UILabel
+        
         
         tou.text = "商品订单"
         imageSHA.image = UIImage(named: "ji")
@@ -53,11 +55,15 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         phoneSHA.text = "上边的电话就是这个"
         phoneXIA.text = "下边的电话到底是哪个"
         state.text = "完成"
+        Jine.text = "¥ 1.23"
         
         cell.selectionStyle = .none
         return cell
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let wwddxq: XL_WDDDXQ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdddxq") as? XL_WDDDXQ_ViewController
+        self.navigationController?.pushViewController(wwddxq!, animated: true)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -13,6 +13,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UITableVie
     @IBOutlet weak var tableGRziliao: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "个人资料"
         tableDelegate()
         // Do any additional setup after loading the view.
     }
@@ -47,11 +48,25 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UITableVie
             return 80
         }
     }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 8
+        }
+        return 0
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 1 {
+            let view = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: 8))
+            view.backgroundColor = UIColor(hexString: "f0eff5")
+            return view
+        }
+        return nil
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellString = "grziliao"
         let cell = (tableView.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
         cell.selectionStyle = .none
-        for v: UIView in cell.subviews {
+        for v: UIView in cell.contentView.subviews {
             v.removeFromSuperview()
         }
         if indexPath.section == 0 {
@@ -64,8 +79,8 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UITableVie
                 zuoLabel.text = "头像"
                 let imageTou = UIImageView(frame: CGRect(x: Width - 60, y: 10, width: 40, height: 40))
                 imageTou.image = UIImage(named: "引导3")
-                cell.addSubview(imageTou)
-                cell.addSubview(zuoLabel)
+                cell.contentView.addSubview(imageTou)
+                cell.contentView.addSubview(zuoLabel)
             }else if indexPath.row == 1{
                 zuoLabel.text = "用户名"
                 let nameFD = UITextField(frame: CGRect(x: Width - 120, y: 11, width: 100, height: 22))
@@ -73,30 +88,32 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UITableVie
                 nameFD.placeholder = "请输入用户名"
                 nameFD.font = UIFont.systemFont(ofSize: 14)
                 nameFD.textAlignment = .right
-                cell.addSubview(zuoLabel)
-                cell.addSubview(nameFD)
+                cell.contentView.addSubview(zuoLabel)
+                cell.contentView.addSubview(nameFD)
                 
             }else if indexPath.row == 2{
                 zuoLabel.text = "手机号"
                 let phoneLabel = UILabel(frame: CGRect(x: Width - 100, y: 11, width: 80, height: 22))
                 phoneLabel.text = "未绑定"
+                phoneLabel.textColor = UIColor.darkGray
                 phoneLabel.textAlignment = .right
                 phoneLabel.font = UIFont.systemFont(ofSize: 14)
-                cell.addSubview(zuoLabel)
-                cell.addSubview(phoneLabel)
+                cell.contentView.addSubview(zuoLabel)
+                cell.contentView.addSubview(phoneLabel)
                 
             }else if indexPath.row == 3{
                 zuoLabel.text = "微信号"
                 let WeChatLabel = UILabel(frame: CGRect(x: Width - 100, y: 11, width: 80, height: 22))
                 WeChatLabel.text = "未绑定"
+                WeChatLabel.textColor = UIColor.darkGray
                 WeChatLabel.textAlignment = .right
                 WeChatLabel.font = UIFont.systemFont(ofSize: 14)
-                cell.addSubview(zuoLabel)
-                cell.addSubview(WeChatLabel)
+                cell.contentView.addSubview(zuoLabel)
+                cell.contentView.addSubview(WeChatLabel)
             }else if indexPath.row == 4{
                 zuoLabel.text = "安全设置"
                 cell.accessoryType = .disclosureIndicator
-                cell.addSubview(zuoLabel)
+                cell.contentView.addSubview(zuoLabel)
             }
         }else if indexPath.section == 1 {
             let zuoLabel = UILabel(frame: CGRect(x: 16, y: 11, width: 80, height: 22))
@@ -107,19 +124,21 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UITableVie
                 let shimingLabel = UILabel(frame: CGRect(x: Width - 100, y: 11, width: 70, height: 22))
                 shimingLabel.font = UIFont.systemFont(ofSize: 14)
                 shimingLabel.text = "未认证"
+                shimingLabel.textColor = UIColor.darkGray
                 shimingLabel.textAlignment = .right
                 cell.accessoryType = .disclosureIndicator
-                cell.addSubview(zuoLabel)
-                cell.addSubview(shimingLabel)
+                cell.contentView.addSubview(zuoLabel)
+                cell.contentView.addSubview(shimingLabel)
             }else{
                 zuoLabel.text = "企业认证"
                 let qiyeLabel = UILabel(frame: CGRect(x: Width - 100, y: 11, width: 70, height: 22))
                 qiyeLabel.font = UIFont.systemFont(ofSize: 14)
                 qiyeLabel.text = "未认证"
+                qiyeLabel.textColor = UIColor.darkGray
                 qiyeLabel.textAlignment = .right
                 cell.accessoryType = .disclosureIndicator
-                cell.addSubview(zuoLabel)
-                cell.addSubview(qiyeLabel)
+                cell.contentView.addSubview(zuoLabel)
+                cell.contentView.addSubview(qiyeLabel)
             }
         }else{
             let button = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
@@ -132,9 +151,31 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UITableVie
             //去掉当前cell的分割线
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
             cell.backgroundColor = UIColor(hexString: "f0eff5")
-            cell.addSubview(button)
+            cell.contentView.addSubview(button)
         }
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                //选择，相册/照相
+            }
+            else if indexPath.row == 4 {
+                //跳页到安全设置
+                let AnQuanSZ: XL_AnQuanSZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "anquansz") as? XL_AnQuanSZ_ViewController
+                self.navigationController?.pushViewController(AnQuanSZ!, animated: true)
+            }
+        }else if indexPath.section == 1{
+            if indexPath.row == 0 {
+                //跳实名认证
+                let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
+                self.navigationController?.pushViewController(ShimingRZ!, animated: true)
+            }else if indexPath.row == 1 {
+                //跳企业认证
+                let qiyeRZ: XL_QiyeRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qiyerz") as? XL_QiyeRZ_ViewController
+                self.navigationController?.pushViewController(qiyeRZ!, animated: true)
+            }
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

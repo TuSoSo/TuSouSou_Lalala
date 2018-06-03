@@ -25,37 +25,19 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.title = "个人中心"
         tableDelegate()
 
-//        sendWXFX(inScene: WXSceneTimeline)
-//        sendWXFX(inScene: WXSceneSession)
+
     }
-    
-    //inScene可选的值有三个：WXSceneTimeline（朋友圈）、WXSceneSession（聊天界面） 、WXSceneFavorite（收藏）
-    
-    //分享文本
-    func sendWXFX(inScene: WXScene){
-        let webpage = WXWebpageObject()
-        webpage.webpageUrl = "www.baidu.com"
-        let msg = WXMediaMessage()
-        msg.mediaObject = webpage
-        msg.title = "欢迎注册使用飕飕网递"
-        msg.description = "飕飕网递应用分享"
-//      msg.setThumbImage(UIImage(named: "引导1")) msg.setThumbImage(Data.sharedManager.searchArticle.imagedic[content.contentImg])
-        let req = SendMessageToWXReq()
-        req.message = msg
-        req.scene = Int32(inScene.rawValue)
-        WXApi.send(req)
-        
-    }
-    
+
     @IBAction func GRziliao(_ sender: Any) {
         let GRziliao: XL_GRziliaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "grziliao") as? XL_GRziliaoViewController
         self.navigationController?.pushViewController(GRziliao!, animated: true)
     }
     @IBAction func shoucang(_ sender: Any) {
+        let WDshoucang: XL_WDshoucang_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdshoucang") as? XL_WDshoucang_ViewController
+        self.navigationController?.pushViewController(WDshoucang!, animated: true)
     }
     
     @IBAction func dingdan(_ sender: Any) {
@@ -65,6 +47,8 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     
     @IBAction func xiaoxi(_ sender: Any) {
+        let WDXX: XL_WDxiaoxi_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdxiaoxi") as? XL_WDxiaoxi_ViewController
+        self.navigationController?.pushViewController(WDXX!, animated: true)
     }
     
     func tableDelegate() {
@@ -77,7 +61,9 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
     }
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 56
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellString = "geren"
         let cell = (tableView.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
@@ -91,6 +77,26 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            let WDXX: XL_WDQB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdqb") as? XL_WDQB_ViewController
+            self.navigationController?.pushViewController(WDXX!, animated: true)
+        }else if indexPath.row == 1 {
+            let WDXX: XL_Dizhibu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhibu") as? XL_Dizhibu_ViewController
+            WDXX?.biaoti = "3"
+            self.navigationController?.pushViewController(WDXX!, animated: true)
+        }else if indexPath.row == 2 {
+            let WDXX: XL_WDKF_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdkf") as? XL_WDKF_ViewController
+            self.navigationController?.pushViewController(WDXX!, animated: true)
+        }else if indexPath.row == 3 {
+            let WDXX: XL_WDdianou_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddianpu") as? XL_WDdianou_ViewController
+            self.navigationController?.pushViewController(WDXX!, animated: true)
+        }else if indexPath.row == 4 {
+            let WDXX: XL_YQHY_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "yqhy") as? XL_YQHY_ViewController
+            self.navigationController?.pushViewController(WDXX!, animated: true)
+        }else if indexPath.row == 5 {
+            let WDXX: XL_WDshezhi_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdshezhi") as? XL_WDshezhi_ViewController
+            self.navigationController?.pushViewController(WDXX!, animated: true)
+        }
         print("\(indexPath.row)")
     }
     override func didReceiveMemoryWarning() {
