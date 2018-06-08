@@ -11,9 +11,10 @@ import CoreLocation
 
 class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationManagerDelegate,UIPopoverPresentationControllerDelegate ,UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource{
     var locationManager = CLLocationManager()
-    var city: String?
+    var city: String = ""
     var weizhi:String?
     
+   
     var leixingInt: Int?
     var searchBar = UISearchBar()
     var daohang: Int?
@@ -46,7 +47,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             tianjiadizhi.dixiang = {(diBody: [String: String]) in
                 self.shangName.text = diBody["name"]
                 self.shangPhone.text = diBody["phone"]
-                self.shDZOutlet.text = "\(diBody["dizhi"] as! String)\(diBody["xiangzhi"] as! String)"
+                self.shDZOutlet.text = "\(diBody["dizhi"]!)\(diBody["xiangzhi"]!)"
             }
             self.navigationController?.pushViewController(tianjiadizhi, animated: true)
         }
@@ -87,7 +88,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             self.navigationController?.pushViewController(dizhibu, animated: true)
         }
     }
-     @IBOutlet weak var jiqushangView: UIView!
+    @IBOutlet weak var jinrisousouBi: UILabel!
+    @IBOutlet weak var jiqushangView: UIView!
     @IBOutlet weak var touOutlet: UIButton!
     @IBOutlet weak var jiqujianView: UIView!
     @IBOutlet weak var jijianOutlet: UIButton!
@@ -125,8 +127,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         if JianPanhuishou(){
             let chengshiList: XL_chengshiListViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "chengshilist") as! XL_chengshiListViewController
             //block 传值调用
-            chengshiList.Cityblock = {(cityname: String) in
-                self.city = cityname
+            chengshiList.Cityblock = {(cityname: [String:String]) in
+                self.city = cityname["cityName"]!
                 self.dizhi()
             }
             self.navigationController?.pushViewController(chengshiList, animated: true)
@@ -141,9 +143,27 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     }
     var window: UIWindow?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        userDefaults.set("0", forKey: "isDengLu")
+        if nil != userDefaults.value(forKey: "loginMethod") && userDefaults.value(forKey: "loginMethod") as! String != "" && userDefaults.value(forKey: "loginMethod") as! String != "1" {
+            let loginMethod:String = userDefaults.value(forKey: "loginMethod") as! String
+            var loginName:String! = ""
+            if nil != userDefaults.value(forKey: "loginName"){
+                loginName = userDefaults.value(forKey: "loginName")as! String
+            }
+            var passWord:String! = ""
+            if nil != userDefaults.value(forKey: "passWord"){
+                passWord = userDefaults.value(forKey: "passWord")as! String
+            }
+            var openID:String! = ""
+            if nil != userDefaults.value(forKey: "openID"){
+                openID = userDefaults.value(forKey: "openID")as! String
+            }
+            let authCode:String = ""
+            
+            zidongdenglu(loginMethod: loginMethod, loginName: loginName, passWord: passWord, authCode: authCode, openID: openID)
+        }
         let item = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = item
         //从广告页跳转到详情
@@ -166,7 +186,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     @objc func pushToad(notification: NSNotification){
         let adVC: XL_GGXQViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ggxq") as? XL_GGXQViewController
         //添加广告地址
-        adVC?.urlstring = notification.userInfo!["webURL"] as! String
+        adVC?.urlstring = notification.userInfo!["webURL"] as? String
         self.navigationController?.pushViewController(adVC!, animated: false)
     }
     
@@ -642,6 +662,105 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             break
         }
     }
+    //自动登录
+    func zidongdenglu(loginMethod: String,loginName:String,passWord:String,authCode:String, openID: String) {
+        let method = "/user/logined"
+        let dic = ["loginPlatform":"1","loginMethod":loginMethod,"loginName":loginName,"passWord":passWord,"authCode":authCode,"openID":openID]
+        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
+                let dic = (res as! [String: Any])["data"] as! [String:Any]
+                userDefaults.set(dic["userId"], forKey: "userId")
+                userDefaults.set(dic["isPayPassWord"], forKey: "isPayPassWord")
+                userDefaults.set(dic["userPhone"], forKey: "userPhone")
+                userDefaults.set(dic["invitationCode"], forKey: "invitationCode")
+                userDefaults.set(loginMethod, forKey: "loginMethod")
+                userDefaults.set(passWord, forKey: "passWord")
+                userDefaults.set(openID, forKey: "openID")
+                userDefaults.set("1", forKey: "isDengLu")
+                AppDelegate().method()
+                let time: TimeInterval = 1
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
+                    self.shouyejiekou()
+                }
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+    }
+    func shouyejiekou(){
+        let method = "/user/Home"
+        let userId:String = userDefaults.value(forKey: "userId") as! String
+        let dic:[String:Any] = ["userId":userId,"cityName":city]
+        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
+                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                let jjj:String = String(format: "%f", dic["percentage"] as! Double)
+                let jiage:String = self.preciseDecimal(x: jjj, p: 4)
+                //jiage 转保留4位小数
+                self.jinrisousouBi.text = "今日飕飕币价格：\(jiage)"
+                self.jinrisousouBi.adjustsFontSizeToFitWidth = true
+                userDefaults.set(dic["userType"], forKey: "userType")
+                userDefaults.set(dic["isFirmAdit"], forKey: "isFirmAdit")
+                userDefaults.set(dic["isRealAuthentication"], forKey: "isRealAuthentication")
+                
+
+//                isOpen(int):是否开通(1.是2否)
+//                bySsMoney(String):被发送飕飕币数量
+
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+    }
+    func preciseDecimal(x : String, p : Int) -> String {
+        //        为了安全要判空
+        if (Double(x) != nil) {
+            //         四舍五入
+            let decimalNumberHandle : NSDecimalNumberHandler = NSDecimalNumberHandler(roundingMode: NSDecimalNumber.RoundingMode(rawValue: 0)!, scale: Int16(p), raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: false)
+            let decimaleNumber : NSDecimalNumber = NSDecimalNumber(value: Double(x)!)
+            let resultNumber : NSDecimalNumber = decimaleNumber.rounding(accordingToBehavior: decimalNumberHandle)
+            //          生成需要精确的小数点格式，
+            //          比如精确到小数点第3位，格式为“0.000”；精确到小数点第4位，格式为“0.0000”；
+            //          也就是说精确到第几位，小数点后面就有几个“0”
+            var formatterString : String = "0."
+            let count : Int = (p < 0 ? 0 : p)
+            for _ in 0 ..< count {
+                formatterString.append("0")
+            }
+            let formatter : NumberFormatter = NumberFormatter()
+            //      设置生成好的格式，NSNumberFormatter 对象会按精确度自动四舍五入
+            formatter.positiveFormat = formatterString
+            //          然后把这个number 对象格式化成我们需要的格式，
+            //          最后以string 类型返回结果。
+            return formatter.string(from: resultNumber)!
+        }
+        return "0"
+    }
+}
+extension Double {
+    
+    /// Rounds the double to decimal places value
+    
+    func roundTo(places:Int) -> Double {
+        
+        let divisor = pow(10.0, Double(places))
+        
+        return (self * divisor).rounded() / divisor
+        
+    }
+    
 }
 extension UIDevice {
     public func isX() -> Bool {

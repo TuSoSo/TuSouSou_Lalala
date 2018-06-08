@@ -70,7 +70,6 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         return true
     }
     
-    
     //MARK:微信三方登录
     func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
         if url.scheme == WeiXin_AppID {
@@ -122,148 +121,150 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
             let response = resp as! SendAuthResp
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WXLoginSuccessNotification"), object: response.code)
         }
+        
+    }
+    //    //支付宝回调信息
+    //    private func onResp(resp: BaseResp!) {
+    //        var strTitle = "支付结果"
+    //        var strMsg = "(resp.errCode)"
+    //        if resp.isKind(of: PayResp.self) {
+    //
+    //        }
+    //        if resp.isKind(of: PayResp.self) {
+    //            switch resp.errCode {
+    //            case 0 :
+    //                print("支付成功")
+    //            //                NSNotificationCenter.defaultCenter().postNotificationName(WXPaySuccessNotification, object: nil)
+    //            default:
+    //                strMsg = "支付失败，请您重新支付!"
+    //                print("retcode = (resp.errCode), retstr = (resp.errStr)")
+    //            }
+    //        }
+    //        let alert = UIAlertView(title: nil, message: strMsg, delegate: nil, cancelButtonTitle: "好的")
+    //        alert.show()
+    //    }
     
-}
-//    //支付宝回调信息
-//    private func onResp(resp: BaseResp!) {
-//        var strTitle = "支付结果"
-//        var strMsg = "(resp.errCode)"
-//        if resp.isKind(of: PayResp.self) {
-//
-//        }
-//        if resp.isKind(of: PayResp.self) {
-//            switch resp.errCode {
-//            case 0 :
-//                print("支付成功")
-//            //                NSNotificationCenter.defaultCenter().postNotificationName(WXPaySuccessNotification, object: nil)
-//            default:
-//                strMsg = "支付失败，请您重新支付!"
-//                print("retcode = (resp.errCode), retstr = (resp.errStr)")
-//            }
-//        }
-//        let alert = UIAlertView(title: nil, message: strMsg, delegate: nil, cancelButtonTitle: "好的")
-//        alert.show()
-//    }
-
-//MARK:支付宝支付
-func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-    //微信回调
-    if url.scheme == WeiXin_AppID {
-        WXApi.handleOpen(url as URL?, delegate: self)
-    }
-    //qq回调
-    let urlKey: String = options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String
-    if urlKey == "com.tencent.mqq" {
-        // QQ 的回调
-        return  TencentOAuth.handleOpen(url)
-    }
-    //支付宝回调
-    if url.host == "safepay" {
-        AlipaySDK.defaultService().processOrder(withPaymentResult: url) { (resultDic) in
-            if resultDic!["resultStatus"] as! String == "9000" {
-                let Box = XL_waringBox()
-                Box.warningBoxModeText(message: "支付成功", view: (self.window?.rootViewController?.view)! )
-            }else{
-                let Box = XL_waringBox()
-                Box.warningBoxModeText(message: resultDic!["memo"] as! String, view: (self.window?.rootViewController?.view)! )
+    //MARK:支付宝支付
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        //微信回调
+        if url.scheme == WeiXin_AppID {
+            WXApi.handleOpen(url as URL?, delegate: self)
+        }
+        //qq回调
+        let urlKey: String = options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String
+        if urlKey == "com.tencent.mqq" {
+            // QQ 的回调
+            return  TencentOAuth.handleOpen(url)
+        }
+        //支付宝回调
+        if url.host == "safepay" {
+            AlipaySDK.defaultService().processOrder(withPaymentResult: url) { (resultDic) in
+                if resultDic!["resultStatus"] as! String == "9000" {
+                    let Box = XL_waringBox()
+                    Box.warningBoxModeText(message: "支付成功", view: (self.window?.rootViewController?.view)! )
+                }else{
+                    let Box = XL_waringBox()
+                    Box.warningBoxModeText(message: resultDic!["memo"] as! String, view: (self.window?.rootViewController?.view)! )
+                }
+            }
+            AlipaySDK.defaultService().processAuthResult(url) { (resultDic) in
+                print(resultDic as Any)
+            }
+            AlipaySDK.defaultService().processAuth_V2Result(url) { (resultDic) in
+                print(resultDic as Any)
             }
         }
-        AlipaySDK.defaultService().processAuthResult(url) { (resultDic) in
-            print(resultDic as Any)
-        }
-        AlipaySDK.defaultService().processAuth_V2Result(url) { (resultDic) in
-            print(resultDic as Any)
-        }
-    }
-    if url.host == "platformapi" {
-        
-    }
-    return true
-}
-
-
-func tencentDidLogin() {
-    // 登录成功后要调用一下这个方法, 才能获取到个人信息
-    self.tencentAuth.getUserInfo()
-}
-
-func tencentDidNotNetWork() {
-    // 网络异常
-}
-
-func tencentDidNotLogin(_ cancelled: Bool) {
-    
-}
-
-func getUserInfoResponse(_ response: APIResponse!) {
-    // 获取个人信息
-    if response.retCode == 0 {
-        
-        if (response.jsonResponse) != nil {
+        if url.host == "platformapi" {
             
-            if let uid = self.tencentAuth.getUserOpenID() {
-                // 获取uid
-                print(uid)
-            }
         }
-    } else {
-        // 获取授权信息异常
-    }
-}
-// MARK: -JPUSHRegisterDelegate
-
-func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    JPUSHService.registerDeviceToken(deviceToken)
-}
-func method()  {
-    var alias: String = ""
-    if nil != userDefaults.value(forKey: "userId") {
-        alias = userDefaults.value(forKey: "userId") as! String
+        return true
     }
     
-    JPUSHService.setAlias(alias, completion: { (iResCode, alias, aa) in
-        print("\(iResCode)\n别名:  \(alias)\n\(aa)")
-    }, seq: 1)
     
-}
-// iOS 10.x 需要
-@available(iOS 10.0, *)
-func jpushNotificationCenter(_ center: UNUserNotificationCenter!, willPresent notification: UNNotification!, withCompletionHandler completionHandler: ((Int) -> Void)!) {
+    func tencentDidLogin() {
+        // 登录成功后要调用一下这个方法, 才能获取到个人信息
+        self.tencentAuth.getUserInfo()
+    }
     
-    let userInfo = notification.request.content.userInfo;
-    if notification.request.trigger is UNPushNotificationTrigger {
+    func tencentDidNotNetWork() {
+        // 网络异常
+    }
+    
+    func tencentDidNotLogin(_ cancelled: Bool) {
+        
+    }
+    
+    func getUserInfoResponse(_ response: APIResponse!) {
+        // 获取个人信息
+        if response.retCode == 0 {
+            
+            if (response.jsonResponse) != nil {
+                
+                if let uid = self.tencentAuth.getUserOpenID() {
+                    // 获取uid
+                    NotificationCenter.default.post(name: NSNotification.Name("QQLoginSuccessNotification"), object: self, userInfo: ["openId":uid])
+//                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "QQLoginSuccessNotification"), object: ["openId":uid])
+                    print(uid)
+                }
+            }
+        } else {
+            // 获取授权信息异常
+        }
+    }
+    // MARK: -JPUSHRegisterDelegate
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        JPUSHService.registerDeviceToken(deviceToken)
+    }
+    func method()  {
+        var alias: String = ""
+        if nil != userDefaults.value(forKey: "userId") {
+            alias = userDefaults.value(forKey: "userId") as! String
+        }
+        
+        JPUSHService.setAlias(alias, completion: { (iResCode, alias, aa) in
+            print("\(iResCode)\n别名:  \(alias)\n\(aa)")
+        }, seq: 1)
+        
+    }
+    // iOS 10.x 需要
+    @available(iOS 10.0, *)
+    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, willPresent notification: UNNotification!, withCompletionHandler completionHandler: ((Int) -> Void)!) {
+        
+        let userInfo = notification.request.content.userInfo;
+        if notification.request.trigger is UNPushNotificationTrigger {
+            JPUSHService.handleRemoteNotification(userInfo);
+            //小红点通知显示
+        }
+        completionHandler(Int(UNNotificationPresentationOptions.alert.rawValue))
+    }
+    @available(iOS 10.0, *)
+    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
+        
+        let userInfo = response.notification.request.content.userInfo;
+        if response.notification.request.trigger is UNPushNotificationTrigger {
+            JPUSHService.handleRemoteNotification(userInfo);
+        }
+        completionHandler();
+        // 应用打开的时候收到推送消息
+        UIApplication.shared.applicationIconBadgeNumber = 0;
+        
+        //        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationName_ReceivePush), object: NotificationObject_Sueecess, userInfo: userInfo)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
         JPUSHService.handleRemoteNotification(userInfo);
         //小红点通知显示
+        
+        
+        completionHandler(UIBackgroundFetchResult.newData);
     }
-    completionHandler(Int(UNNotificationPresentationOptions.alert.rawValue))
-}
-@available(iOS 10.0, *)
-func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
-    
-    let userInfo = response.notification.request.content.userInfo;
-    if response.notification.request.trigger is UNPushNotificationTrigger {
-        JPUSHService.handleRemoteNotification(userInfo);
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        application.cancelAllLocalNotifications()
     }
-    completionHandler();
-    // 应用打开的时候收到推送消息
-    UIApplication.shared.applicationIconBadgeNumber = 0;
-    
-    //        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationName_ReceivePush), object: NotificationObject_Sueecess, userInfo: userInfo)
-}
-
-func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    
-    JPUSHService.handleRemoteNotification(userInfo);
-    //小红点通知显示
-    
-    
-    completionHandler(UIBackgroundFetchResult.newData);
-}
-func applicationWillEnterForeground(_ application: UIApplication) {
-    application.cancelAllLocalNotifications()
-}
-func applicationDidEnterBackground(_ application: UIApplication) {
-    application.applicationIconBadgeNumber = 0
-}
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        application.applicationIconBadgeNumber = 0
+    }
 }
 

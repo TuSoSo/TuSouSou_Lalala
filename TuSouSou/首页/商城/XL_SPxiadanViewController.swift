@@ -485,9 +485,9 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         }
     }
     func gundongDonghua(string: String) {
-        sousoubiView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 100, height: 32), title: string)
+        sousoubiView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 100, height: 32), title: string, color:UIColor.black, Font: 14)
         sousoubiView?.tag = 99991
-        yueView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 140, height: 32), title: string)
+        yueView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 140, height: 32), title: string, color:UIColor.black, Font: 14)
         yueView?.tag = 99992
     }
     //MARK: textviewDelegate

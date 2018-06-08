@@ -32,6 +32,13 @@
 		0F45F494204E43140043E96F /* XL_GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F493204E43140043E96F /* XL_GuideViewController.swift */; };
 		0F45F49C204E7A6A0043E96F /* XL_Navi_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F49B204E7A6A0043E96F /* XL_Navi_ViewController.swift */; };
 		0F45F4A5204EA29F0043E96F /* XL_ShouYe_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */; };
+		0F4BF69520C7676A00EF3341 /* 7008.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0F4BF69420C7676A00EF3341 /* 7008.wav */; };
+		0F4BF69720C80B0000EF3341 /* XL_DPSZ_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF69620C80B0000EF3341 /* XL_DPSZ_ViewController.swift */; };
+		0F4BF69920C80B0F00EF3341 /* XL_DPCK_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF69820C80B0F00EF3341 /* XL_DPCK_ViewController.swift */; };
+		0F4BF69B20C80B1F00EF3341 /* XL_SPGL_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF69A20C80B1F00EF3341 /* XL_SPGL_ViewController.swift */; };
+		0F4BF69D20C80B2E00EF3341 /* XL_SPK_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF69C20C80B2E00EF3341 /* XL_SPK_ViewController.swift */; };
+		0F4BF69F20C80B4400EF3341 /* XL_DDGL_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF69E20C80B4400EF3341 /* XL_DDGL_ViewController.swift */; };
+		0F4BF6A120C80B5500EF3341 /* XL_GLXQ_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF6A020C80B5500EF3341 /* XL_GLXQ_ViewController.swift */; };
 		0F54B4A320566AA1004CFF7F /* XL_chengshiListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54B4A220566AA1004CFF7F /* XL_chengshiListViewController.swift */; };
 		0F5D7CC920513DD500411262 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CC820513DD500411262 /* CoreLocation.framework */; };
 		0F5D7CCB20513DDD00411262 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CCA20513DDD00411262 /* SystemConfiguration.framework */; };
@@ -65,6 +72,8 @@
 		0F701C4E20871FDF000F7F67 /* APRSASigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F701BF820871FDE000F7F67 /* APRSASigner.m */; };
 		0F701C4F20871FDF000F7F67 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F701BFA20871FDE000F7F67 /* libssl.a */; };
 		0F701C5020871FDF000F7F67 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F701C4820871FDF000F7F67 /* AlipaySDK.framework */; };
+		0F7B3D8B20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B3D8A20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift */; };
+		0F7B3D8D20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B3D8C20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift */; };
 		0F8025FB20C0E2BF00865A21 /* XL_WDxiaoxi_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8025FA20C0E2BF00865A21 /* XL_WDxiaoxi_ViewController.swift */; };
 		0F8836D82088880F000C6CA6 /* XL_weixinObjc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8836D72088880F000C6CA6 /* XL_weixinObjc.swift */; };
 		0F8836DA208DF001000C6CA6 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F8836D9208DF001000C6CA6 /* Alamofire.framework */; };
@@ -91,6 +100,10 @@
 		0FE54CE320523627005ADCC0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE54CE220523627005ADCC0 /* QuartzCore.framework */; };
 		0FE54CE52052362E005ADCC0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE54CE42052362E005ADCC0 /* OpenGLES.framework */; };
 		0FE54CE72052363F005ADCC0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE54CE62052363F005ADCC0 /* CoreGraphics.framework */; };
+		0FEBB58220C4E89000FBEC1D /* XL_Guanyuwomen_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEBB58120C4E89000FBEC1D /* XL_Guanyuwomen_ViewController.swift */; };
+		0FEBB58420C4EAFA00FBEC1D /* XL_ZMDL_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEBB58320C4EAFA00FBEC1D /* XL_ZMDL_ViewController.swift */; };
+		0FEBB58620C4EB0800FBEC1D /* XL_WHMM_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEBB58520C4EB0800FBEC1D /* XL_WHMM_ViewController.swift */; };
+		0FEBB58820C4EB1900FBEC1D /* XL_GRZC_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEBB58720C4EB1900FBEC1D /* XL_GRZC_ViewController.swift */; };
 		AB0B537FD70EC5357A512087 /* Pods_TuSouSou.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */; };
 /* End PBXBuildFile section */
 
@@ -137,6 +150,13 @@
 		0F45F493204E43140043E96F /* XL_GuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GuideViewController.swift; sourceTree = "<group>"; };
 		0F45F49B204E7A6A0043E96F /* XL_Navi_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_Navi_ViewController.swift; sourceTree = "<group>"; };
 		0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_ShouYe_ViewController.swift; sourceTree = "<group>"; };
+		0F4BF69420C7676A00EF3341 /* 7008.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 7008.wav; sourceTree = "<group>"; };
+		0F4BF69620C80B0000EF3341 /* XL_DPSZ_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DPSZ_ViewController.swift; sourceTree = "<group>"; };
+		0F4BF69820C80B0F00EF3341 /* XL_DPCK_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DPCK_ViewController.swift; sourceTree = "<group>"; };
+		0F4BF69A20C80B1F00EF3341 /* XL_SPGL_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SPGL_ViewController.swift; sourceTree = "<group>"; };
+		0F4BF69C20C80B2E00EF3341 /* XL_SPK_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SPK_ViewController.swift; sourceTree = "<group>"; };
+		0F4BF69E20C80B4400EF3341 /* XL_DDGL_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DDGL_ViewController.swift; sourceTree = "<group>"; };
+		0F4BF6A020C80B5500EF3341 /* XL_GLXQ_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GLXQ_ViewController.swift; sourceTree = "<group>"; };
 		0F54B4A220566AA1004CFF7F /* XL_chengshiListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_chengshiListViewController.swift; sourceTree = "<group>"; };
 		0F5D7CC820513DD500411262 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0F5D7CCA20513DDD00411262 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -249,6 +269,8 @@
 		0F701C4620871FDF000F7F67 /* idea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = idea.h; sourceTree = "<group>"; };
 		0F701C4720871FDF000F7F67 /* lhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lhash.h; sourceTree = "<group>"; };
 		0F701C4820871FDF000F7F67 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		0F7B3D8A20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DengLuWanshan_ViewController.swift; sourceTree = "<group>"; };
+		0F7B3D8C20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_TiaoDeng_ViewController.swift; sourceTree = "<group>"; };
 		0F8025FA20C0E2BF00865A21 /* XL_WDxiaoxi_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDxiaoxi_ViewController.swift; sourceTree = "<group>"; };
 		0F8836D72088880F000C6CA6 /* XL_weixinObjc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_weixinObjc.swift; sourceTree = "<group>"; };
 		0F8836D9208DF001000C6CA6 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -283,6 +305,10 @@
 		0FE54CE220523627005ADCC0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0FE54CE42052362E005ADCC0 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		0FE54CE62052363F005ADCC0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		0FEBB58120C4E89000FBEC1D /* XL_Guanyuwomen_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_Guanyuwomen_ViewController.swift; sourceTree = "<group>"; };
+		0FEBB58320C4EAFA00FBEC1D /* XL_ZMDL_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_ZMDL_ViewController.swift; sourceTree = "<group>"; };
+		0FEBB58520C4EB0800FBEC1D /* XL_WHMM_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WHMM_ViewController.swift; sourceTree = "<group>"; };
+		0FEBB58720C4EB1900FBEC1D /* XL_GRZC_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GRZC_ViewController.swift; sourceTree = "<group>"; };
 		461B93E68B998FB59970634D /* Pods-TuSouSou.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.release.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.release.xcconfig"; sourceTree = "<group>"; };
 		5C5004F705772966345F46E2 /* Pods-TuSouSou.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.debug.xcconfig"; sourceTree = "<group>"; };
 		FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TuSouSou.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -371,6 +397,7 @@
 			children = (
 				0F1A804120BC266200CEC8A4 /* XL_GRziliaoViewController.swift */,
 				0F04B4E620C123C9004C4FBA /* XL_AnQuanSZ_ViewController.swift */,
+				0FEBB58520C4EB0800FBEC1D /* XL_WHMM_ViewController.swift */,
 				0F04B4E820C124A2004C4FBA /* XL_ShimingRZ_ViewController.swift */,
 				0F04B4EA20C12503004C4FBA /* XL_QiyeRZ_ViewController.swift */,
 			);
@@ -409,7 +436,6 @@
 			isa = PBXGroup;
 			children = (
 				0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */,
-				0FF4D94B20B79CC800942383 /* 个人中心 */,
 				0FB777E220A01CF7005901D0 /* 商城 */,
 				0FC9D80F20721B0A002EAB4C /* 快递下单 */,
 				0F03E34D205FC175007A42D0 /* 地址簿 */,
@@ -422,6 +448,7 @@
 			isa = PBXGroup;
 			children = (
 				0F45F491204E39A10043E96F /* XL_QuanJu.swift */,
+				0F7B3D8C20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift */,
 			);
 			path = "全项目全局常量";
 			sourceTree = "<group>";
@@ -438,10 +465,48 @@
 			path = "启动页+广告页+引导页";
 			sourceTree = "<group>";
 		};
+		0F4BF69320C7675D00EF3341 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				0F4BF69420C7676A00EF3341 /* 7008.wav */,
+			);
+			path = Sound;
+			sourceTree = "<group>";
+		};
+		0F4BF6A220C80C5E00EF3341 /* 店铺设置 */ = {
+			isa = PBXGroup;
+			children = (
+				0F4BF69620C80B0000EF3341 /* XL_DPSZ_ViewController.swift */,
+				0F4BF69820C80B0F00EF3341 /* XL_DPCK_ViewController.swift */,
+			);
+			path = "店铺设置";
+			sourceTree = "<group>";
+		};
+		0F4BF6A320C80C7300EF3341 /* 商品管理 */ = {
+			isa = PBXGroup;
+			children = (
+				0F4BF69A20C80B1F00EF3341 /* XL_SPGL_ViewController.swift */,
+				0F4BF69C20C80B2E00EF3341 /* XL_SPK_ViewController.swift */,
+			);
+			path = "商品管理";
+			sourceTree = "<group>";
+		};
+		0F4BF6A420C80C8000EF3341 /* 订单管理 */ = {
+			isa = PBXGroup;
+			children = (
+				0F4BF69E20C80B4400EF3341 /* XL_DDGL_ViewController.swift */,
+				0F4BF6A020C80B5500EF3341 /* XL_GLXQ_ViewController.swift */,
+			);
+			path = "订单管理";
+			sourceTree = "<group>";
+		};
 		0F6EE57720BD303E0062039C /* 登陆 */ = {
 			isa = PBXGroup;
 			children = (
 				0F6EE57820BD4ED60062039C /* XL_Denglu_ViewController.swift */,
+				0F7B3D8A20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift */,
+				0FEBB58320C4EAFA00FBEC1D /* XL_ZMDL_ViewController.swift */,
+				0FEBB58720C4EB1900FBEC1D /* XL_GRZC_ViewController.swift */,
 			);
 			path = "登陆";
 			sourceTree = "<group>";
@@ -613,6 +678,7 @@
 			isa = PBXGroup;
 			children = (
 				0F3E0C2E20C2766C003368C4 /* XL_WDshezhi_ViewController.swift */,
+				0FEBB58120C4E89000FBEC1D /* XL_Guanyuwomen_ViewController.swift */,
 			);
 			path = "设置";
 			sourceTree = "<group>";
@@ -621,6 +687,9 @@
 			isa = PBXGroup;
 			children = (
 				0F3E0C2820C27633003368C4 /* XL_WDdianou_ViewController.swift */,
+				0F4BF6A220C80C5E00EF3341 /* 店铺设置 */,
+				0F4BF6A320C80C7300EF3341 /* 商品管理 */,
+				0F4BF6A420C80C8000EF3341 /* 订单管理 */,
 			);
 			path = "我的店铺";
 			sourceTree = "<group>";
@@ -669,11 +738,13 @@
 		0F9875952044E72E00C34111 /* TuSouSou */ = {
 			isa = PBXGroup;
 			children = (
+				0F4BF69320C7675D00EF3341 /* Sound */,
 				0F9723DC20BF9D330064A678 /* WNRatingBar */,
 				0FDBE002205231A6005C03FA /* TuSouSou.entitlements */,
 				0F3F8B5120567BD600783C53 /* 侧滑栏 */,
 				0F45F490204E39490043E96F /* 全项目全局常量 */,
 				0F6EE57720BD303E0062039C /* 登陆 */,
+				0FF4D94B20B79CC800942383 /* 个人中心 */,
 				0F45F48F204E38F30043E96F /* 首页 */,
 				0F45F49D204E843B0043E96F /* 启动页+广告页+引导页 */,
 				0F45F48D204E38910043E96F /* OC-Swift桥连接 */,
@@ -909,6 +980,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F6EE57E20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				0F4BF69520C7676A00EF3341 /* 7008.wav in Resources */,
 				0F701C4A20871FDF000F7F67 /* AlipaySDK.bundle in Resources */,
 				0F9875A12044E72E00C34111 /* LaunchScreen.storyboard in Resources */,
 				0F9723E320BF9D330064A678 /* star_big1@3x.png in Resources */,
@@ -963,6 +1035,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -971,6 +1044,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -1010,25 +1084,31 @@
 				0FC9D80E2071D68D002EAB4C /* XL_waringBox.swift in Sources */,
 				0F9723E220BF9D330064A678 /* WNRatingBar.swift in Sources */,
 				0F40C1DD20B79CFF006B1602 /* XL_GeRenViewController.swift in Sources */,
+				0F7B3D8B20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift in Sources */,
 				0F8025FB20C0E2BF00865A21 /* XL_WDxiaoxi_ViewController.swift in Sources */,
 				0F45F49C204E7A6A0043E96F /* XL_Navi_ViewController.swift in Sources */,
 				0F8836DE208EBCF1000C6CA6 /* SwiftyJSON.swift in Sources */,
 				0F1A804220BC266200CEC8A4 /* XL_GRziliaoViewController.swift in Sources */,
 				0F9723DB20BF838A0064A678 /* XL_WDDDXQ_ViewController.swift in Sources */,
 				0FDDB4032056DD0400522188 /* XL_GuanggaoViewController.swift in Sources */,
+				0FEBB58820C4EB1900FBEC1D /* XL_GRZC_ViewController.swift in Sources */,
 				0F3E0C2920C27633003368C4 /* XL_WDdianou_ViewController.swift in Sources */,
 				0F3E0C2D20C2765A003368C4 /* XL_YQHY_ViewController.swift in Sources */,
 				0FC9D81120721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift in Sources */,
+				0F4BF69F20C80B4400EF3341 /* XL_DDGL_ViewController.swift in Sources */,
 				0F3E0C2F20C2766C003368C4 /* XL_WDshezhi_ViewController.swift in Sources */,
 				0F701C4B20871FDF000F7F67 /* APOrderInfo.m in Sources */,
 				0F1A803F20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift in Sources */,
 				0FD9EC6920A01D6D009B0AED /* XL_SCsousuoViewController.swift in Sources */,
+				0FEBB58420C4EAFA00FBEC1D /* XL_ZMDL_ViewController.swift in Sources */,
 				0F701C4C20871FDF000F7F67 /* APAuthInfo.m in Sources */,
+				0F4BF69920C80B0F00EF3341 /* XL_DPCK_ViewController.swift in Sources */,
 				0F7019DB2080A7B8000F7F67 /* XL_PaoMaView.swift in Sources */,
 				0F65341520466F2E00FF347F /* secViewController.swift in Sources */,
 				0F03E351205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift in Sources */,
 				0F3E0C2B20C2764B003368C4 /* XL_WDKF_ViewController.swift in Sources */,
 				0F45F494204E43140043E96F /* XL_GuideViewController.swift in Sources */,
+				0F7B3D8D20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift in Sources */,
 				0F701C4D20871FDF000F7F67 /* openssl_wrapper.m in Sources */,
 				0F8836D82088880F000C6CA6 /* XL_weixinObjc.swift in Sources */,
 				0F03E34F205FC190007A42D0 /* XL_dizhi_ViewController.swift in Sources */,
@@ -1049,10 +1129,16 @@
 				0F3F8B5320567C2500783C53 /* XL_DrawerViewController.swift in Sources */,
 				0F3E0C3320C27767003368C4 /* XL_kaifapiao_ViewController.swift in Sources */,
 				0FBD75F120567CD1004A8571 /* XL_LeftMenuViewController.swift in Sources */,
+				0FEBB58620C4EB0800FBEC1D /* XL_WHMM_ViewController.swift in Sources */,
 				0F04B4E520C0F742004C4FBA /* XL_WDXXXQ_ViewController.swift in Sources */,
+				0F4BF69720C80B0000EF3341 /* XL_DPSZ_ViewController.swift in Sources */,
 				0F9875972044E72E00C34111 /* AppDelegate.swift in Sources */,
 				0F1197AE2057610A00CA0AFB /* XL_GGXQViewController.swift in Sources */,
+				0F4BF69B20C80B1F00EF3341 /* XL_SPGL_ViewController.swift in Sources */,
+				0FEBB58220C4E89000FBEC1D /* XL_Guanyuwomen_ViewController.swift in Sources */,
+				0F4BF69D20C80B2E00EF3341 /* XL_SPK_ViewController.swift in Sources */,
 				0F3E0C3120C27755003368C4 /* XL_WDzhangdan_ViewController.swift in Sources */,
+				0F4BF6A120C80B5500EF3341 /* XL_GLXQ_ViewController.swift in Sources */,
 				0F04B4E320C0F3B2004C4FBA /* XL_WDXXLB_ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1247,7 +1333,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"\"$(SRCROOT)/支付宝\"",
+					"\"$(SRCROOT)/支付宝\"/**",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1255,7 +1341,7 @@
 					"-l\"WeChatSDK\"",
 					"-l\"c++\"",
 					"-l\"crypto\"",
-					"-l\"jcore-ios-1.1.9\"",
+					"-l\"jcore-ios-1.2.0\"",
 					"-l\"jpush-ios-3.0.9\"",
 					"-l\"resolv\"",
 					"-l\"sqlite3.0\"",
@@ -1351,7 +1437,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"\"$(SRCROOT)/支付宝\"",
+					"\"$(SRCROOT)/支付宝\"/**",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1359,7 +1445,7 @@
 					"-l\"WeChatSDK\"",
 					"-l\"c++\"",
 					"-l\"crypto\"",
-					"-l\"jcore-ios-1.1.9\"",
+					"-l\"jcore-ios-1.2.0\"",
 					"-l\"jpush-ios-3.0.9\"",
 					"-l\"resolv\"",
 					"-l\"sqlite3.0\"",

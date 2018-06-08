@@ -32,3 +32,6 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <TencentOpenAPI/QQApiInterfaceObject.h>
 #import <TencentOpenAPI/QQApiInterface.h>
+
+//SDImage
+#import <SDWebImage/UIImageView+WebCache.h>

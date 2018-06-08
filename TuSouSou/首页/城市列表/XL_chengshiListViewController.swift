@@ -10,7 +10,7 @@ import UIKit
 
 class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate {
     //MARK:block反向传值
-    typealias CityName = (String) -> ()
+    typealias CityName = ([String:String]) -> ()
     var Cityblock: CityName?
     func cityblock(block: CityName?) {
         self.Cityblock = block
@@ -20,7 +20,7 @@ class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITabl
     var city: String?
     var weizhi:String?
     
-    var cityList: NSArray?
+    var cityList: [[String:String]]?
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dangqiancity: UILabel!
@@ -31,12 +31,31 @@ class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITabl
         self.title = "城市列表"
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        let dic: Dictionary = ["cityname":"cityname"]
-        cityList = [dic]
         
         //删除多余行
         tableView.tableFooterView = UIView()
+        yikaitongchengshiliebiao()
        
+    }
+    func yikaitongchengshiliebiao() {
+        let method = "/user/openCity"
+//        let userId:String = userDefaults.value(forKey: "userId") as! String
+        let dic:[String:Any] = ["":""]
+        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
+                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.cityList = dic["cityList"] as? [[String : String]]
+                self.tableView.reloadData()
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
     }
     @objc func doc() {
         self.navigationController?.popViewController(animated: true)
@@ -54,7 +73,7 @@ class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITabl
         let cellString = "chengshi"
         
         let cell = (tableView.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
-        cell.textLabel?.text = "hahahahah" //(cityList?[indexPath.row] as! NSDictionary).value(forKey: "cityname") as? String
+        cell.textLabel?.text = (cityList![indexPath.row])["cityName"]
 //        cell.selectionStyle = .none
         return cell
     }
@@ -62,7 +81,7 @@ class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITabl
         print(indexPath.row)
         //点击列表给city赋值
         if let block = self.Cityblock {
-            block("德玛西亚市")
+            block(cityList![indexPath.row])
         }
         self.navigationController?.popViewController(animated: true)
     }

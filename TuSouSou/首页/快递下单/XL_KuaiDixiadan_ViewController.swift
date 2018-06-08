@@ -46,9 +46,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
 //        self.gundongDonghua()
     }
     func gundongDonghua(string: String) {
-        sousoubiView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 100, height: 32), title: string)
+        sousoubiView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 100, height: 32), title: string,color:UIColor.black, Font: 14)
         sousoubiView?.tag = 99998
-        yueView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 140, height: 32), title: string)
+        yueView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 140, height: 32), title: string,color:UIColor.black, Font: 14)
         yueView?.tag = 99999
     }
     func tableviewDelegate() {

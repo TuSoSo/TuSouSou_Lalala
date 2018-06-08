@@ -13,7 +13,8 @@ class XL_GGXQViewController: UIViewController {
     var urlstring: String?
     override func viewDidLoad() {
         super.viewDidLoad()
-        let request = NSURLRequest(url: NSURL(string: "http://" + urlstring!)! as URL)
+        print(urlstring)
+        let request = NSURLRequest(url: NSURL(string: urlstring!)! as URL)
         webView.loadRequest(request as URLRequest)
         
     }

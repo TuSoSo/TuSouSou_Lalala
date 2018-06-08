@@ -10,7 +10,9 @@ import UIKit
 
 class XL_GuanggaoViewController: UIViewController {
     @IBOutlet weak var bigImg: UIImageView!
-
+    var guanggaoUrl: String?
+    var isTrue = 0
+    
     @IBOutlet weak var timebutton: UIButton!
     //延迟15s
     private var time:TimeInterval = 3.0
@@ -19,8 +21,7 @@ class XL_GuanggaoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        bigImg.image = UIImage(named: "广告页")
+        qidong()
         timebutton.setTitle("3s", for: .normal)
         timebutton.backgroundColor = UIColor.lightGray
         timebutton.setTitleColor(UIColor.white, for: .normal)
@@ -31,7 +32,28 @@ class XL_GuanggaoViewController: UIViewController {
         cuntdownTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         
     }
-    
+    func qidong() {
+        let Name = "/set/startPage"
+        let dic:Dictionary = ["userId":"100"]
+        
+        XL_QuanJu().PuTongWangluo(methodName: Name, methodType: .post, rucan: dic, success: { (res) in
+            let data:[String : Any] = (res as! [String: Any])["data"] as! [String : Any]
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                let url  = "\(TupianUrl)\(data["image"] as! String)"
+                self.donghua(url_str: url)
+                self.guanggaoUrl = data["url"] as? String
+                self.isTrue = 1
+            }
+            
+            
+        }) { (error) in
+            print(error)
+        }
+    }
+    func donghua(url_str:String) {
+        let url: URL = URL(string: url_str)!
+        bigImg.sd_setImage(with: url, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+    }
     @objc func updateTime(){
         time -= 1
         if time < 0 {
@@ -39,32 +61,33 @@ class XL_GuanggaoViewController: UIViewController {
             let ShouVC : XL_Navi_ViewController! = storyboard!.instantiateViewController(withIdentifier: "Navi") as! XL_Navi_ViewController
             let delegate = UIApplication.shared
             delegate.keyWindow?.rootViewController = ShouVC
-//            delegate.keyWindow?.makeKeyAndVisible()
-//            let leftVC = XL_LeftMenuViewController()
-//            let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-//            let delegate = UIApplication.shared
-//            delegate.keyWindow?.rootViewController = XL_DrawerViewController(mainVC: tabBarVC!, leftMenuVC: leftVC, leftWidth: 300)
+            //            delegate.keyWindow?.makeKeyAndVisible()
+            //            let leftVC = XL_LeftMenuViewController()
+            //            let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+            //            let delegate = UIApplication.shared
+            //            delegate.keyWindow?.rootViewController = XL_DrawerViewController(mainVC: tabBarVC!, leftMenuVC: leftVC, leftWidth: 300)
         }
         timebutton.setTitle(String(format:"%.fs",time), for: .normal)
     }
-       //点击直接跳转
+    //点击直接跳转
     @IBAction func zhijietiao(_ sender: Any) {
         cuntdownTimer?.invalidate()
-//        let leftVC = XL_LeftMenuViewController()
-//        let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-//        let delegate = UIApplication.shared
-//        delegate.keyWindow?.rootViewController = XL_DrawerViewController(mainVC: tabBarVC!, leftMenuVC: leftVC, leftWidth: 300)
+        //        let leftVC = XL_LeftMenuViewController()
+        //        let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+        //        let delegate = UIApplication.shared
+        //        delegate.keyWindow?.rootViewController = XL_DrawerViewController(mainVC: tabBarVC!, leftMenuVC: leftVC, leftWidth: 300)
         let ShouVC : XL_Navi_ViewController! = storyboard!.instantiateViewController(withIdentifier: "Navi") as! XL_Navi_ViewController
         let delegate = UIApplication.shared
         delegate.keyWindow?.rootViewController = ShouVC
     }
     @IBAction func tiaoXQ(_ sender: Any) {
-        zhijietiao(sender)
         //延时1秒执行
-        let time: TimeInterval = 0.001
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
-             NotificationCenter.default.post(name: NSNotification.Name("pushtoad"), object: self, userInfo: ["webURL":"www.baidu.com"])
+        if isTrue == 1 {
+            zhijietiao(sender)
+            let time: TimeInterval = 0.001
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
+                NotificationCenter.default.post(name: NSNotification.Name("pushtoad"), object: self, userInfo: ["webURL":self.guanggaoUrl!])
+            }
         }
-       
     }
 }

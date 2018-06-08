@@ -20,7 +20,7 @@ class XL_PaoMaView: UIView {
     private var isStop = false
     private var timeInterval1: TimeInterval!
     
-    convenience init(frame: CGRect, title: String) {
+    convenience init(frame: CGRect, title: String, color: UIColor, Font: CGFloat) {
         
         self.init(frame: frame)
         marqueeTitle = " \(title) "
@@ -30,8 +30,8 @@ class XL_PaoMaView: UIView {
         
         let lab = UILabel()
 //        lab.frame = .zero
-//        lab.textColor = UIColor.red
-        lab.font = UIFont.systemFont(ofSize: 14)
+        lab.textColor = color
+        lab.font = UIFont.systemFont(ofSize: Font)
         lab.text = marqueeTitle
         
         //计算textLab的大小
@@ -47,8 +47,8 @@ class XL_PaoMaView: UIView {
         if useReserve == true {
             
             let reserveTextLb = UILabel(frame: mark2)
-//            reserveTextLb.textColor = UIColor.red
-            reserveTextLb.font = UIFont.systemFont(ofSize: 14)
+            reserveTextLb.textColor = color
+            reserveTextLb.font = UIFont.systemFont(ofSize: Font)
             reserveTextLb.text = marqueeTitle;
             self.addSubview(reserveTextLb)
             
