@@ -77,10 +77,36 @@ class XL_AnQuanSZ_ViewController: UIViewController,UITableViewDelegate,UITableVi
             //跳页密码设置
             if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
                 //输入支付密码验证后再跳页
+                let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "")
+                payAlert.show(view: self.view)
+                payAlert.completeBlock = ({(password:String) -> Void in
+                    //调验证支付吗接口
+                    self.yanzhengzhifumima(password: password)
+                    print("输入的密码是:" + password)
+                })
             }else{
                 tiaoye(rukou: "1")
             }
             
+        }
+    }
+    func yanzhengzhifumima(password:String) {
+        let method = "/user/verifyPayPassword"
+        let userId = userDefaults.value(forKey: "userId")
+        let dic:[String:Any] = ["userId":userId!,"payPassword":password]
+        XL_waringBox().warningBoxModeIndeterminate(message: "密码验证中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                self.tiaoye(rukou: "1")
+            }else{
+                XL_waringBox().warningBoxModeText(message: "验证失败", view: self.view)
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
         }
     }
     func tiaoye(rukou:String) {

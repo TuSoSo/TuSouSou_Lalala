@@ -16,6 +16,24 @@ let AP_BUTTON_HEIGHT = 60.0
 let AP_INFO_HEIGHT   = 200.0
 
 class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate {
+    var isToday = "1"
+    var sendTime = ""
+    var tipType = "2"
+    var paymentMethod = ""
+    
+    
+    var orderType:Int?
+    var zhinazhisong:String?
+    var dingdanjine:String?
+    var peisongfei = "0"
+    var zhinazhi = "0"
+    
+    var dingdanID:String?
+
+    var sousoubishuliang = "0"
+    var dangqianyue = "0"
+    var sousouzhuanhualv = "1"
+    
     @IBOutlet weak var HeJijine: UILabel!
     let _tableview: UITableView! = UITableView()
     let body: [String: String] = [:]
@@ -24,7 +42,8 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     var zhifuButton0 = UIButton()
     var zhifuButton1 = UIButton()
     var zhifuButton2 = UIButton()
-    
+    var banview = UIView()
+    var baiVV = UIView()
     var xiaofeiTF = UITextField()
     var yangjiao = UILabel()
     var beizhuTF = UITextView()
@@ -35,15 +54,134 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     var souBzhiF = UITextField()
     var DiKou = UILabel()
     var JJE = UILabel()
-    var yueLabel = UILabel()
-    var datePicker = UIDatePicker()
+    var dikoudejine:String = "0"
     
+    var yueLabel = UILabel()
+    
+    var tomorrowTimes:[String] = []
+    var todayTimes:[String] = []
+    
+    let jintableView = UITableView()
+    let mingtableView = UITableView()
+    
+    var ZuoLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "确认订单"
         self.tableviewDelegate()
         self.TableviewCellUI()
 //        self.gundongDonghua()
+        //去除空格
+        let ddje = dingdanjine!.trimmingCharacters(in: .whitespaces)
+        let znzs = zhinazhisong!.trimmingCharacters(in: .whitespaces)
+        peisongfei = ddje
+        zhinazhi = znzs
+        youAnniu()
+        tishiUI()
+        zhanghuyue()
+        jiekouJintianMingtian()
+        lianggetableviewUI()
+        HeJijine.text = ddje
+    }
+    func youAnniu() {
+        let item = UIBarButtonItem(title:"价格表",style: .plain,target:self,action:#selector(YouActio))
+        self.navigationItem.rightBarButtonItem = item
+    }
+    @objc func YouActio()  {
+        baiVV.isHidden = false
+        banview.isHidden = false
+    }
+    func zhanghuyue()  {
+        let method = "/account/find"
+        let userId:String = userDefaults.value(forKey: "userId") as! String
+        let dic:[String:Any] = ["userId":userId]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                let  data = (res as! [String: Any])["data"] as! [String:Any]
+                self.sousoubishuliang = self.preciseDecimal(x: data["ssMoney"] as! String, p: 4)
+                self.dangqianyue = self.preciseDecimal(x: data["balance"] as! String, p: 2)
+                self.sousouzhuanhualv = "\((data["percentage"] as? Double)!)"
+                self._tableview.reloadData()
+            }
+        }) { (error) in
+            print(error)
+        }
+    }
+    func lianggetableviewUI() {
+        jintableView.delegate = self
+        mingtableView.delegate = self
+        jintableView.dataSource = self
+        mingtableView.dataSource = self
+        jintableView.register(UITableViewCell.self, forCellReuseIdentifier: "jincell")
+        mingtableView.register(UITableViewCell.self, forCellReuseIdentifier:"mingcell")
+        
+        jintableView.frame = CGRect(x: 0, y: Height/2, width: Width/2, height: Height/2)
+        mingtableView.frame = CGRect(x: Width/2, y: Height/2, width: Width/2, height: Height/2)
+        jintableView.tableFooterView = UIView()
+        mingtableView.tableFooterView = UIView()
+        jintableView.isHidden = true
+        mingtableView.isHidden = true
+        self.view.addSubview(jintableView)
+        self.view.addSubview(mingtableView)
+    }
+   
+    func jiekouJintianMingtian() {
+        let method = "/order/getTimes"
+        let dic:[String:Any] = ["orderType":orderType!,"merchantUserId":""]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.todayTimes = data["todayTimes"] as! [String]
+                self.tomorrowTimes = data["tomorrowTimes"] as! [String]
+                self.jintableView.reloadData()
+                self.mingtableView.reloadData()
+            }
+        }) { (error) in
+            print(error)
+        }
+    }
+    func tishiUI() {
+        banview = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: Height))
+        banview.backgroundColor = UIColor.black
+        banview.alpha = 0.5
+        banview.isUserInteractionEnabled = true
+        banview.isHidden = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ss))
+        tapGesture.numberOfTapsRequired = 1
+        banview.addGestureRecognizer(tapGesture)
+        banview.isHidden = true
+        self.view.addSubview(banview)
+        baiVV = UIView(frame: CGRect(x: 24, y: Height/2 - 200, width: Width - 48, height: 200))
+        baiVV.backgroundColor = UIColor.white
+        baiVV.isHidden = true
+        let weixintishi = UILabel(frame: CGRect(x: 24, y: 16, width: baiVV.frame.size.width - 36, height: 40))
+        weixintishi.font = UIFont.systemFont(ofSize: 30)
+        weixintishi.text = "温馨提示"
+        let peisong = UILabel(frame: CGRect(x: 24, y: 80, width: baiVV.frame.size.width - 36, height: 24))
+        peisong.font = UIFont.systemFont(ofSize: 16)
+        peisong.text = "配送费：¥ \(peisongfei)"
+        let zhina = UILabel(frame: CGRect(x: 24, y: 120, width: baiVV.frame.size.width - 36, height: 24))
+        zhina.font = UIFont.systemFont(ofSize: 16)
+        zhina.text = "直拿直送：¥ \(zhinazhi)"
+        let button = UIButton(frame: CGRect(x: baiVV.frame.size.width - 74, y: baiVV.frame.size.height - 68, width: 50, height: 44))
+        button.setTitle("确定", for: .normal)
+        button.setTitleColor(UIColor.orange, for: .normal)
+        button.addTarget(self, action: #selector(ss), for: .touchUpInside)
+        baiVV.addSubview(peisong)
+        baiVV.addSubview(zhina)
+        baiVV.addSubview(button)
+        baiVV.addSubview(weixintishi)
+        self.view.addSubview(banview)
+        self.view.addSubview(baiVV)
+    }
+    @objc func ss() {
+        banview.isHidden = true
+        baiVV.isHidden = true
+        jintableView.isHidden = true
+        mingtableView.isHidden = true
     }
     func gundongDonghua(string: String) {
         sousoubiView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 100, height: 32), title: string,color:UIColor.black, Font: 14)
@@ -63,6 +201,11 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         self.view.addSubview(_tableview)
     }
     func TableviewCellUI() {
+        ZuoLabel = UILabel(frame: CGRect(x: 16, y: 8, width: 80, height: 32))
+        ZuoLabel.tag = 99997
+        ZuoLabel.font = UIFont.systemFont(ofSize: 14)
+        ZuoLabel.text = "立即送出"
+        
         uiswitch0.center = CGPoint(x: Width - 45, y: 24)
         uiswitch0.isOn = false
         uiswitch0.addTarget(self, action: #selector(switchDidChange0), for: .valueChanged)
@@ -91,6 +234,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         
         xiaofeiTF = UITextField(frame: CGRect(x: 102, y: 8, width: 100, height: 32))
         xiaofeiTF.delegate = self
+        
         xiaofeiTF.layer.borderWidth = 1
         xiaofeiTF.layer.borderColor = UIColor(hexString: "f7ead3").cgColor
         
@@ -98,7 +242,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         souBzhiF.delegate = self
         souBzhiF.layer.borderWidth = 1
         souBzhiF.layer.borderColor = UIColor(hexString: "f7ead3").cgColor
-        
+        souBzhiF.keyboardType = .decimalPad
         DiKou = UILabel(frame: CGRect(x: Width - 138, y: 8, width: 30, height: 32))
         DiKou.text = "抵扣"
         DiKou.font = UIFont.systemFont(ofSize: 14)
@@ -111,9 +255,11 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         yueLabel.textAlignment = .right
         yueLabel.font = UIFont.systemFont(ofSize: 16)
         yueLabel.textColor = UIColor.orange
+        yueLabel.tag = 99990
         
-        yangjiao = UILabel(frame: CGRect(x: 210, y: 8, width: 10, height: 32))
-        
+        yangjiao = UILabel(frame: CGRect(x: 210, y: 8, width: 64, height: 32))
+        yangjiao.adjustsFontSizeToFitWidth = true
+        yangjiao.text = "¥"
         beizhuTF = UITextView(frame: CGRect(x: 92, y: 8, width: Width - 130, height: 32))
         beizhuTF.isScrollEnabled = false
         beizhuTF.delegate = self
@@ -128,198 +274,309 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        if tableView == _tableview {
+            return 2
+        }else{
+           return 1
+        }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        if tableView == _tableview {
+            return 4
+        }else if tableView == jintableView {
+            return todayTimes.count
+        }else{
+            return tomorrowTimes.count
+        }
+        
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            if indexPath.row == 3 {
-                return bounds.height + 16
+        if tableView == _tableview {
+            if indexPath.section == 0 {
+                if indexPath.row == 3 {
+                    return bounds.height + 16
+                }
             }
+            return 48
+        }else{
+            return 48
         }
-        return 48
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellString = "dingdan"
-        
-        let cell = (_tableview.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
+        var cellString = "dingdan"
+        if tableView == jintableView {
+            cellString = "jincell"
+        }else if tableView == mingtableView{
+            cellString = "mingcell"
+        }
+        let cell = (tableView.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
         cell.selectionStyle = .none
-        //去重合
-        for v: UIView in cell.subviews {
-            if v.tag == 99999 || v.tag == 99998 || v.tag == 99997 || v.tag == 99996 || v.tag == 99995 {
-                v.removeFromSuperview()
-            }
-        }
-        let ZuoLabel = UILabel(frame: CGRect(x: 16, y: 8, width: 80, height: 32))
-        ZuoLabel.tag = 99997
-        ZuoLabel.font = UIFont.systemFont(ofSize: 14)
-        if indexPath.section == 0 {
-            switch indexPath.row {
-            case 0:
-                ZuoLabel.text = "立即送出"
-                cell.accessoryType = .disclosureIndicator//右箭头
-            case 1:
-                ZuoLabel.text = "直拿直送"
-                cell.addSubview(uiswitch0)
-            case 2:
-                ZuoLabel.text = "加小费"
-                if uiswitch1.isOn == false {
-                    yangjiao.isHidden = false
-                    xiaofeiTF.placeholder = "1~500元"
-                }else{
-                    yangjiao.isHidden = true
-                    xiaofeiTF.placeholder = ""
+        if tableView == _tableview {
+            //去重合
+            for v: UIView in cell.subviews {
+                if v.tag == 99999 || v.tag == 99998 || v.tag == 99997 || v.tag == 99996 || v.tag == 99995 || v.tag == 99990{
+                    v.removeFromSuperview()
                 }
-                cell.addSubview(xiaofeiTF)
-                cell.addSubview(yangjiao)
-                cell.addSubview(uiswitch1)
-            case 3:
-                ZuoLabel.text = "备注:"
-                
-                cell.addSubview(beizhuTF)
-            default:
-                break
             }
-            cell.addSubview(ZuoLabel)
+            let DuoLabel = UILabel(frame: CGRect(x: 16, y: 8, width: 80, height: 32))
+            DuoLabel.tag = 99997
+            DuoLabel.font = UIFont.systemFont(ofSize: 14)
+            if indexPath.section == 0 {
+                switch indexPath.row {
+                case 0:
+                    cell.addSubview(ZuoLabel)
+                    cell.accessoryType = .disclosureIndicator//右箭头
+                case 1:
+                    DuoLabel.text = "直拿直送"
+                    cell.addSubview(DuoLabel)
+                    cell.addSubview(uiswitch0)
+                case 2:
+                    DuoLabel.text = "加小费"
+                    if uiswitch1.isOn == false {
+                        xiaofeiTF.placeholder = "1~500元"
+                        xiaofeiTF.keyboardType = .decimalPad
+                    }else{
+                        xiaofeiTF.placeholder = ""
+                        xiaofeiTF.keyboardType = .decimalPad
+                    }
+                    cell.addSubview(DuoLabel)
+                    cell.addSubview(xiaofeiTF)
+                    cell.addSubview(yangjiao)
+                    cell.addSubview(uiswitch1)
+                case 3:
+                    DuoLabel.text = "备注:"
+                    cell.addSubview(DuoLabel)
+                    cell.addSubview(beizhuTF)
+                default:
+                    break
+                }
+                
+            }else{
+                let ZFImage = UIImageView(frame: CGRect(x: 16, y: 12, width: 24, height: 24))
+                ZFImage.tag = 99995
+                let zuolabel = UILabel(frame: CGRect(x: 48, y: 9, width: 100, height: 32))
+                zuolabel.tag = 99996
+                zuolabel.font = UIFont.systemFont(ofSize: 14)
+                switch indexPath.row {
+                case 0:
+                    
+                    self.gundongDonghua(string: "飕飕币剩余(\(sousoubishuliang))") //"剩余(¥\(body["qian"]))支付"
+                    JJE.text = "¥\(dikoudejine)"
+                    cell.addSubview(JJE)
+                    cell.addSubview(DiKou)
+                    cell.addSubview(souBzhiF)
+                    cell.addSubview(sousoubiView!)
+                case 1:
+                    self.gundongDonghua(string: "余额(¥ \(dangqianyue))支付")
+                    /*判断余额够不够
+                     如果够 - 则添加zhifuButton2
+                     如果不够 - 泽添加yueLabel
+                     */
+                  
+                    if Float(HeJijine.text!)! <= Float(dangqianyue)!{
+                        cell.addSubview(zhifuButton2)
+                    }else{
+                        cell.addSubview(yueLabel)
+                        zhifuButton2.isSelected = false
+                        if paymentMethod == "1"{
+                            paymentMethod = ""
+                        }
+                    }
+                    cell.addSubview(yueView!)
+                case 2:
+                    ZFImage.image = UIImage(named: "支付-支付宝")
+                    zuolabel.text = "支付宝支付"//"剩余(¥\(body["qian"]))支付"
+                    cell.addSubview(zhifuButton0)
+                    cell.addSubview(ZFImage)
+                    cell.addSubview(zuolabel)
+                case 3:
+                    ZFImage.image = UIImage(named: "支付-微信")
+                    zuolabel.text = "微信支付"
+                    cell.addSubview(zhifuButton1)
+                    cell.addSubview(ZFImage)
+                    cell.addSubview(zuolabel)
+                default:
+                    break
+                }
+            }
+        }else if tableView == jintableView{
+            cell.textLabel?.text = todayTimes[indexPath.row]
         }else{
-            let ZFImage = UIImageView(frame: CGRect(x: 16, y: 12, width: 24, height: 24))
-            ZFImage.tag = 99995
-            let zuolabel = UILabel(frame: CGRect(x: 48, y: 9, width: 100, height: 32))
-            zuolabel.tag = 99996
-            zuolabel.font = UIFont.systemFont(ofSize: 14)
-            switch indexPath.row {
-            case 0:
-                
-                self.gundongDonghua(string: "飕飕币剩余(0.00)") //"剩余(¥\(body["qian"]))支付"
-                JJE.text = "¥46.10"
-                cell.addSubview(JJE)
-                cell.addSubview(DiKou)
-                cell.addSubview(souBzhiF)
-                cell.addSubview(sousoubiView!)
-            case 1:
-                self.gundongDonghua(string: "余额(¥0.00)支付")//"剩余(¥\(body["qian"]))支付"
-                /*判断余额够不够
-                  如果够 - 则添加zhifuButton2
-                 如果不够 - 泽添加yueLabel
-                 */
-                cell.addSubview(yueLabel)
-                cell.addSubview(yueView!)
-            case 2:
-                ZFImage.image = UIImage(named: "支付-支付宝")
-                zuolabel.text = "支付宝支付"//"剩余(¥\(body["qian"]))支付"
-                cell.addSubview(zhifuButton0)
-                cell.addSubview(ZFImage)
-                cell.addSubview(zuolabel)
-            case 3:
-                ZFImage.image = UIImage(named: "支付-微信")
-                zuolabel.text = "微信支付"
-                cell.addSubview(zhifuButton1)
-                cell.addSubview(ZFImage)
-                cell.addSubview(zuolabel)
-            default:
-                break
-            }
+            cell.textLabel?.text = tomorrowTimes[indexPath.row]
         }
+       
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                self.ShiJian()
-            }
-        }
-        if indexPath.section == 1 {
-            // 如果余额大于合计、则 有row == 1 判断
-            if indexPath.row == 1 {
-                if zhifuButton2.isSelected == false {
-                    zhifuButton2.isSelected = true
-                }else{
-                    zhifuButton2.isSelected = false
+        if tableView == _tableview {
+            if indexPath.section == 0 {
+                if indexPath.row == 0 {
+                    //调一个接口/ 弄两个tableview显示 今天明天
+                    jintableView.isHidden = false
+                    mingtableView.isHidden = false
+                    banview.isHidden = false
                 }
-                zhifuButton1.isSelected = false
-                zhifuButton0.isSelected = false
-                _tableview.reloadData()
             }
-            if indexPath.row == 2 {
-                if zhifuButton0.isSelected == false {
-                    zhifuButton0.isSelected = true
-                }else{
-                    zhifuButton0.isSelected = false
-                }
-                zhifuButton1.isSelected = false
-                zhifuButton2.isSelected = false
-                _tableview.reloadData()
-            }
-            if indexPath.row == 3 {
-                if zhifuButton1.isSelected == false {
-                    zhifuButton1.isSelected = true
-                }else{
+            if indexPath.section == 1 {
+                // 如果余额大于合计、则 有row == 1 判断
+                if indexPath.row == 1 {
+                    if zhifuButton2.isSelected == false {
+                        zhifuButton2.isSelected = true
+                        paymentMethod = "1"
+                    }else{
+                        zhifuButton2.isSelected = false
+                        paymentMethod = ""
+                    }
                     zhifuButton1.isSelected = false
+                    zhifuButton0.isSelected = false
+                    _tableview.reloadData()
                 }
-                zhifuButton0.isSelected = false
-                zhifuButton2.isSelected = false
-                _tableview.reloadData()
+                if indexPath.row == 2 {
+                    if zhifuButton0.isSelected == false {
+                        zhifuButton0.isSelected = true
+                        paymentMethod = "2"
+                    }else{
+                        zhifuButton0.isSelected = false
+                        paymentMethod = ""
+                    }
+                    zhifuButton1.isSelected = false
+                    zhifuButton2.isSelected = false
+                    _tableview.reloadData()
+                }
+                if indexPath.row == 3 {
+                    if zhifuButton1.isSelected == false {
+                        zhifuButton1.isSelected = true
+                        paymentMethod = "3"
+                    }else{
+                        zhifuButton1.isSelected = false
+                        paymentMethod = ""
+                    }
+                    zhifuButton0.isSelected = false
+                    zhifuButton2.isSelected = false
+                    _tableview.reloadData()
+                }
+                
             }
-
+        }else if tableView == jintableView{
+            ZuoLabel.text = "今天 " + todayTimes[indexPath.row]
+            isToday = "1"
+            sendTime = todayTimes[indexPath.row]
+            banview.isHidden = true
+            jintableView.isHidden = true
+            mingtableView.isHidden = true
+        }else{
+            ZuoLabel.text = "明天 " + tomorrowTimes[indexPath.row]
+            isToday = "2"
+            sendTime = tomorrowTimes[indexPath.row]
+            banview.isHidden = true
+            jintableView.isHidden = true
+            mingtableView.isHidden = true
         }
+        
     }
     //MARK：tableviewHeader
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 1{
-            return 50
+        if tableView == _tableview {
+            if section == 1{
+                return 50
+            }
+        }else if tableView == jintableView {
+            return 48
+        }else if tableView == mingtableView {
+            return 48
         }
+        
         return 0
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: 50))
-        view.backgroundColor = UIColor(hexString: "f2f2f2")
-        let label = UILabel(frame: CGRect(x: 16, y: 8, width: 100, height: 40))
-        label.text = "付款方式:"
-        view.addSubview(label)
-        if section == 1 {
+        if tableView == _tableview {
+            let view = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: 50))
+            view.backgroundColor = UIColor(hexString: "f2f2f2")
+            let label = UILabel(frame: CGRect(x: 16, y: 8, width: 100, height: 40))
+            label.text = "付款方式:"
+            view.addSubview(label)
+            if section == 1 {
+                return view
+            }
+        }else if tableView == jintableView{
+            let view = UIView(frame: CGRect(x: 0, y: 0, width: Width/2, height: 48))
+            view.backgroundColor = UIColor(hexString: "f2f2f2")
+            let label = UILabel(frame: CGRect(x: 0, y: 12, width: Width/2, height: 24))
+            label.text = "今天"
+            label.textAlignment = .center
+            view.addSubview(label)
+            return view
+        }else if tableView == mingtableView{
+            let view = UIView(frame: CGRect(x: 0, y: 0, width: Width/2, height: 48))
+            view.backgroundColor = UIColor(hexString: "f2f2f2")
+            let label = UILabel(frame: CGRect(x: 0, y: 12, width: Width/2, height: 24))
+            label.text = "明天"
+            label.textAlignment = .center
+            view.addSubview(label)
             return view
         }
+       
         return nil
     }
-    func ShiJian() {
-        let banview = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: Height))
-        banview.backgroundColor = UIColor.gray
-        banview.alpha = 0.5
-        banview.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction))
-        tapGesture.numberOfTapsRequired = 1
-        banview.addGestureRecognizer(tapGesture)
-        self.view.addSubview(banview)
+
+   //MARK: textFieldDelegate
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let text = textField.text!
         
-        datePicker = UIDatePicker(frame: CGRect(x: 0, y: Height - 300, width: Width, height: 300))
-        datePicker.datePickerMode = .dateAndTime
-        datePicker.locale = Locale(identifier: "zh_CN")
-        datePicker.calendar = Calendar.current
-        datePicker.date = Date(timeIntervalSinceNow: 900)
-        datePicker.minuteInterval = 15
-        datePicker.backgroundColor = UIColor.white
-//        datePicker.setValue(UIColor.white, forKey: "textColor")
-        datePicker.addTarget(self, action: #selector(chooseDate), for: .valueChanged)
-        self.view.addSubview(datePicker)
+        let len = text.count + string.count - range.length
+        if textField == souBzhiF {
+            var zhuan = "0"
+            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            if newString.count != 0 {
+                zhuan = newString
+            }
+            if Float(zhuan)! > Float(sousoubishuliang)! {
+                showConfirm(title: "温馨提示", message: "yoyo~ 您没有足够飕飕币哟~", in: self, confirme: { (s) in
+                    self.souBzhiF.text = ""
+                }) { (w) in
+                    self.souBzhiF.text = self.sousoubishuliang
+                }
+            }
+            self.dikoujisuan(string:zhuan)
+            
+        }
+        if textField == xiaofeiTF {
+            if uiswitch1.isOn == false{
+                let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+                let expression = "^[0-9]*((\\\\.|,)[0-9]{0,2})?$"
+                let regex = try! NSRegularExpression(pattern: expression, options: NSRegularExpression.Options.allowCommentsAndWhitespace)
+                let numberOfMatches = regex.numberOfMatches(in: newString, options:NSRegularExpression.MatchingOptions.reportProgress, range: NSMakeRange(0, (newString as NSString).length))
+                return numberOfMatches != 0
+            }else{
+                let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+                let expression = "^[0-9]*((\\\\|,)[0-9]{0,4})?$"
+                let regex = try! NSRegularExpression(pattern: expression, options: NSRegularExpression.Options.allowCommentsAndWhitespace)
+                let numberOfMatches = regex.numberOfMatches(in: newString, options:NSRegularExpression.MatchingOptions.reportProgress, range: NSMakeRange(0, (newString as NSString).length))
+                return numberOfMatches != 0
+            }
+        }
+        return true
     }
-    @objc func tapGestureAction() {
-//        if 选择时间小于现在时间 {
-//
-//        }
-        let choosePicker = datePicker.date
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd日 HH:mm:ss"
-        print(dateFormatter.string(from: choosePicker))
-    }
-    @objc func chooseDate(_datePicker: UIDatePicker) {
-        let choosePicker = _datePicker.date
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd日 HH:mm:ss"
-        print(dateFormatter.string(from: choosePicker))
-        
-        
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == xiaofeiTF {
+            if uiswitch1.isOn == false{
+                var xx = "0"
+                if xiaofeiTF.text?.count != 0{
+                    xx = xiaofeiTF.text!
+                }
+                if Float(xx)! > 500 {
+                    textField.text = ""
+                    showConfirm(title: "温馨提示", message: "小费最高为500 元", in: self, confirme: { (ss) in
+                        textField.text = "0"
+                    }) { (ss) in
+                        textField.text = "500"
+                    }
+                }
+            }else{
+                textField.text = preciseDecimal(x: textField.text!, p: 4)
+            }
+            self.jisuanfangfa()
+        }
     }
     //MARK: textviewDelegate
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
@@ -359,33 +616,45 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         if uiswitch0.isOn == true {
             self.showConfirm(title: "温馨提示", message: "开启后，骑士从发货地到收货地的整个配送过程将无法再接其他订单，来确保您的订单能够最快送达", in: self, confirme: { (_) in
                 self.uiswitch0.isOn = false
+                self.jisuanfangfa()
             }) { (_) in
                 self.uiswitch0.isOn = true
             }
         }
-        
+        self.jisuanfangfa()
         _tableview.reloadData()
     }
     @objc func switchDidChange1() {
+        xiaofeiTF.text = ""
         if uiswitch1.isOn == true {
-//            uiswitch0.isOn = false
+            yangjiao.text = "飕飕币"
+            tipType = "1"
+        }else{
+            tipType = "2"
+            yangjiao.text = "¥"
         }
+        jisuanfangfa()
         _tableview.reloadData()
     }
     @objc func DidzhifuButton0()  {
         if zhifuButton0.isSelected == false {
             zhifuButton0.isSelected = true
+            paymentMethod = "2"
         }else{
             zhifuButton0.isSelected = false
+            paymentMethod = ""
         }
         zhifuButton1.isSelected = false
         zhifuButton2.isSelected = false
     }
     @objc func DidzhifuButton1()  {
+        
         if zhifuButton1.isSelected == false {
             zhifuButton1.isSelected = true
+            paymentMethod = "3"
         }else{
             zhifuButton1.isSelected = false
+            paymentMethod = ""
         }
         zhifuButton0.isSelected = false
         zhifuButton2.isSelected = false
@@ -393,44 +662,53 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     @objc func DidzhifuButton2()  {
         if zhifuButton2.isSelected == false {
             zhifuButton2.isSelected = true
+            paymentMethod = "1"
         }else{
             zhifuButton2.isSelected = false
+            paymentMethod = ""
         }
         zhifuButton0.isSelected = false
         zhifuButton1.isSelected = false
     }
     @IBAction func querenzhifu(_ sender: Any) {
- 
-//        let methodName = "/set/startPage"
-//        let rucan = ["userId" : "3987"]
-//        XL_QuanJu().PuTongWangluo(methodName: methodName, methodType: .post, rucan: rucan, success: { (result) in
-//            print(result)
-//        }) { (error) in
-//            print(error)
-//        }
-        var imageArr: Array<UIImage>! = []
-        let image0 = UIImage(named: "广告页")
-        let image1 = UIImage(named: "启动页")
-        imageArr.append(image0!)
-        imageArr.append(image1!)
-        let nameArray = ["licensePic","licensePic1"]
-        let dic = ["userId":"1102","firmName":"10","firmAddress":"11","firmLinkman":"12","phone":"13312345678","idCard":"14"]
-        
-        
-        XL_QuanJu().UploadWangluo(imageArray: imageArr, NameArray: nameArray, methodName: "/user/realAuthentication", rucan: dic, success: { (result) in
-            print(result)
-        }) { (error) in
-            print(error)
-        }
-        
-        
         if zhifuButton0.isSelected == true {
             self.zhifubaoZhiFu()
         }else if zhifuButton1.isSelected == true {
             self.WXZhiFu()
         }
     }
-
+    func zhifu_xiao (){
+        var ssbSum = ""
+        if uiswitch1.isOn == true {
+            ssbSum = xiaofeiTF.text!
+        }
+        var isDirectSend = "1"
+        if sendTime.count != 0 {
+            isDirectSend = "2"
+        }
+        if paymentMethod.count == 0 {
+             XL_waringBox().warningBoxModeText(message: "请选择支付方式", view: self.view)
+        }else{
+            let method = "/order/commitOrder"
+            let dic:[String:Any] = ["orderId":dingdanID!,"sendTime":sendTime,"isToday":isToday,"isDirectSend":isDirectSend,"tipType":tipType,"tip":xiaofeiTF.text!,"remarks":beizhuTF.text!,"paymentMethod":paymentMethod,"postAmount":peisongfei,"amount":"","ssbSum":ssbSum]
+            //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
+            XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+                print(res)
+                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                if (res as! [String: Any])["code"] as! String == "0000" {
+                    //                XL_waringBox().warningBoxModeText(message: "下单成功", view: self.view)
+                    //                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                    
+                    //调用三方支付
+                }
+            }) { (error) in
+                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+                print(error)
+            }
+        }
+        
+    }
    
     func WXZhiFu() {
         let dic = [ "appid": "wx678a8d37c4aec635",
@@ -461,36 +739,8 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         
     }
     func zhifubaoZhiFu() {
-        let appID = "2016091801915805"
-        let rsa2PrivateKey = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDVjUwm4bB98pWKM11nHLofnSdVQVlohBu2wf/5d+xGeQ/fISQsE5zphDygcGBut8Zbe8w2jUKAwGPN89hUomoxyHO2epYsfmDEioB9h6wHOJtMxFu8Ua776VXv4ZsY7TRnPu9l07WT0DNHFX8bfKPHFpg2x+cOgjMiQDLtMOTYyV9eVZK+QEZP5tJqHiKGhRUg1lli+a6kUPylINQG2akbXniSOU6kp9Wkwz7sMbdtCnpNVfB3H35Ftizs0xjA/KYeMZdNbVPOXsFU1Epj+KanWinfZfTq2AhHA6Lu1Hsc4ZdPf4cOgYRNuvrKTrCmFqZHXc6fjL9+DzWrODdS0noVAgMBAAECggEADzNsnUPpZT20SU8YsfNIiGGOYDIzpA3rTxoGF4Liza1mZNKeGYkX3UNtcVoucxMfynlIcwWhGzsWn51g471f48VJ/05AjFA+oR7ewJC8vRLZcyBzCzehRgs488dSW/beiQ7gyZXFUg066S9tic5Ydh50nUmjd9PqweBh/6JAV/H0QawKlyVmT0Rt2054ah48h5Hrfw41/QmiKYdG5gKqxSZ2I4g5t76qzvaDmjUJ9hBuuUPmFL+Qs2JQiBNBHPweaOSa8ihPCss9PZ+6WWMm2l3IlcimC/sI7alw43rZQK5bvf86i+U5FaxU1Io7pmkMpi1KhG4V1nu9HW/sfebgzQKBgQD3gGhCT3yLXmONbXh0VzIQxC9H4izM8A1vSoVOVYLeMlN5yY/NagXrS4BIL5Dl/B9p8XDcx5WZt44RTPbWHB+Qczqy6Fkb29KYiRAsle8QE/+9LLv62KqLi3s1LhCYCDsW434QW/81cx28UWyLhl041RbF1Vfn+HRI0T+XpSXdKwKBgQDc4ncmcRHnk5QABXbix4RCxHRp2yS8phJRFyPQCPI3MTFyrxHP0GzDrk2GJSIZNtZG+lg+gkjk4yjviXuAljLj5NvKub1kgHF8w8+IQmdN8fsNLmXwYM/DRAvF/8cxvq4NKUb2cYwv2rN/EbYtpj5j/sPlTMetZnVbTwVp9rHlvwKBgAPD41Im7WkdXXxYTv3OGcfhhCqeyTmw6TNpOc/wQxZoQ5bVtydT1pU2x9PRTW4CQOQWtTXWn3MANNwUhKjLMru61QjFuh1PYcvKQgG7ojBnbXuOQ6nUQ/vteklb0wrNDUES4ucSzzYb8zbbMkCJIb/slfUagsTXpcU50bLX41STAoGARxn/ELjE8q5mrbsUkdt3j6Z9crXAFZm/u6qfNJAsp+eF60y/hw2odTTeb5f0aflk8GQVk8mMfWFCBBlVUAcJSqKYvaEcfgV6gpblbw8xAb4q+gs9dSs0tb5pq8qx7CldDY+D8ECMx7q2nOiuo/MnkjioBl+4xvB8RnAhZgKrMTECgYBrG++MQbHyBfHEFRd6jk8wttld7wb1WhDID33735Npyr1ku1jAR0dyFqzNZM568bYg28f/MJrRJ5IpynjFPEnAzUds78xrhMHBmdLIA+Ll9+RoU8wOJMgoMb7dyCH0BQJYHWv2mRVdjMJbubGt2tNJNky4AcreoTSuUXv75A+Jhw=="
-        
-        let order: APOrderInfo = APOrderInfo()
-        order.app_id = appID
-        order.method = "alipay.trade.app.pay"
-        order.charset = "utf-8"
-        let now = Date()
-        // 创建一个日期格式器
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        order.timestamp = formatter.string(from:now)
-        print(formatter.string(from: Date()))
-        order.version = "1.0"
-        order.sign_type = "RSA2"
-        //商品数据
-        order.biz_content = APBizContent()
-        order.biz_content.body = "我是测试数据"
-        order.biz_content.subject = "1"
-        order.biz_content.out_trade_no = "songhaoran"//订单号
-        order.biz_content.timeout_express = "30m"
-        order.biz_content.total_amount = "0.01"
-        let orderInfo = order.orderInfoEncoded(false)
-        let orderInfoEncoded = order.orderInfoEncoded(true)
-        print(orderInfo as Any)
-        let signer: APRSASigner = APRSASigner(privateKey: rsa2PrivateKey)
-        let signedSring = signer.sign(orderInfo, withRSA2: true)
-        if signedSring?.count != 0 {
-            let appScheme = "TuSouSou"
-            let orderString = "alipay_sdk=alipay-sdk-java-dynamicVersionNo&app_id=2016091801915805&biz_content=%7B%22body%22%3A%22%E5%85%94%E9%A3%95%E9%A3%95%22%2C%22out_trade_no%22%3A%2285624788eed%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E9%9B%AA%E7%A2%A7%22%2C%22timeout_express%22%3A%2215d%22%2C%22total_amount%22%3A%220.01%22%7D&charset=utf-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fm5uy3m.natappfree.cc%2FAliPay%2Fnotify.do&sign=oZJOLr%2F%2FKfyTJfS6wfQ%2Fnc0h9sbGFu3OiUW9yq0AHaJkPKTJTg%2FB54WUhmV5uIo5dlHKXEh9N4g0E3xTjgy5vwteVcsmVCqyDAg9TjdPFjgLDsSPI6zJX1xvplnJaDjFcBK%2BAvGkdcvpfgVyIX8zpDj1gCtbrvHxpaEGStb643Vs2pY%2FIMLxdFd1%2B71J6fFPJQYkAGCV7Gnfb%2BkZ3Cmls8DS%2F1UTNkKLNuEXLNxz7IjzEQlLsdKyb8EQMOynF%2FonwLJAp2EALjiSFaivC8o5OsAB4vFSa%2FLgtqjS5oOzI23xeUlKGD8GcoQcVC7c1%2BtPhOVUY%2FNBVOtZjClQq0dTrQ%3D%3D&sign_type=RSA2&timestamp=2018-04-19+17%3A19%3A07&version=1.0"
+        let appScheme = "TuSouSou"
+        let orderString = "alipay_sdk=alipay-sdk-java-dynamicVersionNo&app_id=2016091801915805&biz_content=%7B%22body%22%3A%22%E5%85%94%E9%A3%95%E9%A3%95%22%2C%22out_trade_no%22%3A%2285624788eed%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E9%9B%AA%E7%A2%A7%22%2C%22timeout_express%22%3A%2215d%22%2C%22total_amount%22%3A%220.01%22%7D&charset=utf-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fm5uy3m.natappfree.cc%2FAliPay%2Fnotify.do&sign=oZJOLr%2F%2FKfyTJfS6wfQ%2Fnc0h9sbGFu3OiUW9yq0AHaJkPKTJTg%2FB54WUhmV5uIo5dlHKXEh9N4g0E3xTjgy5vwteVcsmVCqyDAg9TjdPFjgLDsSPI6zJX1xvplnJaDjFcBK%2BAvGkdcvpfgVyIX8zpDj1gCtbrvHxpaEGStb643Vs2pY%2FIMLxdFd1%2B71J6fFPJQYkAGCV7Gnfb%2BkZ3Cmls8DS%2F1UTNkKLNuEXLNxz7IjzEQlLsdKyb8EQMOynF%2FonwLJAp2EALjiSFaivC8o5OsAB4vFSa%2FLgtqjS5oOzI23xeUlKGD8GcoQcVC7c1%2BtPhOVUY%2FNBVOtZjClQq0dTrQ%3D%3D&sign_type=RSA2&timestamp=2018-04-19+17%3A19%3A07&version=1.0"
                 //"\(orderInfoEncoded!)&sign=\(signedSring!)"
             
             AlipaySDK.defaultService().payOrder(orderString, fromScheme: appScheme) { (resultDic) -> () in
@@ -498,7 +748,38 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                     print("\(key) : \(value)")
                 }
                 }
+    }
+    func dikoujisuan(string:String) {
+        dikoudejine = String(format:"%.2f", Float(string)! * Float(sousouzhuanhualv)!)
+        JJE.text = dikoudejine
+        jisuanfangfa()
+    }
+    func jisuanfangfa() {
+        let pei:Float = Float(peisongfei)!
+        var xiao:Float = 0
+        var zhi:Float = Float(zhinazhi)!
+        let dikou:Float = Float(dikoudejine)!
+        if tipType == "2" {
+            if xiaofeiTF.text?.count != 0 {
+                xiao = Float(xiaofeiTF.text!)!
+            }
+        }else if tipType == "1" {
+            if xiaofeiTF.text?.count != 0 {
+                xiao = Float(xiaofeiTF.text!)! * Float(sousouzhuanhualv)!
+            }
         }
+        if uiswitch0.isOn == false {
+            zhi = 0
+        }
+        self.HeJijine.text = String(format: "%.2f", pei + zhi + xiao - dikou)
+    }
+    func isPurnFloat(string: String) -> Bool {
+        
+        let scan: Scanner = Scanner(string: string)
+        
+        var val:Float = 0
+        
+        return scan.scanFloat(&val) && scan.isAtEnd
     }
     //MARK：提示框
     func showConfirm(title: String, message: String, in viewController: UIViewController,confirme:((UIAlertAction)->Void)?,
@@ -509,6 +790,33 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: confirme))
         alert.addAction(UIAlertAction(title: "确定", style: .default, handler: confirm))
         viewController.present(alert, animated: true)
+    }
+    func preciseDecimal(x : String, p : Int) -> String {
+        //        为了安全要判空
+        if (Double(x) != nil) {
+            //         四舍五入
+            let decimalNumberHandle : NSDecimalNumberHandler = NSDecimalNumberHandler(roundingMode: NSDecimalNumber.RoundingMode(rawValue: 0)!, scale: Int16(p), raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: false)
+            let decimaleNumber : NSDecimalNumber = NSDecimalNumber(value: Double(x)!)
+            let resultNumber : NSDecimalNumber = decimaleNumber.rounding(accordingToBehavior: decimalNumberHandle)
+            //          生成需要精确的小数点格式，
+            //          比如精确到小数点第3位，格式为“0.000”；精确到小数点第4位，格式为“0.0000”；
+            //          也就是说精确到第几位，小数点后面就有几个“0”
+            var formatterString : String = "0."
+            let count : Int = (p < 0 ? 0 : p)
+            for _ in 0 ..< count {
+                formatterString.append("0")
+            }
+            let formatter : NumberFormatter = NumberFormatter()
+            //      设置生成好的格式，NSNumberFormatter 对象会按精确度自动四舍五入
+            formatter.positiveFormat = formatterString
+            //          然后把这个number 对象格式化成我们需要的格式，
+            //          最后以string 类型返回结果。
+            return formatter.string(from: resultNumber)!
+        }
+        return "0"
+    }
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
     }
 }
 //MARK：扩展UIColor
@@ -551,4 +859,5 @@ extension UIColor{
         //根据颜色值创建UIColor
         self.init(red: CGFloat(r)/255.0, green: CGFloat(g)/255.0, blue: CGFloat(b)/255.0, alpha: 1.0)
     }
+    
 }

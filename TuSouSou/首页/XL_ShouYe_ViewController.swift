@@ -29,6 +29,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 self.xiaName.text = diBody["name"]
                 self.xiaPhone.text = diBody["phone"]
                 self.xiaDZOutlet.text = "\(diBody["dizhi"]!)\(diBody["xiangzhi"]!)"
+                self.xiaLon = diBody["lon"]!
+                self.xiaLat = diBody["lat"]!
             }
             self.navigationController?.pushViewController(tianjiadizhi, animated: true)
             
@@ -48,6 +50,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 self.shangName.text = diBody["name"]
                 self.shangPhone.text = diBody["phone"]
                 self.shDZOutlet.text = "\(diBody["dizhi"]!)\(diBody["xiangzhi"]!)"
+                self.shangLon = diBody["lon"]!
+                self.shangLat = diBody["lat"]!
             }
             self.navigationController?.pushViewController(tianjiadizhi, animated: true)
         }
@@ -68,6 +72,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 self.shangName.text = xuanzhiBody["name"]
                 self.shangPhone.text = xuanzhiBody["phone"]
                 self.shDZOutlet.text = xuanzhiBody["dizhi"]
+                self.shangLat = xuanzhiBody["lat"]!
+                self.shangLon = xuanzhiBody["lon"]!
             }
             self.navigationController?.pushViewController(dizhibu, animated: true)
         }
@@ -84,6 +90,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 self.xiaName.text = xuanzhiBody["name"]
                 self.xiaPhone.text = xuanzhiBody["phone"]
                 self.xiaDZOutlet.text = xuanzhiBody["dizhi"]
+                self.xiaLat = xuanzhiBody["lat"]!
+                self.xiaLon = xuanzhiBody["lon"]!
             }
             self.navigationController?.pushViewController(dizhibu, animated: true)
         }
@@ -104,6 +112,12 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     @IBOutlet weak var xiaName: UILabel!
     @IBOutlet weak var xiaDZOutlet: UILabel!
      @IBOutlet weak var xiatuOutlet: UIImageView!
+    var shangLat:String = ""
+    var shangLon = ""
+    var xiaLat:String = ""
+    var xiaLon = ""
+    
+    
     //托物类型
     @IBOutlet weak var yin: UIImageView!
     @IBOutlet weak var hua: UIImageView!
@@ -204,12 +218,60 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     }
     
     @IBAction func xiadanButton(_ sender: Any) {
-        //MARK:测试
-//        let xiadan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
-//        self.navigationController?.pushViewController(xiadan!, animated: true)
+        //jiekou
+        var shang = shangPhone.text!
+        var xia = xiaPhone.text!
+        if isJiabaliu(string: shangPhone.text!){
+            shang = shangPhone.text!.substring(fromIndex: 4)
+        }
+        if isJiabaliu(string: xiaPhone.text!) {
+            xia = xiaPhone.text!.substring(fromIndex: 4)
+        }
         
-        let xiadan: XL_KuaiDixiadan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "kuaidixiadan") as? XL_KuaiDixiadan_ViewController
-        self.navigationController?.pushViewController(xiadan!, animated: true)
+        if !shang.isPhoneNumber() || !xia.isPhoneNumber() {
+            XL_waringBox().warningBoxModeText(message: "请完善订单信息", view: self.view)
+        }else{
+            xiadanjiekou()
+        }
+        
+    }
+    func isJiabaliu(string:String) -> Bool {
+        if string.contains("+ 86") {
+            return true
+        }
+        return false
+    }
+    /**orderType: 1.寄件订单2. 取件订单 3.商城
+     commoditiesType   1. 食品饮料2.鲜花 3.蛋糕,4文件，5水果生鲜，6其他
+     */
+    func xiadanjiekou(){
+        let method = "/order/placeAnOrder"
+        let userId = userDefaults.value(forKey: "userId")
+        let dic:[String:Any] = ["userId":userId!,"longitudeJi":shangLon,"latitudeJi":shangLat,"longitudeShou":xiaLon,"latitudeShou":xiaLat,"orderType":daohang!,"addressLocation":xiaDZOutlet.text!,"addressName":xiaName.text!,"addressPhone":xiaPhone.text!,"senderLocation":shDZOutlet.text!,"senderName":shangName.text!,"senderPhone":shangPhone.text!,"commoditiesType":leixingInt!,"weight":shuliang.text!]
+        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                XL_waringBox().warningBoxModeText(message: "下单成功", view: self.view)
+                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                let zhinazhisong = dic["directSendMoney"] as! Float
+                let dingdanjine = dic["orderCount"] as! Float
+//  dic["orderCode"] as! String // 订单号？？
+                let dingdanID = dic["orderId"] as! String
+                let xiadan: XL_KuaiDixiadan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "kuaidixiadan") as? XL_KuaiDixiadan_ViewController
+                xiadan?.dingdanID = dingdanID
+                xiadan?.dingdanjine = String(format:" %.2f", dingdanjine)
+                xiadan?.zhinazhisong = String(format:" %.2f", zhinazhisong)
+                xiadan?.orderType = self.daohang
+                self.navigationController?.pushViewController(xiadan!, animated: true)
+                
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
     }
     //MARK:下边整体界面 除了商城
     func xiajiemian() {
@@ -583,7 +645,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             return true
         }
         
-        let textLength = text.characters.count + string.characters.count - range.length
+        let textLength = text.count + string.count - range.length
         print(textField.text as Any)
         return textLength <= 3
     }
@@ -666,7 +728,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     func zidongdenglu(loginMethod: String,loginName:String,passWord:String,authCode:String, openID: String) {
         let method = "/user/logined"
         let dic = ["loginPlatform":"1","loginMethod":loginMethod,"loginName":loginName,"passWord":passWord,"authCode":authCode,"openID":openID]
-        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
+//        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -697,12 +759,12 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         let method = "/user/Home"
         let userId:String = userDefaults.value(forKey: "userId") as! String
         let dic:[String:Any] = ["userId":userId,"cityName":city]
-        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
+//        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
+//                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 let jjj:String = String(format: "%f", dic["percentage"] as! Double)
                 let jiage:String = self.preciseDecimal(x: jjj, p: 4)

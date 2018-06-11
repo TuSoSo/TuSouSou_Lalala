@@ -10,6 +10,9 @@ import UIKit
 import ContactsUI
 
 class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNContactPickerDelegate,UITextFieldDelegate{
+    var lon = ""
+    var lat = ""
+    var type = ""
     
     var Shei:String?
     var locationManager = CLLocationManager()
@@ -25,12 +28,8 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
         super.viewDidLoad()
         biao()
         loadLocation()
-        textDelegate()
-    }
-    func textDelegate() {
-        XiangZhi.delegate = self
-        Name.delegate = self
-        Pone.delegate = self
+        Pone.keyboardType = .numberPad
+//        shiFouButton.isSelected = true
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
@@ -45,14 +44,6 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
         }
         return true
     }
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let str = "\(textField.text!)\(string)"
-        if str.count > 11 {
-            return false
-        }
-        return true
-        
-    }
     @IBAction func ShiFouAnNiu(_ sender: Any) {
         if shiFouButton.isSelected == true {
             shiFouButton.isSelected = false
@@ -63,31 +54,53 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
     
     @IBAction func baiDudiTu(_ sender: Any) {
         let baiduditu: XL_baiduditu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "baiduditu") as! XL_baiduditu_ViewController
-        baiduditu.baidudizhi = {(baidudizhi: String) in
-            self.dingweiDZ.text = baidudizhi
+        baiduditu.baidudizhi = {(baidudizhi: [String:String]) in
+            self.dingweiDZ.text = baidudizhi["dizhi"]
+            self.lon = baidudizhi["lon"]!
+            self.lat = baidudizhi["lat"]!
         }
         self.navigationController?.pushViewController(baiduditu, animated: true)
     }
     
     @IBAction func queding(_ sender: Any) {
-        if Name.text?.count == 0 || Pone.text?.count == 0 || dingweiDZ.text?.count == 0 {
+        if Name.text?.count == 0 || !(Pone.text?.isPhoneNumber())! || dingweiDZ.text?.count == 0 {
             XL_waringBox().warningBoxModeText(message: "请完善信息！", view: self.view)
         }else{
             //点击列表给city赋值
-            let dic = ["name": Name.text,"phone": Pone.text,"dizhi": dingweiDZ.text,"xiangzhi": XiangZhi.text]
+            let dic = ["name": Name.text!,"phone": Pone.text!,"dizhi": dingweiDZ.text!,"xiangzhi": XiangZhi.text!,"lat": lat,"lon": lon]
             
             if let block = self.dixiang {
-                block(dic as! [String: String])
+                block(dic)
             }
             //判断是否调用保存接口
-            if shiFouButton.isSelected == true{
+            if shiFouButton.isSelected == false{
                 //调接口
+                diaojiekou()
             }else{
                 self.navigationController?.popViewController(animated: true)
             }
         }
     }
     
+    func diaojiekou() {
+        let method = "/address/addressManager"
+        let userId = userDefaults.value(forKey: "userId")
+        let dic:[String:Any] = ["userId":userId!,"location":dingweiDZ.text!,"address":XiangZhi.text!,"userName":Name.text!,"type":type,"phone":Pone.text!,"longitude":lon,"latitude":lat]
+        XL_waringBox().warningBoxModeIndeterminate(message: "保存信息...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                XL_waringBox().warningBoxModeText(message: "保存成功", view: self.view)
+                self.navigationController?.popViewController(animated: true)
+                
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+    }
     @IBAction func DianHuanBen(_ sender: Any) {
         // 1.创建联系人选择的控制器
         let cpvc = CNContactPickerViewController()
@@ -121,10 +134,13 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
         switch Shei {
         case "jijian"?:
             title(title: "寄件")
+            type = "2"
         case "shoujian"?:
             title(title: "收件")
+            type = "1"
         case "qujian"?:
             title(title: "取件")
+            type = "3"
         default:
             break
         }
@@ -163,6 +179,8 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //取得locations数组的最后一个
         currLocation = locations.last!
+        lon = (currLocation?.coordinate.longitude.description)!
+        lat = (currLocation?.coordinate.latitude.description)!
         LonLatToCity()
         //停止定位
         locationManager.stopUpdatingLocation()

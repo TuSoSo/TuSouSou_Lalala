@@ -74,6 +74,7 @@
 		0F701C5020871FDF000F7F67 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F701C4820871FDF000F7F67 /* AlipaySDK.framework */; };
 		0F7B3D8B20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B3D8A20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift */; };
 		0F7B3D8D20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B3D8C20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift */; };
+		0F7B3D8F20CA1462006EB908 /* PayAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B3D8E20CA1461006EB908 /* PayAlert.swift */; };
 		0F8025FB20C0E2BF00865A21 /* XL_WDxiaoxi_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8025FA20C0E2BF00865A21 /* XL_WDxiaoxi_ViewController.swift */; };
 		0F8836D82088880F000C6CA6 /* XL_weixinObjc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8836D72088880F000C6CA6 /* XL_weixinObjc.swift */; };
 		0F8836DA208DF001000C6CA6 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F8836D9208DF001000C6CA6 /* Alamofire.framework */; };
@@ -271,6 +272,7 @@
 		0F701C4820871FDF000F7F67 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		0F7B3D8A20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DengLuWanshan_ViewController.swift; sourceTree = "<group>"; };
 		0F7B3D8C20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_TiaoDeng_ViewController.swift; sourceTree = "<group>"; };
+		0F7B3D8E20CA1461006EB908 /* PayAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayAlert.swift; sourceTree = "<group>"; };
 		0F8025FA20C0E2BF00865A21 /* XL_WDxiaoxi_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDxiaoxi_ViewController.swift; sourceTree = "<group>"; };
 		0F8836D72088880F000C6CA6 /* XL_weixinObjc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_weixinObjc.swift; sourceTree = "<group>"; };
 		0F8836D9208DF001000C6CA6 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -397,6 +399,7 @@
 			children = (
 				0F1A804120BC266200CEC8A4 /* XL_GRziliaoViewController.swift */,
 				0F04B4E620C123C9004C4FBA /* XL_AnQuanSZ_ViewController.swift */,
+				0F7B3D8E20CA1461006EB908 /* PayAlert.swift */,
 				0FEBB58520C4EB0800FBEC1D /* XL_WHMM_ViewController.swift */,
 				0F04B4E820C124A2004C4FBA /* XL_ShimingRZ_ViewController.swift */,
 				0F04B4EA20C12503004C4FBA /* XL_QiyeRZ_ViewController.swift */,
@@ -1111,6 +1114,7 @@
 				0F7B3D8D20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift in Sources */,
 				0F701C4D20871FDF000F7F67 /* openssl_wrapper.m in Sources */,
 				0F8836D82088880F000C6CA6 /* XL_weixinObjc.swift in Sources */,
+				0F7B3D8F20CA1462006EB908 /* PayAlert.swift in Sources */,
 				0F03E34F205FC190007A42D0 /* XL_dizhi_ViewController.swift in Sources */,
 				0F04B4EB20C12503004C4FBA /* XL_QiyeRZ_ViewController.swift in Sources */,
 				0F03E353205FC390007A42D0 /* XL_baiduditu_ViewController.swift in Sources */,

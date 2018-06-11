@@ -23,6 +23,8 @@ let QianWaiWangIP = "39.107.255.187:8080"
 //let QianWaiWangIP = "192.168.1.176:8085"
 //小调
 //let QianWaiWangIP = "192.168.1.182:8089"
+//小展
+//let QianWaiWangIP = "192.168.1.186:8080"
 let url = "\(Scheme)\(QianWaiWangIP)\(AppName)\(apath)"
 let Height = UIScreen.main.bounds.height
 let Width = UIScreen.main.bounds.width
@@ -62,7 +64,9 @@ class XL_QuanJu: NSObject {
         return JSONString! as String
         
     }
-   
+   /**
+     普通接口
+     */
     func PuTongWangluo(methodName: String, methodType: HTTPMethod, rucan: Dictionary<String, Any>, success: @escaping(_ result: Any) -> (), failed: @escaping(_ error: Error) ->()) {
         let urlString = "\(url)\(methodName)"
         let JsonString = self.getJSONStringFromDictionary(dictionary: rucan as NSDictionary)
@@ -77,6 +81,9 @@ class XL_QuanJu: NSObject {
             success(result)
         }
     }
+    /**
+     上传图片接口
+     */
     func UploadWangluo(imageArray: Array<Any>, NameArray: Array<Any>, methodName: String, rucan: Dictionary<String, Any>, success: @escaping(_ reselt: Any)->(),failed: @escaping(_ error: Error)->()) {
         let urlString = "\(url)\(methodName)"
         var DataArr: Array<Data>! = []

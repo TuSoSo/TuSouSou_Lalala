@@ -70,6 +70,18 @@
     [self endRefreshingWithNoMoreData];
 }
 
+- (void)endRefreshingWithMoreData
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.state = MJRefreshStateIdle;
+    });
+}
+
+- (void)noticeMoreData
+{
+    [self endRefreshingWithMoreData];
+}
+
 - (void)resetNoMoreData
 {
     dispatch_async(dispatch_get_main_queue(), ^{

@@ -26,6 +26,8 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
             self.title = "重置登录密码"
         }else{
             self.title = "重置支付密码"
+            mima.placeholder = "请输入支付密码"
+            remima.placeholder = "再次输入支付密码"
         }
         
         zhanghao.delegate = self
@@ -39,6 +41,11 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
         let text = textField.text!
         
         let len = text.count + string.count - range.length
+        if rukou == "1" {
+            if textField == mima || textField == remima{
+                return len <= 6
+            }
+        }
         if textField == yanzhengma {
             return len <= 6
         }else if textField == zhanghao {
@@ -87,8 +94,38 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
     
     @IBAction func queding(_ sender: Any) {
         //重置密码接口
-        if (zhanghao.text?.isPhoneNumber())! && mima.text == remima.text && (yanzhengma.text?.count)! > 0 {
-            
+        var isTrue = true
+        
+        if rukou == "1" {
+            if mima.text?.count != 6{
+               
+                isTrue = false
+            }
+        }
+        if (zhanghao.text?.isPhoneNumber())! && mima.text == remima.text && (yanzhengma.text?.count)! > 0 && isTrue{
+            let method = "/user/verifyPayPassword"
+            let userId = userDefaults.value(forKey: "userId")
+            let dic:[String:Any] = ["userId":userId!,"payPassword":"password"]
+            XL_waringBox().warningBoxModeIndeterminate(message: "密码验证中...", view: self.view)
+            XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+                print(res)
+                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                if (res as! [String: Any])["code"] as! String == "0000" {
+                   
+                }else{
+                    XL_waringBox().warningBoxModeText(message: "验证失败", view: self.view)
+                }
+            }) { (error) in
+                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+                print(error)
+            }
+        }else{
+            if isTrue{
+                 XL_waringBox().warningBoxModeIndeterminate(message: "请填写完整信息", view: self.view)
+            }else{
+                 XL_waringBox().warningBoxModeIndeterminate(message: "支付密码为 6位", view: self.view)
+            }
         }
     }
     override func didReceiveMemoryWarning() {

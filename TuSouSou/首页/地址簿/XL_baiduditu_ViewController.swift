@@ -14,8 +14,9 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var dituView: UIView!
     @IBOutlet weak var tableView: UITableView!
-    
-    typealias baidudizhi = (String) -> ()
+    var lon = ""
+    var lat = ""
+    typealias baidudizhi = ([String:String]) -> ()
     var baidudizhi: baidudizhi?
     
     //地图视图
@@ -182,7 +183,7 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
         poiLisrArray.removeAll()
         let array: Array = result.poiList
         for i in 0..<array.count {
-            poiLisrArray.append([(array[i] as AnyObject).name, (array[i] as AnyObject).address])
+            poiLisrArray.append([(array[i] as AnyObject).name, (array[i] as AnyObject).address,String(format: "%f", (array[i] as AnyObject).pt.longitude),String(format: "%f", (array[i] as AnyObject).pt.latitude)])
         }
         print(poiLisrArray)
         //tableview 滑动到顶部
@@ -203,8 +204,7 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
             for i in 0..<poiResult.poiInfoList.count{
                 var poi: BMKPoiInfo!
                 poi = poiResult.poiInfoList[i] as! BMKPoiInfo
-                print("\(poi.name)\n\(poi.address)")
-                poiLisrArray.append([poi.address,poi.name])
+                poiLisrArray.append([poi.address,poi.name,String(format: "%f", poi.pt.longitude),String(format: "%f", poi.pt.longitude)])
             }
             tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
             tableviewtop.constant = (-self.view.frame.height/2 + 94.0)
@@ -245,9 +245,12 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let str = "\(poiLisrArray[indexPath.row][0])_\(poiLisrArray[indexPath.row][1])"
+        lon = poiLisrArray[indexPath.row][2]
+        lat = poiLisrArray[indexPath.row][3]
+        let dic = ["dizhi":str,"lon":lon,"lat":lat]
         
         if let block = self.baidudizhi {
-            block(str)
+            block(dic)
         }
         self.navigationController?.popViewController(animated: true)
         
