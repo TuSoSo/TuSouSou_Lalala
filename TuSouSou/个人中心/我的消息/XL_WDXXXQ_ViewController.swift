@@ -10,21 +10,41 @@ import UIKit
 
 class XL_WDXXXQ_ViewController: UIViewController {
 
+    var mssId:String?
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var neirongLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.title = "通知详情"
         // Do any additional setup after loading the view.
+        xiaoxixiangqingjiekou()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func xiaoxixiangqingjiekou() {
+        let method = "/user/messageDetail"
+//        let userId = userDefaults.value(forKey: "userId")
+        let dic:[String:Any] = ["mssId":mssId!]
+        XL_waringBox().warningBoxModeIndeterminate(message: "加载中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                //                XL_waringBox().warningBoxModeText(message: "评价成功", view: self.view)
+                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                
+                self.fuzhi(dic:data)
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
     }
-    
+    func fuzhi(dic:[String:Any]) {
+        titleLabel.text = dic["title"] as? String
+        neirongLabel.text = dic["context"] as? String
+        timeLabel.text = dic["pushTime"] as? String
+    }
 
     /*
     // MARK: - Navigation

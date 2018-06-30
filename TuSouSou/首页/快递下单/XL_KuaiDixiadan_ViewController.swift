@@ -29,7 +29,8 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     var zhinazhi = "0"
     
     var dingdanID:String?
-
+    var dingdanhao :String?
+    
     var sousoubishuliang = "0"
     var dangqianyue = "0"
     var sousouzhuanhualv = "1"
@@ -184,9 +185,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         mingtableView.isHidden = true
     }
     func gundongDonghua(string: String) {
-        sousoubiView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 100, height: 32), title: string,color:UIColor.black, Font: 14)
+        sousoubiView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 100, height: 32), title: string,color:UIColor.black, Font: 14, xxx: true)
         sousoubiView?.tag = 99998
-        yueView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 140, height: 32), title: string,color:UIColor.black, Font: 14)
+        yueView = XL_PaoMaView(frame: CGRect(x: 16, y: 8, width: 140, height: 32), title: string,color:UIColor.black, Font: 14, xxx: true)
         yueView?.tag = 99999
     }
     func tableviewDelegate() {
@@ -530,11 +531,21 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
             if newString.count != 0 {
                 zhuan = newString
             }
+            if newString.contains(".") {
+                let arr = newString.components(separatedBy: ".")
+                if  arr[1].count > 0 {
+                    if arr[1].count > 4 {
+                        return false
+                    }
+                }
+            }
             if Float(zhuan)! > Float(sousoubishuliang)! {
                 showConfirm(title: "温馨提示", message: "yoyo~ 您没有足够飕飕币哟~", in: self, confirme: { (s) in
-                    self.souBzhiF.text = ""
+                    self.souBzhiF.text = "0"
+                    self.dikoujisuan(string: self.souBzhiF.text!)
                 }) { (w) in
                     self.souBzhiF.text = self.sousoubishuliang
+                    self.dikoujisuan(string: self.souBzhiF.text!)
                 }
             }
             self.dikoujisuan(string:zhuan)
@@ -543,16 +554,35 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         if textField == xiaofeiTF {
             if uiswitch1.isOn == false{
                 let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-                let expression = "^[0-9]*((\\\\.|,)[0-9]{0,2})?$"
-                let regex = try! NSRegularExpression(pattern: expression, options: NSRegularExpression.Options.allowCommentsAndWhitespace)
-                let numberOfMatches = regex.numberOfMatches(in: newString, options:NSRegularExpression.MatchingOptions.reportProgress, range: NSMakeRange(0, (newString as NSString).length))
-                return numberOfMatches != 0
+                if newString.contains(".") {
+                    let arr = newString.components(separatedBy: ".")
+                    if  arr[1].count > 0 {
+                        if arr[1].count > 2 {
+                            return false
+                        }
+                    }
+                }
             }else{
                 let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-                let expression = "^[0-9]*((\\\\|,)[0-9]{0,4})?$"
-                let regex = try! NSRegularExpression(pattern: expression, options: NSRegularExpression.Options.allowCommentsAndWhitespace)
-                let numberOfMatches = regex.numberOfMatches(in: newString, options:NSRegularExpression.MatchingOptions.reportProgress, range: NSMakeRange(0, (newString as NSString).length))
-                return numberOfMatches != 0
+                if newString.contains(".") {
+                    let arr = newString.components(separatedBy: ".")
+                    if  arr[1].count > 0 {
+                        if arr[1].count > 4 {
+                            return false
+                        }
+                    }
+                }
+                var zhuan = "0"
+                if newString.count != 0 {
+                    zhuan = newString
+                }
+                if Float(zhuan)! > Float(sousoubishuliang)! {
+                    showConfirm(title: "温馨提示", message: "yoyo~ 您没有足够飕飕币哟~", in: self, confirme: { (s) in
+                        self.xiaofeiTF.text = "0"
+                    }) { (w) in
+                        self.xiaofeiTF.text = self.sousoubishuliang
+                    }
+                }
             }
         }
         return true
@@ -671,11 +701,72 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         zhifuButton1.isSelected = false
     }
     @IBAction func querenzhifu(_ sender: Any) {
-        if zhifuButton0.isSelected == true {
-            self.zhifubaoZhiFu()
-        }else if zhifuButton1.isSelected == true {
-            self.WXZhiFu()
+
+        if paymentMethod.count == 0 {
+            XL_waringBox().warningBoxModeText(message: "请选择支付方式", view: self.view)
+        }else{
+            if zhifuButton0.isSelected == true {
+                 zhifu_xiao()
+                 zhifubaoZhiFu()
+            }else if zhifuButton1.isSelected == true {
+                WXZhiFu()
+                zhifu_xiao()
+                
+            }else if zhifuButton2.isSelected == true{
+                //判断支付密码，没有的话 跳  设置支付密码按钮，有的话 判断是否是免密  如果没有免密，弹出支付密码界面，并调支付密码接口，成功后调取 支付接口
+                if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
+                    // 跳 设置支付密码
+                    self.tiaoye(rukou: "1")
+                }else{
+                    if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
+                        // 不免密 跳验证密码
+                        if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
+                            //输入支付密码验证后再跳页
+                            let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: HeJijine.text!)
+                            payAlert.show(view: self.view)
+                            payAlert.completeBlock = ({(password:String) -> Void in
+                                //调验证支付吗接口
+                                self.yanzhengzhifumima(password: password)
+                                print("输入的密码是:" + password)
+                            })
+                        }
+                    }else{
+                        //直接接口
+                        zhifu_xiao()
+                        
+                    }
+                }
+                
+               
+            }
         }
+        
+    }
+    func yanzhengzhifumima(password:String) {
+        let method = "/user/verifyPayPassword"
+        let userId = userDefaults.value(forKey: "userId")
+        let dic:[String:Any] = ["userId":userId!,"payPassword":password]
+        XL_waringBox().warningBoxModeIndeterminate(message: "密码验证中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+//                self.tiaoye(rukou: "1")
+                self.zhifuhuidiao()
+                self.zhifu_xiao()
+            }else{
+                XL_waringBox().warningBoxModeText(message: "验证失败", view: self.view)
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+    }
+    func tiaoye(rukou:String) {
+        let AnQuanSZ: XL_WHMM_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "whmm") as? XL_WHMM_ViewController
+        AnQuanSZ?.rukou = rukou
+        self.navigationController?.pushViewController(AnQuanSZ!, animated: true)
     }
     func zhifu_xiao (){
         var ssbSum = ""
@@ -690,16 +781,16 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
              XL_waringBox().warningBoxModeText(message: "请选择支付方式", view: self.view)
         }else{
             let method = "/order/commitOrder"
-            let dic:[String:Any] = ["orderId":dingdanID!,"sendTime":sendTime,"isToday":isToday,"isDirectSend":isDirectSend,"tipType":tipType,"tip":xiaofeiTF.text!,"remarks":beizhuTF.text!,"paymentMethod":paymentMethod,"postAmount":peisongfei,"amount":"","ssbSum":ssbSum]
+            let dic:[String:Any] = ["orderId":dingdanID!,"sendTime":sendTime,"isToday":isToday,"isDirectSend":isDirectSend,"tipType":tipType,"tip":xiaofeiTF.text!,"remarks":beizhuTF.text!,"paymentMethod":paymentMethod,"postAmount":peisongfei,"amount":HeJijine.text!,"ssbSum":ssbSum]
             //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
             XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
                 print(res)
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                 if (res as! [String: Any])["code"] as! String == "0000" {
-                    //                XL_waringBox().warningBoxModeText(message: "下单成功", view: self.view)
-                    //                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                    
-                    //调用三方支付
+                    userDefaults.set(self.dingdanhao!, forKey: "dingdanhao")
+                    if self.zhifuButton2.isSelected == true{
+                        self.zhifuhuidiao()
+                    }
                 }
             }) { (error) in
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -707,52 +798,100 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                 print(error)
             }
         }
-        
     }
-   
+    func zhifuhuidiao() {
+        let method = "/order/payAfterHandler"
+        let dicc:[String:Any] = ["orderCode":dingdanhao!]
+        //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+            print(res)
+            userDefaults.set("", forKey: "dingdanhao")
+        self.navigationController?.popToRootViewController(animated: true)
+        }) { (error) in
+            
+            print(error)
+        }
+    }
     func WXZhiFu() {
-        let dic = [ "appid": "wx678a8d37c4aec635",
-                    "noncestr": "dQy2zTPRg48jQPul",
-                    "package": "Sign=WXPay",
-                    "partnerid": "1392226802",
-                    "prepayid": "wx19153207255703ecd268bfba1625016896",
-                    "sign": "D1613083301F75B33041CEB0C32A172D",
-                    "timestamp": "1524123128"]
-        let orderBody = XL_weixinObjc()
-        orderBody.appid = dic["appid"]
-        orderBody.noncestr = dic["noncestr"]
-        orderBody.package = dic["package"]
-        orderBody.partnerid = dic["partnerid"]
-        orderBody.prepayid = dic["prepayid"]
-        orderBody.sign = dic["sign"]
-        orderBody.timestamp = dic["timestamp"]
-        let req = PayReq()
-        req.partnerId = orderBody.partnerid
-        req.prepayId = orderBody.prepayid
-        req.nonceStr = orderBody.noncestr
-        req.timeStamp = UInt32(orderBody.timestamp!)!
-        req.package = orderBody.package
-        req.sign = orderBody.sign
+        let method = "/weipay/App"
+        let totalAmount = Float(HeJijine.text!)! * 100
         
-        
-        WXApi.send(req)
+        let dicc:[String:Any] = ["outTradeNo":dingdanhao!,"totalAmount":"1"/*totalAmount*/]
+        //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
+        XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+             print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            let data :[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+           
+            let orderBody = XL_weixinObjc()
+            orderBody.appid = data["appid"] as? String
+            orderBody.noncestr = data["noncestr"] as? String
+            orderBody.package = data["package"] as? String
+            orderBody.partnerid = data["partnerid"] as? String
+            orderBody.prepayid = data["prepayid"] as? String
+            orderBody.sign = data["sign"] as? String
+            orderBody.timestamp = data["timestamp"] as? String
+            let req = PayReq()
+            req.partnerId = orderBody.partnerid
+            req.prepayId = orderBody.prepayid
+            req.nonceStr = orderBody.noncestr
+            req.timeStamp = UInt32(orderBody.timestamp!)!
+            req.package = orderBody.package
+            req.sign = orderBody.sign
+            WXApi.send(req)
+            
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+
         
     }
     func zhifubaoZhiFu() {
-        let appScheme = "TuSouSou"
-        let orderString = "alipay_sdk=alipay-sdk-java-dynamicVersionNo&app_id=2016091801915805&biz_content=%7B%22body%22%3A%22%E5%85%94%E9%A3%95%E9%A3%95%22%2C%22out_trade_no%22%3A%2285624788eed%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E9%9B%AA%E7%A2%A7%22%2C%22timeout_express%22%3A%2215d%22%2C%22total_amount%22%3A%220.01%22%7D&charset=utf-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fm5uy3m.natappfree.cc%2FAliPay%2Fnotify.do&sign=oZJOLr%2F%2FKfyTJfS6wfQ%2Fnc0h9sbGFu3OiUW9yq0AHaJkPKTJTg%2FB54WUhmV5uIo5dlHKXEh9N4g0E3xTjgy5vwteVcsmVCqyDAg9TjdPFjgLDsSPI6zJX1xvplnJaDjFcBK%2BAvGkdcvpfgVyIX8zpDj1gCtbrvHxpaEGStb643Vs2pY%2FIMLxdFd1%2B71J6fFPJQYkAGCV7Gnfb%2BkZ3Cmls8DS%2F1UTNkKLNuEXLNxz7IjzEQlLsdKyb8EQMOynF%2FonwLJAp2EALjiSFaivC8o5OsAB4vFSa%2FLgtqjS5oOzI23xeUlKGD8GcoQcVC7c1%2BtPhOVUY%2FNBVOtZjClQq0dTrQ%3D%3D&sign_type=RSA2&timestamp=2018-04-19+17%3A19%3A07&version=1.0"
-                //"\(orderInfoEncoded!)&sign=\(signedSring!)"
+        let method = "/AliPay/App"
+        let totalAmount = Float(HeJijine.text!)!
+        
+        let dicc:[String:Any] = ["outTradeNo":dingdanhao!,"totalAmount":"0.01"/*totalAmount*/]
+        //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
+        XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            let data :[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+            let appScheme = "TuSouSou"
+            let orderString = data["orderString"] as! String
             
             AlipaySDK.defaultService().payOrder(orderString, fromScheme: appScheme) { (resultDic) -> () in
                 for (key,value) in resultDic! {
-                    print("\(key) : \(value)")
+                     print("\(key) : \(value)")
                 }
-                }
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+
     }
     func dikoujisuan(string:String) {
         dikoudejine = String(format:"%.2f", Float(string)! * Float(sousouzhuanhualv)!)
         JJE.text = dikoudejine
-        jisuanfangfa()
+        if uiswitch1.isOn == true {
+            if (Float(xiaofeiTF.text!)! + Float(string)!) > Float(sousoubishuliang)! {
+                showConfirm(title: "温馨提示", message: "yoyo~ 您的飕飕币不够了哟~", in: self, confirme: { (s) in
+                    self.souBzhiF.text = "0"
+                    self.dikoujisuan(string: self.souBzhiF.text!)
+                }) { (w) in
+                    self.souBzhiF.text = "0"
+                    self.dikoujisuan(string: self.souBzhiF.text!)
+                }
+            }else{
+                jisuanfangfa()
+            }
+        }else{
+            jisuanfangfa()
+        }
+        
     }
     func jisuanfangfa() {
         let pei:Float = Float(peisongfei)!
@@ -771,7 +910,21 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         if uiswitch0.isOn == false {
             zhi = 0
         }
-        self.HeJijine.text = String(format: "%.2f", pei + zhi + xiao - dikou)
+        if uiswitch1.isOn == true {
+             self.HeJijine.text = String(format: "%.2f", pei + zhi  - dikou)
+        }else{
+             self.HeJijine.text = String(format: "%.2f", pei + zhi + xiao - dikou)
+        }
+       
+        if  Float(HeJijine.text!)! < 0 {
+            showConfirm(title: "温馨提示", message: "yoyo~ 您的飕飕币使用太多了哟~", in: self, confirme: { (s) in
+                self.souBzhiF.text = "0"
+                self.dikoujisuan(string: self.souBzhiF.text!)
+            }) { (w) in
+                self.souBzhiF.text = "0"
+                self.dikoujisuan(string: self.souBzhiF.text!)
+            }
+        }
     }
     func isPurnFloat(string: String) -> Bool {
         

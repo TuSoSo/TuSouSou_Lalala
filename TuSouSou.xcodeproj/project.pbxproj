@@ -18,6 +18,7 @@
 		0F1197AE2057610A00CA0AFB /* XL_GGXQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1197AD2057610A00CA0AFB /* XL_GGXQViewController.swift */; };
 		0F1A803F20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1A803E20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift */; };
 		0F1A804220BC266200CEC8A4 /* XL_GRziliaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1A804120BC266200CEC8A4 /* XL_GRziliaoViewController.swift */; };
+		0F31945820D0A5E000D091F7 /* XL_SJLB_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F31945720D0A5E000D091F7 /* XL_SJLB_ViewController.swift */; };
 		0F3E0C2720C27623003368C4 /* XL_WDQB_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3E0C2620C27623003368C4 /* XL_WDQB_ViewController.swift */; };
 		0F3E0C2920C27633003368C4 /* XL_WDdianou_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3E0C2820C27633003368C4 /* XL_WDdianou_ViewController.swift */; };
 		0F3E0C2B20C2764B003368C4 /* XL_WDKF_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3E0C2A20C2764B003368C4 /* XL_WDKF_ViewController.swift */; };
@@ -38,7 +39,6 @@
 		0F4BF69B20C80B1F00EF3341 /* XL_SPGL_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF69A20C80B1F00EF3341 /* XL_SPGL_ViewController.swift */; };
 		0F4BF69D20C80B2E00EF3341 /* XL_SPK_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF69C20C80B2E00EF3341 /* XL_SPK_ViewController.swift */; };
 		0F4BF69F20C80B4400EF3341 /* XL_DDGL_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF69E20C80B4400EF3341 /* XL_DDGL_ViewController.swift */; };
-		0F4BF6A120C80B5500EF3341 /* XL_GLXQ_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF6A020C80B5500EF3341 /* XL_GLXQ_ViewController.swift */; };
 		0F54B4A320566AA1004CFF7F /* XL_chengshiListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54B4A220566AA1004CFF7F /* XL_chengshiListViewController.swift */; };
 		0F5D7CC920513DD500411262 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CC820513DD500411262 /* CoreLocation.framework */; };
 		0F5D7CCB20513DDD00411262 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CCA20513DDD00411262 /* SystemConfiguration.framework */; };
@@ -72,6 +72,8 @@
 		0F701C4E20871FDF000F7F67 /* APRSASigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F701BF820871FDE000F7F67 /* APRSASigner.m */; };
 		0F701C4F20871FDF000F7F67 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F701BFA20871FDE000F7F67 /* libssl.a */; };
 		0F701C5020871FDF000F7F67 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F701C4820871FDF000F7F67 /* AlipaySDK.framework */; };
+		0F77B2E820E07DE100509200 /* XL_SPLX_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F77B2E720E07DE100509200 /* XL_SPLX_ViewController.swift */; };
+		0F77B2EA20E234A500509200 /* XL_XLTJ_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F77B2E920E234A500509200 /* XL_XLTJ_ViewController.swift */; };
 		0F7B3D8B20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B3D8A20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift */; };
 		0F7B3D8D20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B3D8C20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift */; };
 		0F7B3D8F20CA1462006EB908 /* PayAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B3D8E20CA1461006EB908 /* PayAlert.swift */; };
@@ -101,10 +103,22 @@
 		0FE54CE320523627005ADCC0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE54CE220523627005ADCC0 /* QuartzCore.framework */; };
 		0FE54CE52052362E005ADCC0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE54CE42052362E005ADCC0 /* OpenGLES.framework */; };
 		0FE54CE72052363F005ADCC0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE54CE62052363F005ADCC0 /* CoreGraphics.framework */; };
+		0FE9180B20D4EA7D002EB7D1 /* XL_WDDZ_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE9180A20D4EA7D002EB7D1 /* XL_WDDZ_ViewController.swift */; };
 		0FEBB58220C4E89000FBEC1D /* XL_Guanyuwomen_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEBB58120C4E89000FBEC1D /* XL_Guanyuwomen_ViewController.swift */; };
 		0FEBB58420C4EAFA00FBEC1D /* XL_ZMDL_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEBB58320C4EAFA00FBEC1D /* XL_ZMDL_ViewController.swift */; };
 		0FEBB58620C4EB0800FBEC1D /* XL_WHMM_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEBB58520C4EB0800FBEC1D /* XL_WHMM_ViewController.swift */; };
 		0FEBB58820C4EB1900FBEC1D /* XL_GRZC_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEBB58720C4EB1900FBEC1D /* XL_GRZC_ViewController.swift */; };
+		0FFEB75B20E4C291003D5B3F /* AAHighchartsLib.js in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB75120E4C291003D5B3F /* AAHighchartsLib.js */; };
+		0FFEB75C20E4C291003D5B3F /* AAHighchartsMore.js in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB75220E4C291003D5B3F /* AAHighchartsMore.js */; };
+		0FFEB75D20E4C291003D5B3F /* AAOptionsConstructor.js in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB75320E4C291003D5B3F /* AAOptionsConstructor.js */; };
+		0FFEB75E20E4C291003D5B3F /* AAFunnel.js in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB75420E4C291003D5B3F /* AAFunnel.js */; };
+		0FFEB75F20E4C291003D5B3F /* AAChartView.html in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB75520E4C291003D5B3F /* AAChartView.html */; };
+		0FFEB76020E4C291003D5B3F /* AAChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFEB75720E4C291003D5B3F /* AAChartView.swift */; };
+		0FFEB76120E4C291003D5B3F /* AAChartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFEB75820E4C291003D5B3F /* AAChartModel.swift */; };
+		0FFEB76220E4C291003D5B3F /* AASerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFEB75920E4C291003D5B3F /* AASerializable.swift */; };
+		0FFEB76320E4C291003D5B3F /* AASeriesElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFEB75A20E4C291003D5B3F /* AASeriesElement.swift */; };
+		0FFEB76520E659E6003D5B3F /* XL_TX_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFEB76420E659E6003D5B3F /* XL_TX_ViewController.swift */; };
+		0FFEB76720E72010003D5B3F /* XL_QD_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFEB76620E72010003D5B3F /* XL_QD_ViewController.swift */; };
 		AB0B537FD70EC5357A512087 /* Pods_TuSouSou.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */; };
 /* End PBXBuildFile section */
 
@@ -137,6 +151,7 @@
 		0F1197AD2057610A00CA0AFB /* XL_GGXQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GGXQViewController.swift; sourceTree = "<group>"; };
 		0F1A803E20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDdingdanViewController.swift; sourceTree = "<group>"; };
 		0F1A804120BC266200CEC8A4 /* XL_GRziliaoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GRziliaoViewController.swift; sourceTree = "<group>"; };
+		0F31945720D0A5E000D091F7 /* XL_SJLB_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SJLB_ViewController.swift; sourceTree = "<group>"; };
 		0F3E0C2620C27623003368C4 /* XL_WDQB_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDQB_ViewController.swift; sourceTree = "<group>"; };
 		0F3E0C2820C27633003368C4 /* XL_WDdianou_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDdianou_ViewController.swift; sourceTree = "<group>"; };
 		0F3E0C2A20C2764B003368C4 /* XL_WDKF_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDKF_ViewController.swift; sourceTree = "<group>"; };
@@ -157,7 +172,6 @@
 		0F4BF69A20C80B1F00EF3341 /* XL_SPGL_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SPGL_ViewController.swift; sourceTree = "<group>"; };
 		0F4BF69C20C80B2E00EF3341 /* XL_SPK_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SPK_ViewController.swift; sourceTree = "<group>"; };
 		0F4BF69E20C80B4400EF3341 /* XL_DDGL_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DDGL_ViewController.swift; sourceTree = "<group>"; };
-		0F4BF6A020C80B5500EF3341 /* XL_GLXQ_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GLXQ_ViewController.swift; sourceTree = "<group>"; };
 		0F54B4A220566AA1004CFF7F /* XL_chengshiListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_chengshiListViewController.swift; sourceTree = "<group>"; };
 		0F5D7CC820513DD500411262 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0F5D7CCA20513DDD00411262 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -270,6 +284,8 @@
 		0F701C4620871FDF000F7F67 /* idea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = idea.h; sourceTree = "<group>"; };
 		0F701C4720871FDF000F7F67 /* lhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lhash.h; sourceTree = "<group>"; };
 		0F701C4820871FDF000F7F67 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		0F77B2E720E07DE100509200 /* XL_SPLX_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SPLX_ViewController.swift; sourceTree = "<group>"; };
+		0F77B2E920E234A500509200 /* XL_XLTJ_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_XLTJ_ViewController.swift; sourceTree = "<group>"; };
 		0F7B3D8A20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DengLuWanshan_ViewController.swift; sourceTree = "<group>"; };
 		0F7B3D8C20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_TiaoDeng_ViewController.swift; sourceTree = "<group>"; };
 		0F7B3D8E20CA1461006EB908 /* PayAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayAlert.swift; sourceTree = "<group>"; };
@@ -307,10 +323,22 @@
 		0FE54CE220523627005ADCC0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0FE54CE42052362E005ADCC0 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		0FE54CE62052363F005ADCC0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		0FE9180A20D4EA7D002EB7D1 /* XL_WDDZ_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDDZ_ViewController.swift; sourceTree = "<group>"; };
 		0FEBB58120C4E89000FBEC1D /* XL_Guanyuwomen_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_Guanyuwomen_ViewController.swift; sourceTree = "<group>"; };
 		0FEBB58320C4EAFA00FBEC1D /* XL_ZMDL_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_ZMDL_ViewController.swift; sourceTree = "<group>"; };
 		0FEBB58520C4EB0800FBEC1D /* XL_WHMM_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WHMM_ViewController.swift; sourceTree = "<group>"; };
 		0FEBB58720C4EB1900FBEC1D /* XL_GRZC_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GRZC_ViewController.swift; sourceTree = "<group>"; };
+		0FFEB75120E4C291003D5B3F /* AAHighchartsLib.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = AAHighchartsLib.js; sourceTree = "<group>"; };
+		0FFEB75220E4C291003D5B3F /* AAHighchartsMore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = AAHighchartsMore.js; sourceTree = "<group>"; };
+		0FFEB75320E4C291003D5B3F /* AAOptionsConstructor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = AAOptionsConstructor.js; sourceTree = "<group>"; };
+		0FFEB75420E4C291003D5B3F /* AAFunnel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = AAFunnel.js; sourceTree = "<group>"; };
+		0FFEB75520E4C291003D5B3F /* AAChartView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = AAChartView.html; sourceTree = "<group>"; };
+		0FFEB75720E4C291003D5B3F /* AAChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAChartView.swift; sourceTree = "<group>"; };
+		0FFEB75820E4C291003D5B3F /* AAChartModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAChartModel.swift; sourceTree = "<group>"; };
+		0FFEB75920E4C291003D5B3F /* AASerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AASerializable.swift; sourceTree = "<group>"; };
+		0FFEB75A20E4C291003D5B3F /* AASeriesElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AASeriesElement.swift; sourceTree = "<group>"; };
+		0FFEB76420E659E6003D5B3F /* XL_TX_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_TX_ViewController.swift; sourceTree = "<group>"; };
+		0FFEB76620E72010003D5B3F /* XL_QD_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_QD_ViewController.swift; sourceTree = "<group>"; };
 		461B93E68B998FB59970634D /* Pods-TuSouSou.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.release.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.release.xcconfig"; sourceTree = "<group>"; };
 		5C5004F705772966345F46E2 /* Pods-TuSouSou.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.debug.xcconfig"; sourceTree = "<group>"; };
 		FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TuSouSou.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -439,6 +467,7 @@
 			isa = PBXGroup;
 			children = (
 				0F45F4A4204EA29F0043E96F /* XL_ShouYe_ViewController.swift */,
+				0FFEB74D20E37C3E003D5B3F /* 签到 */,
 				0FB777E220A01CF7005901D0 /* 商城 */,
 				0FC9D80F20721B0A002EAB4C /* 快递下单 */,
 				0F03E34D205FC175007A42D0 /* 地址簿 */,
@@ -489,6 +518,7 @@
 			isa = PBXGroup;
 			children = (
 				0F4BF69A20C80B1F00EF3341 /* XL_SPGL_ViewController.swift */,
+				0F77B2E720E07DE100509200 /* XL_SPLX_ViewController.swift */,
 				0F4BF69C20C80B2E00EF3341 /* XL_SPK_ViewController.swift */,
 			);
 			path = "商品管理";
@@ -498,7 +528,7 @@
 			isa = PBXGroup;
 			children = (
 				0F4BF69E20C80B4400EF3341 /* XL_DDGL_ViewController.swift */,
-				0F4BF6A020C80B5500EF3341 /* XL_GLXQ_ViewController.swift */,
+				0F77B2E920E234A500509200 /* XL_XLTJ_ViewController.swift */,
 			);
 			path = "订单管理";
 			sourceTree = "<group>";
@@ -654,6 +684,7 @@
 			isa = PBXGroup;
 			children = (
 				0F3E0C2620C27623003368C4 /* XL_WDQB_ViewController.swift */,
+				0FFEB76420E659E6003D5B3F /* XL_TX_ViewController.swift */,
 				0F3E0C3020C27755003368C4 /* XL_WDzhangdan_ViewController.swift */,
 				0F3E0C3220C27767003368C4 /* XL_kaifapiao_ViewController.swift */,
 			);
@@ -741,6 +772,7 @@
 		0F9875952044E72E00C34111 /* TuSouSou */ = {
 			isa = PBXGroup;
 			children = (
+				0FFEB74E20E4C281003D5B3F /* 折线图 */,
 				0F4BF69320C7675D00EF3341 /* Sound */,
 				0F9723DC20BF9D330064A678 /* WNRatingBar */,
 				0FDBE002205231A6005C03FA /* TuSouSou.entitlements */,
@@ -783,6 +815,7 @@
 			isa = PBXGroup;
 			children = (
 				0FD9EC6820A01D6D009B0AED /* XL_SCsousuoViewController.swift */,
+				0F31945720D0A5E000D091F7 /* XL_SJLB_ViewController.swift */,
 				0FC49C8120A0585300F5561B /* XL_DPliebiaoViewController.swift */,
 				0FC49C7F20A0580B00F5561B /* XL_SPxiadanViewController.swift */,
 			);
@@ -807,6 +840,14 @@
 			path = "快递下单";
 			sourceTree = "<group>";
 		};
+		0FE9180920D4EA60002EB7D1 /* 我的地址 */ = {
+			isa = PBXGroup;
+			children = (
+				0FE9180A20D4EA7D002EB7D1 /* XL_WDDZ_ViewController.swift */,
+			);
+			path = "我的地址";
+			sourceTree = "<group>";
+		};
 		0FF4D94B20B79CC800942383 /* 个人中心 */ = {
 			isa = PBXGroup;
 			children = (
@@ -814,6 +855,7 @@
 				0F9723EC20C00BE40064A678 /* 我的消息 */,
 				0F9723EB20C00BD70064A678 /* 我的收藏 */,
 				0F1A804020BC264C00CEC8A4 /* 个人资料 */,
+				0FE9180920D4EA60002EB7D1 /* 我的地址 */,
 				0F1A803D20BBF20700CEC8A4 /* 我的订单 */,
 				0F9723E620C00B570064A678 /* 我的钱包 */,
 				0F9723EA20C00BC30064A678 /* 我的店铺 */,
@@ -822,6 +864,54 @@
 				0F9723E920C00BAE0064A678 /* 设置 */,
 			);
 			path = "个人中心";
+			sourceTree = "<group>";
+		};
+		0FFEB74D20E37C3E003D5B3F /* 签到 */ = {
+			isa = PBXGroup;
+			children = (
+				0FFEB76620E72010003D5B3F /* XL_QD_ViewController.swift */,
+			);
+			path = "签到";
+			sourceTree = "<group>";
+		};
+		0FFEB74E20E4C281003D5B3F /* 折线图 */ = {
+			isa = PBXGroup;
+			children = (
+				0FFEB74F20E4C291003D5B3F /* AAInfographics */,
+			);
+			path = "折线图";
+			sourceTree = "<group>";
+		};
+		0FFEB74F20E4C291003D5B3F /* AAInfographics */ = {
+			isa = PBXGroup;
+			children = (
+				0FFEB75020E4C291003D5B3F /* AAJSFiles */,
+				0FFEB75620E4C291003D5B3F /* AAChartCreator */,
+			);
+			path = AAInfographics;
+			sourceTree = "<group>";
+		};
+		0FFEB75020E4C291003D5B3F /* AAJSFiles */ = {
+			isa = PBXGroup;
+			children = (
+				0FFEB75120E4C291003D5B3F /* AAHighchartsLib.js */,
+				0FFEB75220E4C291003D5B3F /* AAHighchartsMore.js */,
+				0FFEB75320E4C291003D5B3F /* AAOptionsConstructor.js */,
+				0FFEB75420E4C291003D5B3F /* AAFunnel.js */,
+				0FFEB75520E4C291003D5B3F /* AAChartView.html */,
+			);
+			path = AAJSFiles;
+			sourceTree = "<group>";
+		};
+		0FFEB75620E4C291003D5B3F /* AAChartCreator */ = {
+			isa = PBXGroup;
+			children = (
+				0FFEB75720E4C291003D5B3F /* AAChartView.swift */,
+				0FFEB75820E4C291003D5B3F /* AAChartModel.swift */,
+				0FFEB75920E4C291003D5B3F /* AASerializable.swift */,
+				0FFEB75A20E4C291003D5B3F /* AASeriesElement.swift */,
+			);
+			path = AAChartCreator;
 			sourceTree = "<group>";
 		};
 		758FB1391E2E3F9959FA6227 /* Frameworks */ = {
@@ -982,11 +1072,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FFEB75C20E4C291003D5B3F /* AAHighchartsMore.js in Resources */,
 				0F6EE57E20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				0F4BF69520C7676A00EF3341 /* 7008.wav in Resources */,
 				0F701C4A20871FDF000F7F67 /* AlipaySDK.bundle in Resources */,
+				0FFEB75E20E4C291003D5B3F /* AAFunnel.js in Resources */,
 				0F9875A12044E72E00C34111 /* LaunchScreen.storyboard in Resources */,
 				0F9723E320BF9D330064A678 /* star_big1@3x.png in Resources */,
+				0FFEB75D20E4C291003D5B3F /* AAOptionsConstructor.js in Resources */,
+				0FFEB75F20E4C291003D5B3F /* AAChartView.html in Resources */,
+				0FFEB75B20E4C291003D5B3F /* AAHighchartsLib.js in Resources */,
 				0F9723E420BF9D330064A678 /* star_big3@3x.png in Resources */,
 				0F98759E2044E72E00C34111 /* Assets.xcassets in Resources */,
 				0F9723E520BF9D330064A678 /* star_big2@3x.png in Resources */,
@@ -1083,13 +1178,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F77B2EA20E234A500509200 /* XL_XLTJ_ViewController.swift in Sources */,
 				0F65341220466D4800FF347F /* MainTableViewController.swift in Sources */,
 				0FC9D80E2071D68D002EAB4C /* XL_waringBox.swift in Sources */,
 				0F9723E220BF9D330064A678 /* WNRatingBar.swift in Sources */,
 				0F40C1DD20B79CFF006B1602 /* XL_GeRenViewController.swift in Sources */,
 				0F7B3D8B20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift in Sources */,
+				0F31945820D0A5E000D091F7 /* XL_SJLB_ViewController.swift in Sources */,
 				0F8025FB20C0E2BF00865A21 /* XL_WDxiaoxi_ViewController.swift in Sources */,
 				0F45F49C204E7A6A0043E96F /* XL_Navi_ViewController.swift in Sources */,
+				0FFEB76720E72010003D5B3F /* XL_QD_ViewController.swift in Sources */,
 				0F8836DE208EBCF1000C6CA6 /* SwiftyJSON.swift in Sources */,
 				0F1A804220BC266200CEC8A4 /* XL_GRziliaoViewController.swift in Sources */,
 				0F9723DB20BF838A0064A678 /* XL_WDDDXQ_ViewController.swift in Sources */,
@@ -1108,10 +1206,15 @@
 				0F4BF69920C80B0F00EF3341 /* XL_DPCK_ViewController.swift in Sources */,
 				0F7019DB2080A7B8000F7F67 /* XL_PaoMaView.swift in Sources */,
 				0F65341520466F2E00FF347F /* secViewController.swift in Sources */,
+				0FFEB76320E4C291003D5B3F /* AASeriesElement.swift in Sources */,
+				0FE9180B20D4EA7D002EB7D1 /* XL_WDDZ_ViewController.swift in Sources */,
 				0F03E351205FC29A007A42D0 /* XL_Dizhibu_ViewController.swift in Sources */,
 				0F3E0C2B20C2764B003368C4 /* XL_WDKF_ViewController.swift in Sources */,
+				0FFEB76220E4C291003D5B3F /* AASerializable.swift in Sources */,
 				0F45F494204E43140043E96F /* XL_GuideViewController.swift in Sources */,
 				0F7B3D8D20C945C4006EB908 /* XL_TiaoDeng_ViewController.swift in Sources */,
+				0FFEB76520E659E6003D5B3F /* XL_TX_ViewController.swift in Sources */,
+				0F77B2E820E07DE100509200 /* XL_SPLX_ViewController.swift in Sources */,
 				0F701C4D20871FDF000F7F67 /* openssl_wrapper.m in Sources */,
 				0F8836D82088880F000C6CA6 /* XL_weixinObjc.swift in Sources */,
 				0F7B3D8F20CA1462006EB908 /* PayAlert.swift in Sources */,
@@ -1121,6 +1224,7 @@
 				0FC49C8220A0585300F5561B /* XL_DPliebiaoViewController.swift in Sources */,
 				0F54B4A320566AA1004CFF7F /* XL_chengshiListViewController.swift in Sources */,
 				0F701C4E20871FDF000F7F67 /* APRSASigner.m in Sources */,
+				0FFEB76120E4C291003D5B3F /* AAChartModel.swift in Sources */,
 				0F45F492204E39A10043E96F /* XL_QuanJu.swift in Sources */,
 				0F6EE57920BD4ED60062039C /* XL_Denglu_ViewController.swift in Sources */,
 				0F04B4E720C123C9004C4FBA /* XL_AnQuanSZ_ViewController.swift in Sources */,
@@ -1142,7 +1246,7 @@
 				0FEBB58220C4E89000FBEC1D /* XL_Guanyuwomen_ViewController.swift in Sources */,
 				0F4BF69D20C80B2E00EF3341 /* XL_SPK_ViewController.swift in Sources */,
 				0F3E0C3120C27755003368C4 /* XL_WDzhangdan_ViewController.swift in Sources */,
-				0F4BF6A120C80B5500EF3341 /* XL_GLXQ_ViewController.swift in Sources */,
+				0FFEB76020E4C291003D5B3F /* AAChartView.swift in Sources */,
 				0F04B4E320C0F3B2004C4FBA /* XL_WDXXLB_ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1314,6 +1418,7 @@
 				CODE_SIGN_ENTITLEMENTS = TuSouSou/TuSouSou.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZX7GYT2Q58;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TuSouSou/全项目全局常量",
@@ -1418,6 +1523,7 @@
 				CODE_SIGN_ENTITLEMENTS = TuSouSou/TuSouSou.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZX7GYT2Q58;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TuSouSou/全项目全局常量",

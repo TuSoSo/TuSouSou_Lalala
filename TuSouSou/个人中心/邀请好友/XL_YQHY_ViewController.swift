@@ -34,7 +34,7 @@ class XL_YQHY_ViewController: UIViewController,UIActionSheetDelegate{
         view.endEditing(true)
         
         
-        let str = "邀请码"
+        let str:String = userDefaults.value(forKey: "invitationCode") as! String
         
         // 1. 创建二维码滤镜
         let filter = CIFilter(name: "CIQRCodeGenerator")

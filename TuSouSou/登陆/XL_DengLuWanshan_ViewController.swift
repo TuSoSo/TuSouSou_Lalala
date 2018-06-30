@@ -41,7 +41,7 @@ class XL_DengLuWanshan_ViewController: UIViewController,UITextFieldDelegate {
     func FaSongYZM() {
         if phone.text!.isPhoneNumber() {
             let method = "/user/sendCode"
-            let dic = ["phoneNum":phone.text!]
+            let dic = ["phoneNum":phone.text!,"userType":"1"]
             XL_waringBox().warningBoxModeIndeterminate(message: "飕飕飕～发送验证码...", view: self.view)
             XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
                 if (res as! [String: Any])["code"] as! String == "0000" {

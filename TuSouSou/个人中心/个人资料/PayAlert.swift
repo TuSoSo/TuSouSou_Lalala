@@ -21,8 +21,8 @@ class PayAlert: UIView,UITextFieldDelegate {
 
     init(frame: CGRect, jineHide:Bool, jine: String ) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.black
-        self.alpha = 0.5
+        self.backgroundColor = UIColor.groupTableViewBackground
+        self.alpha = 1
         self.passheight = 35
         self.passCount = 6
         self.inputViewWidth = 35 * passCount
@@ -55,9 +55,9 @@ class PayAlert: UIView,UITextFieldDelegate {
         titleLabel.font = UIFont.systemFont(ofSize: 15)
         contentView!.addSubview(titleLabel)
         
-        let linView:UIView = UIView (frame:CGRect(x: 0, y: 46, width: self.frame.size.height, height: 1))
-        linView.backgroundColor = UIColor.black
-        linView.alpha = 0.4
+        let linView:UIView = UIView (frame:CGRect(x: 0, y: 46, width: self.frame.size.width - 92, height: 1))
+        linView.backgroundColor = UIColor.groupTableViewBackground
+        linView.alpha = 1
         contentView?.addSubview(linView)
         
         let moneyLabel:UILabel = UILabel(frame:CGRect(x: 0, y: 56, width: contentView!.frame.size.width, height: 26))

@@ -110,9 +110,16 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
             switch resp.errCode {
             case 0 :
                 print("支付成功")
+                if nil != userDefaults.value(forKey: "xixi") && (userDefaults.value(forKey: "xixi") as! Int) == 2 {
+                    chongzhijiekou(lalala: userDefaults.value(forKey: "hahaha") as! String)
+                }else{
+                  self.zhifuhuidiao()
+                }
+                strMsg = "支付成功"
             //                NSNotificationCenter.defaultCenter().postNotificationName(WXPaySuccessNotification, object: nil)
             default:
                 strMsg = "支付失败，请您重新支付!"
+                userDefaults.set(0, forKey: "xixi")
                 print("retcode = (resp.errCode), retstr = (resp.errStr)")
             }
             let alert = UIAlertView(title: nil, message: strMsg, delegate: nil, cancelButtonTitle: "好的")
@@ -123,27 +130,7 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         }
         
     }
-    //    //支付宝回调信息
-    //    private func onResp(resp: BaseResp!) {
-    //        var strTitle = "支付结果"
-    //        var strMsg = "(resp.errCode)"
-    //        if resp.isKind(of: PayResp.self) {
-    //
-    //        }
-    //        if resp.isKind(of: PayResp.self) {
-    //            switch resp.errCode {
-    //            case 0 :
-    //                print("支付成功")
-    //            //                NSNotificationCenter.defaultCenter().postNotificationName(WXPaySuccessNotification, object: nil)
-    //            default:
-    //                strMsg = "支付失败，请您重新支付!"
-    //                print("retcode = (resp.errCode), retstr = (resp.errStr)")
-    //            }
-    //        }
-    //        let alert = UIAlertView(title: nil, message: strMsg, delegate: nil, cancelButtonTitle: "好的")
-    //        alert.show()
-    //    }
-    
+   
     //MARK:支付宝支付
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         //微信回调
@@ -159,13 +146,20 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         //支付宝回调
         if url.host == "safepay" {
             AlipaySDK.defaultService().processOrder(withPaymentResult: url) { (resultDic) in
+                var strMsg = ""
                 if resultDic!["resultStatus"] as! String == "9000" {
-                    let Box = XL_waringBox()
-                    Box.warningBoxModeText(message: "支付成功", view: (self.window?.rootViewController?.view)! )
+                    if nil != userDefaults.value(forKey: "xixi") && (userDefaults.value(forKey: "xixi") as! Int) == 2 {
+                        self.chongzhijiekou(lalala: userDefaults.value(forKey: "hahaha") as! String)
+                    }else{
+                        self.zhifuhuidiao()
+                    }
+                    strMsg = "支付成功"
                 }else{
-                    let Box = XL_waringBox()
-                    Box.warningBoxModeText(message: resultDic!["memo"] as! String, view: (self.window?.rootViewController?.view)! )
+                    strMsg = "支付失败，请您重新支付!"
+                    userDefaults.set(0, forKey: "xixi")
                 }
+                let alert = UIAlertView(title: nil, message: strMsg, delegate: nil, cancelButtonTitle: "好的")
+                alert.show()
             }
             AlipaySDK.defaultService().processAuthResult(url) { (resultDic) in
                 print(resultDic as Any)
@@ -209,6 +203,33 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
             }
         } else {
             // 获取授权信息异常
+        }
+    }
+    func chongzhijiekou(lalala:String) {
+        let method = "/distribution/recharge"
+        let userId = userDefaults.value(forKey: "userId")
+        let dicc:[String:Any] = ["userId":userId!,"money":lalala]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+            print(res)
+            userDefaults.set("", forKey: "hahaha")
+        }) { (error) in
+            print(error)
+        }
+    }
+    func zhifuhuidiao() {
+        let method = "/order/payAfterHandler"
+        var dingdanhao = ""
+        if (userDefaults.value(forKey: "dingdanhao") as!  String).count != 0 {
+            dingdanhao = userDefaults.value(forKey: "dingdanhao") as! String
+        }
+        
+        let dicc:[String:Any] = ["orderCode":dingdanhao]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+            print(res)
+            userDefaults.set("", forKey: "dingdanhao")
+        }) { (error) in
+            
+            print(error)
         }
     }
     // MARK: -JPUSHRegisterDelegate
@@ -266,5 +287,6 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
     func applicationDidEnterBackground(_ application: UIApplication) {
         application.applicationIconBadgeNumber = 0
     }
+    
 }
 

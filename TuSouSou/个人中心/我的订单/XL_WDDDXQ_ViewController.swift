@@ -9,11 +9,13 @@
 import UIKit
 
 class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,RatingBarDelegate {
-    
-    
+    var leixing:String?
+    var dingdanId:String?
     
     @IBOutlet weak var tablewdddxq: UITableView!
-    var SPArr:[String] = []
+    var SPDic:[String:Any] = [:]
+    var shuzu:[[String:Any]] = []
+    
     //评分
     var ratingBar1: WNRatingBar!
     var ratingLabel1:UILabel!
@@ -24,11 +26,34 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "订单详情"
-        SPArr = ["","",""]
+        print("\n\(leixing!)\n\(dingdanId!)")
+        jiemianjiekou()
         tableviewdelegate()
         // Do any additional setup after loading the view.
     }
-    
+    func jiemianjiekou() {
+        let method = "/order/orderDetail"
+//        let userId = userDefaults.value(forKey: "userId")
+        let dic:[String:Any] = ["orderId":dingdanId!]
+        XL_waringBox().warningBoxModeIndeterminate(message: "加载中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+//                XL_waringBox().warningBoxModeText(message: "评价成功", view: self.view)
+                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.SPDic = dic
+                if nil != dic["productList"]{
+                    self.shuzu = dic["productList"] as! [[String:Any]]
+                }
+                self.tablewdddxq.reloadData()
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+    }
     //MARK:tableViewDelegate
     func tableviewdelegate() {
         tablewdddxq.delegate = self
@@ -37,19 +62,18 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
         tablewdddxq.register(UITableViewCell.self, forCellReuseIdentifier: "wdddxq")
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        if leixing! == "6"{
+            return 3
+        }
+        return 2
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 5
         }else if section == 1 {
-            return SPArr.count
+            return shuzu.count
         }else{
-            if 1 == 1 {
-                return 3
-            }else{
-                return 4
-            }
+            return 4
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -93,17 +117,26 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
             youlabel.textAlignment = .right
             if indexPath.row == 0 {
                 zuolabel.text = "下单时间"
-                youlabel.text = "2018/05/24 16:28:32"
+                youlabel.text = ""
+                if !SPDic.isEmpty{
+                    youlabel.text = SPDic["placeOrderTime"] as? String
+                }
                 cell.contentView.addSubview(zuolabel)
                 cell.contentView.addSubview(youlabel)
             }else if indexPath.row == 1 {
                 zuolabel.text = "配送员"
-                youlabel.text = "贾宝玉"
+                youlabel.text = ""
+                if !SPDic.isEmpty{
+                    youlabel.text = SPDic["sendUserName"] as? String
+                }
                 cell.contentView.addSubview(zuolabel)
                 cell.contentView.addSubview(youlabel)
             }else if indexPath.row == 2 {
                 zuolabel.text = "联系电话"
-                youlabel.text = "18812344321"
+                youlabel.text = ""
+                if !SPDic.isEmpty{
+                    youlabel.text = SPDic["sendUserPhone"] as? String
+                }
                 cell.contentView.addSubview(zuolabel)
                 cell.contentView.addSubview(youlabel)
             }else if indexPath.row == 3 {
@@ -115,7 +148,10 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                 zuolabel.text = "配送地址"
                 youlabel.frame = CGRect(x: 112, y: 8, width: Width - 122, height: 44)
                 youlabel.textAlignment = .left
-                youlabel.text = "黑龙江省哈尔滨市南岗区红旗大街178号 4栋 3单元 1708室"
+                youlabel.text = ""
+                if !SPDic.isEmpty{
+                    youlabel.text = SPDic["edSendUserAddress"] as? String
+                }
                 youlabel.numberOfLines = 2
                 cell.contentView.addSubview(zuolabel)
                 cell.contentView.addSubview(youlabel)
@@ -123,20 +159,29 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
         }else if indexPath.section == 1{
             let imageView = UIImageView(frame: CGRect(x: 8, y: 8, width: 80, height: 64))
             
-            let image: String = "广告页"
-            imageView.image = UIImage(named: "\(image)")
+            var jiee = ""
+            if nil != shuzu[indexPath.row]["picture"]{
+                jiee = shuzu[indexPath.row]["picture"] as! String
+            }
+            let uul = URL(string: TupianUrl + jiee)
+            imageView.sd_setImage(with: uul, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             let name = UILabel(frame: CGRect(x: 96, y: 16, width: Width - 142, height: 24))
             name.font = UIFont.systemFont(ofSize: 15)
             name.textColor = UIColor.darkGray
-            name.text = "芝华士威士忌洋酒/250ml"
+            if nil != shuzu[indexPath.row]["productName"] {
+                name.text = shuzu[indexPath.row]["productName"] as! String
+                if nil != shuzu[indexPath.row]["productSpec"]{
+                    name.text = (shuzu[indexPath.row]["productName"] as! String) + (shuzu[indexPath.row]["productSpec"] as! String)
+                }
+            }
             let jiaqian = UILabel(frame: CGRect(x: 100, y: 36, width: Width - 142, height: 40))
             jiaqian.font = UIFont.systemFont(ofSize: 18)
             jiaqian.textColor = UIColor.orange
             jiaqian.numberOfLines = 2
-            jiaqian.text = "¥100"
+            jiaqian.text = "¥ " + String(format: "%.2f",(shuzu[indexPath.row]["amount"] as? Float)! )
             let shuliang = UILabel(frame: CGRect(x: Width - 48, y: 50, width: 40, height: 30))
             shuliang.font = UIFont.systemFont(ofSize: 14)
-            shuliang.text = "x1"
+            shuliang.text = "x " + (shuzu[indexPath.row]["productNum"] as? String)!
             cell.contentView.addSubview(shuliang)
             cell.contentView.addSubview(imageView)
             cell.contentView.addSubview(jiaqian)
@@ -161,19 +206,17 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                 ratingBar1.setSeletedState("star_big1", halfSelectedName: "star_big2", fullSelectedName: "star_big3", starSideLength: 28, delegate: self)
                 ratingBar1.tag = indexPath.row
                 var fenshu: Float! = 10
-                if 1 == 1{
-                    ratingBar1.isIndicator = true
-                    if indexPath.row == 0 {
-                        fenshu = 7
-                    }else if indexPath.row == 1 {
-                        fenshu = 9
-                    }else if indexPath.row == 2 {
-                        fenshu = 10
-                    }
-                }else{
-                    ratingBar1.isIndicator = false
-                }
                 
+                
+                ratingBar1.isIndicator = false
+                if indexPath.row == 0 {
+                    fenshu = SPDic["evalSpeed"] as! Float
+                }else if indexPath.row == 1 {
+                    fenshu = SPDic["evalServer"] as! Float
+                }else if indexPath.row == 2 {
+                    fenshu = SPDic["evalClear"] as! Float
+                }
+               
                 if indexPath.row == 0{
                     zz.text = "配送速度"
                     ratingBar1.displayRating(fenshu)
@@ -200,16 +243,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
             if indexPath.row == 2 {
                 //打电话
                 let dianPhone = "15545457012"
-//
-//                let alertVC : UIAlertController = UIAlertController.init(title: "是否联系配送员:\(dianPhone)", message: "", preferredStyle: .alert)
-//                let falseAA : UIAlertAction = UIAlertAction.init(title: "取消", style: .cancel, handler: nil)
-//                let trueAA : UIAlertAction = UIAlertAction.init(title: "确定", style: .default) { (alertAction) in
-//                    //拨打电话进行报警
-                    UIApplication.shared.openURL(NSURL.init(string: "tel://\(dianPhone)")! as URL)
-//                }
-//                alertVC.addAction(falseAA)
-//                alertVC.addAction(trueAA)
-//                self.present(alertVC, animated: true, completion: nil)
+                UIApplication.shared.openURL(NSURL.init(string: "tel://\(dianPhone)")! as URL)
             }else if indexPath.row == 3 {
                 //跳转到 位置信息 -- WEB页
                 
@@ -230,11 +264,26 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
     }
     @objc func PJjiekou() {
         print("评价接口")
-//        XL_QuanJu().PuTongWangluo(methodName: "", methodType: .post, rucan: dic, success: { (res) in
-//            print(res)
-//        }) { (error) in
-//            print(error)
-//        }
+        pingjiajiekou()
     }
-    
+    func pingjiajiekou() {
+        let method = "/user/evaluate"
+        let userId = userDefaults.value(forKey: "userId")
+        let dic:[String:Any] = ["userId":userId!,"userType":"1","orderId":"","edUserId":"","evalClea":"","evalSpeed":"","evalServer":""]
+        XL_waringBox().warningBoxModeIndeterminate(message: "评价中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                XL_waringBox().warningBoxModeText(message: "评价成功", view: self.view)
+//                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+//                self.DDArr = dic["orderList"] as! [[String : Any]]
+//                self.tableWDdingdan.reloadData()
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+    }
 }

@@ -71,7 +71,7 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
     func FaSongYZM() {
         if zhanghao.text!.isPhoneNumber() {
             let method = "/user/sendCode"
-            let dic = ["phoneNum":zhanghao.text!]
+            let dic = ["phoneNum":zhanghao.text!,"userType":"1"]
             XL_waringBox().warningBoxModeIndeterminate(message: "飕飕飕～发送验证码...", view: self.view)
             XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
                 if (res as! [String: Any])["code"] as! String == "0000" {
@@ -95,23 +95,33 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
     @IBAction func queding(_ sender: Any) {
         //重置密码接口
         var isTrue = true
+        var passwordType = ""
         
         if rukou == "1" {
+            passwordType = "2"
             if mima.text?.count != 6{
                
                 isTrue = false
             }
+        }else{
+            passwordType = "1"
         }
         if (zhanghao.text?.isPhoneNumber())! && mima.text == remima.text && (yanzhengma.text?.count)! > 0 && isTrue{
-            let method = "/user/verifyPayPassword"
+            let method = "/user/setPassword"
             let userId = userDefaults.value(forKey: "userId")
-            let dic:[String:Any] = ["userId":userId!,"payPassword":"password"]
+            let dic:[String:Any] = ["userId":userId!,"newPassword":mima.text!,"passwordType":passwordType,"authCode":yanzhengma.text!]
             XL_waringBox().warningBoxModeIndeterminate(message: "密码验证中...", view: self.view)
             XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
                 print(res)
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                 if (res as! [String: Any])["code"] as! String == "0000" {
-                   
+                    if self.rukou == "1"{
+                        XL_waringBox().warningBoxModeText(message: "支付密码设置成功", view: (self.navigationController?.view)!)
+                        userDefaults.set(1, forKey: "isPayPassWord")
+                    }else{
+                        XL_waringBox().warningBoxModeText(message: "登陆密码设置成功", view: (self.navigationController?.view)!)
+                    }
+                    self.navigationController?.popViewController(animated: true)
                 }else{
                     XL_waringBox().warningBoxModeText(message: "验证失败", view: self.view)
                 }
@@ -127,6 +137,9 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
                  XL_waringBox().warningBoxModeIndeterminate(message: "支付密码为 6位", view: self.view)
             }
         }
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

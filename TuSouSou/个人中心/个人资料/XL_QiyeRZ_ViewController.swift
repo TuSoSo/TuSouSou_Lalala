@@ -10,6 +10,8 @@ import UIKit
 
 class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
     
+    var qiyeDic:[String:String] = [:]
+    
     let zuoArr:[String] = ["企业名称:","企业地址:","法人姓名:","身份证号:","手机号码:"]
     let youArr:[String] = ["请填写企业名称","请填写企业地址","请填写法人姓名","请填写身份证号","请填写手机号码"]
 
@@ -77,6 +79,9 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
             youTF.textColor = UIColor.darkGray
             youTF.tag = indexPath.row + 330
             youTF.delegate = self
+            if nil != qiyeDic["\(indexPath.row)"]{
+                youTF.text = qiyeDic["\(indexPath.row)"]!
+            }
             youTF.placeholder = youArr[indexPath.row]
             view.addSubview(zuoLable)
             view.addSubview(youTF)
@@ -135,6 +140,14 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
         return cell
     }
     //MARK: textfieldDelegate
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        qiyeDic["\(textField.tag - 330)"] = newString
+        return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        qiyeDic["\(textField.tag - 330)"] = textField.text!
+    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.tag != 330 + 4 {
             let index = IndexPath(row: textField.tag - 330 + 1, section: 0)
@@ -148,11 +161,16 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
 
     @objc func queding() {
         print("调接口")
+        qiyerenzhengjiekou()
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
     }
     //////手势处理函数
     @objc func imageViewClick(sender:UITapGestureRecognizer) {
         //弹出选择相册、照相
         //选完之后刷新tableview，
+        self.view.endEditing(true)
         print(sender.view!.tag)
         if sender.view!.tag == 0 {
             isSHX = 1
@@ -221,7 +239,36 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
             tableQiye.reloadData()
         }
     }
-    
+    func qiyerenzhengjiekou() {
+        let method = "/user/realAuthentication"
+        let userId:String = userDefaults.value(forKey: "userId") as! String
+        //        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
+        
+        let imagearr:[Any] = [imageDic["shang"]!,imageDic["xia"]!,imageDic["fa"]!]
+        let namearr:[Any] = ["FacePic","licensePic","idCardPic1"]
+        
+        let keyArr = ["userId","firmName","firmAddress","firmLinkman","phone","idCard"]
+        var valueArr = [userId]
+        for i in 0..<5 {
+            if nil != qiyeDic["\(i)"]{
+               valueArr.append(qiyeDic["\(i)"]!)
+            }else{
+                valueArr.append("")
+            }
+        }
+        XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
+                userDefaults.set("2", forKey: "isFirmAdit")
+                self.navigationController?.popViewController(animated: true)
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+    }
     /*
     // MARK: - Navigation
 

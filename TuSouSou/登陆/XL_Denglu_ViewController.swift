@@ -68,6 +68,7 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
                     userDefaults.set("1", forKey: "loginMethod")
                     userDefaults.set("1", forKey: "isDengLu")
                     AppDelegate().method()
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
             }) { (error) in
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -119,7 +120,7 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
     func FaSongYZM() {
         if zhanghao.text!.isPhoneNumber() {
             let method = "/user/sendCode"
-            let dic = ["phoneNum":zhanghao.text!]
+            let dic = ["phoneNum":zhanghao.text!,"userType":"1"]
             XL_waringBox().warningBoxModeIndeterminate(message: "飕飕飕～发送验证码...", view: self.view)
             XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
                 if (res as! [String: Any])["code"] as! String == "0000" {

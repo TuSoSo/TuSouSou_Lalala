@@ -81,11 +81,22 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
             }
         }
     }
-    
+    func isJiabaliu(string:String) -> Bool {
+        if string.contains("+ 86") {
+            return true
+        }
+        return false
+    }
     func diaojiekou() {
         let method = "/address/addressManager"
         let userId = userDefaults.value(forKey: "userId")
-        let dic:[String:Any] = ["userId":userId!,"location":dingweiDZ.text!,"address":XiangZhi.text!,"userName":Name.text!,"type":type,"phone":Pone.text!,"longitude":lon,"latitude":lat]
+        var shang = Pone.text!
+        
+        if isJiabaliu(string: Pone.text!){
+            shang = Pone.text!.substring(fromIndex: 4)
+        }
+        
+        let dic:[String:Any] = ["userId":userId!,"location":dingweiDZ.text!,"address":XiangZhi.text!,"userName":Name.text!,"type":type,"phone":shang,"longitude":lon,"latitude":lat]
         XL_waringBox().warningBoxModeIndeterminate(message: "保存信息...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)

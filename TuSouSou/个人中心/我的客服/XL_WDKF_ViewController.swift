@@ -9,17 +9,17 @@
 import UIKit
 
 class XL_WDKF_ViewController: UIViewController {
-    let urlstring = "www.baidu.com"
     
     @IBOutlet weak var webView: UIWebView!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "我的客服"
-        let request = NSURLRequest(url: NSURL(string: "http://" + urlstring)! as URL)
-        webView.loadRequest(request as URLRequest)
-        // Do any additional setup after loading the view.
+        let newString = "http://www.tusousouxr.com/tssweb/cservice"
+        let uul = URL(string: String(format: "%@",newString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
+        let request = NSURLRequest(url: uul!)
+        self.webView.loadRequest(request as URLRequest)
     }
-
+  
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -15,6 +15,15 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     var weizhi:String?
     
    
+    // 顶部刷新
+    let header = MJRefreshNormalHeader()
+    // 底部刷新
+    let footer = MJRefreshAutoNormalFooter()
+    //页码
+    var pageNo = 1
+    let pageSize = 10
+    var count = 0
+    
     var leixingInt: Int?
     var searchBar = UISearchBar()
     var daohang: Int?
@@ -117,6 +126,9 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     var xiaLat:String = ""
     var xiaLon = ""
     
+    var classifyList:[[String:Any]] = []
+    var labelList:[[String:Any]] = []
+    var excellentMerchantList:[[String:Any]] = []
     
     //托物类型
     @IBOutlet weak var yin: UIImageView!
@@ -152,32 +164,25 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     @IBAction func you(_ sender: Any) {
         //跳页
         if JianPanhuishou(){
-            
+            let xiadan: XL_QD_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qd") as? XL_QD_ViewController
+            self.navigationController?.pushViewController(xiadan!, animated: true)
         }
     }
     var window: UIWindow?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        userDefaults.set("0", forKey: "isDengLu")
-        if nil != userDefaults.value(forKey: "loginMethod") && userDefaults.value(forKey: "loginMethod") as! String != "" && userDefaults.value(forKey: "loginMethod") as! String != "1" {
-            let loginMethod:String = userDefaults.value(forKey: "loginMethod") as! String
-            var loginName:String! = ""
-            if nil != userDefaults.value(forKey: "loginName"){
-                loginName = userDefaults.value(forKey: "loginName")as! String
-            }
-            var passWord:String! = ""
-            if nil != userDefaults.value(forKey: "passWord"){
-                passWord = userDefaults.value(forKey: "passWord")as! String
-            }
-            var openID:String! = ""
-            if nil != userDefaults.value(forKey: "openID"){
-                openID = userDefaults.value(forKey: "openID")as! String
-            }
-            let authCode:String = ""
-            
-            zidongdenglu(loginMethod: loginMethod, loginName: loginName, passWord: passWord, authCode: authCode, openID: openID)
+        
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+        }else{
+            shouyejiekou()
         }
+        classifyList = []
+        labelList = []
+        excellentMerchantList = []
+       
+        
         let item = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = item
         //从广告页跳转到详情
@@ -195,6 +200,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         delegate()
         shangjiemian()
         loadLocation()
+        shangchengjiekou()
     }
    
     @objc func pushToad(notification: NSNotification){
@@ -204,7 +210,24 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         self.navigationController?.pushViewController(adVC!, animated: false)
     }
     
+    @objc func headerRefresh() {
+        footer.endRefreshingWithMoreData()
+        pageNo = 1
+        excellentMerchantList = []
+        shangchengjiekou()
+        _tableView.mj_header.endRefreshing()
+    }
     
+    @objc func footerRefresh() {
+        print("上拉刷新")
+        pageNo = pageNo + 1
+        if count > pageNo * pageSize {
+            _tableView.mj_footer.endRefreshing()
+            shangchengjiekou()
+        }else{
+            footer.endRefreshingWithNoMoreData()
+        }
+    }
     @IBAction func jian(_ sender: Any) {
         let num: Int = Int(shuliang.text!)!
         if  num > 1 {
@@ -231,7 +254,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         if !shang.isPhoneNumber() || !xia.isPhoneNumber() {
             XL_waringBox().warningBoxModeText(message: "请完善订单信息", view: self.view)
         }else{
-            xiadanjiekou()
+            xiadanjiekou(shang:shang,xia:xia)
         }
         
     }
@@ -244,10 +267,10 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     /**orderType: 1.寄件订单2. 取件订单 3.商城
      commoditiesType   1. 食品饮料2.鲜花 3.蛋糕,4文件，5水果生鲜，6其他
      */
-    func xiadanjiekou(){
+    func xiadanjiekou(shang:String,xia:String){
         let method = "/order/placeAnOrder"
         let userId = userDefaults.value(forKey: "userId")
-        let dic:[String:Any] = ["userId":userId!,"longitudeJi":shangLon,"latitudeJi":shangLat,"longitudeShou":xiaLon,"latitudeShou":xiaLat,"orderType":daohang!,"addressLocation":xiaDZOutlet.text!,"addressName":xiaName.text!,"addressPhone":xiaPhone.text!,"senderLocation":shDZOutlet.text!,"senderName":shangName.text!,"senderPhone":shangPhone.text!,"commoditiesType":leixingInt!,"weight":shuliang.text!]
+        let dic:[String:Any] = ["userId":userId!,"longitudeJi":shangLon,"latitudeJi":shangLat,"longitudeShou":xiaLon,"latitudeShou":xiaLat,"orderType":daohang!,"addressLocation":xiaDZOutlet.text!,"addressName":xiaName.text!,"addressPhone":xia,"senderLocation":shDZOutlet.text!,"senderName":shangName.text!,"senderPhone":shang,"commoditiesType":leixingInt!,"weight":shuliang.text!]
         XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
@@ -257,11 +280,12 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 let zhinazhisong = dic["directSendMoney"] as! Float
                 let dingdanjine = dic["orderCount"] as! Float
-//  dic["orderCode"] as! String // 订单号？？
+                let dingdanhao = dic["orderCode"] as! String // 订单号？？
                 let dingdanID = dic["orderId"] as! String
                 let xiadan: XL_KuaiDixiadan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "kuaidixiadan") as? XL_KuaiDixiadan_ViewController
                 xiadan?.dingdanID = dingdanID
                 xiadan?.dingdanjine = String(format:" %.2f", dingdanjine)
+                xiadan?.dingdanhao = dingdanhao
                 xiadan?.zhinazhisong = String(format:" %.2f", zhinazhisong)
                 xiadan?.orderType = self.daohang
                 self.navigationController?.pushViewController(xiadan!, animated: true)
@@ -304,7 +328,6 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         default:
             break
         }
-        
     }
     //MARK: tableviewDelegate
     func TableViewDelegate() {
@@ -323,6 +346,14 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             _tableView.contentInsetAdjustmentBehavior = .automatic
         }
         _tableView.isHidden = true
+        // 下拉刷新
+        header.setRefreshingTarget(self, refreshingAction: #selector(headerRefresh))
+        // 现在的版本要用mj_header
+        _tableView.mj_header = header
+        
+        // 上拉刷新
+        footer.setRefreshingTarget(self, refreshingAction: #selector(footerRefresh))
+        _tableView.mj_footer = footer
         _tableView.register(UITableViewCell.self, forCellReuseIdentifier: "shangcheng")
     }
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -366,7 +397,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         }else if section == 2 {
             return 1
         }else{
-            return 8
+            return excellentMerchantList.count
         }
     }
     
@@ -393,22 +424,52 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             let View1 = UIImageView(frame: CGRect(x: 0, y: 0, width: Width/3 - 1, height: 150))
             let tapGR1 = UITapGestureRecognizer(target: self, action: #selector(view1Action(sender:)))
             View1.addGestureRecognizer(tapGR1)
-            View1.backgroundColor = UIColor.red
+            var ax:String = ""
+            if labelList.count > 0{
+                if nil != labelList[0]["classifyImage"]{
+                    ax = labelList[0]["classifyImage"] as! String
+                }
+            }
+            
+            let newString = TupianUrl + ax
+            let uuu:URL = URL(string: String(format: "%@",newString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
+            View1.sd_setImage(with: uuu, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             
             let View2 = UIImageView(frame: CGRect(x: Width/3, y: 0, width: Width*2/3, height: 74))
             let tapGR2 = UITapGestureRecognizer(target: self, action: #selector(view2Action(sender:)))
             View2.addGestureRecognizer(tapGR2)
-            View2.backgroundColor = UIColor.blue
+            var ax1:String = ""
+            if labelList.count > 1{
+            if nil != labelList[1]["classifyImage"]{
+                ax1 = labelList[1]["classifyImage"] as! String
+            }
+            }
+            let rrr:URL = URL(string:TupianUrl + ax1)!
+            View2.sd_setImage(with: rrr, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             
             let View3 = UIImageView(frame: CGRect(x: Width/3, y: 75, width: Width/3 - 1, height: 75))
             let tapGR3 = UITapGestureRecognizer(target: self, action: #selector(view3Action(sender:)))
             View3.addGestureRecognizer(tapGR3)
-            View3.backgroundColor = UIColor.green
+            var ax2:String = ""
+            if labelList.count > 2{
+            if nil != labelList[2]["classifyImage"]{
+                ax2 = labelList[2]["classifyImage"] as! String
+            }
+            }
+            let lll:URL = URL(string:TupianUrl + ax2)!
+            View3.sd_setImage(with: lll, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             
             let View4 = UIImageView(frame: CGRect(x: Width*2/3, y: 75, width: Width/3, height: 75))
             let tapGR4 = UITapGestureRecognizer(target: self, action: #selector(view4Action(sender:)))
             View4.addGestureRecognizer(tapGR4)
-            View4.backgroundColor = UIColor.orange
+            var ax3:String = ""
+            if labelList.count > 3{
+            if nil != labelList[3]["classifyImage"]{
+                ax3 = labelList[3]["classifyImage"] as! String
+            }
+            }
+            let sss:URL = URL(string:TupianUrl + ax3)!
+            View4.sd_setImage(with: sss, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             
             cell.contentView.addSubview(View4)
             cell.contentView.addSubview(View3)
@@ -417,10 +478,23 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             
         }
         if indexPath.section == 3 {
+            var jiee:String = ""
+            if excellentMerchantList.count != 0{
+                if nil != excellentMerchantList[indexPath.row]["logoUrl"]{
+                    jiee = excellentMerchantList[indexPath.row]["logoUrl"] as! String
+                }
+            }
+            
+            let uul = URL(string: TupianUrl + jiee)
+            
             let imageview = UIImageView(frame: CGRect(x: 8, y: 8, width: Width/3 - 20, height: 96))
-            imageview.image = UIImage(named: "广告页")
+            imageview.sd_setImage(with: uul, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             let gongsiName = UILabel(frame: CGRect(x: Width/3 + 8, y: 10, width: Width*2/3 - 20, height: 24))
-            gongsiName.text = "国云数据科技有限公司"
+            gongsiName.text = ""
+            if excellentMerchantList.count != 0{
+                gongsiName.text = excellentMerchantList[indexPath.row]["merchantName"] as? String
+            }
+            
             gongsiName.font = UIFont.systemFont(ofSize: 19)
             let imageDizhi = UIImageView(frame: CGRect(x: Width/3 + 8, y: 48, width: 10, height: 16))
             imageDizhi.image = UIImage(named: "位置2")
@@ -431,11 +505,19 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             DDZZ.numberOfLines = 2
             DDZZ.font = UIFont.systemFont(ofSize: 15)
             DDZZ.textColor = UIColor(hexString: "6e6e6e")
-            DDZZ.text = "黑龙江省哈尔滨市香坊区红旗大街178号"
+            DDZZ.text = ""
+            if excellentMerchantList.count != 0{
+                DDZZ.text = excellentMerchantList[indexPath.row]["address"] as? String
+            }
             let DDHH = UILabel(frame: CGRect(x: Width/3 + 24, y: 84, width: Width*2/3 - 40, height: 24))
             DDHH.font = UIFont.systemFont(ofSize: 15)
             DDHH.textColor = UIColor(hexString: "6e6e6e")
-            let phoneNum = "15545457012"
+            var phoneNum = ""
+            if excellentMerchantList.count != 0{
+            if nil != excellentMerchantList[indexPath.row]["phone"]{
+                phoneNum = excellentMerchantList[indexPath.row]["phone"] as! String
+                }
+            }
             DDHH.text = "+86\(phoneNum)"
             
             cell.contentView.addSubview(imageview)
@@ -452,32 +534,79 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 3 {
             print(indexPath.row)
+            let xiadan: XL_DPliebiaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpliebiao") as? XL_DPliebiaoViewController
+            xiadan?.lll = String(format: "%d",(excellentMerchantList[indexPath.row]["merchantId"] as? Int)!)
+            xiadan?.ttt = excellentMerchantList[indexPath.row]["merchantName"] as? String
+ //        xiada
+            self.navigationController?.pushViewController(xiadan!, animated: true)
+        }
+    }
+  
+    func shangchengjiekou() {
+        let method = "/store/home"
+//        let userId = userDefaults.value(forKey: "userId")
+        let dic:[String:Any] = ["pageNo":pageNo,"pageSize":pageSize]
+//        XL_waringBox().warningBoxModeIndeterminate(message: "加载中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                //                XL_waringBox().warningBoxModeText(message: "评价成功", view: self.view)
+                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.classifyList = data["classifyList"] as! [[String:Any]]
+                self.labelList = data["labelList"] as! [[String:Any]]
+                self.excellentMerchantList += data["excellentMerchantList"] as! [[String:Any]]
+                self._tableView.reloadData()
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
         }
     }
     @objc func view1Action(sender: UITapGestureRecognizer) {
         print("红色")
+        let xiadan: XL_SJLB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sjlb") as? XL_SJLB_ViewController
+        xiadan?.classifyTypeId = labelList[0]["classifyTypeId"] as? String
+        self.navigationController?.pushViewController(xiadan!, animated: true)
     }
     @objc func view2Action(sender: UITapGestureRecognizer) {
         print("蓝色")
+        let xiadan: XL_SJLB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sjlb") as? XL_SJLB_ViewController
+        xiadan?.classifyTypeId = labelList[1]["classifyTypeId"] as? String
+        self.navigationController?.pushViewController(xiadan!, animated: true)
     }
     @objc func view3Action(sender: UITapGestureRecognizer) {
         print("绿色")
+        let xiadan: XL_SJLB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sjlb") as? XL_SJLB_ViewController
+        xiadan?.classifyTypeId = labelList[2]["classifyTypeId"] as? String
+        self.navigationController?.pushViewController(xiadan!, animated: true)
     }
     @objc func view4Action(sender: UITapGestureRecognizer) {
         print("橘黄色")
+        let xiadan: XL_SJLB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sjlb") as? XL_SJLB_ViewController
+        xiadan?.classifyTypeId = labelList[3]["classifyTypeId"] as? String
+        self.navigationController?.pushViewController(xiadan!, animated: true)
     }
     func scrollViewUI() -> (UIScrollView) {
         let scroll = UIScrollView();
         scroll.tag = 999994
 //        scroll.backgroundColor = UIColor.gray
-        let tuhuaArray: Array = ["广告页","启动页","广告页","启动页","广告页","启动页","广告页"]
+        var tuhuaArray: [String]  = []
+        for dic in 0..<classifyList.count {
+            if nil != classifyList[dic]["classifyImage"]{
+                tuhuaArray.append(TupianUrl + (classifyList[dic]["classifyImage"] as! String))
+            }
+        }
         scroll.frame = CGRect(x: 0, y: 0, width: Width - 0, height: 120)  //设置scrollview的大小
         scroll.contentSize = CGSize(width: 100 * tuhuaArray.count, height: 0)   //内容大小
         scroll.isPagingEnabled = false                 //是否支持分页
         scroll.isUserInteractionEnabled = true
         scroll.showsHorizontalScrollIndicator = false
         for i:Int in 0..<tuhuaArray.count {
-            let imageView =  UIImageView(image: UIImage(named: tuhuaArray[i]))
+            let url: URL = URL(string: tuhuaArray[i])!
+            let imageView =  UIImageView()
+            imageView.sd_setImage(with: url, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             imageView.frame = CGRect(x: Int((Width - 20) / 4) * i + 10, y:10, width: Int((Width - 20) / 4 - 10), height: 130)
             imageView.tag = 600 + i
             imageView.isUserInteractionEnabled = true
@@ -491,13 +620,15 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         let imageView: UIImageView = sender.view as! UIImageView
         //跳页到 imageView.tag - 600 的页面
         print(imageView.tag - 600)
-        let DP: XL_DPliebiaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpliebiao") as? XL_DPliebiaoViewController
+        let DP: XL_SJLB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sjlb") as? XL_SJLB_ViewController
+        DP?.classifyTypeId = classifyList[imageView.tag - 600]["classifyId"] as? String
         self.navigationController?.pushViewController(DP!, animated: true)
         
     }
     //MARK: searchBarDelegate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let sousuo: XL_SCsousuoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "scsousuo") as? XL_SCsousuoViewController
+        sousuo?.lll = searchBar.text!
         self.navigationController?.pushViewController(sousuo!, animated: true)
     }
     //MARK:定位的那个地址
@@ -532,6 +663,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //取得locations数组的最后一个
         currLocation = locations.last!
+        userDefaults.set((currLocation?.coordinate.longitude.description)!, forKey: "longitude")
+        userDefaults.set((currLocation?.coordinate.latitude.description)!, forKey: "latitude")
         LonLatToCity()
         //停止定位
         locationManager.stopUpdatingLocation()
@@ -776,7 +909,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 userDefaults.set(dic["isRealAuthentication"], forKey: "isRealAuthentication")
                 
 
-//                isOpen(int):是否开通(1.是2否)
+//                isOpen(int):是否开通配送员(1.是2否)
 //                bySsMoney(String):被发送飕飕币数量
 
             }
@@ -811,19 +944,19 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         return "0"
     }
 }
-extension Double {
-    
-    /// Rounds the double to decimal places value
-    
-    func roundTo(places:Int) -> Double {
-        
-        let divisor = pow(10.0, Double(places))
-        
-        return (self * divisor).rounded() / divisor
-        
-    }
-    
-}
+//extension Double {
+//
+//    /// Rounds the double to decimal places value
+//
+//    func roundTo(places:Int) -> Double {
+//
+//        let divisor = pow(10.0, Double(places))
+//
+//        return (self * divisor).rounded() / divisor
+//
+//    }
+//
+//}
 extension UIDevice {
     public func isX() -> Bool {
         if UIScreen.main.bounds.height == 812 {

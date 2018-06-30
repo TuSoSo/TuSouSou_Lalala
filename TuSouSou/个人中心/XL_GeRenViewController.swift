@@ -11,27 +11,20 @@ import UIKit
 class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     @IBOutlet weak var touxiang: UIImageView!
-    
     @IBOutlet weak var name: UILabel!
-    
-    
     @IBOutlet weak var phone: UILabel!
     @IBOutlet weak var tablegeren: UITableView!
     @IBOutlet weak var xiaoxi_tupian: UIImageView!
-    
     let touarr = ["我的1","我的2","我的3","我的4","我的5","我的6"]
     let namearr = ["我的钱包","我的地址","我的客服","我的店铺","邀请好友","设置"]
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "个人中心"
         tableDelegate()
-
-        
-
+        if nil != userDefaults.value(forKey: "userId") {
+             yonghuxinxichaxun()
+        }
     }
-    
     @IBAction func GRziliao(_ sender: Any) {
         let GRziliao: XL_GRziliaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "grziliao") as? XL_GRziliaoViewController
         self.navigationController?.pushViewController(GRziliao!, animated: true)
@@ -83,8 +76,7 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
             let WDXX: XL_WDQB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdqb") as? XL_WDQB_ViewController
             self.navigationController?.pushViewController(WDXX!, animated: true)
         }else if indexPath.row == 1 {
-            let WDXX: XL_Dizhibu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhibu") as? XL_Dizhibu_ViewController
-            WDXX?.biaoti = "3"
+            let WDXX: XL_WDDZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddz") as? XL_WDDZ_ViewController
             self.navigationController?.pushViewController(WDXX!, animated: true)
         }else if indexPath.row == 2 {
             let WDXX: XL_WDKF_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdkf") as? XL_WDKF_ViewController
@@ -101,8 +93,45 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
         }
         print("\(indexPath.row)")
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func yonghuxinxichaxun() {
+        
+        let method = "/user/findUserInfo"
+        let userId:String = userDefaults.value(forKey: "userId") as! String
+        let dic:[String:Any] = ["userId":userId]
+        //        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                //                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
+                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                
+                if nil != data["mobile"] {
+                    self.phone.text = data["mobile"] as? String
+                }
+                var ax:String = ""
+                if nil != data["photo"]{
+                    ax = data["photo"] as! String
+                }
+                
+                let newstring = TupianUrl + ax
+                let touurl = URL(string: String(format: "%@",newstring.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
+                
+                self.touxiang.sd_setImage(with: touurl, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+                //企业认证不等于4 都是个人
+                
+                if nil != data["name"] {
+                    self.name.text = (data["name"] as? String)! + " (个人版)"
+                    if nil != data["isPass"] && data["isPass"] as!Int == 4{
+                        self.name.text = (data["name"] as? String)! + " (企业版)"
+                    }
+                }
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+            
+        }
     }
 }

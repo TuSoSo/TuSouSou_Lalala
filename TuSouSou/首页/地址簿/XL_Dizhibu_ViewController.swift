@@ -120,11 +120,11 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
         let nameString:UILabel = cell.viewWithTag(132) as! UILabel
         let phoneString:UILabel = cell.viewWithTag(133) as! UILabel
         let dizhiString:UILabel = cell.viewWithTag(134) as! UILabel
-        
-        nameString.text = (cityList[indexPath.row])["userName"] as? String
-        phoneString.text = "+ 86" + ((cityList[indexPath.row])["phone"]! as! String)
-        dizhiString.text = ((cityList[indexPath.row])["location"]! as! String) + ((cityList[indexPath.row])["address"]! as! String)
-        
+        if cityList.count != 0 {
+            nameString.text = (cityList[indexPath.row])["userName"] as? String
+            phoneString.text = "+ 86" + ((cityList[indexPath.row])["phone"]! as! String)
+            dizhiString.text = ((cityList[indexPath.row])["location"]! as! String) + ((cityList[indexPath.row])["address"]! as! String)
+        }
         
         
         return cell
@@ -135,10 +135,6 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
         let dizhi = ((cityList[indexPath.row])["location"]! as! String) + ((cityList[indexPath.row])["address"]! as! String)
         let Lon = (cityList[indexPath.row])["longitude"]! as! String
         let Lat = (cityList[indexPath.row])["latitude"]! as! String
-        
-        
-        
-        
         let dic = ["name":name,"phone":phone,"dizhi":dizhi,"lon":Lon,"lat":Lat]
         
         if let block = self.xuanzhiBody {

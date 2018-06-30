@@ -226,8 +226,9 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
                 //跳页 block 传值 订单金额
                 let WDDD: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
                 WDDD?.state = "2"
-                WDDD?.Dingdanblock = {(dingdanjine: String) in
-                    self.TFDic["jine"] = dingdanjine
+                WDDD?.Dingdanblock = {(dingdanjine: [String]) in
+                    self.TFDic["jine"] = dingdanjine[0]
+                    self.TFDic["dingdanhao"] = dingdanjine[1]
                     self.tablekaifapiao.reloadData()
                 }
                 self.navigationController?.pushViewController(WDDD!, animated: true)
@@ -238,8 +239,9 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
                 //跳页 block 传值 订单金额
                 let WDDD: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
                 WDDD?.state = "2"
-                WDDD?.Dingdanblock = {(dingdanjine: String) in
-                    self.TFDic["jine"] = dingdanjine
+                WDDD?.Dingdanblock = {(dingdanjine: [String]) in
+                    self.TFDic["jine"] = dingdanjine[0]
+                    self.TFDic["dingdanhao"] = dingdanjine[1]
                     self.tablekaifapiao.reloadData()
                 }
                 self.navigationController?.pushViewController(WDDD!, animated: true)
@@ -274,6 +276,50 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
     }
     @objc func kaifaP() {
         
+        print(TFDic)
+        let method = "/user/nvoice"
+        let userId = userDefaults.value(forKey: "userId")
+        var titleType = "2" //1 企业 2 个人
+        if GerenTT.isSelected == false {
+            titleType = "1"
+        }
+        let title = TFDic["2"] as! String//taitou
+        let taxNo = TFDic["3"] as! String//suihao
+        let conten = TFDic["4"] as! String//neirong
+        //        let invoiceType = ""//1 dianzi 2 zhizhi
+        var amoun = "" // jine
+        var recipients = "" //shoujianren
+        var phone = "" // dianhua
+        var address = ""//xiangxidizhi
+        var email = "" // dianziyoujian
+        let orderIdList = [["orderId":TFDic["dingdanhao"] as! String]]//dingdanhao
+        var dicc:[String:Any] = [:]
+        if dianziFP.isSelected == true {
+            //dianzifapiao
+            email = TFDic["5"] as! String
+            amoun = TFDic["jine"] as! String
+            dicc = ["userId":userId!,"invoiceType":"1","titleType":titleType,"title":title,"taxNo":taxNo,"conten":conten,"email":email,"amoun":amoun,"orderIdList":orderIdList]
+        }else{
+            //zhizhifapiao
+            amoun = TFDic["jine"] as! String
+            recipients = TFDic["5"] as! String
+            phone = TFDic["6"] as! String
+            address = TFDic["7"] as! String
+            dicc = ["userId":userId!,"invoiceType":"2","titleType":titleType,"title":title,"taxNo":taxNo,"conten":conten,"recipients":recipients,"phone":phone,"address":address,"amoun":amoun,"orderIdList":orderIdList]
+        }
+        
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+            print(res)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                //                    let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                
+            }else{
+                
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
     }
     /*
     // MARK: - Navigation

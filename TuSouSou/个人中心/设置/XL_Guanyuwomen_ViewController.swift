@@ -10,10 +10,15 @@ import UIKit
 
 class XL_Guanyuwomen_ViewController: UIViewController {
 
+    @IBOutlet weak var webView: UIWebView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.title = "关于我们"
+        let newString = "http://www.tusousouxr.com/tssweb/aboutus"
+        let uul = URL(string: String(format: "%@",newString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
+        let request = NSURLRequest(url: uul!)
+        self.webView.loadRequest(request as URLRequest)
         // Do any additional setup after loading the view.
     }
 

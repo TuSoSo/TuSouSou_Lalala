@@ -38,7 +38,8 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
                 XL_waringBox().warningBoxModeText(message: "请填写您的意见及建议", view: self.view)
             }else {
                 //调接口
-                XL_waringBox().warningBoxModeText(message: "反馈成功", view: self.view)
+                self.fankuijiekou(content: login.text!)
+//                XL_waringBox().warningBoxModeText(message: "反馈成功", view: self.view)
             }
         })
         alertController.addAction(cancelAction)
@@ -46,6 +47,25 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
         self.present(alertController, animated: true, completion: nil)
         
         
+    }
+    func fankuijiekou(content:String) {
+        let method = "/user/feedback"
+        let userId = userDefaults.value(forKey: "userId")
+        let dic:[String:Any] = ["userId":userId!,"content":content]
+//        XL_waringBox().warningBoxModeIndeterminate(message: "加载中...", view: self.view)
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                XL_waringBox().warningBoxModeText(message: "反馈成功", view: self.view)
+//                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
     }
     //MARK:Delegate TableView
     func DelegateTable() {
