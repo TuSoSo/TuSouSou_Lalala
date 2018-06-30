@@ -35,3 +35,6 @@
 
 //SDImage
 #import <SDWebImage/UIImageView+WebCache.h>
+
+//阿里实人认证
+#import <RPSDK/RPSDK.h>

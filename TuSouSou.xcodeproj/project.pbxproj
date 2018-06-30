@@ -119,6 +119,36 @@
 		0FFEB76320E4C291003D5B3F /* AASeriesElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFEB75A20E4C291003D5B3F /* AASeriesElement.swift */; };
 		0FFEB76520E659E6003D5B3F /* XL_TX_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFEB76420E659E6003D5B3F /* XL_TX_ViewController.swift */; };
 		0FFEB76720E72010003D5B3F /* XL_QD_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFEB76620E72010003D5B3F /* XL_QD_ViewController.swift */; };
+		0FFEB77D20E75D2E003D5B3F /* 云盾实人认证2.2发布说明.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB76A20E75D2E003D5B3F /* 云盾实人认证2.2发布说明.txt */; };
+		0FFEB77E20E75D2E003D5B3F /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB76B20E75D2E003D5B3F /* ZipArchive.framework */; };
+		0FFEB77F20E75D2E003D5B3F /* FaceLivenessOpen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB76C20E75D2E003D5B3F /* FaceLivenessOpen.framework */; };
+		0FFEB78020E75D2E003D5B3F /* AliReachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB76D20E75D2E003D5B3F /* AliReachability.framework */; };
+		0FFEB78120E75D2E003D5B3F /* SecurityGuardSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB76E20E75D2E003D5B3F /* SecurityGuardSDK.framework */; };
+		0FFEB78220E75D2E003D5B3F /* WindVaneBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB76F20E75D2E003D5B3F /* WindVaneBridge.framework */; };
+		0FFEB78320E75D2E003D5B3F /* AliyunOSSiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB77020E75D2E003D5B3F /* AliyunOSSiOS.framework */; };
+		0FFEB78420E75D2E003D5B3F /* WindVaneBasic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB77120E75D2E003D5B3F /* WindVaneBasic.framework */; };
+		0FFEB78520E75D2E003D5B3F /* SGMain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB77220E75D2E003D5B3F /* SGMain.framework */; };
+		0FFEB78620E75D2E003D5B3F /* RPSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB77320E75D2E003D5B3F /* RPSDK.framework */; };
+		0FFEB78720E75D2E003D5B3F /* RPSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB77520E75D2E003D5B3F /* RPSDK.bundle */; };
+		0FFEB78820E75D2E003D5B3F /* FaceLivenessSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB77620E75D2E003D5B3F /* FaceLivenessSDK.bundle */; };
+		0FFEB78920E75D2E003D5B3F /* FaceTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB77720E75D2E003D5B3F /* FaceTheme.bundle */; };
+		0FFEB78A20E75D2E003D5B3F /* SGNoCaptcha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB77820E75D2E003D5B3F /* SGNoCaptcha.framework */; };
+		0FFEB78B20E75D2E003D5B3F /* UI定制使用方法.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB77920E75D2E003D5B3F /* UI定制使用方法.txt */; };
+		0FFEB78C20E75D2E003D5B3F /* WindVane.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB77A20E75D2E003D5B3F /* WindVane.framework */; };
+		0FFEB78D20E75D2E003D5B3F /* WindVaneCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB77B20E75D2E003D5B3F /* WindVaneCore.framework */; };
+		0FFEB78E20E75D2E003D5B3F /* SGSecurityBody.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB77C20E75D2E003D5B3F /* SGSecurityBody.framework */; };
+		0FFEB79020E75D6A003D5B3F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB78F20E75D6A003D5B3F /* CoreMedia.framework */; };
+		0FFEB79220E75D9D003D5B3F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB79120E75D9D003D5B3F /* AVFoundation.framework */; };
+		0FFEB79420E75DB2003D5B3F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB79320E75DB2003D5B3F /* ImageIO.framework */; };
+		0FFEB79620E75DBD003D5B3F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB79520E75DBD003D5B3F /* MobileCoreServices.framework */; };
+		0FFEB79820E75DC7003D5B3F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB79720E75DC6003D5B3F /* MediaPlayer.framework */; };
+		0FFEB79A20E75DDD003D5B3F /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB79920E75DDD003D5B3F /* AddressBook.framework */; };
+		0FFEB79C20E75DE4003D5B3F /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB79B20E75DE4003D5B3F /* AddressBookUI.framework */; };
+		0FFEB79E20E75DF9003D5B3F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB79D20E75DF9003D5B3F /* AudioToolbox.framework */; };
+		0FFEB7A020E75E01003D5B3F /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB79F20E75E01003D5B3F /* AssetsLibrary.framework */; };
+		0FFEB7A220E75E11003D5B3F /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB7A120E75E11003D5B3F /* libresolv.tbd */; };
+		0FFEB7A420E75E1A003D5B3F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB7A320E75E1A003D5B3F /* WebKit.framework */; };
+		0FFEB7A720E75EBE003D5B3F /* yw_1222_0769.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB7A620E75EBD003D5B3F /* yw_1222_0769.jpg */; };
 		AB0B537FD70EC5357A512087 /* Pods_TuSouSou.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */; };
 /* End PBXBuildFile section */
 
@@ -339,6 +369,36 @@
 		0FFEB75A20E4C291003D5B3F /* AASeriesElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AASeriesElement.swift; sourceTree = "<group>"; };
 		0FFEB76420E659E6003D5B3F /* XL_TX_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_TX_ViewController.swift; sourceTree = "<group>"; };
 		0FFEB76620E72010003D5B3F /* XL_QD_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_QD_ViewController.swift; sourceTree = "<group>"; };
+		0FFEB76A20E75D2E003D5B3F /* 云盾实人认证2.2发布说明.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "云盾实人认证2.2发布说明.txt"; sourceTree = "<group>"; };
+		0FFEB76B20E75D2E003D5B3F /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = "<group>"; };
+		0FFEB76C20E75D2E003D5B3F /* FaceLivenessOpen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FaceLivenessOpen.framework; sourceTree = "<group>"; };
+		0FFEB76D20E75D2E003D5B3F /* AliReachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AliReachability.framework; sourceTree = "<group>"; };
+		0FFEB76E20E75D2E003D5B3F /* SecurityGuardSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SecurityGuardSDK.framework; sourceTree = "<group>"; };
+		0FFEB76F20E75D2E003D5B3F /* WindVaneBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVaneBridge.framework; sourceTree = "<group>"; };
+		0FFEB77020E75D2E003D5B3F /* AliyunOSSiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AliyunOSSiOS.framework; sourceTree = "<group>"; };
+		0FFEB77120E75D2E003D5B3F /* WindVaneBasic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVaneBasic.framework; sourceTree = "<group>"; };
+		0FFEB77220E75D2E003D5B3F /* SGMain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SGMain.framework; sourceTree = "<group>"; };
+		0FFEB77320E75D2E003D5B3F /* RPSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RPSDK.framework; sourceTree = "<group>"; };
+		0FFEB77520E75D2E003D5B3F /* RPSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RPSDK.bundle; sourceTree = "<group>"; };
+		0FFEB77620E75D2E003D5B3F /* FaceLivenessSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FaceLivenessSDK.bundle; sourceTree = "<group>"; };
+		0FFEB77720E75D2E003D5B3F /* FaceTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FaceTheme.bundle; sourceTree = "<group>"; };
+		0FFEB77820E75D2E003D5B3F /* SGNoCaptcha.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SGNoCaptcha.framework; sourceTree = "<group>"; };
+		0FFEB77920E75D2E003D5B3F /* UI定制使用方法.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "UI定制使用方法.txt"; sourceTree = "<group>"; };
+		0FFEB77A20E75D2E003D5B3F /* WindVane.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVane.framework; sourceTree = "<group>"; };
+		0FFEB77B20E75D2E003D5B3F /* WindVaneCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVaneCore.framework; sourceTree = "<group>"; };
+		0FFEB77C20E75D2E003D5B3F /* SGSecurityBody.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SGSecurityBody.framework; sourceTree = "<group>"; };
+		0FFEB78F20E75D6A003D5B3F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		0FFEB79120E75D9D003D5B3F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		0FFEB79320E75DB2003D5B3F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		0FFEB79520E75DBD003D5B3F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		0FFEB79720E75DC6003D5B3F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		0FFEB79920E75DDD003D5B3F /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		0FFEB79B20E75DE4003D5B3F /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		0FFEB79D20E75DF9003D5B3F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0FFEB79F20E75E01003D5B3F /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		0FFEB7A120E75E11003D5B3F /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		0FFEB7A320E75E1A003D5B3F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		0FFEB7A620E75EBD003D5B3F /* yw_1222_0769.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yw_1222_0769.jpg; sourceTree = "<group>"; };
 		461B93E68B998FB59970634D /* Pods-TuSouSou.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.release.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.release.xcconfig"; sourceTree = "<group>"; };
 		5C5004F705772966345F46E2 /* Pods-TuSouSou.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuSouSou.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TuSouSou/Pods-TuSouSou.debug.xcconfig"; sourceTree = "<group>"; };
 		FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TuSouSou.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -350,30 +410,54 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F7019E32085DC72000F7F67 /* libz.tbd in Frameworks */,
+				0F7019E12085DC6B000F7F67 /* libc++.tbd in Frameworks */,
+				0F6EE58020BD77CE0062039C /* libiconv.tbd in Frameworks */,
+				0FFEB7A420E75E1A003D5B3F /* WebKit.framework in Frameworks */,
+				0FFEB7A220E75E11003D5B3F /* libresolv.tbd in Frameworks */,
+				0FFEB7A020E75E01003D5B3F /* AssetsLibrary.framework in Frameworks */,
+				0FFEB79E20E75DF9003D5B3F /* AudioToolbox.framework in Frameworks */,
+				0F5D7CCB20513DDD00411262 /* SystemConfiguration.framework in Frameworks */,
+				0FFEB79C20E75DE4003D5B3F /* AddressBookUI.framework in Frameworks */,
+				0FFEB79A20E75DDD003D5B3F /* AddressBook.framework in Frameworks */,
+				0F5D7CC920513DD500411262 /* CoreLocation.framework in Frameworks */,
+				0FFEB79820E75DC7003D5B3F /* MediaPlayer.framework in Frameworks */,
+				0FFEB79620E75DBD003D5B3F /* MobileCoreServices.framework in Frameworks */,
+				0FFEB79420E75DB2003D5B3F /* ImageIO.framework in Frameworks */,
+				0FFEB79220E75D9D003D5B3F /* AVFoundation.framework in Frameworks */,
+				0F5D7CD120513DFE00411262 /* CoreTelephony.framework in Frameworks */,
+				0F7019ED2085DCC3000F7F67 /* CoreMotion.framework in Frameworks */,
+				0FFEB79020E75D6A003D5B3F /* CoreMedia.framework in Frameworks */,
 				0F6EE58420BD77FF0062039C /* libstdc++.tbd in Frameworks */,
 				0F6EE58220BD77EE0062039C /* libsqlite3.tbd in Frameworks */,
-				0F6EE58020BD77CE0062039C /* libiconv.tbd in Frameworks */,
+				0FFEB78A20E75D2E003D5B3F /* SGNoCaptcha.framework in Frameworks */,
+				0FFEB78320E75D2E003D5B3F /* AliyunOSSiOS.framework in Frameworks */,
+				0FFEB78C20E75D2E003D5B3F /* WindVane.framework in Frameworks */,
+				0FFEB78620E75D2E003D5B3F /* RPSDK.framework in Frameworks */,
+				0FFEB78020E75D2E003D5B3F /* AliReachability.framework in Frameworks */,
 				0F8836DA208DF001000C6CA6 /* Alamofire.framework in Frameworks */,
 				0F701C4F20871FDF000F7F67 /* libssl.a in Frameworks */,
-				0F7019ED2085DCC3000F7F67 /* CoreMotion.framework in Frameworks */,
+				0FFEB78220E75D2E003D5B3F /* WindVaneBridge.framework in Frameworks */,
 				0F7019EB2085DCB6000F7F67 /* CFNetwork.framework in Frameworks */,
+				0FFEB78120E75D2E003D5B3F /* SecurityGuardSDK.framework in Frameworks */,
+				0FFEB78D20E75D2E003D5B3F /* WindVaneCore.framework in Frameworks */,
 				0F7019E92085DCAD000F7F67 /* Foundation.framework in Frameworks */,
 				0F7019E72085DCA2000F7F67 /* UIKit.framework in Frameworks */,
 				0F7019E52085DC92000F7F67 /* CoreText.framework in Frameworks */,
-				0F7019E12085DC6B000F7F67 /* libc++.tbd in Frameworks */,
 				0F6EE57D20BD776E0062039C /* TencentOpenAPI.framework in Frameworks */,
 				0FE54CE72052363F005ADCC0 /* CoreGraphics.framework in Frameworks */,
 				0FE54CE52052362E005ADCC0 /* OpenGLES.framework in Frameworks */,
+				0FFEB78520E75D2E003D5B3F /* SGMain.framework in Frameworks */,
 				0FE54CE320523627005ADCC0 /* QuartzCore.framework in Frameworks */,
 				0F5D7CD520513E1800411262 /* AdSupport.framework in Frameworks */,
 				0F701C4920871FDF000F7F67 /* libcrypto.a in Frameworks */,
+				0FFEB77E20E75D2E003D5B3F /* ZipArchive.framework in Frameworks */,
 				0F5D7CD320513E0A00411262 /* libstdc++.6.0.9.tbd in Frameworks */,
+				0FFEB78E20E75D2E003D5B3F /* SGSecurityBody.framework in Frameworks */,
+				0FFEB78420E75D2E003D5B3F /* WindVaneBasic.framework in Frameworks */,
 				0F701C5020871FDF000F7F67 /* AlipaySDK.framework in Frameworks */,
-				0F5D7CD120513DFE00411262 /* CoreTelephony.framework in Frameworks */,
 				0F5D7CCF20513DEE00411262 /* libsqlite3.0.tbd in Frameworks */,
 				0F5D7CCD20513DE300411262 /* Security.framework in Frameworks */,
-				0F5D7CCB20513DDD00411262 /* SystemConfiguration.framework in Frameworks */,
-				0F5D7CC920513DD500411262 /* CoreLocation.framework in Frameworks */,
+				0FFEB77F20E75D2E003D5B3F /* FaceLivenessOpen.framework in Frameworks */,
 				AB0B537FD70EC5357A512087 /* Pods_TuSouSou.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -772,6 +856,7 @@
 		0F9875952044E72E00C34111 /* TuSouSou */ = {
 			isa = PBXGroup;
 			children = (
+				0FFEB76820E75C6A003D5B3F /* 阿里实人认证SDK */,
 				0FFEB74E20E4C281003D5B3F /* 折线图 */,
 				0F4BF69320C7675D00EF3341 /* Sound */,
 				0F9723DC20BF9D330064A678 /* WNRatingBar */,
@@ -914,9 +999,62 @@
 			path = AAChartCreator;
 			sourceTree = "<group>";
 		};
+		0FFEB76820E75C6A003D5B3F /* 阿里实人认证SDK */ = {
+			isa = PBXGroup;
+			children = (
+				0FFEB76920E75D2E003D5B3F /* client */,
+			);
+			path = "阿里实人认证SDK";
+			sourceTree = "<group>";
+		};
+		0FFEB76920E75D2E003D5B3F /* client */ = {
+			isa = PBXGroup;
+			children = (
+				0FFEB7A620E75EBD003D5B3F /* yw_1222_0769.jpg */,
+				0FFEB76A20E75D2E003D5B3F /* 云盾实人认证2.2发布说明.txt */,
+				0FFEB76B20E75D2E003D5B3F /* ZipArchive.framework */,
+				0FFEB76C20E75D2E003D5B3F /* FaceLivenessOpen.framework */,
+				0FFEB76D20E75D2E003D5B3F /* AliReachability.framework */,
+				0FFEB76E20E75D2E003D5B3F /* SecurityGuardSDK.framework */,
+				0FFEB76F20E75D2E003D5B3F /* WindVaneBridge.framework */,
+				0FFEB77020E75D2E003D5B3F /* AliyunOSSiOS.framework */,
+				0FFEB77120E75D2E003D5B3F /* WindVaneBasic.framework */,
+				0FFEB77220E75D2E003D5B3F /* SGMain.framework */,
+				0FFEB77320E75D2E003D5B3F /* RPSDK.framework */,
+				0FFEB77420E75D2E003D5B3F /* resource */,
+				0FFEB77820E75D2E003D5B3F /* SGNoCaptcha.framework */,
+				0FFEB77920E75D2E003D5B3F /* UI定制使用方法.txt */,
+				0FFEB77A20E75D2E003D5B3F /* WindVane.framework */,
+				0FFEB77B20E75D2E003D5B3F /* WindVaneCore.framework */,
+				0FFEB77C20E75D2E003D5B3F /* SGSecurityBody.framework */,
+			);
+			path = client;
+			sourceTree = "<group>";
+		};
+		0FFEB77420E75D2E003D5B3F /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				0FFEB77520E75D2E003D5B3F /* RPSDK.bundle */,
+				0FFEB77620E75D2E003D5B3F /* FaceLivenessSDK.bundle */,
+				0FFEB77720E75D2E003D5B3F /* FaceTheme.bundle */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
 		758FB1391E2E3F9959FA6227 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FFEB7A320E75E1A003D5B3F /* WebKit.framework */,
+				0FFEB7A120E75E11003D5B3F /* libresolv.tbd */,
+				0FFEB79F20E75E01003D5B3F /* AssetsLibrary.framework */,
+				0FFEB79D20E75DF9003D5B3F /* AudioToolbox.framework */,
+				0FFEB79B20E75DE4003D5B3F /* AddressBookUI.framework */,
+				0FFEB79920E75DDD003D5B3F /* AddressBook.framework */,
+				0FFEB79720E75DC6003D5B3F /* MediaPlayer.framework */,
+				0FFEB79520E75DBD003D5B3F /* MobileCoreServices.framework */,
+				0FFEB79320E75DB2003D5B3F /* ImageIO.framework */,
+				0FFEB79120E75D9D003D5B3F /* AVFoundation.framework */,
+				0FFEB78F20E75D6A003D5B3F /* CoreMedia.framework */,
 				0F6EE58320BD77FF0062039C /* libstdc++.tbd */,
 				0F6EE58120BD77ED0062039C /* libsqlite3.tbd */,
 				0F6EE57F20BD77CD0062039C /* libiconv.tbd */,
@@ -1075,11 +1213,17 @@
 				0FFEB75C20E4C291003D5B3F /* AAHighchartsMore.js in Resources */,
 				0F6EE57E20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				0F4BF69520C7676A00EF3341 /* 7008.wav in Resources */,
+				0FFEB77D20E75D2E003D5B3F /* 云盾实人认证2.2发布说明.txt in Resources */,
+				0FFEB7A720E75EBE003D5B3F /* yw_1222_0769.jpg in Resources */,
 				0F701C4A20871FDF000F7F67 /* AlipaySDK.bundle in Resources */,
+				0FFEB78920E75D2E003D5B3F /* FaceTheme.bundle in Resources */,
 				0FFEB75E20E4C291003D5B3F /* AAFunnel.js in Resources */,
+				0FFEB78720E75D2E003D5B3F /* RPSDK.bundle in Resources */,
 				0F9875A12044E72E00C34111 /* LaunchScreen.storyboard in Resources */,
+				0FFEB78B20E75D2E003D5B3F /* UI定制使用方法.txt in Resources */,
 				0F9723E320BF9D330064A678 /* star_big1@3x.png in Resources */,
 				0FFEB75D20E4C291003D5B3F /* AAOptionsConstructor.js in Resources */,
+				0FFEB78820E75D2E003D5B3F /* FaceLivenessSDK.bundle in Resources */,
 				0FFEB75F20E4C291003D5B3F /* AAChartView.html in Resources */,
 				0FFEB75B20E4C291003D5B3F /* AAHighchartsLib.js in Resources */,
 				0F9723E420BF9D330064A678 /* star_big3@3x.png in Resources */,
@@ -1426,6 +1570,7 @@
 					"$(PROJECT_DIR)/支付宝",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/TuSouSou/qq三方登录",
+					"$(PROJECT_DIR)/TuSouSou/阿里实人认证SDK/client",
 				);
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				HEADER_SEARCH_PATHS = (
@@ -1531,6 +1676,7 @@
 					"$(PROJECT_DIR)/支付宝",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/TuSouSou/qq三方登录",
+					"$(PROJECT_DIR)/TuSouSou/阿里实人认证SDK/client",
 				);
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				HEADER_SEARCH_PATHS = (

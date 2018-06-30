@@ -22,6 +22,8 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
             UIScrollView.appearance().contentInsetAdjustmentBehavior = .never
             //            appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         }
+        //阿里实人认证
+        RPSDK.initialize(.online)
         //极光推送
         // 通知注册实体类
         let entity = JPUSHRegisterEntity();

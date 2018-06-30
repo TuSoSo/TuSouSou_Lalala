@@ -257,6 +257,10 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
             if indexPath.row == 0 {
                 //跳实名认证
                 if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+                    //接口 取回 token 调 阿里
+                    tokenJiekou()
+                    
+                }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
                     let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
                     self.navigationController?.pushViewController(ShimingRZ!, animated: true)
                 }
@@ -265,6 +269,31 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 let qiyeRZ: XL_QiyeRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qiyerz") as? XL_QiyeRZ_ViewController
                 self.navigationController?.pushViewController(qiyeRZ!, animated: true)
             }
+        }
+    }
+    func tokenJiekou() {
+        let method = "/user/updateUserInfoApp"
+        let userId:String = userDefaults.value(forKey: "userId") as! String
+        XL_waringBox().warningBoxModeIndeterminate(message: "保存中...", view: self.view)
+        let imagearr:[Any] = [imageTou.image!]
+        let namearr:[Any] = ["photo"]
+        
+        //        let dic:[String:Any] = ["userId":userId,"name":""]
+        let keyarr = ["userId","name"]
+        let valuearr = [userId,nameFD.text!]
+        
+        
+        XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyarr, valueArray: valuearr, methodName: method, success: { (res) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                XL_waringBox().warningBoxModeText(message: "保存成功", view: (self.navigationController?.view)!)
+                self.navigationController?.popViewController(animated: true)
+                
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
         }
     }
     @objc func yonghuxinxixiugai() {

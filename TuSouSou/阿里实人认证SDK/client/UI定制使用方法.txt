@@ -1,0 +1,49 @@
+客户先按阿里云-实人认证正常流程接入，上传apk和ipa下载对应的Android和iOS SDK，再按如下方法操作：
+
+Android自定图片：
+a.使用FaceLivenessOpen-2.1.6.9.aar替换对应的FaceLivenessOpen;
+b.将需要替换的图片放在 assets/facetheme/下
+
+iOS自定图片：
+a.使用FaceLivenessOpen.framework替换对应的文件
+b. 将需要替换的图片放在 FaceTheme.bundle的images目录下
+c. 将FaceTheme.bundle 加入项目中
+
+原始图片可在FaceTheme.bundle中的images目录中找到， 说明如下：
+屏幕下方按钮：face_nav_button.png 
+屏幕顶端关闭按钮：face_top_back.png
+屏幕顶端声音按钮：face_top_sound_on.png （声音打开），face_top_sound_off.png （声音关闭）
+中间圆内圈, 开始时底图：face_circle_inner_bg.png
+中间圆内圈, 检测到人脸时旋转图：face_circle_inner_detected.png
+中间圆内圈, 失败图: face_circle_inner_fail.png
+中间圆内圈, 成功图: face_circle_inner_ok.png
+中间圆内圈, 处理中时旋转图: face_circle_inner_processing.png
+中间圆外圈, 底图：face_circle_outer_bg.png
+中间圆外圈, 旋转图：face_circle_outer_detected.png
+提示动画圆圈底图：face_guide_bg.png
+
+Android自定颜色：
+a. 在theme.json修改颜色
+b.将theme.json放在 assets/facetheme/下
+
+iOS自定颜色：
+a. 在theme.json修改颜色
+b. 将theme.json放在 FaceTheme.bundle的images目录下
+c. 将FaceTheme.bundle 加入项目中
+原始theme.json可在FaceTheme.bundle中的images目录中找到， 说明如下：
+Key说明：
+错误文字颜色（检验不通过...）:color_error_text
+屏幕下方按钮文字颜色:color_button_text
+动作提示语文字颜色（请张下嘴...）:color_prompt_text
+导航首页提示文字颜色（请本人操作...）:color_nav_text
+悬浮提示文字颜色（请把脸部移入框中...）:color_tip_text
+值说明：
+值为10进制整型，由16进制颜色（0xAARRGGBB）转化成10进制的整型 ，如 0xFFFF5000 对应 4294922240",
+theme.json示例：
+{
+  "color_error_text":4294922240, 
+  "color_button_text":4294967295, 
+  "color_prompt_text":4281545523,
+  "color_nav_text":4281545523,    
+  "color_tip_text":4282204485
+}

@@ -1,0 +1,40 @@
+云盾实人认证2.2 版本releaseNote
+————————————————————
+版本发布说明说明:
+   1. 认证流程中活体部分性能提升
+   2. 支持认证错误超限错误
+   3. 支持只有一个活体步骤的认证通过[RPSDK startVerifyByNative]发起
+   4. 由于苹果加强了审核，升级了WindVane Web容器,并且裁剪了尺寸
+  
+如果之前已接入过云盾实人认证,则：
+————————————————————
+需要先删除之前的几个组件:
+WindVane.framework
+WindVane-API.framework
+WindVane-Basic.framework
+WindVane-Core.framework
+WindVane-Monitor.framework
+WindVane-PackageApp.framework
+WindVane-TBExtension.framework
+FaceLivenessSDK.framework
+
+然后用zip包里面的所有framework覆盖
+
+重要!: 如果之前已接入过云盾实人认证，则需要删除之前的签名图片yw_1222_0335.jpg，
+改用yw_1222_0769.jpg,否则不能正常工作。
+
+
+
+——————————————————----
+如果是第一次接入云盾实人认证,则请参考接入帮助页:
+https://help.aliyun.com/document_detail/58644.html
+
+
+
+
+
+
+
+
+
+
