@@ -44,15 +44,13 @@ class XL_GuanggaoViewController: UIViewController {
                 self.guanggaoUrl = data["url"] as? String
                 self.isTrue = 1
             }
-            
-            
         }) { (error) in
             print(error)
         }
     }
     func donghua(url_str:String) {
         let url: URL = URL(string: url_str)!
-        bigImg.sd_setImage(with: url, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+        bigImg.sd_setImage(with: url, placeholderImage: UIImage(named: "welcome"), options: SDWebImageOptions.progressiveDownload, completed: nil)
     }
     @objc func updateTime(){
         time -= 1

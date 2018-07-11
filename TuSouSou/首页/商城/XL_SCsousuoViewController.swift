@@ -65,9 +65,10 @@ class XL_SCsousuoViewController: UIViewController,UITableViewDelegate,UITableVie
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
+        
         if count > pageNo * pageSize {
             tableView.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             jiekou(string: tpye)
         }else{
             footer.endRefreshingWithNoMoreData()
@@ -113,8 +114,9 @@ class XL_SCsousuoViewController: UIViewController,UITableViewDelegate,UITableVie
                 jiee = businessList[section]["logoUrl"] as! String
             }
         }
-        let uul = URL(string: TupianUrl + jiee)
-        imageView.sd_setImage(with: uul, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+        let newString1 = TupianUrl + jiee
+        let uul:URL = URL(string: String(format: "%@",newString1.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
+        imageView.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
         let name = UILabel(frame: CGRect(x: 72, y: 21, width: Width - 142, height: 24))
         name.textColor = UIColor(hexString: "8e8e8e")
         
@@ -159,12 +161,13 @@ class XL_SCsousuoViewController: UIViewController,UITableViewDelegate,UITableVie
         
         if nil != businessList[indexPath.section]["productLsit"]  && (businessList[indexPath.section]["productLsit"] as! [[String:Any]]).count != 0{
             let sss:[[String:Any]] = businessList[indexPath.section]["productLsit"] as! [[String : Any]]
-            if nil != sss[indexPath.row]["logoUrl"]{
-                jiee = sss[indexPath.row]["logoUrl"] as! String
+            if nil != sss[indexPath.row]["picture"]{
+                jiee = sss[indexPath.row]["picture"] as! String
             }
         }
-        let uul = URL(string: TupianUrl + jiee)
-        imageView.sd_setImage(with: uul, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+        let newString1 = TupianUrl + jiee
+        let uul:URL = URL(string: String(format: "%@",newString1.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
+        imageView.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
         let name = UILabel(frame: CGRect(x: 82, y: 16, width: Width - 142, height: 24))
         name.font = UIFont.systemFont(ofSize: 15)
         name.textColor = UIColor(hexString: "8e8e8e")
@@ -196,15 +199,15 @@ class XL_SCsousuoViewController: UIViewController,UITableViewDelegate,UITableVie
         xiadan?.ttt = businessList[index]["merchantName"] as? String
         //        xiada
         self.navigationController?.pushViewController(xiadan!, animated: true)
-        
     }
     func jiekou(string:String) {
         let method = "/business/search"
         //        let userId = userDefaults.value(forKey: "userId")
         let latitude = userDefaults.value(forKey: "latitude")
         let longitude = userDefaults.value(forKey: "longitude")
+        let city:String = userDefaults.value(forKey: "cityName")! as! String
         
-        let dic:[String:Any] = ["longitude":longitude!,"latitude":latitude!,"searchName":lll!,"searchType":string,"pageNo":pageNo,"pageSize":pageSize]
+        let dic:[String:Any] = ["longitude":longitude!,"latitude":latitude!,"searchName":lll!,"searchType":string,"pageNo":pageNo,"pageSize":pageSize,"cityName":city]
         
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)

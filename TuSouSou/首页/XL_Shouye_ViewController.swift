@@ -28,16 +28,42 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     var searchBar = UISearchBar()
     var daohang: Int?
     var Pan = 0
+    
+    //详细地址传值
+    var shangDiZhi = ""
+    var shangXiangQing = ""
+    var xiaDiZhi = ""
+    var xiaXiangQing = ""
+    
     //地址详情
     @IBAction func xia_DZB(_ sender: Any) {
         if JianPanhuishou() {
             let tianjiadizhi: XL_dizhi_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhi") as! XL_dizhi_ViewController
             tianjiadizhi.Shei = "shoujian"
+            
+            if self.xiaName.text != "收件人姓名"{
+                tianjiadizhi.namename = xiaName.text!
+            }
+            if self.xiaPhone.text != "收件人电话"{
+                var shang = self.xiaPhone.text!
+                if isJiabaliu(string: self.xiaPhone.text!){
+                    shang = self.xiaPhone.text!.substring(fromIndex: 4)
+                }
+                tianjiadizhi.diandianhua = shang
+            }
+            tianjiadizhi.didizhi = self.xiaDiZhi
+            tianjiadizhi.xiangqing = self.xiaXiangQing
+            tianjiadizhi.lon = self.xiaLon
+            tianjiadizhi.lat = self.xiaLat
+            
             //block 传值调用
             tianjiadizhi.dixiang = {(diBody: [String: String]) in
                 self.xiaName.text = diBody["name"]
                 self.xiaPhone.text = diBody["phone"]
                 self.xiaDZOutlet.text = "\(diBody["dizhi"]!)\(diBody["xiangzhi"]!)"
+                self.xiaDiZhi = "\(diBody["dizhi"]!)"
+                self.xiaXiangQing = "\(diBody["xiangzhi"]!)"
+                
                 self.xiaLon = diBody["lon"]!
                 self.xiaLat = diBody["lat"]!
             }
@@ -54,6 +80,22 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             }else{
                 tianjiadizhi.Shei = "qujian"
             }
+            
+            if self.shangName.text != "寄件人姓名" && self.shangName.text != "取件人姓名"{
+                tianjiadizhi.namename = shangName.text!
+            }
+            if self.shangPhone.text != "寄件人电话" && self.shangPhone.text != "取件人电话"{
+                var shang = self.shangPhone.text!
+                if isJiabaliu(string: self.shangPhone.text!){
+                    shang = self.shangPhone.text!.substring(fromIndex: 4)
+                }
+                tianjiadizhi.diandianhua = shang
+            }
+            tianjiadizhi.didizhi = self.shangDiZhi
+            tianjiadizhi.xiangqing = self.shangXiangQing
+            tianjiadizhi.lon = self.shangLon
+            tianjiadizhi.lat = self.shangLat
+            
             //block 传值调用
             tianjiadizhi.dixiang = {(diBody: [String: String]) in
                 self.shangName.text = diBody["name"]
@@ -61,6 +103,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 self.shDZOutlet.text = "\(diBody["dizhi"]!)\(diBody["xiangzhi"]!)"
                 self.shangLon = diBody["lon"]!
                 self.shangLat = diBody["lat"]!
+                self.shangDiZhi = "\(diBody["dizhi"]!)"
+                self.shangXiangQing = "\(diBody["xiangzhi"]!)"
             }
             self.navigationController?.pushViewController(tianjiadizhi, animated: true)
         }
@@ -81,6 +125,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 self.shangName.text = xuanzhiBody["name"]
                 self.shangPhone.text = xuanzhiBody["phone"]
                 self.shDZOutlet.text = xuanzhiBody["dizhi"]
+                self.shangXiangQing = xuanzhiBody["xiangqing"]!
+                self.shangDiZhi = xuanzhiBody["didizhi"]!
                 self.shangLat = xuanzhiBody["lat"]!
                 self.shangLon = xuanzhiBody["lon"]!
             }
@@ -99,6 +145,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 self.xiaName.text = xuanzhiBody["name"]
                 self.xiaPhone.text = xuanzhiBody["phone"]
                 self.xiaDZOutlet.text = xuanzhiBody["dizhi"]
+                self.xiaXiangQing = xuanzhiBody["xiangqing"]!
+                self.xiaDiZhi = xuanzhiBody["didizhi"]!
                 self.xiaLat = xuanzhiBody["lat"]!
                 self.xiaLon = xuanzhiBody["lon"]!
             }
@@ -155,6 +203,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             //block 传值调用
             chengshiList.Cityblock = {(cityname: [String:String]) in
                 self.city = cityname["cityName"]!
+                userDefaults.set(cityname["cityName"]!, forKey: "cityName")
                 self.dizhi()
             }
             self.navigationController?.pushViewController(chengshiList, animated: true)
@@ -169,20 +218,12 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         }
     }
     var window: UIWindow?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
-            userDefaults.set("0", forKey: "isDengLu")
-        }else{
-            shouyejiekou()
-        }
         classifyList = []
         labelList = []
         excellentMerchantList = []
        
-        
         let item = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = item
         //从广告页跳转到详情
@@ -220,9 +261,10 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
+        
         if count > pageNo * pageSize {
             _tableView.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             shangchengjiekou()
         }else{
             footer.endRefreshingWithNoMoreData()
@@ -278,6 +320,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             if (res as! [String: Any])["code"] as! String == "0000" {
                 XL_waringBox().warningBoxModeText(message: "下单成功", view: self.view)
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                let juli = dic["instance"] as! String
                 let zhinazhisong = dic["directSendMoney"] as! Float
                 let dingdanjine = dic["orderCount"] as! Float
                 let dingdanhao = dic["orderCode"] as! String // 订单号？？
@@ -288,6 +331,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 xiadan?.dingdanhao = dingdanhao
                 xiadan?.zhinazhisong = String(format:" %.2f", zhinazhisong)
                 xiadan?.orderType = self.daohang
+                xiadan?.julili = juli
                 self.navigationController?.pushViewController(xiadan!, animated: true)
                 
             }
@@ -374,10 +418,22 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             VV.addSubview(shu)
             let jingxuan = UILabel(frame: CGRect(x: 20, y: 8, width: 200, height: 28))
             jingxuan.text = "精选商家"
+            let quanbushangjiaButton = UIButton(frame: CGRect(x: Width - 120, y: 8, width: 100, height: 28))
+            quanbushangjiaButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+            quanbushangjiaButton.setTitleColor(UIColor.black, for: .normal)
+            quanbushangjiaButton.setTitle("查看全部商家", for: .normal)
+            quanbushangjiaButton.addTarget(self, action: #selector(quanbushangjiaAction), for: .touchUpInside)
+            VV.addSubview(quanbushangjiaButton)
             VV.addSubview(jingxuan)
             return VV
         }
         return nil
+    }
+    @objc func quanbushangjiaAction()  {
+        print("点击时间")
+        let DP: XL_SJLB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sjlb") as? XL_SJLB_ViewController
+        DP?.classifyTypeId = ""
+        self.navigationController?.pushViewController(DP!, animated: true)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 1 {
@@ -422,6 +478,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         }
         if indexPath.section == 2 {
             let View1 = UIImageView(frame: CGRect(x: 0, y: 0, width: Width/3 - 1, height: 150))
+            View1.isUserInteractionEnabled = true
             let tapGR1 = UITapGestureRecognizer(target: self, action: #selector(view1Action(sender:)))
             View1.addGestureRecognizer(tapGR1)
             var ax:String = ""
@@ -433,9 +490,10 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             
             let newString = TupianUrl + ax
             let uuu:URL = URL(string: String(format: "%@",newString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
-            View1.sd_setImage(with: uuu, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+            View1.sd_setImage(with: uuu, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             
             let View2 = UIImageView(frame: CGRect(x: Width/3, y: 0, width: Width*2/3, height: 74))
+            View2.isUserInteractionEnabled = true
             let tapGR2 = UITapGestureRecognizer(target: self, action: #selector(view2Action(sender:)))
             View2.addGestureRecognizer(tapGR2)
             var ax1:String = ""
@@ -445,9 +503,10 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             }
             }
             let rrr:URL = URL(string:TupianUrl + ax1)!
-            View2.sd_setImage(with: rrr, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+            View2.sd_setImage(with: rrr, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             
             let View3 = UIImageView(frame: CGRect(x: Width/3, y: 75, width: Width/3 - 1, height: 75))
+            View3.isUserInteractionEnabled = true
             let tapGR3 = UITapGestureRecognizer(target: self, action: #selector(view3Action(sender:)))
             View3.addGestureRecognizer(tapGR3)
             var ax2:String = ""
@@ -457,9 +516,10 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             }
             }
             let lll:URL = URL(string:TupianUrl + ax2)!
-            View3.sd_setImage(with: lll, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+            View3.sd_setImage(with: lll, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             
             let View4 = UIImageView(frame: CGRect(x: Width*2/3, y: 75, width: Width/3, height: 75))
+            View4.isUserInteractionEnabled = true
             let tapGR4 = UITapGestureRecognizer(target: self, action: #selector(view4Action(sender:)))
             View4.addGestureRecognizer(tapGR4)
             var ax3:String = ""
@@ -469,7 +529,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             }
             }
             let sss:URL = URL(string:TupianUrl + ax3)!
-            View4.sd_setImage(with: sss, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+            View4.sd_setImage(with: sss, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             
             cell.contentView.addSubview(View4)
             cell.contentView.addSubview(View3)
@@ -485,10 +545,10 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 }
             }
             
-            let uul = URL(string: TupianUrl + jiee)
-            
+            let newString1 = TupianUrl + jiee
+            let uul:URL = URL(string: String(format: "%@",newString1.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
             let imageview = UIImageView(frame: CGRect(x: 8, y: 8, width: Width/3 - 20, height: 96))
-            imageview.sd_setImage(with: uul, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+            imageview.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             let gongsiName = UILabel(frame: CGRect(x: Width/3 + 8, y: 10, width: Width*2/3 - 20, height: 24))
             gongsiName.text = ""
             if excellentMerchantList.count != 0{
@@ -545,7 +605,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     func shangchengjiekou() {
         let method = "/store/home"
 //        let userId = userDefaults.value(forKey: "userId")
-        let dic:[String:Any] = ["pageNo":pageNo,"pageSize":pageSize]
+        let dic:[String:Any] = ["pageNo":pageNo,"pageSize":pageSize,"cityName":city]
 //        XL_waringBox().warningBoxModeIndeterminate(message: "加载中...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
@@ -567,25 +627,25 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     @objc func view1Action(sender: UITapGestureRecognizer) {
         print("红色")
         let xiadan: XL_SJLB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sjlb") as? XL_SJLB_ViewController
-        xiadan?.classifyTypeId = labelList[0]["classifyTypeId"] as? String
+        xiadan?.classifyTypeId = labelList[0]["classifyId"] as? String
         self.navigationController?.pushViewController(xiadan!, animated: true)
     }
     @objc func view2Action(sender: UITapGestureRecognizer) {
         print("蓝色")
         let xiadan: XL_SJLB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sjlb") as? XL_SJLB_ViewController
-        xiadan?.classifyTypeId = labelList[1]["classifyTypeId"] as? String
+        xiadan?.classifyTypeId = labelList[1]["classifyId"] as? String
         self.navigationController?.pushViewController(xiadan!, animated: true)
     }
     @objc func view3Action(sender: UITapGestureRecognizer) {
         print("绿色")
         let xiadan: XL_SJLB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sjlb") as? XL_SJLB_ViewController
-        xiadan?.classifyTypeId = labelList[2]["classifyTypeId"] as? String
+        xiadan?.classifyTypeId = labelList[2]["classifyId"] as? String
         self.navigationController?.pushViewController(xiadan!, animated: true)
     }
     @objc func view4Action(sender: UITapGestureRecognizer) {
         print("橘黄色")
         let xiadan: XL_SJLB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sjlb") as? XL_SJLB_ViewController
-        xiadan?.classifyTypeId = labelList[3]["classifyTypeId"] as? String
+        xiadan?.classifyTypeId = labelList[3]["classifyId"] as? String
         self.navigationController?.pushViewController(xiadan!, animated: true)
     }
     func scrollViewUI() -> (UIScrollView) {
@@ -606,7 +666,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         for i:Int in 0..<tuhuaArray.count {
             let url: URL = URL(string: tuhuaArray[i])!
             let imageView =  UIImageView()
-            imageView.sd_setImage(with: url, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+            imageView.sd_setImage(with: url, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             imageView.frame = CGRect(x: Int((Width - 20) / 4) * i + 10, y:10, width: Int((Width - 20) / 4 - 10), height: 130)
             imageView.tag = 600 + i
             imageView.isUserInteractionEnabled = true
@@ -622,6 +682,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         print(imageView.tag - 600)
         let DP: XL_SJLB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sjlb") as? XL_SJLB_ViewController
         DP?.classifyTypeId = classifyList[imageView.tag - 600]["classifyId"] as? String
+    
         self.navigationController?.pushViewController(DP!, animated: true)
         
     }
@@ -694,6 +755,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 let Street: String = (mark.addressDictionary! as NSDictionary).value(forKey: "Street") as! String
                 //首页上边显示的
                 self.city = city
+                userDefaults.set(city, forKey: "cityName")
                 //当前位置显示的
                 self.weizhi = State + city + (SubLocality as String) + Street
                 self.dizhi()
@@ -755,6 +817,11 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     override func viewWillAppear(_ animated: Bool) {
         self.view.endEditing(true)
         searchBar.text = ""
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+        }else{
+            shouyejiekou()
+        }
         //表头透明
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()

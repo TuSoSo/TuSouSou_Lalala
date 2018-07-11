@@ -12,8 +12,8 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
     
     var qiyeDic:[String:String] = [:]
     
-    let zuoArr:[String] = ["企业名称:","企业地址:","法人姓名:","身份证号:","手机号码:"]
-    let youArr:[String] = ["请填写企业名称","请填写企业地址","请填写法人姓名","请填写身份证号","请填写手机号码"]
+    let zuoArr:[String] = ["企业名称:","企业地址:","法人姓名:","身份证号:","执照编号:","联系人姓名:","联系人电话:"]
+    let youArr:[String] = ["请填写企业名称","请填写企业地址","请填写法人姓名","请填写身份证号","请填写执照编号","请填写联系人姓名","请填写联系人电话"]
 
     var imageDic:[String : Any] = [:]
     var isSHX = 0
@@ -39,7 +39,7 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 5
+            return 7
         }else if section == 1 {
             if nil != imageDic["xia"]{
                 return 3
@@ -72,10 +72,10 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
         if indexPath.section == 0 {
             let view = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: 56))
             view.backgroundColor = UIColor.white
-            let zuoLable = UILabel(frame: CGRect(x: 16, y: 12, width: 80, height: 32))
+            let zuoLable = UILabel(frame: CGRect(x: 16, y: 12, width: 104, height: 32))
             zuoLable.text = zuoArr[indexPath.row]
             zuoLable.font = UIFont.systemFont(ofSize: 15)
-            let youTF: UITextField = UITextField(frame: CGRect(x: 88, y: 12, width: Width - 104, height: 32))
+            let youTF: UITextField = UITextField(frame: CGRect(x: 112, y: 12, width: Width - 128, height: 32))
             youTF.textColor = UIColor.darkGray
             youTF.tag = indexPath.row + 330
             youTF.delegate = self
@@ -94,7 +94,7 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
             xiazi.textAlignment = .center
             xiazi.font = UIFont.systemFont(ofSize: 15)
             xiazi.textColor = UIColor.darkGray
-            imageView.image = UIImage(named: "引导2")
+            imageView.image = UIImage(named: "shoppicture")
             //互动
             /////设置允许交互属性
             imageView.isUserInteractionEnabled = true
@@ -105,7 +105,7 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
             singleTapGesture.view!.tag = indexPath.row
             imageView.contentMode = .scaleAspectFit
             if indexPath.row == 0 {
-                xiazi.text = "上传一张清晰的面部照片"
+                xiazi.text = "上传法人照片"
                 if nil != imageDic["shang"] {
                     imageView.image = imageDic["shang"] as? UIImage
                 }
@@ -149,7 +149,7 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
         qiyeDic["\(textField.tag - 330)"] = textField.text!
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField.tag != 330 + 4 {
+        if textField.tag != 330 + 6 {
             let index = IndexPath(row: textField.tag - 330 + 1, section: 0)
             let cell = tableQiye.cellForRow(at: index)
             (cell?.viewWithTag(textField.tag + 1) as! UITextField).becomeFirstResponder()
@@ -242,32 +242,41 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
     func qiyerenzhengjiekou() {
         let method = "/user/realAuthentication"
         let userId:String = userDefaults.value(forKey: "userId") as! String
-        //        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
+        XL_waringBox().warningBoxModeIndeterminate(message: "信息提交中...", view: self.view)
         
         let imagearr:[Any] = [imageDic["shang"]!,imageDic["xia"]!,imageDic["fa"]!]
         let namearr:[Any] = ["FacePic","licensePic","idCardPic1"]
-        
-        let keyArr = ["userId","firmName","firmAddress","firmLinkman","phone","idCard"]
+        let keyArr = ["userId","firmName","firmAddress","firmLinkman","idCard","licenseNo","corporation","phone"]
         var valueArr = [userId]
-        for i in 0..<5 {
+        var xxxx = 0
+        for i in 0..<7 {
             if nil != qiyeDic["\(i)"]{
                valueArr.append(qiyeDic["\(i)"]!)
             }else{
+                xxxx = 1
                 valueArr.append("")
             }
         }
-        XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
-                userDefaults.set("2", forKey: "isFirmAdit")
-                self.navigationController?.popViewController(animated: true)
+        if xxxx == 1  {
+            XL_waringBox().warningBoxModeText(message: "请填写完整信息！", view: self.view)
+        }else{
+            XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
+                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                if (res as! [String: Any])["code"] as! String == "0000" {
+                    XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
+                    userDefaults.set("2", forKey: "isFirmAdit")
+                    self.navigationController?.popViewController(animated: true)
+                }else{
+                    let Msg = (res as! [String: Any])["msg"] as! String
+                    XL_waringBox().warningBoxModeText(message: Msg, view: self.view)
+                }
+            }) { (error) in
+                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+                print(error)
             }
-        }) { (error) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
-            print(error)
         }
+        
     }
     /*
     // MARK: - Navigation

@@ -49,9 +49,10 @@ class XL_YiYaohaoyou_ViewController: UIViewController,UITableViewDelegate,UITabl
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
+        
         if count > pageNo * pageSize {
             tableyiyaoqing.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             yiyaoqingjiekou()
         }else{
             footer.endRefreshingWithNoMoreData()

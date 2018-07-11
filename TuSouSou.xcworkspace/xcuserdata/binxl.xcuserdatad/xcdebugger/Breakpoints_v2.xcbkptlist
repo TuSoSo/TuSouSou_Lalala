@@ -41,60 +41,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x9996;&#x9875;/XL_ShouYe_ViewController.swift"
-            timestampString = "552032317.168398"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "shang_DZB(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x9996;&#x9875;/XL_ShouYe_ViewController.swift"
-            timestampString = "552032317.168461"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "xia_DZB(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x9996;&#x9875;/&#x5730;&#x5740;&#x7c3f;/XL_dizhi_ViewController.swift"
-            timestampString = "552032317.168511"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "baiDudiTu(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "TuSouSou/&#x9996;&#x9875;/&#x5feb;&#x9012;&#x4e0b;&#x5355;/XL_KuaiDixiadan_ViewController.swift"
-            timestampString = "552032317.168558"
+            timestampString = "553009377.620399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "844"
-            endingLineNumber = "844"
+            startingLineNumber = "976"
+            endingLineNumber = "976"
             landmarkName = "WXZhiFu()"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x6211;&#x7684;&#x8ba2;&#x5355;/XL_WDdingdanViewController.swift"
-            timestampString = "552032317.168625"
+            timestampString = "553009377.620501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -137,40 +89,8 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x6211;&#x7684;&#x8ba2;&#x5355;/XL_WDDDXQ_ViewController.swift"
-            timestampString = "551770692.141071"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "271"
-            endingLineNumber = "271"
-            landmarkName = "pingjiajiekou()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x6211;&#x7684;&#x94b1;&#x5305;/XL_WDQB_ViewController.swift"
-            timestampString = "552032317.168702"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
-            landmarkName = "youhui()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x6211;&#x7684;&#x8ba2;&#x5355;/XL_WDdingdanViewController.swift"
-            timestampString = "552032317.1688451"
+            timestampString = "553009377.620553"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "313"
@@ -186,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x6211;&#x7684;&#x8ba2;&#x5355;/XL_WDdingdanViewController.swift"
-            timestampString = "552032317.168892"
+            timestampString = "553009377.620602"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "309"
@@ -201,13 +121,61 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x4e2a;&#x4eba;&#x8d44;&#x6599;/XL_GRziliaoViewController.swift"
-            timestampString = "552034800.370378"
+            filePath = "TuSouSou/&#x767b;&#x9646;/XL_Denglu_ViewController.swift"
+            timestampString = "552404698.950279"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
-            landmarkName = "tokenJiekou()"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "QYzc(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in TuSouSou.XL_Denglu_ViewController.WXLoginSuccess(notification: Foundation.Notification) -&gt; ()"
+                  moduleName = "TuSouSou"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/binxl/Desktop/TuSouSou/TuSouSou/%E7%99%BB%E9%99%86/XL_Denglu_ViewController.swift"
+                  timestampString = "553009377.9511369"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "200"
+                  endingLineNumber = "200"
+                  offsetFromSymbolStart = "384">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #1 () -&gt; () in TuSouSou.XL_Denglu_ViewController.WXLoginSuccess(notification: Foundation.Notification) -&gt; ()"
+                  moduleName = "TuSouSou"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/binxl/Desktop/TuSouSou/TuSouSou/%E7%99%BB%E9%99%86/XL_Denglu_ViewController.swift"
+                  timestampString = "553009377.952805"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "201"
+                  endingLineNumber = "201"
+                  offsetFromSymbolStart = "40">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TuSouSou/&#x767b;&#x9646;/XL_Denglu_ViewController.swift"
+            timestampString = "552404698.950374"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
+            landmarkName = "WeixinDenglu(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -217,13 +185,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x4e2a;&#x4eba;&#x8d44;&#x6599;/XL_GRziliaoViewController.swift"
-            timestampString = "552034800.736689"
+            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x4e2a;&#x4eba;&#x8d44;&#x6599;/XL_QiyeRZ_ViewController.swift"
+            timestampString = "553009377.620705"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
-            landmarkName = "tokenJiekou()"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "qiyerenzhengjiekou()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -233,13 +201,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x4e2a;&#x4eba;&#x8d44;&#x6599;/XL_GRziliaoViewController.swift"
-            timestampString = "552034801.144877"
+            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x4e2a;&#x4eba;&#x8d44;&#x6599;/XL_QiyeRZ_ViewController.swift"
+            timestampString = "553009377.6208349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
-            landmarkName = "tokenJiekou()"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
+            landmarkName = "qiyerenzhengjiekou()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -249,13 +217,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x4e2a;&#x4eba;&#x8d44;&#x6599;/XL_GRziliaoViewController.swift"
-            timestampString = "552034801.623238"
+            filePath = "TuSouSou/&#x9996;&#x9875;/&#x5546;&#x57ce;/XL_SPxiadanViewController.swift"
+            timestampString = "553009377.6208889"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
-            landmarkName = "tokenJiekou()"
+            startingLineNumber = "336"
+            endingLineNumber = "336"
+            landmarkName = "zhifu_xiao()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TuSouSou/&#x9996;&#x9875;/&#x5feb;&#x9012;&#x4e0b;&#x5355;/XL_KuaiDixiadan_ViewController.swift"
+            timestampString = "553009377.620939"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "456"
+            endingLineNumber = "456"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -265,13 +249,61 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x4e2a;&#x4eba;&#x8d44;&#x6599;/XL_GRziliaoViewController.swift"
-            timestampString = "552034802.117891"
+            filePath = "TuSouSou/&#x9996;&#x9875;/XL_ShouYe_ViewController.swift"
+            timestampString = "552919213.256788"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
-            landmarkName = "tokenJiekou()"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "xia_DZB(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TuSouSou/&#x9996;&#x9875;/&#x5feb;&#x9012;&#x4e0b;&#x5355;/XL_KuaiDixiadan_ViewController.swift"
+            timestampString = "553009377.6210099"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1010"
+            endingLineNumber = "1010"
+            landmarkName = "dikoujisuan(string:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x6211;&#x7684;&#x8ba2;&#x5355;/XL_WDDDXQ_ViewController.swift"
+            timestampString = "553009377.6210901"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "837"
+            endingLineNumber = "837"
+            landmarkName = "pingjiajiekou()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x6211;&#x7684;&#x8ba2;&#x5355;/XL_WDDDXQ_ViewController.swift"
+            timestampString = "553009377.621399"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "655"
+            endingLineNumber = "655"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -13,7 +13,6 @@
 		0F04B4E320C0F3B2004C4FBA /* XL_WDXXLB_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04B4E220C0F3B2004C4FBA /* XL_WDXXLB_ViewController.swift */; };
 		0F04B4E520C0F742004C4FBA /* XL_WDXXXQ_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04B4E420C0F742004C4FBA /* XL_WDXXXQ_ViewController.swift */; };
 		0F04B4E720C123C9004C4FBA /* XL_AnQuanSZ_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04B4E620C123C9004C4FBA /* XL_AnQuanSZ_ViewController.swift */; };
-		0F04B4E920C124A2004C4FBA /* XL_ShimingRZ_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04B4E820C124A2004C4FBA /* XL_ShimingRZ_ViewController.swift */; };
 		0F04B4EB20C12503004C4FBA /* XL_QiyeRZ_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04B4EA20C12503004C4FBA /* XL_QiyeRZ_ViewController.swift */; };
 		0F1197AE2057610A00CA0AFB /* XL_GGXQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1197AD2057610A00CA0AFB /* XL_GGXQViewController.swift */; };
 		0F1A803F20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1A803E20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift */; };
@@ -96,6 +95,25 @@
 		0FBD75F120567CD1004A8571 /* XL_LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBD75F020567CD1004A8571 /* XL_LeftMenuViewController.swift */; };
 		0FC49C8020A0580B00F5561B /* XL_SPxiadanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC49C7F20A0580B00F5561B /* XL_SPxiadanViewController.swift */; };
 		0FC49C8220A0585300F5561B /* XL_DPliebiaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC49C8120A0585300F5561B /* XL_DPliebiaoViewController.swift */; };
+		0FC8D01020F4546800B126DA /* XL_huanjing_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC8D00F20F4546800B126DA /* XL_huanjing_ViewController.swift */; };
+		0FC8D01320F5C23A00B126DA /* qyrzshsb.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D01120F5C23A00B126DA /* qyrzshsb.wav */; };
+		0FC8D01420F5C23A00B126DA /* qyrzshtg.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D01220F5C23A00B126DA /* qyrzshtg.wav */; };
+		0FC8D01720F5EE8300B126DA /* you_e_lie_tian_qi_jiang_li.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D01520F5EE8300B126DA /* you_e_lie_tian_qi_jiang_li.wav */; };
+		0FC8D01820F5EE8300B126DA /* you_ding_dan_liang_jiang_li_huo_dong.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D01620F5EE8300B126DA /* you_ding_dan_liang_jiang_li_huo_dong.wav */; };
+		0FC8D01C20F5EEEA00B126DA /* ssbzsdz.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D01920F5EEE900B126DA /* ssbzsdz.wav */; };
+		0FC8D01D20F5EEEA00B126DA /* txcg.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D01A20F5EEEA00B126DA /* txcg.wav */; };
+		0FC8D01E20F5EEEA00B126DA /* ssbtxcg.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D01B20F5EEEA00B126DA /* ssbtxcg.wav */; };
+		0FC8D02820F5F07E00B126DA /* orderreceive.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D01F20F5F07D00B126DA /* orderreceive.wav */; };
+		0FC8D02920F5F07E00B126DA /* outtime.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D02020F5F07D00B126DA /* outtime.wav */; };
+		0FC8D02A20F5F07E00B126DA /* ordernew.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D02120F5F07D00B126DA /* ordernew.wav */; };
+		0FC8D02B20F5F07E00B126DA /* ordersend.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D02220F5F07D00B126DA /* ordersend.wav */; };
+		0FC8D02C20F5F07E00B126DA /* ordercancel.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D02320F5F07D00B126DA /* ordercancel.wav */; };
+		0FC8D02D20F5F07E00B126DA /* orderfinis.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D02420F5F07E00B126DA /* orderfinis.wav */; };
+		0FC8D02E20F5F07E00B126DA /* level.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D02520F5F07E00B126DA /* level.wav */; };
+		0FC8D02F20F5F07E00B126DA /* productnum.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D02620F5F07E00B126DA /* productnum.wav */; };
+		0FC8D03020F5F07E00B126DA /* ordernorec.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D02720F5F07E00B126DA /* ordernorec.wav */; };
+		0FC8D03320F5F7D400B126DA /* ordernewdic.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D03120F5F7D400B126DA /* ordernewdic.wav */; };
+		0FC8D03420F5F7D400B126DA /* ordernewtip.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC8D03220F5F7D400B126DA /* ordernewtip.wav */; };
 		0FC9D80E2071D68D002EAB4C /* XL_waringBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC9D80D2071D68D002EAB4C /* XL_waringBox.swift */; };
 		0FC9D81120721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC9D81020721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift */; };
 		0FD9EC6920A01D6D009B0AED /* XL_SCsousuoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD9EC6820A01D6D009B0AED /* XL_SCsousuoViewController.swift */; };
@@ -149,6 +167,7 @@
 		0FFEB7A220E75E11003D5B3F /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB7A120E75E11003D5B3F /* libresolv.tbd */; };
 		0FFEB7A420E75E1A003D5B3F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFEB7A320E75E1A003D5B3F /* WebKit.framework */; };
 		0FFEB7A720E75EBE003D5B3F /* yw_1222_0769.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEB7A620E75EBD003D5B3F /* yw_1222_0769.jpg */; };
+		0FFEB7AE20EA6ACD003D5B3F /* XL_ShimingRZ_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04B4E820C124A2004C4FBA /* XL_ShimingRZ_ViewController.swift */; };
 		AB0B537FD70EC5357A512087 /* Pods_TuSouSou.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB2F0D23C490206054994EFD /* Pods_TuSouSou.framework */; };
 /* End PBXBuildFile section */
 
@@ -345,6 +364,25 @@
 		0FBD75F020567CD1004A8571 /* XL_LeftMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_LeftMenuViewController.swift; sourceTree = "<group>"; };
 		0FC49C7F20A0580B00F5561B /* XL_SPxiadanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SPxiadanViewController.swift; sourceTree = "<group>"; };
 		0FC49C8120A0585300F5561B /* XL_DPliebiaoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DPliebiaoViewController.swift; sourceTree = "<group>"; };
+		0FC8D00F20F4546800B126DA /* XL_huanjing_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_huanjing_ViewController.swift; sourceTree = "<group>"; };
+		0FC8D01120F5C23A00B126DA /* qyrzshsb.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = qyrzshsb.wav; sourceTree = "<group>"; };
+		0FC8D01220F5C23A00B126DA /* qyrzshtg.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = qyrzshtg.wav; sourceTree = "<group>"; };
+		0FC8D01520F5EE8300B126DA /* you_e_lie_tian_qi_jiang_li.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = you_e_lie_tian_qi_jiang_li.wav; sourceTree = "<group>"; };
+		0FC8D01620F5EE8300B126DA /* you_ding_dan_liang_jiang_li_huo_dong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = you_ding_dan_liang_jiang_li_huo_dong.wav; sourceTree = "<group>"; };
+		0FC8D01920F5EEE900B126DA /* ssbzsdz.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ssbzsdz.wav; sourceTree = "<group>"; };
+		0FC8D01A20F5EEEA00B126DA /* txcg.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = txcg.wav; sourceTree = "<group>"; };
+		0FC8D01B20F5EEEA00B126DA /* ssbtxcg.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ssbtxcg.wav; sourceTree = "<group>"; };
+		0FC8D01F20F5F07D00B126DA /* orderreceive.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = orderreceive.wav; sourceTree = "<group>"; };
+		0FC8D02020F5F07D00B126DA /* outtime.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = outtime.wav; sourceTree = "<group>"; };
+		0FC8D02120F5F07D00B126DA /* ordernew.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ordernew.wav; sourceTree = "<group>"; };
+		0FC8D02220F5F07D00B126DA /* ordersend.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ordersend.wav; sourceTree = "<group>"; };
+		0FC8D02320F5F07D00B126DA /* ordercancel.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ordercancel.wav; sourceTree = "<group>"; };
+		0FC8D02420F5F07E00B126DA /* orderfinis.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = orderfinis.wav; sourceTree = "<group>"; };
+		0FC8D02520F5F07E00B126DA /* level.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = level.wav; sourceTree = "<group>"; };
+		0FC8D02620F5F07E00B126DA /* productnum.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = productnum.wav; sourceTree = "<group>"; };
+		0FC8D02720F5F07E00B126DA /* ordernorec.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ordernorec.wav; sourceTree = "<group>"; };
+		0FC8D03120F5F7D400B126DA /* ordernewdic.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ordernewdic.wav; sourceTree = "<group>"; };
+		0FC8D03220F5F7D400B126DA /* ordernewtip.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ordernewtip.wav; sourceTree = "<group>"; };
 		0FC9D80D2071D68D002EAB4C /* XL_waringBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_waringBox.swift; sourceTree = "<group>"; };
 		0FC9D81020721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_KuaiDixiadan_ViewController.swift; sourceTree = "<group>"; };
 		0FD9EC6820A01D6D009B0AED /* XL_SCsousuoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XL_SCsousuoViewController.swift; sourceTree = "<group>"; };
@@ -584,6 +622,24 @@
 		0F4BF69320C7675D00EF3341 /* Sound */ = {
 			isa = PBXGroup;
 			children = (
+				0FC8D03120F5F7D400B126DA /* ordernewdic.wav */,
+				0FC8D03220F5F7D400B126DA /* ordernewtip.wav */,
+				0FC8D02520F5F07E00B126DA /* level.wav */,
+				0FC8D02320F5F07D00B126DA /* ordercancel.wav */,
+				0FC8D02420F5F07E00B126DA /* orderfinis.wav */,
+				0FC8D02120F5F07D00B126DA /* ordernew.wav */,
+				0FC8D02720F5F07E00B126DA /* ordernorec.wav */,
+				0FC8D01F20F5F07D00B126DA /* orderreceive.wav */,
+				0FC8D02220F5F07D00B126DA /* ordersend.wav */,
+				0FC8D02020F5F07D00B126DA /* outtime.wav */,
+				0FC8D02620F5F07E00B126DA /* productnum.wav */,
+				0FC8D01B20F5EEEA00B126DA /* ssbtxcg.wav */,
+				0FC8D01920F5EEE900B126DA /* ssbzsdz.wav */,
+				0FC8D01A20F5EEEA00B126DA /* txcg.wav */,
+				0FC8D01620F5EE8300B126DA /* you_ding_dan_liang_jiang_li_huo_dong.wav */,
+				0FC8D01520F5EE8300B126DA /* you_e_lie_tian_qi_jiang_li.wav */,
+				0FC8D01120F5C23A00B126DA /* qyrzshsb.wav */,
+				0FC8D01220F5C23A00B126DA /* qyrzshtg.wav */,
 				0F4BF69420C7676A00EF3341 /* 7008.wav */,
 			);
 			path = Sound;
@@ -902,6 +958,7 @@
 				0FD9EC6820A01D6D009B0AED /* XL_SCsousuoViewController.swift */,
 				0F31945720D0A5E000D091F7 /* XL_SJLB_ViewController.swift */,
 				0FC49C8120A0585300F5561B /* XL_DPliebiaoViewController.swift */,
+				0FC8D00F20F4546800B126DA /* XL_huanjing_ViewController.swift */,
 				0FC49C7F20A0580B00F5561B /* XL_SPxiadanViewController.swift */,
 			);
 			path = "商城";
@@ -1210,8 +1267,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FC8D03420F5F7D400B126DA /* ordernewtip.wav in Resources */,
+				0FC8D01C20F5EEEA00B126DA /* ssbzsdz.wav in Resources */,
 				0FFEB75C20E4C291003D5B3F /* AAHighchartsMore.js in Resources */,
+				0FC8D02920F5F07E00B126DA /* outtime.wav in Resources */,
 				0F6EE57E20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				0FC8D01820F5EE8300B126DA /* you_ding_dan_liang_jiang_li_huo_dong.wav in Resources */,
 				0F4BF69520C7676A00EF3341 /* 7008.wav in Resources */,
 				0FFEB77D20E75D2E003D5B3F /* 云盾实人认证2.2发布说明.txt in Resources */,
 				0FFEB7A720E75EBE003D5B3F /* yw_1222_0769.jpg in Resources */,
@@ -1220,17 +1281,31 @@
 				0FFEB75E20E4C291003D5B3F /* AAFunnel.js in Resources */,
 				0FFEB78720E75D2E003D5B3F /* RPSDK.bundle in Resources */,
 				0F9875A12044E72E00C34111 /* LaunchScreen.storyboard in Resources */,
+				0FC8D01320F5C23A00B126DA /* qyrzshsb.wav in Resources */,
 				0FFEB78B20E75D2E003D5B3F /* UI定制使用方法.txt in Resources */,
+				0FC8D02F20F5F07E00B126DA /* productnum.wav in Resources */,
+				0FC8D02B20F5F07E00B126DA /* ordersend.wav in Resources */,
+				0FC8D01720F5EE8300B126DA /* you_e_lie_tian_qi_jiang_li.wav in Resources */,
+				0FC8D03020F5F07E00B126DA /* ordernorec.wav in Resources */,
 				0F9723E320BF9D330064A678 /* star_big1@3x.png in Resources */,
 				0FFEB75D20E4C291003D5B3F /* AAOptionsConstructor.js in Resources */,
+				0FC8D03320F5F7D400B126DA /* ordernewdic.wav in Resources */,
 				0FFEB78820E75D2E003D5B3F /* FaceLivenessSDK.bundle in Resources */,
 				0FFEB75F20E4C291003D5B3F /* AAChartView.html in Resources */,
+				0FC8D02D20F5F07E00B126DA /* orderfinis.wav in Resources */,
+				0FC8D02E20F5F07E00B126DA /* level.wav in Resources */,
 				0FFEB75B20E4C291003D5B3F /* AAHighchartsLib.js in Resources */,
+				0FC8D01420F5C23A00B126DA /* qyrzshtg.wav in Resources */,
 				0F9723E420BF9D330064A678 /* star_big3@3x.png in Resources */,
+				0FC8D02A20F5F07E00B126DA /* ordernew.wav in Resources */,
 				0F98759E2044E72E00C34111 /* Assets.xcassets in Resources */,
 				0F9723E520BF9D330064A678 /* star_big2@3x.png in Resources */,
+				0FC8D01D20F5EEEA00B126DA /* txcg.wav in Resources */,
+				0FC8D01E20F5EEEA00B126DA /* ssbtxcg.wav in Resources */,
 				0F701ACA2086D9FA000F7F67 /* 支付-支付宝.png in Resources */,
+				0FC8D02C20F5F07E00B126DA /* ordercancel.wav in Resources */,
 				0F98759C2044E72E00C34111 /* Main.storyboard in Resources */,
+				0FC8D02820F5F07E00B126DA /* orderreceive.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1347,6 +1422,7 @@
 				0FD9EC6920A01D6D009B0AED /* XL_SCsousuoViewController.swift in Sources */,
 				0FEBB58420C4EAFA00FBEC1D /* XL_ZMDL_ViewController.swift in Sources */,
 				0F701C4C20871FDF000F7F67 /* APAuthInfo.m in Sources */,
+				0FC8D01020F4546800B126DA /* XL_huanjing_ViewController.swift in Sources */,
 				0F4BF69920C80B0F00EF3341 /* XL_DPCK_ViewController.swift in Sources */,
 				0F7019DB2080A7B8000F7F67 /* XL_PaoMaView.swift in Sources */,
 				0F65341520466F2E00FF347F /* secViewController.swift in Sources */,
@@ -1373,7 +1449,6 @@
 				0F6EE57920BD4ED60062039C /* XL_Denglu_ViewController.swift in Sources */,
 				0F04B4E720C123C9004C4FBA /* XL_AnQuanSZ_ViewController.swift in Sources */,
 				0F9723EE20C015ED0064A678 /* XL_WDshoucang_ViewController.swift in Sources */,
-				0F04B4E920C124A2004C4FBA /* XL_ShimingRZ_ViewController.swift in Sources */,
 				0FC49C8020A0580B00F5561B /* XL_SPxiadanViewController.swift in Sources */,
 				0F45F4A5204EA29F0043E96F /* XL_ShouYe_ViewController.swift in Sources */,
 				0F3E0C2720C27623003368C4 /* XL_WDQB_ViewController.swift in Sources */,
@@ -1385,6 +1460,7 @@
 				0F04B4E520C0F742004C4FBA /* XL_WDXXXQ_ViewController.swift in Sources */,
 				0F4BF69720C80B0000EF3341 /* XL_DPSZ_ViewController.swift in Sources */,
 				0F9875972044E72E00C34111 /* AppDelegate.swift in Sources */,
+				0FFEB7AE20EA6ACD003D5B3F /* XL_ShimingRZ_ViewController.swift in Sources */,
 				0F1197AE2057610A00CA0AFB /* XL_GGXQViewController.swift in Sources */,
 				0F4BF69B20C80B1F00EF3341 /* XL_SPGL_ViewController.swift in Sources */,
 				0FEBB58220C4E89000FBEC1D /* XL_Guanyuwomen_ViewController.swift in Sources */,

@@ -30,8 +30,9 @@ class XL_GuideViewController: UIViewController,UIScrollViewDelegate{
         scrolView.contentOffset = CGPoint.zero
         scrolView.contentSize = CGSize(width: frame.size.width * CGFloat(numOfPages), height: frame.size.height)
         scrolView.delegate = self
+        let arrxx:[String] = ["guide1","guide2","guide3"]
         for index in 0..<numOfPages {
-            let imageView = UIImageView(image: UIImage(named: "引导\(index + 1)"))
+            let imageView = UIImageView(image: UIImage(named: arrxx[index]))
             imageView.frame = CGRect(x: frame.size.width * CGFloat(index), y: 0, width: frame.size.width, height: frame.size.height)
             scrolView.addSubview(imageView)
         }
@@ -43,6 +44,11 @@ class XL_GuideViewController: UIViewController,UIScrollViewDelegate{
         //隐藏开始按钮
         startButton.alpha = 0.0
         startButton.addTarget(self, action: #selector(tiaoye), for: .touchUpInside)
+        pageControl.backgroundColor = UIColor.clear
+        pageControl.numberOfPages = arrxx.count
+        pageControl.currentPage = 0
+        pageControl.setValue(UIImage(named: "guide_dark_dot"), forKey: "_pageImage")
+        pageControl.setValue(UIImage(named: "guide_white_dot"), forKey: "_currentPageImage")
     }
   
     @objc func tiaoye() {

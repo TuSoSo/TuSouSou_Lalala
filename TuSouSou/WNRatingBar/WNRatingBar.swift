@@ -108,34 +108,34 @@ public class WNRatingBar: UIView {
         s4?.image = unSelectedImage
         s5?.image = unSelectedImage
         
-        if (rating >= 1) {
-            s1?.image = halfSelectedImage
-        }
-        if (rating >= 2) {
+//        if (rating >= 1) {
+//            s1?.image = halfSelectedImage
+//        }
+        if (rating >= 0) {
             s1?.image = fullSelectedImage
         }
-        if (rating >= 3) {
-            s2?.image = halfSelectedImage
-        }
-        if (rating >= 4) {
+//        if (rating >= 3) {
+//            s2?.image = halfSelectedImage
+//        }
+        if (rating >= 2) {
             s2?.image = fullSelectedImage
         }
-        if (rating >= 5) {
-            s3?.image = halfSelectedImage
-        }
-        if (rating >= 6) {
+//        if (rating >= 5) {
+//            s3?.image = halfSelectedImage
+//        }
+        if (rating >= 3) {
             s3?.image = fullSelectedImage
         }
-        if (rating >= 7) {
-            s4?.image = halfSelectedImage
-        }
-        if (rating >= 8) {
+//        if (rating >= 7) {
+//            s4?.image = halfSelectedImage
+//        }
+        if (rating >= 4) {
             s4?.image = fullSelectedImage
         }
-        if (rating >= 9) {
-            s5?.image = halfSelectedImage
-        }
-        if (rating >= 10) {
+//        if (rating >= 9) {
+//            s5?.image = halfSelectedImage
+//        }
+        if (rating >= 5) {
             s5?.image = fullSelectedImage
         }
         
@@ -171,29 +171,38 @@ public class WNRatingBar: UIView {
         let point:CGPoint = (touches.anyObject()! as AnyObject).location(in: self)
         let space:CGFloat = (self.frame.size.width - starWidth!*5)/6
         //这里为10分制 可根据逻辑改为五分制
-        var newRating:Float = 0
+        var newRating:Float = 1
         if (point.x >= 0 && point.x <= self.frame.size.width) {
             
-            if (point.x <= space+starWidth!*0.5) {
+//            if (point.x <= space+starWidth!*0.5) {
+//                newRating = 1;
+//            }else
+                if (point.x < space*2+starWidth!){
                 newRating = 1;
-            }else if (point.x < space*2+starWidth!){
+            }
+//                else if (point.x < space*2+starWidth!*1.5){
+//                newRating = 3;
+//            }
+                else if (point.x <= 3*space+2*starWidth!){
                 newRating = 2;
-            }else if (point.x < space*2+starWidth!*1.5){
+            }
+//                else if (point.x <= 3*space+2.5*starWidth!){
+//                newRating = 5;
+//            }
+                else if (point.x <= 4*space+3*starWidth!){
                 newRating = 3;
-            }else if (point.x <= 3*space+2*starWidth!){
+            }
+//                else if (point.x <= 4*space+3.5*starWidth!){
+//                newRating = 7;
+//            }
+                else if (point.x <= 5*space+4*starWidth!){
                 newRating = 4;
-            }else if (point.x <= 3*space+2.5*starWidth!){
+            }
+//                else if (point.x <= 5*space+4.5*starWidth!){
+//                newRating = 9;
+//            }
+                else {
                 newRating = 5;
-            }else if (point.x <= 4*space+3*starWidth!){
-                newRating = 6;
-            }else if (point.x <= 4*space+3.5*starWidth!){
-                newRating = 7;
-            }else if (point.x <= 5*space+4*starWidth!){
-                newRating = 8;
-            }else if (point.x <= 5*space+4.5*starWidth!){
-                newRating = 9;
-            }else {
-                newRating = 10;
             }
         }
         

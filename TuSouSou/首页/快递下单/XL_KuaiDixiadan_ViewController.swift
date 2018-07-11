@@ -21,12 +21,15 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     var tipType = "2"
     var paymentMethod = ""
     
+    var dkAmount = ""
     
     var orderType:Int?
     var zhinazhisong:String?
     var dingdanjine:String?
     var peisongfei = "0"
     var zhinazhi = "0"
+    var julili = "0"
+    
     
     var dingdanID:String?
     var dingdanhao :String?
@@ -66,7 +69,24 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     let mingtableView = UITableView()
     
     var ZuoLabel = UILabel()
+    var li = UILabel()
+    var pei = UILabel()
     
+    //价格表数据
+    var jiageView = UIView()
+    var standardWeight = UILabel()
+    var standardDistance = UILabel()
+    var standardWeightMoney = UILabel()
+    var standardDistanceMoney = UILabel()
+    var overweightMoney = UILabel()
+    var overdistanceMoney = UILabel()
+    //明细
+    var zhinazhisongLa = UILabel()
+    var peisongfeiLa = UILabel()
+    var juliLa = UILabel()
+    var xiaofeiLa = UILabel()
+    var dikouLa = UILabel()
+    var shiyongssbLa = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "确认订单"
@@ -90,8 +110,13 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         self.navigationItem.rightBarButtonItem = item
     }
     @objc func YouActio()  {
-        baiVV.isHidden = false
+        jiageView.isHidden = false
         banview.isHidden = false
+    }
+    
+    @IBAction func wenhao(_ sender: Any) {
+        banview.isHidden = false
+        baiVV.isHidden = false
     }
     func zhanghuyue()  {
         let method = "/account/find"
@@ -147,7 +172,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     func tishiUI() {
         banview = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: Height))
         banview.backgroundColor = UIColor.black
-        banview.alpha = 0.5
+        banview.alpha = 0.8
         banview.isUserInteractionEnabled = true
         banview.isHidden = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ss))
@@ -155,32 +180,122 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         banview.addGestureRecognizer(tapGesture)
         banview.isHidden = true
         self.view.addSubview(banview)
-        baiVV = UIView(frame: CGRect(x: 24, y: Height/2 - 200, width: Width - 48, height: 200))
+        
+        jiageView = UIView(frame: CGRect(x: 24, y: Height/2 - 200, width: Width - 48, height: 280))
+        jiageView.backgroundColor = UIColor.white
+        jiageView.isHidden = true
+        let titi = UILabel(frame: CGRect(x: 24, y: 16, width: jiageView.frame.size.width - 36, height: 24))
+        titi.font = UIFont.systemFont(ofSize: 20)
+        titi.text = "配送费价格表"
+        standardWeight = UILabel(frame: CGRect(x: 24, y: 48, width: jiageView.frame.size.width - 36, height: 24))
+        standardWeight.font = UIFont.systemFont(ofSize: 15)
+        standardDistance = UILabel(frame: CGRect(x: 24, y: 80, width: jiageView.frame.size.width - 36, height: 24))
+        standardDistance.font = UIFont.systemFont(ofSize: 15)
+        standardWeightMoney = UILabel(frame: CGRect(x: 24, y: 112, width: jiageView.frame.size.width - 36, height: 24))
+        standardWeightMoney.font = UIFont.systemFont(ofSize: 15)
+        standardDistanceMoney = UILabel(frame: CGRect(x: 24, y: 144, width: jiageView.frame.size.width - 36, height: 24))
+        standardDistanceMoney.font = UIFont.systemFont(ofSize: 15)
+        overweightMoney = UILabel(frame: CGRect(x: 24, y: 176, width: jiageView.frame.size.width - 36, height: 24))
+        overweightMoney.font = UIFont.systemFont(ofSize: 15)
+        overdistanceMoney = UILabel(frame: CGRect(x: 24, y: 208, width: jiageView.frame.size.width - 36, height: 24))
+        overdistanceMoney.font = UIFont.systemFont(ofSize: 15)
+        let button1 = UIButton(frame: CGRect(x: jiageView.frame.size.width - 74, y: jiageView.frame.size.height - 44, width: 50, height: 32))
+        button1.setTitle("确定", for: .normal)
+        button1.setTitleColor(UIColor.orange, for: .normal)
+        button1.addTarget(self, action: #selector(ss), for: .touchUpInside)
+        jiageView.addSubview(standardWeight)
+        jiageView.addSubview(standardDistance)
+        jiageView.addSubview(standardWeightMoney)
+        jiageView.addSubview(standardDistanceMoney)
+        jiageView.addSubview(overweightMoney)
+        jiageView.addSubview(overdistanceMoney)
+        jiageView.addSubview(titi)
+        jiageView.addSubview(button1)
+        
+        baiVV = UIView(frame: CGRect(x: 24, y: Height/2 - 200, width: Width - 48, height: 280))
         baiVV.backgroundColor = UIColor.white
         baiVV.isHidden = true
-        let weixintishi = UILabel(frame: CGRect(x: 24, y: 16, width: baiVV.frame.size.width - 36, height: 40))
+        let weixintishi = UILabel(frame: CGRect(x: 24, y: 16, width: baiVV.frame.size.width - 36, height: 24))
         weixintishi.font = UIFont.systemFont(ofSize: 30)
-        weixintishi.text = "温馨提示"
-        let peisong = UILabel(frame: CGRect(x: 24, y: 80, width: baiVV.frame.size.width - 36, height: 24))
-        peisong.font = UIFont.systemFont(ofSize: 16)
-        peisong.text = "配送费：¥ \(peisongfei)"
-        let zhina = UILabel(frame: CGRect(x: 24, y: 120, width: baiVV.frame.size.width - 36, height: 24))
-        zhina.font = UIFont.systemFont(ofSize: 16)
-        zhina.text = "直拿直送：¥ \(zhinazhi)"
-        let button = UIButton(frame: CGRect(x: baiVV.frame.size.width - 74, y: baiVV.frame.size.height - 68, width: 50, height: 44))
+        weixintishi.text = "明细"
+        zhinazhisongLa = UILabel(frame: CGRect(x: 24, y: 48, width: baiVV.frame.size.width - 36, height: 24))
+        zhinazhisongLa.text = "直拿直送: ¥ 0"
+        zhinazhisongLa.font = UIFont.systemFont(ofSize: 15)
+        peisongfeiLa = UILabel(frame: CGRect(x: 24, y: 80, width: baiVV.frame.size.width - 36, height: 24))
+        peisongfeiLa.text = "配送费: ¥ \(peisongfei)"
+        peisongfeiLa.font = UIFont.systemFont(ofSize: 15)
+        juliLa = UILabel(frame: CGRect(x: 24, y: 112, width: baiVV.frame.size.width - 36, height: 24))
+        juliLa.text = "距离: \(julili) 公里"
+        juliLa.font = UIFont.systemFont(ofSize: 15)
+        xiaofeiLa = UILabel(frame: CGRect(x: 24, y: 144, width: baiVV.frame.size.width - 36, height: 24))
+        xiaofeiLa.text = "小费: ¥0.0"
+        xiaofeiLa.font = UIFont.systemFont(ofSize: 15)
+        dikouLa = UILabel(frame: CGRect(x: 24, y: 176, width: baiVV.frame.size.width - 36, height: 24))
+        dikouLa.text = "抵扣: ¥0.0"
+        dikouLa.font = UIFont.systemFont(ofSize: 15)
+        shiyongssbLa = UILabel(frame: CGRect(x: 24, y: 208, width: baiVV.frame.size.width - 36, height: 24))
+        shiyongssbLa.text = "使用飕飕币: 0.0 个"
+        shiyongssbLa.font = UIFont.systemFont(ofSize: 15)
+//        let peisong = UILabel(frame: CGRect(x: 24, y: 80, width: baiVV.frame.size.width - 36, height: 24))
+//        peisong.font = UIFont.systemFont(ofSize: 16)
+//        peisong.text = "配送费：¥ \(peisongfei)"
+//
+//        let zhina = UILabel(frame: CGRect(x: 24, y: 120, width: baiVV.frame.size.width - 36, height: 24))
+//        zhina.font = UIFont.systemFont(ofSize: 16)
+//        zhina.text = "直拿直送：¥ \(zhinazhi)"
+        let button = UIButton(frame: CGRect(x: baiVV.frame.size.width - 74, y: baiVV.frame.size.height - 44, width: 50, height: 32))
         button.setTitle("确定", for: .normal)
         button.setTitleColor(UIColor.orange, for: .normal)
         button.addTarget(self, action: #selector(ss), for: .touchUpInside)
-        baiVV.addSubview(peisong)
-        baiVV.addSubview(zhina)
+        baiVV.addSubview(zhinazhisongLa)
+        baiVV.addSubview(peisongfeiLa)
+        baiVV.addSubview(juliLa)
+        baiVV.addSubview(xiaofeiLa)
+        baiVV.addSubview(dikouLa)
+        baiVV.addSubview(shiyongssbLa)
         baiVV.addSubview(button)
         baiVV.addSubview(weixintishi)
         self.view.addSubview(banview)
         self.view.addSubview(baiVV)
+        self.view.addSubview(jiageView)
+        jiagebiao()
+        
+        
+        pei = UILabel(frame: CGRect(x: 80, y: 8, width: 100, height: 32))
+        pei.text = "¥ \(peisongfei)"
+        pei.font = UIFont.systemFont(ofSize: 15)
+        
+        li = UILabel(frame: CGRect(x: Width/2 + 32, y: 8, width: 100, height: 32))
+        li.text = "\(julili) 公里"
+        li.font = UIFont.systemFont(ofSize: 15)
+    }
+    func jiagebiao() {
+        let method = "/order/getPostMoney"
+        let userId = userDefaults.value(forKey: "userId")
+        let dic:[String:Any] = ["userId":userId!]
+        
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.standardWeight.text = String(format: "基准重量(公斤) : %.1f", data["standardWeight"] as! Double)
+                self.standardDistance.text = String(format: "基准距离(公里) : %.1f", data["standardDistance"] as! Double)
+                self.standardWeightMoney.text = String(format: "基准重量金额(元) : %.2f",  data["standardWeightMoney"] as! Double)
+                self.standardDistanceMoney.text = String(format: "基准距离金额(元) : %.2f", data["standardDistanceMoney"] as! Double)
+                self.overweightMoney.text = String(format: "超重每公斤金额(元) : %.2f", data["overweightMoney"] as! Double)
+                self.overdistanceMoney.text = String(format: "超出每公里金额(元) : %.2f", data["overdistanceMoney"] as! Double)
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
     }
     @objc func ss() {
         banview.isHidden = true
         baiVV.isHidden = true
+        jiageView.isHidden = true
         jintableView.isHidden = true
         mingtableView.isHidden = true
     }
@@ -195,9 +310,11 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         _tableview.dataSource = self
         _tableview?.register(UITableViewCell.self, forCellReuseIdentifier: "dingdan")
         _tableview.frame = CGRect(x: 0, y: 0, width: Width, height: Height - 120)
+        if UIDevice.current.isX() {
+            _tableview.frame = CGRect(x: 0, y: 0, width: Width, height: Height - 172)
+        }
         _tableview.tableFooterView = UIView()
         _tableview.rowHeight = UITableViewAutomaticDimension;
-//        _tableview.separatorStyle = .none
         _tableview.estimatedRowHeight = 100;
         self.view.addSubview(_tableview)
     }
@@ -206,7 +323,6 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         ZuoLabel.tag = 99997
         ZuoLabel.font = UIFont.systemFont(ofSize: 14)
         ZuoLabel.text = "立即送出"
-        
         uiswitch0.center = CGPoint(x: Width - 45, y: 24)
         uiswitch0.isOn = false
         uiswitch0.addTarget(self, action: #selector(switchDidChange0), for: .valueChanged)
@@ -269,7 +385,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         //手动提示
         self.placeholderLabel.frame = CGRect(x: 0 , y: 5, width: 100, height: 20)
         self.placeholderLabel.font = UIFont.systemFont(ofSize: 14)
-        self.placeholderLabel.text = "200字以内"
+        self.placeholderLabel.text = "20字以内"
         beizhuTF.addSubview(self.placeholderLabel)
         self.placeholderLabel.textColor = UIColor(red:72/256 , green: 82/256, blue: 93/256, alpha: 1)
         
@@ -283,7 +399,11 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == _tableview {
-            return 4
+            if section == 0 {
+                return 5
+            }else{
+                return 4
+            }
         }else if tableView == jintableView {
             return todayTimes.count
         }else{
@@ -315,7 +435,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         if tableView == _tableview {
             //去重合
             for v: UIView in cell.subviews {
-                if v.tag == 99999 || v.tag == 99998 || v.tag == 99997 || v.tag == 99996 || v.tag == 99995 || v.tag == 99990{
+                if v.tag == 99999 || v.tag == 99998 || v.tag == 99997 || v.tag == 99996 || v.tag == 99995 || v.tag == 99990 || v.tag == 99994{
                     v.removeFromSuperview()
                 }
             }
@@ -332,6 +452,17 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                     cell.addSubview(DuoLabel)
                     cell.addSubview(uiswitch0)
                 case 2:
+                    DuoLabel.text = "配送费:"
+                    
+                    let juli = UILabel(frame: CGRect(x: Width/2 - 16, y: 8, width: 80, height: 32))
+                    juli.tag = 99994
+                    juli.font = UIFont.systemFont(ofSize: 14)
+                    juli.text = "距离:"
+                    cell.addSubview(DuoLabel)
+                    cell.addSubview(pei)
+                    cell.addSubview(li)
+                    cell.addSubview(juli)
+                case 3:
                     DuoLabel.text = "加小费"
                     if uiswitch1.isOn == false {
                         xiaofeiTF.placeholder = "1~500元"
@@ -344,7 +475,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                     cell.addSubview(xiaofeiTF)
                     cell.addSubview(yangjiao)
                     cell.addSubview(uiswitch1)
-                case 3:
+                case 4:
                     DuoLabel.text = "备注:"
                     cell.addSubview(DuoLabel)
                     cell.addSubview(beizhuTF)
@@ -625,7 +756,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         if text == "\n" {
             textView.resignFirstResponder()
         }
-        if textView.text.count >= 200 {
+        if textView.text.count >= 20 {
             return false
         }
         return true
@@ -780,8 +911,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         if paymentMethod.count == 0 {
              XL_waringBox().warningBoxModeText(message: "请选择支付方式", view: self.view)
         }else{
+            
             let method = "/order/commitOrder"
-            let dic:[String:Any] = ["orderId":dingdanID!,"sendTime":sendTime,"isToday":isToday,"isDirectSend":isDirectSend,"tipType":tipType,"tip":xiaofeiTF.text!,"remarks":beizhuTF.text!,"paymentMethod":paymentMethod,"postAmount":peisongfei,"amount":HeJijine.text!,"ssbSum":ssbSum]
+            let dic:[String:Any] = ["orderId":dingdanID!,"sendTime":sendTime,"isToday":isToday,"isDirectSend":isDirectSend,"tipType":tipType,"tip":xiaofeiTF.text!,"remarks":beizhuTF.text!,"paymentMethod":paymentMethod,"postAmount":peisongfei,"amount":HeJijine.text!,"ssbSum":ssbSum,"dkAmount":dikoudejine]
             //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
             XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
                 print(res)
@@ -816,7 +948,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         let method = "/weipay/App"
         let totalAmount = Float(HeJijine.text!)! * 100
         
-        let dicc:[String:Any] = ["outTradeNo":dingdanhao!,"totalAmount":"1"/*totalAmount*/]
+        let dicc:[String:Any] = ["outTradeNo":dingdanhao!,"totalAmount":totalAmount]
         //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
              print(res)
@@ -852,7 +984,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         let method = "/AliPay/App"
         let totalAmount = Float(HeJijine.text!)!
         
-        let dicc:[String:Any] = ["outTradeNo":dingdanhao!,"totalAmount":"0.01"/*totalAmount*/]
+        let dicc:[String:Any] = ["outTradeNo":dingdanhao!,"totalAmount":totalAmount]
         //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
@@ -875,6 +1007,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     }
     func dikoujisuan(string:String) {
         dikoudejine = String(format:"%.2f", Float(string)! * Float(sousouzhuanhualv)!)
+        
         JJE.text = dikoudejine
         if uiswitch1.isOn == true {
             if (Float(xiaofeiTF.text!)! + Float(string)!) > Float(sousoubishuliang)! {
@@ -886,29 +1019,36 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                     self.dikoujisuan(string: self.souBzhiF.text!)
                 }
             }else{
+                shiyongssbLa.text = "使用飕飕币: \(string) 个"
                 jisuanfangfa()
             }
         }else{
+            shiyongssbLa.text = "使用飕飕币: \(string) 个"
             jisuanfangfa()
         }
-        
     }
     func jisuanfangfa() {
         let pei:Float = Float(peisongfei)!
         var xiao:Float = 0
         var zhi:Float = Float(zhinazhi)!
+        zhinazhisongLa.text = "直拿直送: ¥ \(zhi)"
         let dikou:Float = Float(dikoudejine)!
+        dikouLa.text = "抵扣: ¥\(dikou)"
         if tipType == "2" {
             if xiaofeiTF.text?.count != 0 {
                 xiao = Float(xiaofeiTF.text!)!
+                xiaofeiLa.text = "小费: ¥\(xiao)"
             }
         }else if tipType == "1" {
             if xiaofeiTF.text?.count != 0 {
                 xiao = Float(xiaofeiTF.text!)! * Float(sousouzhuanhualv)!
+                xiaofeiLa.text = "小费:\(xiaofeiTF.text!) 个飕飕币"
             }
         }
+        
         if uiswitch0.isOn == false {
             zhi = 0
+            zhinazhisongLa.text = "直拿直送: ¥ 0"
         }
         if uiswitch1.isOn == true {
              self.HeJijine.text = String(format: "%.2f", pei + zhi  - dikou)
@@ -917,13 +1057,15 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         }
        
         if  Float(HeJijine.text!)! < 0 {
-            showConfirm(title: "温馨提示", message: "yoyo~ 您的飕飕币使用太多了哟~", in: self, confirme: { (s) in
-                self.souBzhiF.text = "0"
-                self.dikoujisuan(string: self.souBzhiF.text!)
-            }) { (w) in
-                self.souBzhiF.text = "0"
-                self.dikoujisuan(string: self.souBzhiF.text!)
-            }
+            HeJijine.text = "0.00"
+//            self.dikoujisuan(string: self.souBzhiF.text!)
+//            showConfirm(title: "温馨提示", message: "yoyo~ 您的飕飕币使用太多了哟~", in: self, confirme: { (s) in
+//                self.souBzhiF.text = "0"
+//                self.dikoujisuan(string: self.souBzhiF.text!)
+//            }) { (w) in
+//                self.souBzhiF.text = "0"
+//                self.dikoujisuan(string: self.souBzhiF.text!)
+//            }
         }
     }
     func isPurnFloat(string: String) -> Bool {
@@ -971,6 +1113,31 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+
+    }
+    //mark: 当键盘显示时
+    @objc func handleKeyboardDisShow(notification: NSNotification) {
+        //得到键盘frame
+        if let userInfo = notification.userInfo,
+        let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue,
+        let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+        let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
+            
+            let frame = value.cgRectValue
+            let intersection = frame.intersection(self.view.frame)
+            UIView.animate(withDuration: duration, delay: 0.0,
+                           options: UIViewAnimationOptions(rawValue: curve), animations: {
+                  
+                            self.view.frame = CGRect(x: 0, y: -intersection.height
+                                + 64, width: self.view.frame.width, height: self.view.frame.height)
+                            
+            }, completion: nil)
+        }
+    }
+   
+    
 }
 //MARK：扩展UIColor
 extension UIColor{

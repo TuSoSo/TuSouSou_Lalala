@@ -11,12 +11,17 @@ import UIKit
 class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
     
     var DianpuDic:[String:String] = [:]
+    var FenleiArr:[[String:Any]] = []
+    var HuodongArr:[[String:Any]] = []
     var shi = 0
+    var fenleiId = ""
+    var huodongId = ""
+    
     var NwDatePicker = UIDatePicker()
     var banView = UIView()
     var chunView = UIView()
-    let zuoArr:[String] = ["商户名称:","联系电话:","店铺地址:","开始时间:","结束时间:"]
-    let youArr:[String] = ["请填写商户名称","请填写联系电话","请选择店铺地址","请选择开始营业时间","请选择结束营业时间"]
+    let zuoArr:[String] = ["商户名称:","联系电话:","店铺地址:","开始时间:","结束时间:","分类类别:","活动类别:"]
+    let youArr:[String] = ["请填写商户名称","请填写联系电话","请选择店铺地址","请选择开始营业时间","请选择结束营业时间","请选择分类类别","请选择活动类别"]
     
     var imageDic:[String : Any] = [:]
     var isSHX = 0
@@ -30,8 +35,11 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         self.title = "店铺信息"
         shijianxuanze()
         youshangjiao()
+        jinrujiekou()
+        jinrujiekou()
         // Do any additional setup after loading the view.
     }
+    
     //MARK:tableviewDelegate
     func tableDelegate() {
         tableDianpu.delegate = self
@@ -45,7 +53,7 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 5
+            return 7
         }else if section == 1 {
             if nil != imageDic["xia"]{
                 return 3
@@ -120,7 +128,7 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
             xiazi.textAlignment = .center
             xiazi.font = UIFont.systemFont(ofSize: 15)
             xiazi.textColor = UIColor.darkGray
-            imageView.image = UIImage(named: "引导2")
+            imageView.image = UIImage(named: "shoppicture")
             //互动
             /////设置允许交互属性
             imageView.isUserInteractionEnabled = true
@@ -136,12 +144,12 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
                     imageView.image = imageDic["shang"] as? UIImage
                 }
             }else if indexPath.row == 1{
-                xiazi.text = "上传店铺环境"
+                xiazi.text = "上传店铺环境1"
                 if nil != imageDic["xia"] {
                     imageView.image = imageDic["xia"] as? UIImage
                 }
             }else {
-                xiazi.text = "上传店铺环境"
+                xiazi.text = "上传店铺环境2"
                 if nil != imageDic["fa"] {
                     imageView.image = imageDic["fa"] as? UIImage
                 }
@@ -182,8 +190,51 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
             }else if indexPath.row == 4 {
                 shi = 2
                 shijian()
+            }else if indexPath.row == 5 {
+                //弹出分类类别
+                tantantan(index: 1)
+            }else if indexPath.row == 6 {
+                //弹出活动类别
+                tantantan(index: 2)
             }
         }
+    }
+    func tantantan(index: Int) {
+        self.view.endEditing(true)
+        let alertController = UIAlertController(title: "类型", message: "你可以选择以下类型",
+                                                preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        var paizhaoAction = UIAlertAction()
+        if index == 1 {
+            for i in 0..<FenleiArr.count {
+                let title = FenleiArr[i]["name"] as! String
+                
+                paizhaoAction = UIAlertAction(title: title, style: .default) { (ss) in
+                    self.fenleiId = self.FenleiArr[i]["id"] as! String
+                    self.DianpuDic["5"] = self.FenleiArr[i]["name"] as? String
+                    self.tableDianpu.reloadData()
+                }
+                alertController.addAction(paizhaoAction)
+            }
+        }else if index == 2 {
+            for i in 0..<HuodongArr.count {
+                let title = HuodongArr[i]["name"] as! String
+                
+                paizhaoAction = UIAlertAction(title: title, style: .default) { (ss) in
+                    self.huodongId = self.HuodongArr[i]["id"] as! String
+                    self.DianpuDic["6"] = self.HuodongArr[i]["name"] as? String
+                    self.tableDianpu.reloadData()
+                }
+                alertController.addAction(paizhaoAction)
+            }
+        }
+        
+        alertController.addAction(cancelAction)
+        
+        
+        self.present(alertController, animated: true, completion: nil)
+        
     }
     func shijian() {
         NwDatePicker.isHidden = false
@@ -337,12 +388,12 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     func Dianpujiekou() {
         let method = "/merchant/saveApp"
         let userId:String = userDefaults.value(forKey: "userId") as! String
-        //        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
+        XL_waringBox().warningBoxModeIndeterminate(message: "信息提交中...", view: self.view)
         
         let imagearr:[Any] = [imageDic["shang"]!,imageDic["xia"]!,imageDic["fa"]!]
-        let namearr:[Any] = ["logoUrl","picture","picture"]
+        let namearr:[Any] = ["logoUrl","picture1","picture2"]
         
-        let keyArr = ["userId","name","phone","address","longitude","latitude","shopHours"]
+        let keyArr = ["userId","name","phone","address","longitude","latitude","shopHours","firstType","secondType","cityName","logoUrl","picture1","picture2"]
         var valueArr = [userId]
         valueArr.append(DianpuDic["0"]!)
         valueArr.append(DianpuDic["1"]!)
@@ -350,6 +401,13 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         valueArr.append(Lon)
         valueArr.append(Lat)
         valueArr.append(String(format: "%@", DianpuDic["3"]! + "-" + DianpuDic["4"]!))
+        valueArr.append(fenleiId)
+        valueArr.append(huodongId)
+        let cityName:String = userDefaults.value(forKey: "cityName") as! String
+        valueArr.append(cityName)
+        valueArr.append("")
+        valueArr.append("")
+        valueArr.append("")
 //        for i in 0..<5 {
 //            if nil != DianpuDic["\(i)"]{
 //                valueArr.append(DianpuDic["\(i)"]!)
@@ -368,6 +426,90 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
             print(error)
+        }
+    }
+    func jinrujiekou() {
+        let method = "/merchant/merMessage"
+        let userId:String = userDefaults.value(forKey: "userId") as! String
+        let dic = ["userId":userId]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                
+                
+                let arrr = (data["shopTime"] as! String).components(separatedBy: "-")
+                
+                self.HuodongArr = data["secondTypeList"] as! [[String:Any]]
+                self.FenleiArr = data["firstTypeList"] as! [[String:Any]]
+                if nil == data["name"] || (data["name"] as! String).count == 0{
+                    
+                }else{
+                    self.DianpuDic["0"] = data["name"] as? String
+                    self.DianpuDic["1"] = data["phone"] as? String
+                    self.DianpuDic["2"] = data["address"] as? String
+                    self.DianpuDic["3"] = arrr[0]
+                    self.DianpuDic["4"] = arrr[1]
+                    self.fenleiId = (data["firstType"] as? String)!
+                    self.huodongId = (data["secondType"] as? String)!
+                    let xx:String = (data["firstType"] as? String)!
+                    for aa in 0..<self.FenleiArr.count{
+                        if self.FenleiArr[aa]["id"] as! String == xx {
+                            self.DianpuDic["5"] = self.FenleiArr[aa]["name"] as? String
+                            break
+                        }
+                    }
+                    let yy:String = (data["secondType"] as? String)!
+                    for aa in 0..<self.HuodongArr.count{
+                        if self.HuodongArr[aa]["id"] as! String == yy {
+                            self.DianpuDic["6"] = self.HuodongArr[aa]["name"] as? String
+                            break
+                        }
+                    }
+                    
+//                    self.DianpuDic["6"] = data["secondType"] as? String
+                    self.Lon = (data["lng"] as? String)!
+                    self.Lat = (data["lat"] as? String)!
+                    let logoUrl = data["logoUrl"] as! String
+                    let newstring = TupianUrl + logoUrl
+                    let uul = URL(string: String(format: "%@",newstring.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
+                    let shangImageView = UIImageView()
+                    shangImageView.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: { (image:UIImage?, error:Error?, cacheType:SDImageCacheType, url:URL?) in
+                        if let img = image {
+                            self.imageDic["shang"] = img
+                            self.tableDianpu.reloadData()
+                        }
+
+                    })
+                    let picString:String = data["picture"] as! String
+                    let PicArr = picString.components(separatedBy: ";")
+                    
+                    let newstring1 = TupianUrl + PicArr[0]
+                    let uul1 = URL(string: String(format: "%@",newstring1.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
+                    let xiaImageView = UIImageView()
+                    xiaImageView.sd_setImage(with: uul1, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: { (image:UIImage?, error:Error?, cacheType:SDImageCacheType, url:URL?) in
+                        if let img = image {
+                            self.imageDic["xia"] = img
+                            self.tableDianpu.reloadData()
+                        }
+                        
+                    })
+                    let newstring2 = TupianUrl + PicArr[1]
+                    let uul2 = URL(string: String(format: "%@",newstring2.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
+                    let faImageView = UIImageView()
+                    faImageView.sd_setImage(with: uul2, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: { (image:UIImage?, error:Error?, cacheType:SDImageCacheType, url:URL?) in
+                        if let img = image {
+                            self.imageDic["fa"] = img
+                            self.tableDianpu.reloadData()
+                        }
+                    })
+                    self.tableDianpu.reloadData()
+                }
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            
         }
     }
     func youshangjiao()  {

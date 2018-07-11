@@ -13,6 +13,7 @@ class XL_TX_ViewController: UIViewController,UITextFieldDelegate,UIImagePickerCo
     var userType = ""
     var lalala = ""
     var withdrawMethod = ""
+    //1 飕飕币 3 销售
     var withdrawType = ""
     var xxx = 0
     
@@ -21,10 +22,39 @@ class XL_TX_ViewController: UIViewController,UITextFieldDelegate,UIImagePickerCo
     @IBOutlet weak var Name: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "提现申请"
+        jiazaijiekou()
+        let top0 = UITapGestureRecognizer(target: self, action: #selector(tanchu))
+        shoukuanma.isUserInteractionEnabled = true
+        shoukuanma.addGestureRecognizer(top0)
         // Do any additional setup after loading the view.
     }
-    func tanchu() {
+    func jiazaijiekou() {
+        let method = "/distribution/presentData"
+        let userId = userDefaults.value(forKey: "userId")
+        let dicc:[String:Any] = ["userId":userId!,"withdrawMethod":withdrawMethod]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+            print(res)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.Name.text = data["withdrawName"] as? String
+                self.zhanghao.text = data["withdrawCode"] as? String
+                let logoUrl = data["withdrawUrl"] as! String
+                let newstring = TupianUrl + logoUrl
+                let uul = URL(string: String(format: "%@",newstring.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
+                self.shoukuanma.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+            }else{
+                
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    @objc func tanchu() {
         //弹出选择相册、照相
         //选完之后刷新tableview，
         self.view.endEditing(true)
@@ -32,16 +62,16 @@ class XL_TX_ViewController: UIViewController,UITextFieldDelegate,UIImagePickerCo
                                                 preferredStyle: .actionSheet)
         
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        let paizhaoAction = UIAlertAction(title: "拍照", style: .default) { (ss) in
-            print("拍照")
-            self.ZHAOXIANG()
-        }
+//        let paizhaoAction = UIAlertAction(title: "拍照", style: .default) { (ss) in
+//            print("拍照")
+//            self.ZHAOXIANG()
+//        }
         let xiangceAction = UIAlertAction(title: "选择相册", style: .default) { (ss) in
             print("选择相册")
             self.XIANGCE()
         }
         alertController.addAction(cancelAction)
-        alertController.addAction(paizhaoAction)
+//        alertController.addAction(paizhaoAction)
         alertController.addAction(xiangceAction)
         self.present(alertController, animated: true, completion: nil)
     }
@@ -91,12 +121,12 @@ class XL_TX_ViewController: UIViewController,UITextFieldDelegate,UIImagePickerCo
             let method = "/distribution/withdrawDeposit"
             let userId = userDefaults.value(forKey: "userId")
             let withdrawMethod = self.withdrawMethod //1 zhifu 2 weixin
-            XL_waringBox().warningBoxModeIndeterminate(message: "保存中...", view: self.view)
+            XL_waringBox().warningBoxModeIndeterminate(message: "申请中...", view: self.view)
             let imagearr:[Any] = [shoukuanma.image!]
             let namearr:[Any] = ["withdrawUrl"]
             
             //        let dic:[String:Any] = ["userId":userId,"name":""]
-            let keyarr = ["userId","userType","money","withdrawMethod","withdrawCode","withdrawNam","withdrawType"]
+            let keyarr = ["userId","userType","money","withdrawMethod","withdrawCode","withdrawName","withdrawType"]
             let valuearr:[Any] = [userId!,userType,lalala,withdrawMethod,zhanghao.text!,Name.text!,withdrawType]
             
             

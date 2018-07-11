@@ -23,16 +23,14 @@ let QianWaiWangIP = "www.tusousouxr.com"
 //let QianWaiWangIP = "39.107.255.187:8080"
 //宋浩然
 //let QianWaiWangIP = "192.168.1.175:8085"
-//小调 
+//小调
 //let QianWaiWangIP = "192.168.1.181:8088"
 //小展
 //let QianWaiWangIP = "192.168.1.189:8080"
 //二号
 //let QianWaiWangIP = "192.168.1.115:8080"
-
 let url = "\(Scheme)\(QianWaiWangIP)\(AppName)\(apath)"
 let sanfangUrl = "\(Scheme)\(QianWaiWangIP)\(AppName)"
-
 let Height = UIScreen.main.bounds.height
 let Width = UIScreen.main.bounds.width
 let TupianUrl = "\(Scheme)\(QianWaiWangIP)"
@@ -141,11 +139,13 @@ class XL_QuanJu: NSObject {
                     multipartFormData.append(((valueArray[x] as! String).data(using: String.Encoding.utf8)!), withName: keyArray[x] as! String)
                 }
                 //上传图片
+                let now = Date()
+                let timeInterval:TimeInterval = now.timeIntervalSince1970
+                let timeStamp = Int(timeInterval)
+                let outRefundNo = String(format: "%d",timeStamp)
                 for i in 0..<DataArr.count {
-                    multipartFormData.append(DataArr[i], withName: NameArray[i] as! String, fileName: "这是第\(i)张.png", mimeType: "image/png")
+                    multipartFormData.append(DataArr[i], withName: NameArray[i] as! String, fileName: "\(outRefundNo)\(i).png", mimeType: "image/png")
                 }
-
-                
         },to: urlString,encodingCompletion: { encodingResult in
             switch encodingResult {
             case .success(let upload, _, _):

@@ -30,8 +30,8 @@ class XL_DPCK_ViewController: UIViewController {
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-               
+                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.zhaop(dic: data)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -39,19 +39,22 @@ class XL_DPCK_ViewController: UIViewController {
             print(error)
         }
     }
-    func zhaop(dic:[String:String]) {
+    func zhaop(dic:[String:Any]) {
         var jiee = ""
-        if nil != dic["licensePic"]{
-            jiee = dic["licensePic"]!
+        if nil != dic["licensePic"] {
+            jiee = (dic["licensePic"] as? String)!
         }
-        let uul = URL(string: TupianUrl + jiee)
-        yingyezhizhao.sd_setImage(with: uul, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+//        let uul = URL(string: TupianUrl + jiee)
+        let newString = TupianUrl + jiee
+        let uuu:URL = URL(string: String(format: "%@",newString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
+        yingyezhizhao.sd_setImage(with: uuu, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
         var jiee1 = ""
-        if nil != dic["idCard"]{
-            jiee1 = dic["idCard"]!
+        if nil != dic["idCardPic1"]{
+            jiee1 = dic["idCardPic1"] as! String
         }
-        let uul1 = URL(string: TupianUrl + jiee1)
-        farensheng.sd_setImage(with: uul1, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+        let newString1 = TupianUrl + jiee1
+        let uul1:URL = URL(string: String(format: "%@",newString1.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
+        farensheng.sd_setImage(with: uul1, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
     }
     
 

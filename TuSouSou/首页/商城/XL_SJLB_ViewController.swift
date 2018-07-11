@@ -36,7 +36,7 @@ class XL_SJLB_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
         liwojin.isSelected = true
         xiaolianggao.isSelected = false
         xiaolianggaoview.backgroundColor = UIColor.white
-        
+        self.title = "商家列表"
         // Do any additional setup after loading the view.
         // 下拉刷新
         header.setRefreshingTarget(self, refreshingAction: #selector(headerRefresh))
@@ -59,9 +59,10 @@ class XL_SJLB_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
+        
         if count > pageNo * pageSize {
             tablesjlb.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             jiekou(string: tpye)
         }else{
             footer.endRefreshingWithNoMoreData()
@@ -93,10 +94,10 @@ class XL_SJLB_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }
         }
         
-        let uul = URL(string: TupianUrl + jiee)
-        
+        let newString1 = TupianUrl + jiee
+        let uul:URL = URL(string: String(format: "%@",newString1.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
         let imageview = UIImageView(frame: CGRect(x: 8, y: 8, width: Width/3 - 20, height: 96))
-        imageview.sd_setImage(with: uul, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+        imageview.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
         let gongsiName = UILabel(frame: CGRect(x: Width/3 + 8, y: 10, width: Width*2/3 - 20, height: 24))
         gongsiName.text = ""
         if businessList.count != 0{
@@ -173,8 +174,9 @@ class XL_SJLB_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
 //        let userId = userDefaults.value(forKey: "userId")
         let latitude = userDefaults.value(forKey: "latitude")
         let longitude = userDefaults.value(forKey: "longitude")
+        let city:String = userDefaults.value(forKey: "cityName") as! String
         
-        let dic:[String:Any] = ["longitude":longitude!,"latitude":latitude!,"classifyTypeId":classifyTypeId!,"searchType":string,"pageNo":pageNo,"pageSize":pageSize]
+        let dic:[String:Any] = ["longitude":longitude!,"latitude":latitude!,"classifyTypeId":classifyTypeId!,"searchType":string,"pageNo":pageNo,"pageSize":pageSize,"cityName":city]
         
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)

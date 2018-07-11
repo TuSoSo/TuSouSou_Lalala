@@ -21,8 +21,15 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
         super.viewDidLoad()
         self.title = "个人中心"
         tableDelegate()
+        touxiang.layer.masksToBounds = true
+        touxiang.layer.cornerRadius = touxiang.frame.size.height/2
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
         if nil != userDefaults.value(forKey: "userId") {
-             yonghuxinxichaxun()
+            yonghuxinxichaxun()
+        }else{
+            //跳登陆
         }
     }
     @IBAction func GRziliao(_ sender: Any) {
@@ -103,9 +110,7 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-                //                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                
                 if nil != data["mobile"] {
                     self.phone.text = data["mobile"] as? String
                 }
@@ -117,7 +122,7 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 let newstring = TupianUrl + ax
                 let touurl = URL(string: String(format: "%@",newstring.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
                 
-                self.touxiang.sd_setImage(with: touurl, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+                self.touxiang.sd_setImage(with: touurl, placeholderImage: UIImage(named: "head"), options: SDWebImageOptions.progressiveDownload, completed: nil)
                 //企业认证不等于4 都是个人
                 
                 if nil != data["name"] {

@@ -21,7 +21,7 @@ class XL_SPK_ViewController: UIViewController,UITableViewDelegate,UITableViewDat
     // 底部刷新
     let footer = MJRefreshAutoNormalFooter()
     //页码
-    var pageNo = 0
+    var pageNo = 1
     let pageSize = 10
     var count = 0
     var tpye = "1" // 1 左 2 右
@@ -56,7 +56,7 @@ class XL_SPK_ViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     @objc func headerRefresh() {
         footer.endRefreshingWithMoreData()
-        pageNo = 0
+        pageNo = 1
         DDArr = []
         jiekou(index: tpye)
         tablespk.mj_header.endRefreshing()
@@ -64,9 +64,10 @@ class XL_SPK_ViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
+        
         if count > pageNo * pageSize {
             tablespk.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             jiekou(index: tpye)
         }else{
             footer.endRefreshingWithNoMoreData()
@@ -136,7 +137,7 @@ class XL_SPK_ViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let newstring = TupianUrl + jiee
         
         let uul = URL(string: String(format: "%@",newstring.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
-        tupian.sd_setImage(with: uul, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+        tupian.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
         name.text = ""
         if DDArr.count != 0 {
             name.text = DDArr[indexPath.row]["productName"] as? String

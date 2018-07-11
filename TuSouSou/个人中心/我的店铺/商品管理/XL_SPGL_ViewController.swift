@@ -155,7 +155,7 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
             //去掉当前cell的分割线
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
             let imageView = UIImageView(frame:CGRect(x: Width/4, y: 0, width: Width/2, height: 120))
-            imageView.image = UIImage(named: "引导2")
+            imageView.image = UIImage(named: "shoppicture")
             if nil != imageDic["shang"] {
                 imageView.image = imageDic["shang"] as? UIImage
             }

@@ -36,7 +36,7 @@ class PayAlert: UIView,UITextFieldDelegate {
     
     func setupView(jineHide:Bool, jine: String){
         
-        contentView =  UIView(frame: CGRect(x:(Width - 240)/2, y: 100, width: 240, height: 200))
+        contentView =  UIView(frame: CGRect(x:(Width - 240)/2, y: Height/2, width: 240, height: 200))
         contentView!.backgroundColor = UIColor.white
         contentView?.layer.cornerRadius = 5;
         self.addSubview(contentView!)

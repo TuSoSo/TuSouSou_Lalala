@@ -21,9 +21,10 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
         super.viewDidLoad()
         self.title = "个人资料"
         tableDelegate()
-        yonghuxinxichaxun()
-        
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        yonghuxinxichaxun()
     }
     func yonghuxinxichaxun() {
         let method = "/user/findUserInfo"
@@ -107,6 +108,8 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 zuoLabel.frame = CGRect(x: 16, y: 19, width: 80, height: 22)
                 zuoLabel.text = "头像"
                 imageTou = UIImageView(frame: CGRect(x: Width - 60, y: 10, width: 40, height: 40))
+                imageTou.layer.masksToBounds = true
+                imageTou.layer.cornerRadius = 20
                 if zhaozhao == 0 {
                     var ax:String = ""
                     if nil != Dic!["photo"]{
@@ -115,14 +118,10 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                     let newstring = TupianUrl + ax
                     let uuu = URL(string: String(format: "%@",newstring.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
                     
-                    imageTou.sd_setImage(with: uuu, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
-                    
-                    
+                    imageTou.sd_setImage(with: uuu, placeholderImage: UIImage(named: "head"), options: SDWebImageOptions.progressiveDownload, completed: nil)
                 }else{
                     imageTou.image = imageXX
                 }
-                
-                
                 cell.contentView.addSubview(imageTou)
                 cell.contentView.addSubview(zuoLabel)
             }else if indexPath.row == 1{
@@ -176,7 +175,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
             zuoLabel.textColor = UIColor.darkGray
             if indexPath.row == 0{
                 zuoLabel.text = "实名认证"
-                let shimingLabel = UILabel(frame: CGRect(x: Width - 100, y: 11, width: 70, height: 22))
+                let shimingLabel = UILabel(frame: CGRect(x: Width - 150, y: 11, width: 120, height: 22))
                 shimingLabel.font = UIFont.systemFont(ofSize: 14)
                 var xx = "0"
                 if nil != Dic!["isAuthentic"]{
@@ -202,7 +201,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 cell.contentView.addSubview(shimingLabel)
             }else{
                 zuoLabel.text = "企业认证"
-                let qiyeLabel = UILabel(frame: CGRect(x: Width - 100, y: 11, width: 70, height: 22))
+                let qiyeLabel = UILabel(frame: CGRect(x: Width - 150, y: 11, width: 120, height: 22))
                 qiyeLabel.font = UIFont.systemFont(ofSize: 14)
                 qiyeLabel.text = "未认证"
                 var xx = "0"
@@ -258,44 +257,43 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 //跳实名认证
                 if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
                     //接口 取回 token 调 阿里
-                    tokenJiekou()
-                    
-                }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
                     let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
-                    self.navigationController?.pushViewController(ShimingRZ!, animated: true)
+                    ShimingRZ?.jiemian = 1
+                self.navigationController?.pushViewController(ShimingRZ!, animated: true)
+                }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+                    //显示界面
+                    let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
+                    ShimingRZ?.jiemian = 2
+                self.navigationController?.pushViewController(ShimingRZ!, animated: true)
                 }
             }else if indexPath.row == 1 {
-                //跳企业认证
-                let qiyeRZ: XL_QiyeRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qiyerz") as? XL_QiyeRZ_ViewController
-                self.navigationController?.pushViewController(qiyeRZ!, animated: true)
+                //如果企业认证通过则不跳页
+                if userDefaults.value(forKey: "isFirmAdit") as! Int == 4 {
+                    
+                }else{
+                if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+                    //弹框 --- 请先完成实名认证
+                    let sheet = UIAlertController(title: "温馨提示:", message: "请先完成实名认证再进行企业认证", preferredStyle: .alert)
+                    let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
+                        //接口 取回 token 调 阿里
+                        let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
+                        ShimingRZ?.jiemian = 1
+                self.navigationController?.pushViewController(ShimingRZ!, animated: true)
+                    }
+                    let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                    sheet.addAction(queding)
+                    sheet.addAction(cancel)
+                    self.present(sheet, animated: true, completion: nil)
+                }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+                    //跳企业认证
+                    let qiyeRZ: XL_QiyeRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qiyerz") as? XL_QiyeRZ_ViewController
+                    self.navigationController?.pushViewController(qiyeRZ!, animated: true)
+                }
+                }
             }
         }
     }
-    func tokenJiekou() {
-        let method = "/user/updateUserInfoApp"
-        let userId:String = userDefaults.value(forKey: "userId") as! String
-        XL_waringBox().warningBoxModeIndeterminate(message: "保存中...", view: self.view)
-        let imagearr:[Any] = [imageTou.image!]
-        let namearr:[Any] = ["photo"]
-        
-        //        let dic:[String:Any] = ["userId":userId,"name":""]
-        let keyarr = ["userId","name"]
-        let valuearr = [userId,nameFD.text!]
-        
-        
-        XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyarr, valueArray: valuearr, methodName: method, success: { (res) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "保存成功", view: (self.navigationController?.view)!)
-                self.navigationController?.popViewController(animated: true)
-                
-            }
-        }) { (error) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
-            print(error)
-        }
-    }
+    
     @objc func yonghuxinxixiugai() {
         let method = "/user/updateUserInfoApp"
         let userId:String = userDefaults.value(forKey: "userId") as! String

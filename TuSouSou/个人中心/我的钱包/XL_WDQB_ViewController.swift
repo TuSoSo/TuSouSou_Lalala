@@ -23,6 +23,10 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     var zhou = UIButton()
     var jinrisousoubi = UILabel()
     var ZY = 0
+    // 转花钱
+    var tichengzhuanhua = UILabel()
+    var tidaozhuanhua = UILabel()
+    var zhuanhua:String = "0"
     
     var ZhiWei = 0
     //隐藏
@@ -63,6 +67,11 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         keyBoardisHidden = true
     }
     func shangViewUI() {
+        for VV:UIView in shangView.subviews {
+            if VV.tag == 1001 || VV.tag == 1002 || VV.tag == 1003 {
+                VV.removeFromSuperview()
+            }
+        }
         var YuEView = UIView(frame: CGRect(x: 0, y: 0, width: Width/4, height: Height/3 - 88))
         var SouSoubiView = UIView(frame: CGRect(x: Width/4, y: 0, width: Width/2, height: Height/3 - 88))
         var XiaoShouView = UIView(frame: CGRect(x: Width*3/4, y: 0, width: Width/4, height: Height/3 - 88))
@@ -71,6 +80,9 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             SouSoubiView = UIView(frame: CGRect(x: Width/3, y: 0, width: Width*2/3, height: Height/3 - 88))
             XiaoShouView = UIView(frame: CGRect(x: Width*4/4, y: 0, width: 0, height: Height/3 - 88))
         }
+        YuEView.tag = 1001
+        SouSoubiView.tag = 1002
+        XiaoShouView.tag = 1003
         YuEView.backgroundColor = UIColor.clear
         qian(title: "\(YuE)", Iview: YuEView)
         let yue = UILabel(frame: CGRect(x: 0, y: YuEView.frame.size.height - 44, width: YuEView.frame.size.width, height: 44))
@@ -90,7 +102,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         sousoubi.textColor = UIColor.white
         SouSoubiView.addSubview(sousoubi)
         shangView.addSubview(SouSoubiView)
-       
+        
         XiaoShouView.backgroundColor = UIColor.clear
         qian(title: "\(XiaoShou)", Iview: XiaoShouView)
         let xiaoshou = UILabel(frame: CGRect(x: 0, y: XiaoShouView.frame.size.height - 44, width: XiaoShouView.frame.size.width, height: 44))
@@ -101,33 +113,57 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         XiaoShouView.addSubview(xiaoshou)
         shangView.addSubview(XiaoShouView)
         
-        let yuechongzhi = UIButton(frame: CGRect(x: 0, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        //        let yuechongzhi = UIButton(frame: CGRect(x: 0, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        let yuechongzhiView = UIView(frame: CGRect(x: 0, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        shangView.addSubview(yuechongzhiView)
+        let yuechongzhi = UIButton(frame: CGRect(x: 20, y: 4, width: yuechongzhiView.frame.size.width - 40, height: 32))
+        //        yuechongzhi.center = CGPoint(x: yuechongzhiView.frame.size.width/2, y: yuechongzhiView.frame.size.height/2)
+        yuechongzhi.layer.borderColor = UIColor.white.cgColor//设置边框颜色
+        yuechongzhi.layer.borderWidth = 1.0;//设置边框宽度
         yuechongzhi.setTitle("充值", for: .normal)
         yuechongzhi.setTitleColor(UIColor.white, for: .normal)
         yuechongzhi.backgroundColor = UIColor.clear
         yuechongzhi.addTarget(self, action: #selector(Yuechongzhi), for: .touchUpInside)
-        shangView.addSubview(yuechongzhi)
+        yuechongzhiView.addSubview(yuechongzhi)
         
-        let sousoubizhuanrang = UIButton(frame: CGRect(x: YuEView.frame.maxX, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        //        let sousoubizhuanrang = UIButton(frame: CGRect(x: YuEView.frame.maxX, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        let sousoubizhuanrangView = UIView(frame:CGRect(x: YuEView.frame.maxX, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        shangView.addSubview(sousoubizhuanrangView)
+        let sousoubizhuanrang = UIButton(frame: CGRect(x: 20, y: 4, width: sousoubizhuanrangView.frame.size.width - 40, height: 32))
+        sousoubizhuanrang.center = CGPoint(x: sousoubizhuanrangView.frame.size.width/2, y: sousoubizhuanrangView.frame.size.height/2)
+        sousoubizhuanrang.layer.borderColor = UIColor.white.cgColor//设置边框颜色
+        sousoubizhuanrang.layer.borderWidth = 1.0;//设置边框宽度
         sousoubizhuanrang.setTitle("转让", for: .normal)
         sousoubizhuanrang.setTitleColor(UIColor.white, for: .normal)
         sousoubizhuanrang.backgroundColor = UIColor.clear
         sousoubizhuanrang.addTarget(self, action: #selector(Sousoubizhuanrang), for: .touchUpInside)
-        shangView.addSubview(sousoubizhuanrang)
+        sousoubizhuanrangView.addSubview(sousoubizhuanrang)
         
-        let sousoubitixian = UIButton(frame: CGRect(x: YuEView.frame.maxX*2, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        //        let sousoubitixian = UIButton(frame: CGRect(x: YuEView.frame.maxX*2, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        let sousoubitixianView = UIView(frame: CGRect(x: YuEView.frame.maxX*2, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        shangView.addSubview(sousoubitixianView)
+        let sousoubitixian = UIButton(frame: CGRect(x: 20, y: 4, width: sousoubitixianView.frame.size.width - 40, height: 32))
+        sousoubitixian.center = CGPoint(x: sousoubitixianView.frame.size.width/2, y: sousoubitixianView.frame.size.height/2)
+        sousoubitixian.layer.borderColor = UIColor.white.cgColor//设置边框颜色
+        sousoubitixian.layer.borderWidth = 1.0;//设置边框宽度
         sousoubitixian.setTitle("提现", for: .normal)
         sousoubitixian.setTitleColor(UIColor.white, for: .normal)
         sousoubitixian.backgroundColor = UIColor.clear
         sousoubitixian.addTarget(self, action: #selector(Sousoubitixian), for: .touchUpInside)
-        shangView.addSubview(sousoubitixian)
+        sousoubitixianView.addSubview(sousoubitixian)
         
-        let xiaoshoutixian = UIButton(frame: CGRect(x: YuEView.frame.maxX*3, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        //        let xiaoshoutixian = UIButton(frame: CGRect(x: YuEView.frame.maxX*3, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        let xiaoshoutixianView = UIView(frame: CGRect(x: YuEView.frame.maxX*3, y: Height/3 - 66, width: YuEView.frame.maxX, height: 44))
+        shangView.addSubview(xiaoshoutixianView)
+        let xiaoshoutixian = UIButton(frame: CGRect(x: 20, y: 4, width: xiaoshoutixianView.frame.size.width - 40, height: 32))
+        xiaoshoutixian.center = CGPoint(x: xiaoshoutixianView.frame.size.width/2, y: xiaoshoutixianView.frame.size.height/2)
+        xiaoshoutixian.layer.borderColor = UIColor.white.cgColor//设置边框颜色
+        xiaoshoutixian.layer.borderWidth = 1.0;//设置边框宽度
         xiaoshoutixian.setTitle("提现", for: .normal)
         xiaoshoutixian.setTitleColor(UIColor.white, for: .normal)
         xiaoshoutixian.backgroundColor = UIColor.clear
         xiaoshoutixian.addTarget(self, action: #selector(Xiaoshoutixian), for: .touchUpInside)
-        shangView.addSubview(xiaoshoutixian)
+        xiaoshoutixianView.addSubview(xiaoshoutixian)
         
     }
     func zhongjianUI() {
@@ -164,7 +200,8 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                 self.isPass = data["isPass"] as! Int
                 self.youhui()
             }else{
-                XL_waringBox().warningBoxModeText(message: "退款次数不足", view: self.view)
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -183,8 +220,8 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             if (res as! [String: Any])["code"] as! String == "0000" {
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 //给 YuE SouSouBi XiaoShou 赋值
-                let jiage = String(format: "%.4f", data["percentage"] as! Double)
-                self.jinrisousoubi.text = "今日飕飕币价格:" + " " + jiage
+                self.zhuanhua = String(format: "%.4f", data["percentage"] as! Double)
+                self.jinrisousoubi.text = "今日飕飕币价格:" + " " + self.zhuanhua
                 self.YuE = String(format: "%.2f", data["balance"] as! Double)
                 self.SouSouBi = String(format: "%.4f", data["ssMoney"]! as! Double)
                 self.XiaoShou = String(format: "%.2f", data["saleMoney"] as! Double)
@@ -228,7 +265,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                 for iii in 0..<ratioList.count {
                     self.hengArr.append(ratioList[iii]["day"]! as! String)
                     let shu = ratioList[iii]["percentage"]! as! String
-//                    let Y:Float = Float(shu)!
+                    //                    let Y:Float = Float(shu)!
                     let Y:NSDecimalNumber = NSDecimalNumber(string: shu)
                     
                     print(shu)
@@ -239,21 +276,21 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                 
                 let chartModel = AAChartModel.init()
                     .chartType(AAChartType.Line)
-                    .title("飕飕币比率折线图")
+                    .title("飕飕币兑换比率走势图")
                     .inverted(false)
-                    .yAxisTitle("比率")
+                    .yAxisTitle("飕飕币兑换比率")
                     .legendEnabled(false)
                     .tooltipValueSuffix("")
                     .categories(self.hengArr)
                     .colorsTheme(["#fe117c"])//主题颜色数组
                     .series([
                         AASeriesElement()
-                            .name("飕飕币比率")
+                            .name("飕飕币兑换比率")
                             .data(self.shuArr)
                             .toDic()!,])
-    self.aaChartView.aa_refreshChartWholeContentWithChartModel(chartModel)
+                self.aaChartView.aa_refreshChartWholeContentWithChartModel(chartModel)
                 //ratioList
-                   // percentage    day
+                // percentage    day
             }else{
                 XL_waringBox().warningBoxModeText(message: "退款次数不足", view: self.view)
             }
@@ -281,12 +318,12 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     @objc func Yuechongzhi() {
         print("1")
-        chongzhiView.isHidden = false
+        chongzhiViewInit()
         yinying.isHidden = false
     }
     @objc func Sousoubizhuanrang() {
         print("2")
-        ZhuanrangView.isHidden = false
+        ZhuanrangViewInit()
         yinying.isHidden = false
     }
     @objc func Sousoubitixian() {
@@ -295,7 +332,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     @objc func Xiaoshoutixian() {
         print("4")
-        tixianView.isHidden = false
+        tixianviewInit()
         yinying.isHidden = false
     }
     func tanchu()  {
@@ -305,14 +342,14 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         let yueAction = UIAlertAction(title: "提现到余额", style: .default) { (ss) in
-            self.tixianyue.isHidden = false
+            self.tixianyueInit()
             self.yinying.isHidden = false
         }
         let zhiweiAction = UIAlertAction(title: "提现到支付宝或微信", style: .default) { (ss) in
-            self.tichengxianjinView.isHidden = false
+            self.tichengxianjinViewInit()
             self.yinying.isHidden = false
         }
-    
+        
         alertController.addAction(cancelAction)
         alertController.addAction(yueAction)
         alertController.addAction(zhiweiAction)
@@ -329,6 +366,8 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         yinying.addGestureRecognizer(yyyy)
         yinying.isUserInteractionEnabled = true
         self.view.addSubview(yinying)
+    }
+    func ZhuanrangViewInit() {
         //转让
         let Shoujihao = UILabel(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 24))
         Shoujihao.font = UIFont.systemFont(ofSize: 15)
@@ -369,6 +408,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         zhuanqueding.isUserInteractionEnabled = true
         
         ZhuanrangView = UIView(frame: CGRect(x: 0, y: Height/3, width: Width, height: Height*2/3))
+        ZhuanrangView.tag = 10090
         ZhuanrangView.backgroundColor = UIColor.white
         ZhuanrangView.addSubview(Shoujihao)
         ZhuanrangView.addSubview(shoujihao)
@@ -376,9 +416,10 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         ZhuanrangView.addSubview(Zhuanrangsousoubi)
         ZhuanrangView.addSubview(zhuanquxiao)
         ZhuanrangView.addSubview(zhuanqueding)
-        ZhuanrangView.isHidden = true
+        //        ZhuanrangView.isHidden = true
         self.view.addSubview(ZhuanrangView)
-        
+    }
+    func chongzhiViewInit() {
         //充值
         let chongzhijine = UILabel(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 24))
         chongzhijine.font = UIFont.systemFont(ofSize: 15)
@@ -397,7 +438,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         xuanzezhifu.text = "选择支付方式:"
         xuanzezhifu.textColor = UIColor.darkGray
         
-        let zhiwei = zhizhiweiwei()
+        let zhiwei = zhizhiweiwei(xx: 1)
         
         let chongquxiao = UILabel(frame: CGRect(x: Width - 150 , y: 232, width: 50, height: 30))
         chongquxiao.text = "取消"
@@ -417,6 +458,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         hou(title: chongzhihjiangli, Iview: chongzhengce)
         
         chongzhiView = UIView(frame: CGRect(x: 0, y: Height/3, width: Width, height: Height*2/3))
+        chongzhiView.tag = 10089
         chongzhiView.backgroundColor = UIColor.white
         chongzhiView.addSubview(chongzhijine)
         chongzhiView.addSubview(shurukuang)
@@ -424,10 +466,11 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         chongzhiView.addSubview(zhiwei)
         chongzhiView.addSubview(chongquxiao)
         chongzhiView.addSubview(chongqueding)
-        chongzhiView.isHidden = true
+        //    chongzhiView.isHidden = true
         chongzhiView.addSubview(chongzhengce)
         self.view.addSubview(chongzhiView)
-        
+    }
+    func tixianyueInit() {
         //飕飕币提现到余额
         let tidaoyue = UILabel(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 24))
         tidaoyue.font = UIFont.systemFont(ofSize: 15)
@@ -441,7 +484,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         tidaoyueTF.placeholder = "请输入提现飕飕币"
         tidaoyueTF.delegate = self
         
-        let tidaozhuanhua = UILabel(frame: CGRect(x: 20, y: 96, width: Width, height: 32))
+        tidaozhuanhua = UILabel(frame: CGRect(x: 20, y: 96, width: Width, height: 32))
         tidaozhuanhua.text = "飕飕币转换成余额: ¥0.00"
         tidaozhuanhua.textColor = UIColor.darkGray
         
@@ -460,15 +503,17 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         tidaoqueding.isUserInteractionEnabled = true
         
         tixianyue = UIView(frame: CGRect(x: 0, y: Height/3, width: Width, height: Height*2/3))
+        tixianyue.tag = 10088
         tixianyue.backgroundColor = UIColor.white
         tixianyue.addSubview(tidaoyue)
         tixianyue.addSubview(tidaoyueTF)
         tixianyue.addSubview(tidaozhuanhua)
         tixianyue.addSubview(tidaoquxiao)
         tixianyue.addSubview(tidaoqueding)
-        tixianyue.isHidden = true
+        //        tixianyue.isHidden = true
         self.view.addSubview(tixianyue)
-        
+    }
+    func tichengxianjinViewInit() {
         //提现成现金
         let tichengxianjin = UILabel(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 24))
         tichengxianjin.font = UIFont.systemFont(ofSize: 15)
@@ -479,45 +524,48 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         tichengxianjinTF.tag = 14
         tichengxianjinTF.textAlignment = .center
         tichengxianjinTF.keyboardType = .decimalPad
-        tichengxianjinTF.placeholder = "请输入提现飕飕币"
+        tichengxianjinTF.placeholder = "最小提现额度10.0个飕飕币"
         tichengxianjinTF.delegate = self
         
-        let zhiwei1 = zhizhiweiwei()
+        let zhiwei1 = zhizhiweiwei(xx: 2)
         
-        let tichengzhuanhua = UILabel(frame: CGRect(x: 20, y: 96, width: Width, height: 32))
-        tichengzhuanhua.text = "飕飕币转换成余额: ¥0.00"
+        tichengzhuanhua = UILabel(frame: CGRect(x: 20, y: 96, width: Width, height: 32))
+        tichengzhuanhua.text = "飕飕币转换成人民币: ¥0.00"
         tichengzhuanhua.textColor = UIColor.darkGray
         
-        let shouxu = UILabel(frame: CGRect(x: 20, y: 144, width: Width, height: 24))
+        let shouxu = UILabel(frame: CGRect(x: 20, y: 136, width: Width, height: 24))
         shouxu.font = UIFont.systemFont(ofSize: 14)
         shouxu.textColor = UIColor.darkGray
         shouxu.text = "手续费:" + " " + shouxufei
         
-        let tichengquxiao = UILabel(frame: CGRect(x: Width - 150 , y: 232, width: 50, height: 30))
+        let tichengquxiao = UILabel(frame: CGRect(x: Width - 150 , y: 248, width: 50, height: 30))
         tichengquxiao.text = "取消"
         tichengquxiao.textColor = UIColor.orange
         let ticheng = UITapGestureRecognizer(target: self, action: #selector(Tichengquxiao))
         tichengquxiao.addGestureRecognizer(ticheng)
         tichengquxiao.isUserInteractionEnabled = true
         
-        let tichengqueding = UILabel(frame: CGRect(x: Width - 80 , y: 232, width: 50, height: 30))
+        let tichengqueding = UILabel(frame: CGRect(x: Width - 80 , y: 248, width: 50, height: 30))
         tichengqueding.text = "确定"
         tichengqueding.textColor = UIColor.orange
         let tichengque = UITapGestureRecognizer(target: self, action: #selector(Tichengqueding))
         tichengqueding.addGestureRecognizer(tichengque)
         tichengqueding.isUserInteractionEnabled = true
-     
+        
         tichengxianjinView = UIView(frame: CGRect(x: 0, y: Height/3, width: Width, height: Height*2/3))
+        tichengxianjinView.tag = 10087
         tichengxianjinView.backgroundColor = UIColor.white
         tichengxianjinView.addSubview(tichengxianjin)
         tichengxianjinView.addSubview(tichengxianjinTF)
         tichengxianjinView.addSubview(tichengzhuanhua)
         tichengxianjinView.addSubview(zhiwei1)
+        tichengxianjinView.addSubview(shouxu)
         tichengxianjinView.addSubview(tichengquxiao)
         tichengxianjinView.addSubview(tichengqueding)
-        tichengxianjinView.isHidden = true
+        //        tichengxianjinView.isHidden = true
         self.view.addSubview(tichengxianjinView)
-        
+    }
+    func tixianviewInit(){
         //销售提现
         let xiaoshoutixian = UILabel(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 24))
         xiaoshoutixian.font = UIFont.systemFont(ofSize: 15)
@@ -531,7 +579,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         xiaoshouTF.placeholder = "请输入提现金额"
         xiaoshouTF.delegate = self
         
-        let zhiwei2 = zhizhiweiwei()
+        let zhiwei2 = zhizhiweiwei(xx: 1)
         
         let xiaoshouxu = UILabel(frame: CGRect(x: 20, y: 96, width: Width, height: 24))
         xiaoshouxu.font = UIFont.systemFont(ofSize: 14)
@@ -553,6 +601,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         tixianqueding.isUserInteractionEnabled = true
         
         tixianView = UIView(frame: CGRect(x: 0, y: Height/3, width: Width, height: Height*2/3))
+        tixianView.tag = 10086
         tixianView.backgroundColor = UIColor.white
         tixianView.addSubview(xiaoshoutixian)
         tixianView.addSubview(xiaoshouTF)
@@ -560,12 +609,16 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         tixianView.addSubview(zhiwei2)
         tixianView.addSubview(tixianquxiao)
         tixianView.addSubview(tixianqueding)
-        tixianView.isHidden = true
+        //        tixianView.isHidden = true
         self.view.addSubview(tixianView)
-        
     }
-    func zhizhiweiwei() -> UIView {
-        let zhiwei = UIView(frame: CGRect(x: 20, y: 120, width: Width - 40, height: 96))
+    func zhizhiweiwei(xx:Int) -> UIView {
+        let zhiwei = UIView()
+        if xx == 1 {
+            zhiwei.frame = CGRect(x: 20, y: 120, width: Width - 40, height: 96)
+        }else if xx == 2 {
+            zhiwei.frame = CGRect(x: 20, y: 160, width: Width - 40, height: 96)
+        }
         zhiwei.isUserInteractionEnabled = true
         zhiwei.isUserInteractionEnabled = true
         let zhiImage = UIImageView(frame: CGRect(x: 0, y: 16, width: 24, height: 24))
@@ -605,12 +658,14 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     @objc func yyyyy() {
         if keyBoardisHidden == true {
             yinying.isHidden = true
-            tixianView.isHidden = true
-            tichengxianjinView.isHidden = true
-            tixianyue.isHidden = true
-            chongzhiView.isHidden = true
-            ZhuanrangView.isHidden = true
+            for view in self.view.subviews{
+                if view.tag == 10086 || view.tag == 10087 || view.tag == 10088 || view.tag == 10089 || view.tag == 10090 {
+                    view.removeFromSuperview()
+                }
+            }
             ZHIWEI = 0
+            tichengzhuanhua.text = "飕飕币转换成人民币: ¥0.00"
+            tidaozhuanhua.text = "飕飕币转换成余额: ¥0.00"
         }else{
             self.view.endEditing(true)
         }
@@ -621,29 +676,34 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         var lalala = ""
         if nil != shuruDic["15"] && shuruDic["15"]!.count > 0 {
             lalala = shuruDic["15"]!
-            // 跳页 传值 完善信息 图片上传 判断支付mi码
-           
-            if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
-                // 跳 设置支付密码
-                self.tiaoye(rukou: "1")
-            }else{
-                if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
-                    // 不免密 跳验证密码
-                    if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
-                        //输入支付密码验证后再跳页
-                        let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: lalala)
-                        payAlert.show(view: self.view)
-                        payAlert.completeBlock = ({(password:String) -> Void in
-                            //调验证支付吗接口
-                            self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "3")
-                            print("输入的密码是:" + password)
-                        })
-                    }
+            if ZHIWEI != 0{
+                // 跳页 传值 完善信息 图片上传 判断支付mi码
+                
+                if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
+                    // 跳 设置支付密码
+                    self.tiaoye(rukou: "1")
                 }else{
-                    //直接接口
-                    self.TXVIEW(lalala: lalala, withdrawType: "3")
+                    if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
+                        // 不免密 跳验证密码
+                        if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
+                            //输入支付密码验证后再跳页
+                            let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: lalala)
+                            payAlert.show(view: self.view)
+                            payAlert.completeBlock = ({(password:String) -> Void in
+                                //调验证支付吗接口
+                                self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "3")
+                                print("输入的密码是:" + password)
+                            })
+                        }
+                    }else{
+                        //直接接口
+                        self.TXVIEW(lalala: lalala, withdrawType: "3")
+                    }
                 }
+            }else{
+                XL_waringBox().warningBoxModeText(message: "请选择提现方式!", view: self.view)
             }
+            
         }else{
             XL_waringBox().warningBoxModeText(message: "请填写完整！", view: self.view)
         }
@@ -680,6 +740,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         if isPass == 4 {
             userType = "2"
         }
+        self.yyyyy()
         let wwddxq: XL_TX_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "tx") as? XL_TX_ViewController
         wwddxq?.userType = userType
         wwddxq?.lalala = lalala
@@ -693,9 +754,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         self.navigationController?.pushViewController(AnQuanSZ!, animated: true)
     }
     @objc func Tixianquxiao() {
-        ZHIWEI = 0
-        tixianView.isHidden = true
-        yinying.isHidden = true
+        yyyyy()
     }
     @objc func Tichengqueding() {
         //提成现金接口
@@ -703,35 +762,37 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         var lalala = ""
         if nil != shuruDic["14"] && shuruDic["14"]!.count > 0 {
             lalala = shuruDic["14"]!
-            if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
-                // 跳 设置支付密码
-                self.tiaoye(rukou: "1")
-            }else{
-                if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
-                    // 不免密 跳验证密码
-                    if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
-                        //输入支付密码验证后再跳页
-                        let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: lalala)
-                        payAlert.show(view: self.view)
-                        payAlert.completeBlock = ({(password:String) -> Void in
-                            //调验证支付吗接口
-                            self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "1")
-                            print("输入的密码是:" + password)
-                        })
-                    }
+            if ZHIWEI != 0{
+                if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
+                    // 跳 设置支付密码
+                    self.tiaoye(rukou: "1")
                 }else{
-                    //直接接口
-                    self.TXVIEW(lalala: lalala, withdrawType: "1")
+                    if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
+                        // 不免密 跳验证密码
+                        if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
+                            //输入支付密码验证后再跳页
+                            let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: lalala)
+                            payAlert.show(view: self.view)
+                            payAlert.completeBlock = ({(password:String) -> Void in
+                                //调验证支付吗接口
+                                self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "1")
+                                print("输入的密码是:" + password)
+                            })
+                        }
+                    }else{
+                        //直接接口
+                        self.TXVIEW(lalala: lalala, withdrawType: "1")
+                    }
                 }
+            }else{
+                XL_waringBox().warningBoxModeText(message: "请选择提现方式!", view: self.view)
             }
         }else{
             XL_waringBox().warningBoxModeText(message: "请填写完整！", view: self.view)
         }
     }
     @objc func Tichengquxiao() {
-        ZHIWEI = 0
-        tichengxianjinView.isHidden = true
-        yinying.isHidden = true
+        yyyyy()
     }
     @objc func Tidaoqueding() {
         // 转账到余额接口
@@ -748,9 +809,12 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             let dicc:[String:Any] = ["userId":userId!,"turnoverType":"2","ssTurnoverCount":lalala,"phone":phone,"userType":userType]
             XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
                 print(res)
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
                 if (res as! [String: Any])["code"] as! String == "0000" {
                     //                    let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                    
+                    self.yyyyy()
+                    self.youhui()
                 }else{
                     
                 }
@@ -763,9 +827,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         }
     }
     @objc func Tidaoquxiao() {
-        ZHIWEI = 0
-        tixianyue.isHidden = true
-        yinying.isHidden = true
+        yyyyy()
     }
     @objc func Chongqueding() {
         //转账接口
@@ -773,17 +835,21 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         print("充值确定")
         var lalala = ""
         if nil != shuruDic["10"] && shuruDic["10"]!.count > 0 {
-            lalala = shuruDic["10"]!
-            let now = Date()
-            let timeInterval:TimeInterval = now.timeIntervalSince1970
-            let timeStamp = Int(timeInterval)
-            let outRefundNo = String(format: "%@%d", userDefaults.value(forKey: "userId") as! String ,timeStamp)
-            userDefaults.set(lalala, forKey: "hahaha")
-            userDefaults.set(2, forKey: "xixi")
-            if ZHIWEI == 1 {
-                zhifubaoZhiFu(string: outRefundNo, jine: lalala)
-            }else if ZHIWEI == 2 {
-                WXZhiFu(string: outRefundNo, jine: lalala)
+            if ZHIWEI != 0{
+                lalala = shuruDic["10"]!
+                let now = Date()
+                let timeInterval:TimeInterval = now.timeIntervalSince1970
+                let timeStamp = Int(timeInterval)
+                let outRefundNo = String(format: "%@%d", userDefaults.value(forKey: "userId") as! String ,timeStamp)
+                userDefaults.set(lalala, forKey: "hahaha")
+                userDefaults.set(2, forKey: "xixi")
+                if ZHIWEI == 1 {
+                    zhifubaoZhiFu(string: outRefundNo, jine: lalala)
+                }else if ZHIWEI == 2 {
+                    WXZhiFu(string: outRefundNo, jine: lalala)
+                }
+            }else{
+                XL_waringBox().warningBoxModeText(message: "请选择支付方式！", view: self.view)
             }
         }else{
             XL_waringBox().warningBoxModeText(message: "请填写完整！", view: self.view)
@@ -800,7 +866,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             let data :[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-            
+            self.yyyyy()
             let orderBody = XL_weixinObjc()
             orderBody.appid = data["appid"] as? String
             orderBody.noncestr = data["noncestr"] as? String
@@ -836,7 +902,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             let data :[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
             let appScheme = "TuSouSou"
             let orderString = data["orderString"] as! String
-            
+            self.yyyyy()
             AlipaySDK.defaultService().payOrder(orderString, fromScheme: appScheme) { (resultDic) -> () in
                 for (key,value) in resultDic! {
                     print("\(key) : \(value)")
@@ -851,12 +917,9 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     
     @objc func Chongquxiao() {
-        print("充值取消")
-        ZHIWEI = 0
-        chongzhiView.isHidden = true
-        yinying.isHidden = true
+        yyyyy()
     }
-   
+    
     @objc func Zhuanqueding() {
         //转账接口
         print("转账确定")
@@ -875,8 +938,9 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
                 print(res)
                 if (res as! [String: Any])["code"] as! String == "0000" {
-//                    let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                   
+                    //                    let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                    self.yyyyy()
+                    self.youhui()
                 }else{
                     
                 }
@@ -890,11 +954,9 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     @objc func Zhuanquxiao() {
         print("转账取消")
-        ZHIWEI = 0
-        ZhuanrangView.isHidden = true
-        yinying.isHidden = true
+        yyyyy()
     }
-
+    
     @objc func ZhiImageView() {
         print("点击支付")
         zhiImageView.image = UIImage(named: "圆圈选中")
@@ -917,21 +979,21 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         self.view.addSubview(aaChartView)
         let chartModel = AAChartModel.init()
             .chartType(AAChartType.Line)
-            .title("飕飕币比率折线图")
+            .title("飕飕币兑换比率走势图")
             .inverted(false)
-            .yAxisTitle("比率")
+            .yAxisTitle("飕飕币兑换比率")
             .legendEnabled(false)
             .tooltipValueSuffix("")
             .categories([])
             .colorsTheme(["#fe117c"])//主题颜色数组
             .series([
                 AASeriesElement()
-                    .name("飕飕币比率")
+                    .name("飕飕币兑换比率")
                     .data([])
                     .toDic()!,])
         /*图表视图对象调用图表模型对象,绘制最终图形*/
         aaChartView.aa_drawChartWithChartModel(chartModel)
-       self.view.addSubview(aaChartView)
+        self.view.addSubview(aaChartView)
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
@@ -959,19 +1021,23 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                 return false
             }
         }else if textField.tag == 13/*输入飕飕币*/ {
+            jisuan(string: newString)
             if newString.contains(".") {
                 let arr = newString.components(separatedBy: ".")
                 if  arr[1].count > 0 {
                     if arr[1].count > 4 {
+                        jisuan(string: newString)
                         return false
                     }
                 }
             }
         }else if textField.tag == 14/*输入飕飕币*/ {
+            jisuan(string: newString)
             if newString.contains(".") {
                 let arr = newString.components(separatedBy: ".")
                 if  arr[1].count > 0 {
                     if arr[1].count > 4 {
+                        jisuan(string: newString)
                         return false
                     }
                 }
@@ -997,23 +1063,63 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             shuruDic["12"] = textField.text!
         }else if textField.tag == 13/*输入飕飕币*/ {
             shuruDic["13"] = textField.text!
+            jisuan(string: textField.text!)
         }else if textField.tag == 14/*输入飕飕币*/ {
-            shuruDic["14"] = textField.text!
+            if Double(textField.text!)! < 10.0 {
+                textField.text = ""
+                XL_waringBox().warningBoxModeText(message: "飕飕币数量不能小于10个哟～", view: self.view)
+            }else{
+                shuruDic["14"] = textField.text!
+                jisuan(string: textField.text!)
+            }
         }else if textField.tag == 15/*输入金钱*/ {
             shuruDic["15"] = textField.text!
         }
     }
+    func jisuan(string:String) {
+        var xx = string
+        if string.count == 0 {
+            xx = "0"
+        }
+        let zz = String(format: "%.2f", Float(zhuanhua)! * Float(xx)!)
+        tichengzhuanhua.text = "飕飕币转换成人民币: ¥\(zz)"
+        tidaozhuanhua.text = "飕飕币转换成余额: ¥\(zz)"
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        self.youhui()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        
     }
-    */
-
+    //mark: 当键盘显示时
+    @objc func handleKeyboardDisShow(notification: NSNotification) {
+        //得到键盘frame
+        if let userInfo = notification.userInfo,
+            let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue,
+            let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+            let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
+            
+            let frame = value.cgRectValue
+            let intersection = frame.intersection(self.view.frame)
+            UIView.animate(withDuration: duration, delay: 0.0,
+                           options: UIViewAnimationOptions(rawValue: curve), animations: {
+                            
+                            self.view.frame = CGRect(x: 0, y: -intersection.height
+                                + 64, width: self.view.frame.width, height: self.view.frame.height)
+                            
+            }, completion: nil)
+        }
+    }
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

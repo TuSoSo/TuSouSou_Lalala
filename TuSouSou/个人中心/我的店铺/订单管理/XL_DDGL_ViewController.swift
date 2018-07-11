@@ -16,7 +16,7 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
     // 底部刷新
     let footer = MJRefreshAutoNormalFooter()
     //页码
-    var pageNo = 0
+    var pageNo = 1
     let pageSize = 10
     var count = 0
     var DDArr:[[String:Any]] = []
@@ -41,7 +41,7 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     @objc func headerRefresh() {
         footer.endRefreshingWithMoreData()
-        pageNo = 0
+        pageNo = 1
         DDArr = []
         jiekou()
         tablejiedan.mj_header.endRefreshing()
@@ -49,9 +49,10 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
+        
         if count > pageNo * pageSize {
             tablejiedan.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             jiekou()
         }else{
             footer.endRefreshingWithNoMoreData()

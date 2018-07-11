@@ -20,7 +20,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
     // 底部刷新
     let footer = MJRefreshAutoNormalFooter()
     //页码
-    var pageNo = 0
+    var pageNo = 1
     let pageSize = 10
     var count = 0
     
@@ -35,8 +35,9 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
     }
     override func viewWillAppear(_ animated: Bool) {
         //刷新界面
+        footer.endRefreshingWithMoreData()
         DDArr = []
-        pageNo = 0
+        pageNo = 1
         jiekou(index: tpye)
     }
     
@@ -64,7 +65,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
     
     @objc func headerRefresh() {
         footer.endRefreshingWithMoreData()
-        pageNo = 0
+        pageNo = 1
         DDArr = []
         jiekou(index: tpye)
         tableWDdingdan.mj_header.endRefreshing()
@@ -72,9 +73,9 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
         if count > pageNo * pageSize {
             tableWDdingdan.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             jiekou(index: tpye)
         }else{
             footer.endRefreshingWithNoMoreData()
@@ -179,8 +180,6 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
             orderState = (DDArr[indexPath.row]["orderState"] as? String)!
         }
         
-        
-        
         switch orderState {
         case "0":
             state.text = "初始化"
@@ -221,6 +220,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if state == "1"{
             let wwddxq: XL_WDDDXQ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdddxq") as? XL_WDDDXQ_ViewController
+            wwddxq?.shangLX = DDArr[indexPath.row]["orderType"]! as? String
             wwddxq?.dingdanId = DDArr[indexPath.row]["id"] as? String
             wwddxq?.leixing = DDArr[indexPath.row]["orderState"] as? String
             self.navigationController?.pushViewController(wwddxq!, animated: true)

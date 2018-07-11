@@ -9,12 +9,20 @@
 import UIKit
 
 class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,RatingBarDelegate {
-    var leixing:String?
+    var leixing:String? //是否已完成
+    var shangLX:String? //是否有商品
+    
+    var evalClear:Float = 10.0
+    var evalSpeed:Float = 10.0
+    var evalServer:Float = 10.0
+    
     var dingdanId:String?
     
     @IBOutlet weak var tablewdddxq: UITableView!
     var SPDic:[String:Any] = [:]
     var shuzu:[[String:Any]] = []
+    //取件时间
+    var qujianshijian = ""
     
     //评分
     var ratingBar1: WNRatingBar!
@@ -33,16 +41,17 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
     }
     func jiemianjiekou() {
         let method = "/order/orderDetail"
-//        let userId = userDefaults.value(forKey: "userId")
+        //        let userId = userDefaults.value(forKey: "userId")
         let dic:[String:Any] = ["orderId":dingdanId!]
         XL_waringBox().warningBoxModeIndeterminate(message: "加载中...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-//                XL_waringBox().warningBoxModeText(message: "评价成功", view: self.view)
+                //                XL_waringBox().warningBoxModeText(message: "评价成功", view: self.view)
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.SPDic = dic
+                self.qujianshijian = dic["sendTime"] as! String
                 if nil != dic["productList"]{
                     self.shuzu = dic["productList"] as! [[String:Any]]
                 }
@@ -63,42 +72,232 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         if leixing! == "6"{
-            return 3
+            if shangLX! == "3" {
+                return 6
+            }else{
+                return 5
+            }
+        }else{
+            if shangLX! == "3" {
+                return 4
+            }else{
+                return 3
+            }
         }
-        return 2
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 5
-        }else if section == 1 {
-            return shuzu.count
+        if leixing! == "6"{
+            if shangLX! == "3" {
+                if section == 0 {
+                    return 6 // 订单编号、下单时间、取件时间、送达时间、订单备注、寄取地址
+                }else if section == 1 {
+                    return 4 //配送员，联系电话，配送地址，位置信息
+                }else if section == 2 {
+                    return shuzu.count //商品个数
+                }else if section == 3 {
+                    return 6//付款方式、配送、直拿、小费、抵扣、合计
+                }else if section == 4 {
+                    return 3 //评价
+                }else {
+                    return 1 // 确定按钮
+                }
+            }else{
+                if section == 0 {
+                    return 6 // 订单编号、下单时间、取件时间、送达时间、订单备注、寄取地址
+                }else if section == 1 {
+                    return 4 //配送员，联系电话，配送地址，位置信息
+                }else if section == 2 {
+                    return 6//付款方式、配送、直拿、小费、抵扣、合计
+                }else if section == 3 {
+                    return 3 //评价
+                }else {
+                    return 1 // 确定按钮
+                }
+            }
         }else{
-            return 4
+            if shangLX! == "3" {
+                if section == 0 {
+                    return 6 // 订单编号、下单时间、取件时间、送达时间、订单备注、寄取地址
+                }else if section == 1 {
+                    return 4 //配送员，联系电话，配送地址，位置信息
+                }else if section == 2 {
+                    return shuzu.count //商品个数
+                }else {
+                    return 6//付款方式、配送、直拿、小费、抵扣、合计
+                }
+            }else{
+                if section == 0 {
+                    return 6 // 订单编号、下单时间、取件时间、送达时间、订单备注、寄取地址
+                }else if section == 1 {
+                    return 4 //配送员，联系电话，配送地址，位置信息
+                }else {
+                    return 6//付款方式、配送、直拿、小费、抵扣、合计
+                }
+            }
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            if indexPath.row == 4 {
-                return 64
+        if leixing! == "6"{
+            if shangLX! == "3" {
+                if indexPath.section == 0 {
+                    if indexPath.row == 5{
+                        return 80
+                    }
+                    return 44 // 订单编号、下单时间、取件时间、送达时间、订单备注、寄取地址
+                }else if indexPath.section == 1 {
+                    if indexPath.row == 2 {
+                        return 80
+                    }
+                    return 44 //配送员，联系电话，配送地址，位置信息
+                }else if indexPath.section == 2 {
+                    return 80 //商品个数
+                }else if indexPath.section == 3 {
+                    return 44//付款方式、配送、直拿、小费、抵扣、合计
+                }else if indexPath.section == 4 {
+                    return 56 //评价
+                }else {
+                    return 120 // 确定按钮
+                }
             }else{
-                return 44
-            }
-        }else if indexPath.section == 2 {
-            if indexPath.row == 3 {
-                return 80
-            }else{
-                return 56
+                if indexPath.section == 0 {
+                    if indexPath.row == 5{
+                        return 80
+                    }
+                    return 44 // 订单编号、下单时间、取件时间、送达时间、订单备注、寄取地址
+                }else if indexPath.section == 1 {
+                    if indexPath.row == 2 {
+                        return 80
+                    }
+                    return 44 //配送员，联系电话，配送地址，位置信息
+                }else if indexPath.section == 2 {
+                    return 44//付款方式、配送、直拿、小费、抵扣、合计
+                }else if indexPath.section == 3 {
+                    return 56 //评价
+                }else {
+                    return 120 // 确定按钮
+                }
             }
         }else{
-            return 80
+            if shangLX! == "3" {
+                if indexPath.section == 0 {
+                    if indexPath.row == 5{
+                        return 80
+                    }
+                    return 44 // 订单编号、下单时间、取件时间、送达时间、订单备注、寄取地址
+                }else if indexPath.section == 1 {
+                    if indexPath.row == 2 {
+                        return 80
+                    }
+                    return 44 //配送员，联系电话，配送地址，位置信息
+                }else if indexPath.section == 2 {
+                    return 80 //商品个数
+                }else {
+                    return 44//付款方式、配送、直拿、小费、抵扣、合计
+                }
+            }else{
+                if indexPath.section == 0 {
+                    if indexPath.row == 5 {
+                        return 80
+                    }
+                    return 44 // 订单编号、下单时间、取件时间、送达时间、订单备注、寄取地址
+                }else if indexPath.section == 1 {
+                    if indexPath.row == 2 {
+                        return 80
+                    }
+                    return 44 //配送员，联系电话，配送地址，位置信息
+                }else {
+                    return 44//付款方式、配送、直拿、小费、抵扣、合计
+                }
+            }
         }
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 5
+        if leixing! == "6" {
+            if shangLX! == "3" {
+                if section == 5 {
+                    return 0
+                }
+            }else{
+                if section == 4 {
+                    return 0
+                }
+            }
+        }
+        return 44
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let vi = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: 5))
+        let vi = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: 44))
         vi.backgroundColor = UIColor(hexString: "f0eff5")
+        
+        let zuo = UILabel(frame: CGRect(x: 16, y: 10, width: Width - 32, height: 24))
+        zuo.textColor = UIColor.orange
+        zuo.font = UIFont.systemFont(ofSize: 15)
+        zuo.adjustsFontSizeToFitWidth = true
+        if leixing! == "6" {
+            if shangLX! == "3" {
+                if section == 0 {
+                    zuo.text = "订单信息(预约取件时间:\(qujianshijian)"
+                    vi.addSubview(zuo)
+                }else if section == 1 {
+                    zuo.text = "配送信息"
+                    vi.addSubview(zuo)
+                }else if section == 2 {
+                    zuo.text = "商品信息"
+                    vi.addSubview(zuo)
+                }else if section == 3 {
+                    zuo.text = "消费信息"
+                    vi.addSubview(zuo)
+                }else if section == 4 {
+                    zuo.text = "评价信息"
+                    vi.addSubview(zuo)
+                }else if section == 5 {
+                    return nil
+                }
+            }else{
+                if section == 0 {
+                    zuo.text = "订单信息(预约取件时间:\(qujianshijian))"
+                    vi.addSubview(zuo)
+                }else if section == 1 {
+                    zuo.text = "配送信息"
+                    vi.addSubview(zuo)
+                }else if section == 2 {
+                    zuo.text = "消费信息"
+                    vi.addSubview(zuo)
+                }else if section == 3 {
+                    zuo.text = "评价信息"
+                    vi.addSubview(zuo)
+                }else if section == 4 {
+                    return nil
+                }
+            }
+        }else{
+            if shangLX! == "3" {
+                if section == 0 {
+                    zuo.text = "订单信息(预约取件时间:\(qujianshijian))"
+                    vi.addSubview(zuo)
+                }else if section == 1 {
+                    zuo.text = "配送信息"
+                    vi.addSubview(zuo)
+                }else if section == 2 {
+                    zuo.text = "商品信息"
+                    vi.addSubview(zuo)
+                }else if section == 3 {
+                    zuo.text = "消费信息"
+                    vi.addSubview(zuo)
+                }
+            }else{
+                if section == 0 {
+                    zuo.text = "订单信息(预约取件时间:\(qujianshijian))"
+                    vi.addSubview(zuo)
+                }else if section == 1 {
+                    zuo.text = "配送信息"
+                    vi.addSubview(zuo)
+                }else if section == 2 {
+                    zuo.text = "消费信息"
+                    vi.addSubview(zuo)
+                }
+            }
+        }
         return vi
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -107,136 +306,491 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
         for v: UIView in cell.contentView.subviews {
             v.removeFromSuperview()
         }
+        let zuolabel = UILabel(frame: CGRect(x: 16, y: 11, width: 80, height: 22))
+        zuolabel.font = UIFont.systemFont(ofSize: 15)
+        zuolabel.textColor = UIColor.darkGray
+        
+        let youlabel = UILabel(frame: CGRect(x: 104, y: 11, width:  Width - 124, height: 22))
+        youlabel.adjustsFontSizeToFitWidth = true
+        youlabel.font = UIFont.systemFont(ofSize: 15)
+        youlabel.textColor = UIColor.darkGray
+        youlabel.textAlignment = .right
+        
+        let youlabel1 = UILabel(frame: CGRect(x: 96, y: 41, width:  Width - 124, height: 32))
+//        youlabel1.adjustsFontSizeToFitWidth = true
+        youlabel1.font = UIFont.systemFont(ofSize: 14)
+        youlabel1.textColor = UIColor.darkGray
+        youlabel1.textAlignment = .right
+        youlabel1.numberOfLines = 2
+       
         if indexPath.section == 0 {
-            let zuolabel = UILabel(frame: CGRect(x: 16, y: 11, width: 80, height: 22))
-            zuolabel.font = UIFont.systemFont(ofSize: 15)
-            zuolabel.textColor = UIColor.darkGray
-            let youlabel = UILabel(frame: CGRect(x: 112, y: 11, width: Width - 132, height: 22))
-            youlabel.font = UIFont.systemFont(ofSize: 15)
-            youlabel.textColor = UIColor.darkGray
-            youlabel.textAlignment = .right
+            // 订单编号、下单时间、取件时间、送达时间、订单备注、寄取地址
             if indexPath.row == 0 {
-                zuolabel.text = "下单时间"
-                youlabel.text = ""
-                if !SPDic.isEmpty{
-                    youlabel.text = SPDic["placeOrderTime"] as? String
-                }
-                cell.contentView.addSubview(zuolabel)
+                zuolabel.text = "订单编号:"
+                youlabel.text = SPDic["orderCode"] as? String
                 cell.contentView.addSubview(youlabel)
+                cell.contentView.addSubview(zuolabel)
             }else if indexPath.row == 1 {
-                zuolabel.text = "配送员"
-                youlabel.text = ""
-                if !SPDic.isEmpty{
-                    youlabel.text = SPDic["sendUserName"] as? String
-                }
-                cell.contentView.addSubview(zuolabel)
+                zuolabel.text = "下单时间:"
+                youlabel.text = SPDic["placeOrderTime"] as? String
                 cell.contentView.addSubview(youlabel)
+                cell.contentView.addSubview(zuolabel)
             }else if indexPath.row == 2 {
-                zuolabel.text = "联系电话"
-                youlabel.text = ""
-                if !SPDic.isEmpty{
-                    youlabel.text = SPDic["sendUserPhone"] as? String
-                }
-                cell.contentView.addSubview(zuolabel)
+                zuolabel.text = "取件时间:"
+                youlabel.text = SPDic["postTime"] as? String
                 cell.contentView.addSubview(youlabel)
+                cell.contentView.addSubview(zuolabel)
             }else if indexPath.row == 3 {
-                zuolabel.text = "位置信息"
-                cell.accessoryType = .disclosureIndicator
+                zuolabel.text = "送达时间:"
+                youlabel.text = SPDic["arriveTime"] as? String
+                cell.contentView.addSubview(youlabel)
                 cell.contentView.addSubview(zuolabel)
             }else if indexPath.row == 4 {
-                zuolabel.frame = CGRect(x: 16, y: 19, width: 80, height: 22 )
-                zuolabel.text = "配送地址"
-                youlabel.frame = CGRect(x: 112, y: 8, width: Width - 122, height: 44)
-                youlabel.textAlignment = .left
-                youlabel.text = ""
-                if !SPDic.isEmpty{
-                    youlabel.text = SPDic["edSendUserAddress"] as? String
-                }
-                youlabel.numberOfLines = 2
-                cell.contentView.addSubview(zuolabel)
+                zuolabel.text = "订单备注:"
+                youlabel.text = SPDic["remarks"] as? String
                 cell.contentView.addSubview(youlabel)
-            }
-        }else if indexPath.section == 1{
-            let imageView = UIImageView(frame: CGRect(x: 8, y: 8, width: 80, height: 64))
-            
-            var jiee = ""
-            if nil != shuzu[indexPath.row]["picture"]{
-                jiee = shuzu[indexPath.row]["picture"] as! String
-            }
-            let uul = URL(string: TupianUrl + jiee)
-            imageView.sd_setImage(with: uul, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
-            let name = UILabel(frame: CGRect(x: 96, y: 16, width: Width - 142, height: 24))
-            name.font = UIFont.systemFont(ofSize: 15)
-            name.textColor = UIColor.darkGray
-            if nil != shuzu[indexPath.row]["productName"] {
-                name.text = shuzu[indexPath.row]["productName"] as! String
-                if nil != shuzu[indexPath.row]["productSpec"]{
-                    name.text = (shuzu[indexPath.row]["productName"] as! String) + (shuzu[indexPath.row]["productSpec"] as! String)
+                cell.contentView.addSubview(zuolabel)
+            }else if indexPath.row == 5 {
+                zuolabel.text = "寄取地址:"
+//                youlabel.text = SPDic["arriveTime"] as? String
+                var name = ""
+                if nil != SPDic["merName"] {
+                    name = SPDic["merName"] as! String
                 }
+                var phone = ""
+                if nil != SPDic["merPhone"] {
+                    phone = SPDic["merPhone"] as! String
+                }
+                var dizhi = ""
+                if nil != SPDic["merAddress"] {
+                    dizhi = SPDic["merAddress"] as! String
+                }
+                youlabel.text = name + "  " + phone
+                youlabel1.text = dizhi
+                cell.contentView.addSubview(youlabel1)
+                cell.contentView.addSubview(youlabel)
+                cell.contentView.addSubview(zuolabel)
             }
-            let jiaqian = UILabel(frame: CGRect(x: 100, y: 36, width: Width - 142, height: 40))
-            jiaqian.font = UIFont.systemFont(ofSize: 18)
-            jiaqian.textColor = UIColor.orange
-            jiaqian.numberOfLines = 2
-            jiaqian.text = "¥ " + String(format: "%.2f",(shuzu[indexPath.row]["amount"] as? Float)! )
-            let shuliang = UILabel(frame: CGRect(x: Width - 48, y: 50, width: 40, height: 30))
-            shuliang.font = UIFont.systemFont(ofSize: 14)
-            shuliang.text = "x " + (shuzu[indexPath.row]["productNum"] as? String)!
-            cell.contentView.addSubview(shuliang)
-            cell.contentView.addSubview(imageView)
-            cell.contentView.addSubview(jiaqian)
-            cell.contentView.addSubview(name)
+        }else if indexPath.section == 1 {
+            //配送员，联系电话，配送地址，位置信息
+            if indexPath.row == 0 {
+                zuolabel.text = "配送员:"
+                youlabel.text = SPDic["sendUserName"] as? String
+                cell.contentView.addSubview(youlabel)
+                cell.contentView.addSubview(zuolabel)
+            }else if indexPath.row == 1 {
+                zuolabel.text = "联系电话:"
+                youlabel.text = SPDic["sendUserPhone"] as? String
+                cell.contentView.addSubview(youlabel)
+                cell.contentView.addSubview(zuolabel)
+            }else if indexPath.row == 2 {
+                zuolabel.text = "配送地址:"
+                var name = ""
+                if nil != SPDic["edSendUserName"] {
+                    name = SPDic["edSendUserName"] as! String
+                }
+                var phone = ""
+                if nil != SPDic["edSendUserIphone"] {
+                    phone = SPDic["edSendUserIphone"] as! String
+                }
+                var dizhi = ""
+                if nil != SPDic["edSendUserAddress"] {
+                    dizhi = SPDic["edSendUserAddress"] as! String
+                }
+                youlabel.text = name + "  " + phone
+                youlabel1.text = dizhi
+                cell.contentView.addSubview(youlabel1)
+                cell.contentView.addSubview(youlabel)
+                cell.contentView.addSubview(zuolabel)
+            }else if indexPath.row == 3 {
+                zuolabel.text = "位置信息:"
+                cell.accessoryType = .disclosureIndicator
+                cell.contentView.addSubview(zuolabel)
+            }
         }
-            //评价
-        else if indexPath.section == 2 {
-            if indexPath.row == 3 {
-                let PJbutton = UIButton(frame: CGRect(x: 40, y: 18, width: Width - 80, height: 44))
-                PJbutton.setImage(UIImage(named: ""), for: .normal)
-                PJbutton.isUserInteractionEnabled = true
-                PJbutton.addTarget(self, action: #selector(PJjiekou), for: .touchUpInside)
-                cell.contentView.addSubview(PJbutton)
-                cell.backgroundColor = UIColor(hexString: "f0eff5")
-            }else{
-                let zz = UILabel(frame: CGRect(x: 16, y: 11, width: 80, height: 34))
-                zz.font = UIFont.systemFont(ofSize: 15)
-                zz.textColor = UIColor.darkGray
-                
-                ratingBar1 = WNRatingBar()
-                ratingBar1.frame = CGRect(x: Width - 152, y: 8, width: 100, height: 40)
-                ratingBar1.setSeletedState("star_big1", halfSelectedName: "star_big2", fullSelectedName: "star_big3", starSideLength: 28, delegate: self)
-                ratingBar1.tag = indexPath.row
-                var fenshu: Float! = 10
-                
-                
-                ratingBar1.isIndicator = false
-                if indexPath.row == 0 {
-                    fenshu = SPDic["evalSpeed"] as! Float
-                }else if indexPath.row == 1 {
-                    fenshu = SPDic["evalServer"] as! Float
-                }else if indexPath.row == 2 {
-                    fenshu = SPDic["evalClear"] as! Float
+        if leixing! == "6"{
+            if shangLX! == "3" {
+                if indexPath.section == 2 {
+                    //商品个数
+                    shangpinUI(indexPath: indexPath, cell: cell)
+                }else if indexPath.section == 3 {
+                    //付款方式、配送、直拿、小费、抵扣、合计
+                    if indexPath.row == 0 {
+                        zuolabel.text = "付款方式:"
+                        youlabel.text = ""
+                        if SPDic["paymentMethod"] as? Int == 1{
+                            youlabel.text = "余额支付"
+                        }else if SPDic["paymentMethod"] as? Int == 2{
+                            youlabel.text = "支付宝支付"
+                        }else if SPDic["paymentMethod"] as? Int == 3{
+                            youlabel.text = "微信支付"
+                        }
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 1 {
+                        zuolabel.text = "配送费:"
+                        youlabel.text = SPDic["postAmount"] as? String
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 2 {
+                        zuolabel.text = "直拿直送:"
+                        var zhinazhi = "¥ 0.00"
+                        if nil != SPDic["directSendAmount"] {
+                            zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+                        }
+                        youlabel.text = zhinazhi
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 3 {
+                        zuolabel.text = "小费:"
+                        var qian = "0.00"
+                        if (SPDic["tip"] as! String).count != 0 {
+                            qian = SPDic["tip"] as! String
+                        }
+                        if SPDic["tipType"] as? String == "2"{
+                            youlabel.text = "¥ \(qian)"
+                        }else if SPDic["tipType"] as? String == "1"{
+                            youlabel.text = "\(qian) 个飕飕币"
+                        }
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 4 {
+                        zuolabel.text = "抵扣:"
+                        var dikoudikou = "¥ 0.00"
+                        if nil != SPDic["dkAmount"] {
+                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Float)!)
+                        }
+                        youlabel.text = dikoudikou
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 5 {
+                        zuolabel.text = "合计:"
+                        var hejiheji = "¥ 0.00"
+                        if nil != SPDic["amount"] {
+                            hejiheji = String(format: "¥ %@", (SPDic["amount"] as? String)!)
+                        }
+                        youlabel.text = hejiheji
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }
+                }else if indexPath.section == 4 {
+                    //评价
+                    ratingBar1 = WNRatingBar()
+                    ratingBar1.frame = CGRect(x: Width - 152, y: 8, width: 100, height: 40)
+                    ratingBar1.setSeletedState("star_big1", halfSelectedName: "star_big2", fullSelectedName: "star_big3", starSideLength: 28, delegate: self)
+                    ratingBar1.tag = indexPath.row
+                    var fenshu: Float! = 5
+                    ratingBar1.isIndicator = false
+                    if indexPath.row == 0{
+                        if nil != SPDic["evalSpeed"] {
+                            fenshu = SPDic["evalSpeed"] as! Float
+                        }
+                        zuolabel.text = "配送速度"
+                        ratingBar1.displayRating(fenshu)
+                        cell.contentView.addSubview(ratingBar1)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 1 {
+                        if nil != SPDic["evalServer"] {
+                            fenshu = SPDic["evalServer"] as! Float
+                        }
+                        zuolabel.text = "服务态度"
+                        ratingBar1.displayRating(fenshu)
+                        cell.contentView.addSubview(ratingBar1)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 2 {
+                        if nil != SPDic["evalClear"] {
+                            fenshu = SPDic["evalClear"] as! Float
+                        }
+                        zuolabel.text = "衣着整洁"
+                        ratingBar1.displayRating(fenshu)
+                        cell.contentView.addSubview(ratingBar1)
+                        cell.contentView.addSubview(zuolabel)
+                    }
+                }else if indexPath.section == 5{
+                    // 确定按钮
+                    let PJbutton = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
+                    PJbutton.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
+                    PJbutton.setTitle("评价", for: .normal)
+                    PJbutton.setTitleColor(UIColor.white, for: .normal)
+//                    PJbutton.isUserInteractionEnabled = true
+                    PJbutton.addTarget(self, action: #selector(PJjiekou), for: .touchUpInside)
+                    cell.contentView.addSubview(PJbutton)
+                    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                    cell.backgroundColor = UIColor(hexString: "f0eff5")
                 }
-               
-                if indexPath.row == 0{
-                    zz.text = "配送速度"
-                    ratingBar1.displayRating(fenshu)
-                    cell.contentView.addSubview(ratingBar1)
-                    cell.contentView.addSubview(zz)
-                }else if indexPath.row == 1 {
-                    zz.text = "服务态度"
-                    ratingBar1.displayRating(fenshu)
-                    cell.contentView.addSubview(ratingBar1)
-                    cell.contentView.addSubview(zz)
-                }else if indexPath.row == 2 {
-                    zz.text = "衣着整洁"
-                    ratingBar1.displayRating(fenshu)
-                    cell.contentView.addSubview(ratingBar1)
-                    cell.contentView.addSubview(zz)
+            }else{
+                if indexPath.section == 2 {
+                    //付款方式、配送、直拿、小费、抵扣、合计
+                    if indexPath.row == 0 {
+                        zuolabel.text = "付款方式:"
+                        youlabel.text = ""
+                        if SPDic["paymentMethod"] as? Int == 1{
+                            youlabel.text = "余额支付"
+                        }else if SPDic["paymentMethod"] as? Int == 2{
+                            youlabel.text = "支付宝支付"
+                        }else if SPDic["paymentMethod"] as? Int == 3{
+                            youlabel.text = "微信支付"
+                        }
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 1 {
+                        zuolabel.text = "配送费:"
+                        youlabel.text = SPDic["postAmount"] as? String
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 2 {
+                        zuolabel.text = "直拿直送:"
+                        var zhinazhi = "¥ 0.00"
+                        if nil != SPDic["directSendAmount"] {
+                            zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+                        }
+                        youlabel.text = zhinazhi
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 3 {
+                        zuolabel.text = "小费:"
+                        var qian = "0.00"
+                        if (SPDic["tip"] as! String).count != 0 {
+                            qian = SPDic["tip"] as! String
+                        }
+                        if SPDic["tipType"] as? String == "2"{
+                            youlabel.text = "¥ \(qian)"
+                        }else if SPDic["tipType"] as? String == "1"{
+                            youlabel.text = "\(qian) 个飕飕币"
+                        }
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 4 {
+                        zuolabel.text = "抵扣:"
+                        var dikoudikou = "¥ 0.00"
+                        if nil != SPDic["dkAmount"] {
+                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Float)!)
+                        }
+                        youlabel.text = dikoudikou
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 5 {
+                        zuolabel.text = "合计:"
+                        var hejiheji = "¥ 0.00"
+                        if nil != SPDic["amount"] {
+                            hejiheji = String(format: "¥ %@", (SPDic["amount"] as? String)!)
+                        }
+                        youlabel.text = hejiheji
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }
+                }else if indexPath.section == 3 {
+                    //评价
+                    ratingBar1 = WNRatingBar()
+                    ratingBar1.frame = CGRect(x: Width - 152, y: 8, width: 100, height: 40)
+                    ratingBar1.setSeletedState("star_big1", halfSelectedName: "star_big2", fullSelectedName: "star_big3", starSideLength: 28, delegate: self)
+                    ratingBar1.tag = indexPath.row
+                    var fenshu: Float! = 10
+                    ratingBar1.isIndicator = false
+                    if indexPath.row == 0{
+                        if nil != SPDic["evalSpeed"] {
+                            fenshu = SPDic["evalSpeed"] as! Float
+                        }
+                        zuolabel.text = "配送速度"
+                        ratingBar1.displayRating(fenshu)
+                        cell.contentView.addSubview(ratingBar1)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 1 {
+                        if nil != SPDic["evalServer"] {
+                            fenshu = SPDic["evalServer"] as! Float
+                        }
+                        zuolabel.text = "服务态度"
+                        ratingBar1.displayRating(fenshu)
+                        cell.contentView.addSubview(ratingBar1)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 2 {
+                        if nil != SPDic["evalClear"] {
+                            fenshu = SPDic["evalClear"] as! Float
+                        }
+                        zuolabel.text = "衣着整洁"
+                        ratingBar1.displayRating(fenshu)
+                        cell.contentView.addSubview(ratingBar1)
+                        cell.contentView.addSubview(zuolabel)
+                    }
+                }else if indexPath.section == 4{
+                    // 确定按钮
+                    let PJbutton = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
+                    PJbutton.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
+                    PJbutton.setTitle("评价", for: .normal)
+                    PJbutton.setTitleColor(UIColor.white, for: .normal)
+//                    PJbutton.isUserInteractionEnabled = true
+                    PJbutton.addTarget(self, action: #selector(PJjiekou), for: .touchUpInside)
+                    cell.contentView.addSubview(PJbutton)
+                    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                    cell.backgroundColor = UIColor(hexString: "f0eff5")
+                }
+            }
+        }else{
+            if shangLX! == "3" {
+                if indexPath.section == 2 {
+                    //商品个数
+                    shangpinUI(indexPath: indexPath, cell: cell)
+                }else if indexPath.section == 3{
+                    //付款方式、配送、直拿、小费、抵扣、合计
+                    if indexPath.row == 0 {
+                        zuolabel.text = "付款方式:"
+                        youlabel.text = ""
+                        if SPDic["paymentMethod"] as? Int == 1{
+                            youlabel.text = "余额支付"
+                        }else if SPDic["paymentMethod"] as? Int == 2{
+                            youlabel.text = "支付宝支付"
+                        }else if SPDic["paymentMethod"] as? Int == 3{
+                            youlabel.text = "微信支付"
+                        }
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 1 {
+                        zuolabel.text = "配送费:"
+                        youlabel.text = SPDic["postAmount"] as? String
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 2 {
+                        zuolabel.text = "直拿直送:"
+                        //一会double一会string
+                        var zhinazhi = "¥ 0.00"
+                        if nil != SPDic["directSendAmount"] {
+                            zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+                        }
+                        youlabel.text = zhinazhi
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 3 {
+                        zuolabel.text = "小费:"
+                        var qian = "0.00"
+                        if (SPDic["tip"] as! String).count != 0 {
+                            qian = SPDic["tip"] as! String
+                        }
+                        if SPDic["tipType"] as? String == "2"{
+                            youlabel.text = "¥ \(qian)"
+                        }else if SPDic["tipType"] as? String == "1"{
+                            youlabel.text = "\(qian) 个飕飕币"
+                        }
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 4 {
+                        zuolabel.text = "抵扣:"
+                        var dikoudikou = "¥ 0.00"
+                        if nil != SPDic["dkAmount"] {
+                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Float)!)
+                        }
+                        youlabel.text = dikoudikou
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 5 {
+                        zuolabel.text = "合计:"
+                        var hejiheji = "¥ 0.00"
+                        if nil != SPDic["amount"] {
+                            hejiheji = String(format: "¥ %@", (SPDic["amount"] as? String)!)
+                        }
+                        youlabel.text = hejiheji
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }
+                }
+            }else{
+                if indexPath.section == 2{
+                    //付款方式、配送、直拿、小费、抵扣、合计
+                    if indexPath.row == 0 {
+                        zuolabel.text = "付款方式:"
+                        youlabel.text = ""
+                        if SPDic["paymentMethod"] as? Int == 1{
+                            youlabel.text = "余额支付"
+                        }else if SPDic["paymentMethod"] as? Int == 2{
+                            youlabel.text = "支付宝支付"
+                        }else if SPDic["paymentMethod"] as? Int == 3{
+                            youlabel.text = "微信支付"
+                        }
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 1 {
+                        zuolabel.text = "配送费:"
+                        youlabel.text = SPDic["postAmount"] as? String
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 2 {
+                        zuolabel.text = "直拿直送:"
+                        var zhinazhi = "¥ 0.00"
+                        if nil != SPDic["directSendAmount"] {
+                            zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+                        }
+                        youlabel.text = zhinazhi
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 3 {
+                        zuolabel.text = "小费:"
+                        var qian = "0.00"
+                        if (SPDic["tip"] as! String).count != 0 {
+                            qian = SPDic["tip"] as! String
+                        }
+                        if SPDic["tipType"] as? String == "2"{
+                            youlabel.text = "¥ \(qian)"
+                        }else if SPDic["tipType"] as? String == "1"{
+                            youlabel.text = "\(qian) 个飕飕币"
+                        }else{
+                            youlabel.text = "¥ \(qian)"
+                        }
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 4 {
+                        zuolabel.text = "抵扣:"
+                        var dikoudikou = "¥ 0.00"
+                        if nil != SPDic["dkAmount"] {
+                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Float)!)
+                        }
+                        youlabel.text = dikoudikou
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }else if indexPath.row == 5 {
+                        zuolabel.text = "合计:"
+                        var hejiheji = "¥ 0.00"
+                        if nil != SPDic["amount"] {
+                            hejiheji = String(format: "¥ %@", (SPDic["amount"] as? String)!)
+                        }
+                        youlabel.text = hejiheji
+                        cell.contentView.addSubview(youlabel)
+                        cell.contentView.addSubview(zuolabel)
+                    }
                 }
             }
         }
         cell.selectionStyle = .none
         return cell
+    }
+    func shangpinUI(indexPath: IndexPath, cell:UITableViewCell) {
+        let imageView = UIImageView(frame: CGRect(x: 8, y: 8, width: 80, height: 64))
+        var jiee = ""
+        if nil != shuzu[indexPath.row]["picture"]{
+            jiee = shuzu[indexPath.row]["picture"] as! String
+        }
+        let newString = TupianUrl + jiee
+        let uuu:URL = URL(string: String(format: "%@",newString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
+        imageView.sd_setImage(with: uuu, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+        let name = UILabel(frame: CGRect(x: 96, y: 16, width: Width - 142, height: 24))
+        name.font = UIFont.systemFont(ofSize: 15)
+        name.textColor = UIColor.darkGray
+        if nil != shuzu[indexPath.row]["productName"] {
+            name.text = shuzu[indexPath.row]["productName"] as? String
+//            if nil != shuzu[indexPath.row]["productSpec"]{
+//                name.text = (shuzu[indexPath.row]["productName"] as! String) + (shuzu[indexPath.row]["productSpec"] as! String)
+//            }
+        }
+        let jiaqian = UILabel(frame: CGRect(x: 100, y: 36, width: Width - 142, height: 40))
+        jiaqian.font = UIFont.systemFont(ofSize: 18)
+        jiaqian.textColor = UIColor.orange
+        jiaqian.numberOfLines = 2
+        jiaqian.text = "¥ " + String(format: "%.2f",(shuzu[indexPath.row]["amount"] as? Float)! )
+        let shuliang = UILabel(frame: CGRect(x: Width - 48, y: 50, width: 40, height: 30))
+        shuliang.font = UIFont.systemFont(ofSize: 14)
+        shuliang.text = "x " + (shuzu[indexPath.row]["productNum"] as? String)!
+        cell.contentView.addSubview(shuliang)
+        cell.contentView.addSubview(imageView)
+        cell.contentView.addSubview(jiaqian)
+        cell.contentView.addSubview(name)
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
@@ -253,12 +807,15 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
     func ratingChanged(_ ratingBar: WNRatingBar, newRating: Float) {
         if(ratingBar.tag == 0){
             ratingValue = newRating
+            evalSpeed = newRating
             print("速度" + "\n\(ratingValue)")
         }else if ratingBar.tag == 1 {
             ratingValue = newRating
+            evalServer = newRating
             print("态度" + "\n\(ratingValue)")
         }else if ratingBar.tag == 2 {
             ratingValue = newRating
+            evalClear = newRating
             print("衣着" + "\n\(ratingValue)")
         }
     }
@@ -269,16 +826,19 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
     func pingjiajiekou() {
         let method = "/user/evaluate"
         let userId = userDefaults.value(forKey: "userId")
-        let dic:[String:Any] = ["userId":userId!,"userType":"1","orderId":"","edUserId":"","evalClea":"","evalSpeed":"","evalServer":""]
-        XL_waringBox().warningBoxModeIndeterminate(message: "评价中...", view: self.view)
+        let edUserId:String = SPDic["sendUserId"] as! String
+        
+        let dic:[String:Any] = ["userId":userId!,"userType":"1","orderId":dingdanId!,"edUserId":edUserId,"evalClear":evalClear,"evalSpeed":evalSpeed,"evalServer":evalServer]
+        XL_waringBox().warningBoxModeIndeterminate(message: "认真评价中～～", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
                 XL_waringBox().warningBoxModeText(message: "评价成功", view: self.view)
-//                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-//                self.DDArr = dic["orderList"] as! [[String : Any]]
-//                self.tableWDdingdan.reloadData()
+                self.navigationController?.popViewController(animated: true)
+                //                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                //                self.DDArr = dic["orderList"] as! [[String : Any]]
+                //                self.tableWDdingdan.reloadData()
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

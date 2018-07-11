@@ -23,7 +23,7 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
     var productInfoList: [[String:Any]] = []
     var JE = UILabel()
     var dianputupian: URL?
-    
+    var picture = ""
     
     @IBOutlet weak var DPicon: UIImageView!
     
@@ -52,6 +52,13 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
         //        tableShangpin.isHidden = true
         //        tableZhonglei.isHidden = true
         
+    }
+    
+    
+    @IBAction func tiaoHuanJing(_ sender: Any) {
+        let DP: XL_huanjing_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "huanjing") as? XL_huanjing_ViewController
+        DP?.picture = self.picture
+        self.navigationController?.pushViewController(DP!, animated: true)
     }
     func DDView() {
         let ddView = UIView()
@@ -195,9 +202,9 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
                     jiee = productInfoList[indexPath.row]["picture"] as! String
                 }
             }
-            
-            let uul = URL(string: TupianUrl + jiee)
-            imageView.sd_setImage(with: uul, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+            let newString1 = TupianUrl + jiee
+            let uul:URL = URL(string: String(format: "%@",newString1.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
+            imageView.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             let SPName = UILabel(frame: CGRect(x: 72, y: 8, width: Width - 72 - 72 - 8, height: 30))
             SPName.font = UIFont.systemFont(ofSize: 15)
             SPName.textColor = UIColor(hexString: "393939")
@@ -366,6 +373,7 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.picture = data["picture"] as! String
                 let logoUrl = data["logoUrl"] as! String
                 let address = data["address"] as! String
                 let phone = data["phone"] as! String
@@ -374,7 +382,7 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
                 self.isCollect = data["isCollect"] as! Int
                 self.isOrder = data["isOrder"] as! Int
                 
-                self.DPicon.sd_setImage(with: self.dianputupian, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+                self.DPicon.sd_setImage(with: self.dianputupian, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
                 self.DPdizhi.text = address
                 self.DPdianhua.text = phone
                 self.YYshijian.text = shopHours

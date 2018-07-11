@@ -9,11 +9,28 @@
 import UIKit
 
 class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
+    
+    @IBOutlet weak var xuanzhongButton: UIButton!
+    
+    @IBOutlet weak var yonghuxieyi: UIButton!
+    
     @IBOutlet weak var zhanghao: UITextField!
     @IBOutlet weak var YZMButton: UIButton!
     @IBOutlet weak var yanzhengma: UITextField!
+    
+    @IBAction func xuanzhong(_ sender: Any) {
+        if xuanzhongButton.isSelected == false {
+            xuanzhongButton.isSelected = true
+        }else{
+            xuanzhongButton.isSelected = false
+        }
+    }
+    @IBAction func xieyi(_ sender: Any) {
+      //跳页
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        xuanzhongButton.isSelected = false
         self.title = "登录"
         zhanghao.keyboardType = .numberPad
         yanzhengma.keyboardType = .numberPad
@@ -31,8 +48,13 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
         self.navigationItem.rightBarButtonItem = item
     }
     @objc func YouActio()  {
-        let WDXX: XL_ZMDL_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "zmdl") as? XL_ZMDL_ViewController
-        self.navigationController?.pushViewController(WDXX!, animated: true)
+        if xuanzhongButton.isSelected == true {
+            XL_waringBox().warningBoxModeText(message: "请同意用户协议", view: self.view)
+        }else{
+            let WDXX: XL_ZMDL_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "zmdl") as? XL_ZMDL_ViewController
+            self.navigationController?.pushViewController(WDXX!, animated: true)
+        }
+        
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let text = textField.text!
@@ -50,6 +72,9 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
     }
     @IBAction func dengluanniu(_ sender: Any) {
         self.view.endEditing(true)
+        if xuanzhongButton.isSelected == true {
+            XL_waringBox().warningBoxModeText(message: "请同意用户协议", view: self.view)
+        }else{
         if (zhanghao.text?.isPhoneNumber())! && (yanzhengma.text?.count)! > 0 {
 //            dengdeng(loginMethod: "1", loginName: zhanghao.text!, passWord: "", authCode: yanzhengma.text!, openID: "",view: self.view)
             let method = "/user/logined"
@@ -77,6 +102,7 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
             }
         }else {
             XL_waringBox().warningBoxModeText(message: "请完善信息", view: self.view)
+        }
         }
     }
     func dengdeng(loginMethod: String,loginName:String,passWord:String,authCode:String, openID: String,view: UIView) {
@@ -154,18 +180,30 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
 //    }
 
     @IBAction func GRzc(_ sender: Any) {
-        let WDXX: XL_GRZC_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "grzc") as? XL_GRZC_ViewController
-        WDXX?.state = 1
-        self.navigationController?.pushViewController(WDXX!, animated: true)
+        if xuanzhongButton.isSelected == true {
+            XL_waringBox().warningBoxModeText(message: "请同意用户协议", view: self.view)
+        }else{
+            let WDXX: XL_GRZC_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "grzc") as? XL_GRZC_ViewController
+            WDXX?.state = 1
+            self.navigationController?.pushViewController(WDXX!, animated: true)
+        }
+        
     }
 
     @IBAction func QYzc(_ sender: Any) {
+        if xuanzhongButton.isSelected == true {
+            XL_waringBox().warningBoxModeText(message: "请同意用户协议", view: self.view)
+        }else{
         let WDXX: XL_GRZC_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "grzc") as? XL_GRZC_ViewController
         WDXX?.state = 2
         self.navigationController?.pushViewController(WDXX!, animated: true)
+        }
     }
     
     @IBAction func WeixinDenglu(_ sender: Any) {
+        if xuanzhongButton.isSelected == true {
+            XL_waringBox().warningBoxModeText(message: "请同意用户协议", view: self.view)
+        }else{
         let urlStr = "weixin://"
         if UIApplication.shared.canOpenURL(URL.init(string: urlStr)!) {
             let red = SendAuthReq.init()
@@ -179,6 +217,7 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
                 // Fallback on earlier versions
                 UIApplication.shared.openURL(URL.init(string: "http://weixin.qq.com/r/qUQVDfDEVK0rrbRu9xG7")!)
             }
+        }
         }
     }
     /**  QQ通知  */
@@ -201,6 +240,7 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
                 let jsonResult = try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! Dictionary<String,Any>
                 let openid: String = jsonResult["openid"] as! String
 //                userDefaults.set(openid, forKey: "WXopenid")
+//                let params = ["access_token": accessToken! as! String, "openid": openid! as! String] as Dictionary<String, Any>
                 //登录
                 self.dengdeng(loginMethod: "4", loginName: "", passWord: "", authCode: "", openID: openid, view: self.view)
             }
@@ -208,11 +248,14 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
     }
    
     @IBAction func qqDenglu(_ sender: Any) {
+        if xuanzhongButton.isSelected == true {
+            XL_waringBox().warningBoxModeText(message: "请同意用户协议", view: self.view)
+        }else{
         let appDel = UIApplication.shared.delegate as! AppDelegate
         // 需要获取的用户信息
         let permissions = [kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO]
         appDel.tencentAuth.authorize(permissions)
-        
+        }
     }
 }
 extension String{

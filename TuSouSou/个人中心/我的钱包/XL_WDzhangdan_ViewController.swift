@@ -59,9 +59,10 @@ class XL_WDzhangdan_ViewController: UIViewController,UITableViewDelegate,UITable
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
+        
         if count > pageNo * pageSize {
             tablezhangdan.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             jiekou()
         }else{
             footer.endRefreshingWithNoMoreData()
@@ -108,7 +109,7 @@ class XL_WDzhangdan_ViewController: UIViewController,UITableViewDelegate,UITable
         let imView = UIImageView(frame: CGRect(x: 0, y: 0, width: Width, height: 96))
         
         imView.image = UIImage(named: "明细背景1")
-        let shangLable = UILabel(frame: CGRect(x: 48, y: 24, width: 80, height: 30))
+        let shangLable = UILabel(frame: CGRect(x: 48, y: 24, width: 300, height: 30))
         shangLable.text = zhangArr[indexPath.row]["turnoverType"] as? String
         shangLable.font = UIFont.systemFont(ofSize: 15)
         let xiaLable = UILabel(frame: CGRect(x: 48, y: 64, width: 200, height: 21))
@@ -118,15 +119,11 @@ class XL_WDzhangdan_ViewController: UIViewController,UITableViewDelegate,UITable
         let youLable = UILabel(frame: CGRect(x: Width - 150, y: 32, width: 130, height: 32))
         youLable.textAlignment = .right
         youLable.textColor = UIColor.orange
-        youLable.text = zhangArr[indexPath.row]["withdrawMoney"] as? String
+        youLable.text = String(format: "%@", (zhangArr[indexPath.row]["withdrawMoney"] as? String)!)
         cell.contentView.addSubview(imView)
         cell.contentView.addSubview(shangLable)
         cell.contentView.addSubview(xiaLable)
         cell.contentView.addSubview(youLable)
-        
-        
-        
-        
         return cell
     }
     override func didReceiveMemoryWarning() {

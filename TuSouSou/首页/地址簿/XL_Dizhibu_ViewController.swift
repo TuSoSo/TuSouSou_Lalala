@@ -16,7 +16,7 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
     var biaoti: String?
     var type = ""
     //页码
-    var pageNo = 0
+    var pageNo = 1
     let pageSize = 10
     var count = 0
     
@@ -31,7 +31,7 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
     override func viewWillAppear(_ animated: Bool) {
         //刷新界面
         cityList = []
-        pageNo = 0
+        pageNo = 1
         jiekou()
     }
     override func viewDidLoad() {
@@ -45,7 +45,7 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
         footer.setRefreshingTarget(self, refreshingAction: #selector(footerRefresh))
         tableView.mj_footer = footer
         
-        let biaotiArr = ["1":"寄件人地址簿","2":"取件人地址簿","3":"收件人地址簿"]
+        let biaotiArr = ["1":"寄件人地址簿","2":"取件人地址簿","3":"收件人地址簿","4":"全部地址"]
         switch biaoti {
         case "1":
             type = "2"
@@ -53,6 +53,8 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
             type = "3"
         case "3":
             type = "1"
+        case "4":
+            type = "4"
         default:
             break
         }
@@ -63,7 +65,7 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
     }
     @objc func headerRefresh() {
         footer.endRefreshingWithMoreData()
-        pageNo = 0
+        pageNo = 1
         cityList = []
         jiekou()
         tableView.mj_header.endRefreshing()
@@ -71,9 +73,10 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
+        
         if count > pageNo * pageSize {
             tableView.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             jiekou()
         }else{
             footer.endRefreshingWithNoMoreData()
@@ -91,6 +94,9 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
         case "3":
             tianjiadizhi.Shei = "shoujian"
             type = "1"
+        case "4":
+            tianjiadizhi.Shei = "shoujian"
+            type = "4"
         default:
             break
         }
@@ -133,9 +139,11 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
         let name = (cityList[indexPath.row])["userName"] as? String
         let phone = "+ 86" + ((cityList[indexPath.row])["phone"]! as! String)
         let dizhi = ((cityList[indexPath.row])["location"]! as! String) + ((cityList[indexPath.row])["address"]! as! String)
+        let didizhi = cityList[indexPath.row]["location"] as! String
+        let xiangqing = cityList[indexPath.row]["address"] as! String
         let Lon = (cityList[indexPath.row])["longitude"]! as! String
         let Lat = (cityList[indexPath.row])["latitude"]! as! String
-        let dic = ["name":name,"phone":phone,"dizhi":dizhi,"lon":Lon,"lat":Lat]
+        let dic = ["name":name,"phone":phone,"didizhi":didizhi,"xiangqing":xiangqing,"dizhi":dizhi,"lon":Lon,"lat":Lat]
         
         if let block = self.xuanzhiBody {
             block(dic as! [String : String])

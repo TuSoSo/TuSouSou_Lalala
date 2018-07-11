@@ -14,6 +14,11 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
     var lat = ""
     var type = ""
     
+    var didizhi = ""
+    var xiangqing = ""
+    var namename = ""
+    var diandianhua = ""
+    
     var Shei:String?
     var locationManager = CLLocationManager()
     @IBOutlet weak var shiFouButton: UIButton!
@@ -27,8 +32,13 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
     override func viewDidLoad() {
         super.viewDidLoad()
         biao()
-        loadLocation()
+       
         Pone.keyboardType = .numberPad
+        Name.text = namename
+        Pone.text = diandianhua
+        XiangZhi.text = xiangqing
+        dingweiDZ.text = didizhi
+        loadLocation()
 //        shiFouButton.isSelected = true
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -55,9 +65,9 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
     @IBAction func baiDudiTu(_ sender: Any) {
         let baiduditu: XL_baiduditu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "baiduditu") as! XL_baiduditu_ViewController
         baiduditu.baidudizhi = {(baidudizhi: [String:String]) in
-            self.dingweiDZ.text = baidudizhi["dizhi"]
-            self.lon = baidudizhi["lon"]!
-            self.lat = baidudizhi["lat"]!
+                self.dingweiDZ.text = baidudizhi["dizhi"]
+                self.lon = baidudizhi["lon"]!
+                self.lat = baidudizhi["lat"]!
         }
         self.navigationController?.pushViewController(baiduditu, animated: true)
     }
@@ -190,8 +200,14 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //取得locations数组的最后一个
         currLocation = locations.last!
-        lon = (currLocation?.coordinate.longitude.description)!
-        lat = (currLocation?.coordinate.latitude.description)!
+        if self.lon == "" {
+            lon = (currLocation?.coordinate.longitude.description)!
+        }
+        if self.lat == "" {
+            lat = (currLocation?.coordinate.latitude.description)!
+        }
+        
+        
         LonLatToCity()
         //停止定位
         locationManager.stopUpdatingLocation()
@@ -221,7 +237,9 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
                 let Street: String = (mark.addressDictionary! as NSDictionary).value(forKey: "Street") as! String
                 //当前位置显示的
                 let weizhi = State + city + (SubLocality as String) + Street
-                self.dingweiDZ.text = weizhi
+                if self.didizhi == "" {
+                    self.dingweiDZ.text = weizhi
+                }
             }
             else
             {

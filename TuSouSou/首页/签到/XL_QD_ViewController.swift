@@ -10,6 +10,7 @@ import UIKit
 
 class XL_QD_ViewController: UIViewController,UIWebViewDelegate,UIGestureRecognizerDelegate {
 
+    @IBOutlet weak var leijitian: UILabel!
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var tian: UILabel!
@@ -60,6 +61,9 @@ func dianjiWebView() {
         }else{
             if isAuthentic == 2 { // 是否实名认证 1是2否
                 //跳实名认证
+                let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
+                ShimingRZ?.jiemian = 1
+                self.navigationController?.pushViewController(ShimingRZ!, animated: true)
             }else{
                 //弹出需要使用飕飕币
                 if lotteryNmber > 0 {
@@ -99,7 +103,7 @@ func dianjiWebView() {
         let method = "/mall/signHome"
         let userId = userDefaults.value(forKey: "userId")
         let dic:[String:Any] = ["userId":userId!]
-        XL_waringBox().warningBoxModeIndeterminate(message: "查询中...", view: self.view)
+        XL_waringBox().warningBoxModeIndeterminate(message: "请稍等～～～飕飕飕", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -109,6 +113,7 @@ func dianjiWebView() {
                 self.lotteryNmber = data["lotteryNmber"] as! Int
                 self.isAuthentic = data["isAuthentic"] as! Int
                 self.tian.text = String(format: "%d", data["continuousSign"] as! Int)
+                self.leijitian.text = String(format: "%d", data["sumSign"] as! Int)
                 self.mfLotteryNmber = data["mfLotteryNmber"] as! Int
                 if self.isSign == "1" {
                     self.button.isEnabled = false
@@ -183,6 +188,7 @@ func dianjiWebView() {
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 let ssMoney = data["ssMoney"] as! Double
                XL_waringBox().warningBoxModeText(message: "签到成功，获得\(ssMoney)飕飕币！", view: self.view)
+                self.jiekou()
             }else{
                 let msg = (res as! [String: Any])["msg"] as! String
                 XL_waringBox().warningBoxModeText(message: msg, view: self.view)

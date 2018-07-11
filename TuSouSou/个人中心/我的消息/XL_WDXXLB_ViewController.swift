@@ -18,7 +18,7 @@ class XL_WDXXLB_ViewController: UIViewController,UITableViewDelegate,UITableView
     // 底部刷新
     let footer = MJRefreshAutoNormalFooter()
     //页码
-    var pageNo = 0
+    var pageNo = 1
     let pageSize = 10
     var count = 0
     
@@ -27,7 +27,7 @@ class XL_WDXXLB_ViewController: UIViewController,UITableViewDelegate,UITableView
     override func viewWillAppear(_ animated: Bool) {
         //刷新界面
         XXArr = []
-        pageNo = 0
+        pageNo = 1
         xiaoxiliebiaojiekou()
     }
     override func viewDidLoad() {
@@ -47,7 +47,7 @@ class XL_WDXXLB_ViewController: UIViewController,UITableViewDelegate,UITableView
     }
     @objc func headerRefresh() {
         footer.endRefreshingWithMoreData()
-        pageNo = 0
+        pageNo = 1
         XXArr = []
         xiaoxiliebiaojiekou()
         tablewdxxlb.mj_header.endRefreshing()
@@ -55,9 +55,10 @@ class XL_WDXXLB_ViewController: UIViewController,UITableViewDelegate,UITableView
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
+        
         if count > pageNo * pageSize {
             tablewdxxlb.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             xiaoxiliebiaojiekou()
         }else{
             footer.endRefreshingWithNoMoreData()

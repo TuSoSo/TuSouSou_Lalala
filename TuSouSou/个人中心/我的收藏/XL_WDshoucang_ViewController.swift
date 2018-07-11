@@ -18,7 +18,7 @@ class XL_WDshoucang_ViewController: UIViewController,UITableViewDelegate,UITable
     var biaoti: String?
     var type = ""
     //页码
-    var pageNo = 0
+    var pageNo = 1
     let pageSize = 10
     var count = 0
     
@@ -42,7 +42,7 @@ class XL_WDshoucang_ViewController: UIViewController,UITableViewDelegate,UITable
     }
     @objc func headerRefresh() {
         footer.endRefreshingWithMoreData()
-        pageNo = 0
+        pageNo = 1
         shoucangArr = []
         jiekoukaishi()
         tableShoucang.mj_header.endRefreshing()
@@ -50,9 +50,10 @@ class XL_WDshoucang_ViewController: UIViewController,UITableViewDelegate,UITable
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
+        
         if count > pageNo * pageSize {
             tableShoucang.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             jiekoukaishi()
         }else{
             footer.endRefreshingWithNoMoreData()
@@ -86,7 +87,7 @@ class XL_WDshoucang_ViewController: UIViewController,UITableViewDelegate,UITable
         }
         let newString = TupianUrl + ax
         let uuu:URL = URL(string: String(format: "%@",newString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
-        imageview.sd_setImage(with: uuu, placeholderImage: UIImage(named: "广告页"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+        imageview.sd_setImage(with: uuu, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
         let gongsiName = UILabel(frame: CGRect(x: Width/3 + 8, y: 10, width: Width*2/3 - 20, height: 24))
         if shoucangArr.count != 0{
             gongsiName.text = shoucangArr[indexPath.row]["name"] as? String

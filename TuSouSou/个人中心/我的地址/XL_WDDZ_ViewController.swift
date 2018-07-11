@@ -69,9 +69,10 @@ class XL_WDDZ_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     @objc func footerRefresh() {
         print("上拉刷新")
-        pageNo = pageNo + 1
+        
         if count > pageNo * pageSize {
             tableDizhi.mj_footer.endRefreshing()
+            pageNo = pageNo + 1
             DizhiJiekou(string: type)
         }else{
             footer.endRefreshingWithNoMoreData()
