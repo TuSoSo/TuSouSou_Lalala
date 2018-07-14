@@ -13,7 +13,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     var locationManager = CLLocationManager()
     var city: String = ""
     var weizhi:String?
-    
+
    
     // 顶部刷新
     let header = MJRefreshNormalHeader()
@@ -37,122 +37,147 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     
     //地址详情
     @IBAction func xia_DZB(_ sender: Any) {
-        if JianPanhuishou() {
-            let tianjiadizhi: XL_dizhi_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhi") as! XL_dizhi_ViewController
-            tianjiadizhi.Shei = "shoujian"
-            
-            if self.xiaName.text != "收件人姓名"{
-                tianjiadizhi.namename = xiaName.text!
-            }
-            if self.xiaPhone.text != "收件人电话"{
-                var shang = self.xiaPhone.text!
-                if isJiabaliu(string: self.xiaPhone.text!){
-                    shang = self.xiaPhone.text!.substring(fromIndex: 4)
-                }
-                tianjiadizhi.diandianhua = shang
-            }
-            tianjiadizhi.didizhi = self.xiaDiZhi
-            tianjiadizhi.xiangqing = self.xiaXiangQing
-            tianjiadizhi.lon = self.xiaLon
-            tianjiadizhi.lat = self.xiaLat
-            
-            //block 传值调用
-            tianjiadizhi.dixiang = {(diBody: [String: String]) in
-                self.xiaName.text = diBody["name"]
-                self.xiaPhone.text = diBody["phone"]
-                self.xiaDZOutlet.text = "\(diBody["dizhi"]!)\(diBody["xiangzhi"]!)"
-                self.xiaDiZhi = "\(diBody["dizhi"]!)"
-                self.xiaXiangQing = "\(diBody["xiangzhi"]!)"
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+            let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
+        }else{
+            if JianPanhuishou() {
+                let tianjiadizhi: XL_dizhi_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhi") as! XL_dizhi_ViewController
+                tianjiadizhi.Shei = "shoujian"
                 
-                self.xiaLon = diBody["lon"]!
-                self.xiaLat = diBody["lat"]!
+                if self.xiaName.text != "收件人姓名"{
+                    tianjiadizhi.namename = xiaName.text!
+                }
+                if self.xiaPhone.text != "收件人电话"{
+                    var shang = self.xiaPhone.text!
+                    if isJiabaliu(string: self.xiaPhone.text!){
+                        shang = self.xiaPhone.text!.substring(fromIndex: 4)
+                    }
+                    tianjiadizhi.diandianhua = shang
+                }
+                tianjiadizhi.didizhi = self.xiaDiZhi
+                tianjiadizhi.xiangqing = self.xiaXiangQing
+                tianjiadizhi.lon = self.xiaLon
+                tianjiadizhi.lat = self.xiaLat
+                
+                //block 传值调用
+                tianjiadizhi.dixiang = {(diBody: [String: String]) in
+                    self.xiaName.text = diBody["name"]
+                    self.xiaPhone.text = diBody["phone"]
+                    self.xiaDZOutlet.text = "\(diBody["dizhi"]!)\(diBody["xiangzhi"]!)"
+                    self.xiaDiZhi = "\(diBody["dizhi"]!)"
+                    self.xiaXiangQing = "\(diBody["xiangzhi"]!)"
+                    
+                    self.xiaLon = diBody["lon"]!
+                    self.xiaLat = diBody["lat"]!
+                }
+                self.navigationController?.pushViewController(tianjiadizhi, animated: true)
             }
-            self.navigationController?.pushViewController(tianjiadizhi, animated: true)
-            
         }
     }
     //地址详情
     @IBAction func shang_DZB(_ sender: Any) {
-        if JianPanhuishou(){
-            let tianjiadizhi: XL_dizhi_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhi") as! XL_dizhi_ViewController
-            if daohang == 1 {
-                tianjiadizhi.Shei = "jijian"
-            }else{
-                tianjiadizhi.Shei = "qujian"
-            }
-            
-            if self.shangName.text != "寄件人姓名" && self.shangName.text != "取件人姓名"{
-                tianjiadizhi.namename = shangName.text!
-            }
-            if self.shangPhone.text != "寄件人电话" && self.shangPhone.text != "取件人电话"{
-                var shang = self.shangPhone.text!
-                if isJiabaliu(string: self.shangPhone.text!){
-                    shang = self.shangPhone.text!.substring(fromIndex: 4)
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+            let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
+        }else{
+            if JianPanhuishou(){
+                let tianjiadizhi: XL_dizhi_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhi") as! XL_dizhi_ViewController
+                if daohang == 1 {
+                    tianjiadizhi.Shei = "jijian"
+                }else{
+                    tianjiadizhi.Shei = "qujian"
                 }
-                tianjiadizhi.diandianhua = shang
+                
+                if self.shangName.text != "寄件人姓名" && self.shangName.text != "取件人姓名"{
+                    tianjiadizhi.namename = shangName.text!
+                }
+                if self.shangPhone.text != "寄件人电话" && self.shangPhone.text != "取件人电话"{
+                    var shang = self.shangPhone.text!
+                    if isJiabaliu(string: self.shangPhone.text!){
+                        shang = self.shangPhone.text!.substring(fromIndex: 4)
+                    }
+                    tianjiadizhi.diandianhua = shang
+                }
+                tianjiadizhi.didizhi = self.shangDiZhi
+                tianjiadizhi.xiangqing = self.shangXiangQing
+                tianjiadizhi.lon = self.shangLon
+                tianjiadizhi.lat = self.shangLat
+                
+                //block 传值调用
+                tianjiadizhi.dixiang = {(diBody: [String: String]) in
+                    self.shangName.text = diBody["name"]
+                    self.shangPhone.text = diBody["phone"]
+                    self.shDZOutlet.text = "\(diBody["dizhi"]!)\(diBody["xiangzhi"]!)"
+                    self.shangLon = diBody["lon"]!
+                    self.shangLat = diBody["lat"]!
+                    self.shangDiZhi = "\(diBody["dizhi"]!)"
+                    self.shangXiangQing = "\(diBody["xiangzhi"]!)"
+                }
+                self.navigationController?.pushViewController(tianjiadizhi, animated: true)
             }
-            tianjiadizhi.didizhi = self.shangDiZhi
-            tianjiadizhi.xiangqing = self.shangXiangQing
-            tianjiadizhi.lon = self.shangLon
-            tianjiadizhi.lat = self.shangLat
-            
-            //block 传值调用
-            tianjiadizhi.dixiang = {(diBody: [String: String]) in
-                self.shangName.text = diBody["name"]
-                self.shangPhone.text = diBody["phone"]
-                self.shDZOutlet.text = "\(diBody["dizhi"]!)\(diBody["xiangzhi"]!)"
-                self.shangLon = diBody["lon"]!
-                self.shangLat = diBody["lat"]!
-                self.shangDiZhi = "\(diBody["dizhi"]!)"
-                self.shangXiangQing = "\(diBody["xiangzhi"]!)"
-            }
-            self.navigationController?.pushViewController(tianjiadizhi, animated: true)
         }
     }
     //地址簿列表
     @IBAction func shangDizhi(_ sender: Any) {
         //跳页，回调到地址栏
-        if JianPanhuishou(){
-            let dizhibu: XL_Dizhibu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhibu") as! XL_Dizhibu_ViewController
-            if daohang == 1 {
-                dizhibu.biaoti = "1"
-            }else{
-                dizhibu.biaoti = "2"
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+            let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
+        }else{
+            if JianPanhuishou(){
+                let dizhibu: XL_Dizhibu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhibu") as! XL_Dizhibu_ViewController
+                if daohang == 1 {
+                    dizhibu.biaoti = "1"
+                }else{
+                    dizhibu.biaoti = "2"
+                }
+                
+                //block 传值调用
+                dizhibu.xuanzhiBody = {(xuanzhiBody: [String: String]) in
+                    self.shangName.text = xuanzhiBody["name"]
+                    self.shangPhone.text = xuanzhiBody["phone"]
+                    self.shDZOutlet.text = xuanzhiBody["dizhi"]
+                    self.shangXiangQing = xuanzhiBody["xiangqing"]!
+                    self.shangDiZhi = xuanzhiBody["didizhi"]!
+                    self.shangLat = xuanzhiBody["lat"]!
+                    self.shangLon = xuanzhiBody["lon"]!
+                }
+                self.navigationController?.pushViewController(dizhibu, animated: true)
             }
-            
-            //block 传值调用
-            dizhibu.xuanzhiBody = {(xuanzhiBody: [String: String]) in
-                self.shangName.text = xuanzhiBody["name"]
-                self.shangPhone.text = xuanzhiBody["phone"]
-                self.shDZOutlet.text = xuanzhiBody["dizhi"]
-                self.shangXiangQing = xuanzhiBody["xiangqing"]!
-                self.shangDiZhi = xuanzhiBody["didizhi"]!
-                self.shangLat = xuanzhiBody["lat"]!
-                self.shangLon = xuanzhiBody["lon"]!
-            }
-            self.navigationController?.pushViewController(dizhibu, animated: true)
         }
-        
     }
     //地址簿列表
     @IBAction func xiaDizhi(_ sender: Any) {
         //跳页，回调到地址栏
-        if JianPanhuishou(){
-            let dizhibu: XL_Dizhibu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhibu") as! XL_Dizhibu_ViewController
-            dizhibu.biaoti = "3"
-            //block 传值调用
-            dizhibu.xuanzhiBody = {(xuanzhiBody: [String: String]) in
-                self.xiaName.text = xuanzhiBody["name"]
-                self.xiaPhone.text = xuanzhiBody["phone"]
-                self.xiaDZOutlet.text = xuanzhiBody["dizhi"]
-                self.xiaXiangQing = xuanzhiBody["xiangqing"]!
-                self.xiaDiZhi = xuanzhiBody["didizhi"]!
-                self.xiaLat = xuanzhiBody["lat"]!
-                self.xiaLon = xuanzhiBody["lon"]!
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+            let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
+        }else{
+            if JianPanhuishou(){
+                let dizhibu: XL_Dizhibu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhibu") as! XL_Dizhibu_ViewController
+                dizhibu.biaoti = "3"
+                //block 传值调用
+                dizhibu.xuanzhiBody = {(xuanzhiBody: [String: String]) in
+                    self.xiaName.text = xuanzhiBody["name"]
+                    self.xiaPhone.text = xuanzhiBody["phone"]
+                    self.xiaDZOutlet.text = xuanzhiBody["dizhi"]
+                    self.xiaXiangQing = xuanzhiBody["xiangqing"]!
+                    self.xiaDiZhi = xuanzhiBody["didizhi"]!
+                    self.xiaLat = xuanzhiBody["lat"]!
+                    self.xiaLon = xuanzhiBody["lon"]!
+                }
+                self.navigationController?.pushViewController(dizhibu, animated: true)
             }
-            self.navigationController?.pushViewController(dizhibu, animated: true)
         }
     }
+    
+    @IBOutlet weak var xiadananniu: UIButton!
+
     @IBOutlet weak var jinrisousouBi: UILabel!
     @IBOutlet weak var jiqushangView: UIView!
     @IBOutlet weak var touOutlet: UIButton!
@@ -193,8 +218,15 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     @IBAction func zuoanniu(_ sender: UIBarButtonItem) {
 //        XL_DrawerViewController.shareDrawer?.openLeftMenu()
         //个人中心  XL_GeRenViewController
-        let geren: XL_GeRenViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "geren") as? XL_GeRenViewController
-        self.navigationController?.pushViewController(geren!, animated: true)
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+            let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
+        }else{
+            let geren: XL_GeRenViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "geren") as? XL_GeRenViewController
+            self.navigationController?.pushViewController(geren!, animated: true)
+        }
+        
     }
     //MARK:跳页到城市列表，回调改变城市
     @IBAction func touButton(_ sender: Any) {
@@ -212,18 +244,27 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     //MARK:签到入口
     @IBAction func you(_ sender: Any) {
         //跳页
-        if JianPanhuishou(){
-            let xiadan: XL_QD_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qd") as? XL_QD_ViewController
-            self.navigationController?.pushViewController(xiadan!, animated: true)
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+            let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
+        }else{
+            if JianPanhuishou(){
+                let xiadan: XL_QD_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qd") as? XL_QD_ViewController
+                self.navigationController?.pushViewController(xiadan!, animated: true)
+            }
         }
     }
     var window: UIWindow?
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         classifyList = []
         labelList = []
         excellentMerchantList = []
-       
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tiaoqianbao))
+        jinrisousouBi.addGestureRecognizer(tap)
+        jinrisousouBi.isUserInteractionEnabled = true
         let item = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = item
         //从广告页跳转到详情
@@ -243,7 +284,16 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         loadLocation()
         shangchengjiekou()
     }
-   
+    @objc func tiaoqianbao() {
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+            let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
+        }else{
+            let wanshan: XL_WDQB_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdqb") as? XL_WDQB_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
+        }
+    }
     @objc func pushToad(notification: NSNotification){
         let adVC: XL_GGXQViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ggxq") as? XL_GGXQViewController
         //添加广告地址
@@ -284,21 +334,33 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     
     @IBAction func xiadanButton(_ sender: Any) {
         //jiekou
-        var shang = shangPhone.text!
-        var xia = xiaPhone.text!
-        if isJiabaliu(string: shangPhone.text!){
-            shang = shangPhone.text!.substring(fromIndex: 4)
-        }
-        if isJiabaliu(string: xiaPhone.text!) {
-            xia = xiaPhone.text!.substring(fromIndex: 4)
-        }
-        
-        if !shang.isPhoneNumber() || !xia.isPhoneNumber() {
-            XL_waringBox().warningBoxModeText(message: "请完善订单信息", view: self.view)
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+            let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
         }else{
-            xiadanjiekou(shang:shang,xia:xia)
+            if userDefaults.value(forKey: "isNotPay") as! String == "1" {
+                let WDDD: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
+                WDDD?.state = "1"
+                self.navigationController?.pushViewController(WDDD!, animated: true)
+            }else{
+                var shang = shangPhone.text!
+                var xia = xiaPhone.text!
+                if isJiabaliu(string: shangPhone.text!){
+                    shang = shangPhone.text!.substring(fromIndex: 4)
+                }
+                if isJiabaliu(string: xiaPhone.text!) {
+                    xia = xiaPhone.text!.substring(fromIndex: 4)
+                }
+                
+                if !shang.isPhoneNumber() || !xia.isPhoneNumber() {
+                    XL_waringBox().warningBoxModeText(message: "请完善订单信息", view: self.view)
+                }else{
+                    xiadanjiekou(shang:shang,xia:xia)
+                }
+            }
+            
         }
-        
     }
     func isJiabaliu(string:String) -> Bool {
         if string.contains("+ 86") {
@@ -594,11 +656,17 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 3 {
             print(indexPath.row)
-            let xiadan: XL_DPliebiaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpliebiao") as? XL_DPliebiaoViewController
-            xiadan?.lll = String(format: "%d",(excellentMerchantList[indexPath.row]["merchantId"] as? Int)!)
-            xiadan?.ttt = excellentMerchantList[indexPath.row]["merchantName"] as? String
- //        xiada
-            self.navigationController?.pushViewController(xiadan!, animated: true)
+            if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+                userDefaults.set("0", forKey: "isDengLu")
+                let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+                self.navigationController?.pushViewController(wanshan!, animated: true)
+            }else{
+                let xiadan: XL_DPliebiaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpliebiao") as? XL_DPliebiaoViewController
+                xiadan?.lll = String(format: "%d",(excellentMerchantList[indexPath.row]["merchantId"] as? Int)!)
+                xiadan?.ttt = excellentMerchantList[indexPath.row]["merchantName"] as? String
+                //        xiada
+                self.navigationController?.pushViewController(xiadan!, animated: true)
+            }
         }
     }
   
@@ -823,7 +891,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             shouyejiekou()
         }
         //表头透明
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         
@@ -962,11 +1030,15 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
 //        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
+        
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
 //                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 let jjj:String = String(format: "%f", dic["percentage"] as! Double)
+                
+                let bySsMoney = dic["bySsMoney"] as! String
+                let isNotPay = dic["isNotPay"] as! String
                 let jiage:String = self.preciseDecimal(x: jjj, p: 4)
                 //jiage 转保留4位小数
                 self.jinrisousouBi.text = "今日飕飕币价格：\(jiage)"
@@ -974,8 +1046,22 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 userDefaults.set(dic["userType"], forKey: "userType")
                 userDefaults.set(dic["isFirmAdit"], forKey: "isFirmAdit")
                 userDefaults.set(dic["isRealAuthentication"], forKey: "isRealAuthentication")
-                
-
+                userDefaults.set(dic["phone"], forKey: "phone")
+                userDefaults.set(dic["isOpen"], forKey: "isOpen")
+                if bySsMoney != "" {
+                    //alert
+                    let sheet = UIAlertController(title: "温馨提示:", message: "您获得了 \(bySsMoney)个飕飕币～", preferredStyle: .alert)
+                    
+                    let cancel = UIAlertAction(title: "确定", style: .cancel, handler: nil)
+                    sheet.addAction(cancel)
+                    self.present(sheet, animated: true, completion: nil)
+                }
+                userDefaults.set(isNotPay, forKey: "isNotPay")
+                if isNotPay == "1"{
+                    self.xiadananniu.setTitle("有未支付订单", for: .normal)
+                }else if isNotPay == "2"{
+                    self.xiadananniu.setTitle("立即下单", for: .normal)
+                }
 //                isOpen(int):是否开通配送员(1.是2否)
 //                bySsMoney(String):被发送飕飕币数量
 
@@ -986,6 +1072,9 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             print(error)
         }
     }
+    
+    
+    
     func preciseDecimal(x : String, p : Int) -> String {
         //        为了安全要判空
         if (Double(x) != nil) {

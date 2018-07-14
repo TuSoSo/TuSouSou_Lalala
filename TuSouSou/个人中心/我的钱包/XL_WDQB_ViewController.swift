@@ -12,6 +12,9 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var shangView: UIView!
     var keyBoardisHidden = true
     var shuruDic : [String:String] = [:]
+    //提现最小飕飕币
+    var minimumAmount:Double = 0.0
+    
     
     //shangView 中的东西
     var YuE = "0.00"
@@ -219,6 +222,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.minimumAmount = data["minimumAmount"] as! Double
                 //给 YuE SouSouBi XiaoShou 赋值
                 self.zhuanhua = String(format: "%.4f", data["percentage"] as! Double)
                 self.jinrisousoubi.text = "今日飕飕币价格:" + " " + self.zhuanhua
@@ -524,7 +528,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         tichengxianjinTF.tag = 14
         tichengxianjinTF.textAlignment = .center
         tichengxianjinTF.keyboardType = .decimalPad
-        tichengxianjinTF.placeholder = "最小提现额度10.0个飕飕币"
+        tichengxianjinTF.placeholder = "最小提现额度\(minimumAmount)个飕飕币"
         tichengxianjinTF.delegate = self
         
         let zhiwei1 = zhizhiweiwei(xx: 2)
@@ -687,7 +691,8 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                         // 不免密 跳验证密码
                         if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
                             //输入支付密码验证后再跳页
-                            let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: lalala)
+                            let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "",isMove:true)
+                            payAlert.tag = 909090
                             payAlert.show(view: self.view)
                             payAlert.completeBlock = ({(password:String) -> Void in
                                 //调验证支付吗接口
@@ -771,7 +776,8 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                         // 不免密 跳验证密码
                         if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
                             //输入支付密码验证后再跳页
-                            let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: lalala)
+                            let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "",isMove:true)
+                            payAlert.tag = 909091
                             payAlert.show(view: self.view)
                             payAlert.completeBlock = ({(password:String) -> Void in
                                 //调验证支付吗接口
@@ -1065,9 +1071,12 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             shuruDic["13"] = textField.text!
             jisuan(string: textField.text!)
         }else if textField.tag == 14/*输入飕飕币*/ {
-            if Double(textField.text!)! < 10.0 {
+            if textField.text! == ""{
+                textField.text = "0"
+            }
+            if Double(textField.text!)! < minimumAmount {
                 textField.text = ""
-                XL_waringBox().warningBoxModeText(message: "飕飕币数量不能小于10个哟～", view: self.view)
+                XL_waringBox().warningBoxModeText(message: "飕飕币数量不能小于\(minimumAmount)个哟～", view: self.view)
             }else{
                 shuruDic["14"] = textField.text!
                 jisuan(string: textField.text!)
@@ -1086,7 +1095,14 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         tidaozhuanhua.text = "飕飕币转换成余额: ¥\(zz)"
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+        for view in self.view.subviews {
+            if view.tag == 909090 || view.tag == 909091 {
+                print("进来了")
+                return
+            }else{
+                self.view.endEditing(true)
+            }
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         self.youhui()

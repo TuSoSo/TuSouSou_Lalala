@@ -236,7 +236,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                             // 不免密 跳验证密码
                             if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
                                 //输入支付密码验证后再跳页
-                                let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: HJJE.text!)
+                                let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: HJJE.text!,isMove:true)
                                 payAlert.show(view: self.view)
                                 payAlert.completeBlock = ({(password:String) -> Void in
                                     //调验证支付吗接口
@@ -289,7 +289,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     func zhifu_xiao (){
       
         var isDirectSend = "1"
-        if sendTime.count != 0 {
+        if SwitchAnniu.isOn == false {
             isDirectSend = "2"
         }
         if paymentMethod.count == 0 {

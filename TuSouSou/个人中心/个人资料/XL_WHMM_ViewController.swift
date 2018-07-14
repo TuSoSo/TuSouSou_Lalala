@@ -31,10 +31,17 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
         }
         
         zhanghao.delegate = self
+        zhanghao.keyboardType = .numberPad
         mima.delegate = self
+        mima.keyboardType = .asciiCapable
+        mima.autocorrectionType = .no //联想
+        mima.autocapitalizationType = .none //首字母不大写
         remima.delegate = self
+        remima.keyboardType = .asciiCapable
+        remima.autocorrectionType = .no //联想
+        remima.autocapitalizationType = .none //首字母不大写
         yanzhengma.delegate = self
-        
+        yanzhengma.keyboardType = .numberPad
         // Do any additional setup after loading the view.
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

@@ -19,7 +19,7 @@ class PayAlert: UIView,UITextFieldDelegate {
     private var inputViewX:CGFloat!
     private var pwdCircleArr = [UILabel]()
 
-    init(frame: CGRect, jineHide:Bool, jine: String ) {
+    init(frame: CGRect, jineHide:Bool, jine: String, isMove:Bool ) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.groupTableViewBackground
         self.alpha = 1
@@ -27,16 +27,19 @@ class PayAlert: UIView,UITextFieldDelegate {
         self.passCount = 6
         self.inputViewWidth = 35 * passCount
         self.inputViewX = (240 - inputViewWidth) / 2.0
-        setupView(jineHide:jineHide, jine: jine)
+        setupView(jineHide:jineHide, jine: jine, isMove: isMove)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupView(jineHide:Bool, jine: String){
-        
-        contentView =  UIView(frame: CGRect(x:(Width - 240)/2, y: Height/2, width: 240, height: 200))
+    func setupView(jineHide:Bool, jine: String,isMove:Bool){
+        if isMove {
+            contentView =  UIView(frame: CGRect(x:(Width - 240)/2, y: Height/2, width: 240, height: 200))
+        }else{
+            contentView =  UIView(frame: CGRect(x:(Width - 240)/2, y: 100, width: 240, height: 200))
+        }
         contentView!.backgroundColor = UIColor.white
         contentView?.layer.cornerRadius = 5;
         self.addSubview(contentView!)

@@ -26,6 +26,9 @@ class XL_GRZC_ViewController: UIViewController,UITextFieldDelegate {
         delegate(textfields: textFArr)
         // Do any additional setup after loading the view.
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     func delegate(textfields:[UITextField]) {
         for textF in textfields {
             textF.delegate = self
@@ -34,7 +37,7 @@ class XL_GRZC_ViewController: UIViewController,UITextFieldDelegate {
             }else if textF == zhanghao || textF == yanZM {
                 textF.keyboardType = .numberPad
             }
-        }
+        }//279772
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let text = textField.text!
@@ -73,9 +76,10 @@ class XL_GRZC_ViewController: UIViewController,UITextFieldDelegate {
                         let WDXX: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
                         self.navigationController?.popToViewController(WDXX!, animated: true)
                     }else if self.state == 2 {
-                        //跳转到企业认证
-                        let WDXX: XL_QiyeRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qiyerz") as? XL_QiyeRZ_ViewController
-                        self.navigationController?.popToViewController(WDXX!, animated: true)
+                        //跳转到企业认证 //先跳到实名注册
+                        let qiyeRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
+                        qiyeRZ?.xxx = 1
+                        self.navigationController?.pushViewController(qiyeRZ!, animated: true)
                     }
                     
                     //                    let dic = (res as! [String: Any])["data"] as! [String:Any]

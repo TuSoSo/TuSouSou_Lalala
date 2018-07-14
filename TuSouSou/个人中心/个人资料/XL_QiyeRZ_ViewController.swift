@@ -264,7 +264,7 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                 if (res as! [String: Any])["code"] as! String == "0000" {
                     XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
-                    userDefaults.set("2", forKey: "isFirmAdit")
+                    userDefaults.set(2, forKey: "isFirmAdit")
                     self.navigationController?.popViewController(animated: true)
                 }else{
                     let Msg = (res as! [String: Any])["msg"] as! String

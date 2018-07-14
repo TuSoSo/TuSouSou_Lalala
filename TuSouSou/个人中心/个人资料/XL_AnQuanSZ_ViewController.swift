@@ -66,7 +66,33 @@ class XL_AnQuanSZ_ViewController: UIViewController,UITableViewDelegate,UITableVi
         if swichButton.isOn == false {
             userDefaults.set(false, forKey: "xemmzf")
         }else {
-            userDefaults.set(true, forKey: "xemmzf")
+            let sheet = UIAlertController(title: "温馨提示", message: "开启后,再用余额付款时将不再输入支付密码。", preferredStyle: .alert)
+            let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
+                self.swichButton.isOn = true
+                userDefaults.set(true, forKey: "xemmzf")
+                //支付密码界面
+                //是否有支付密码
+                if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
+                    //输入支付密码验证后再跳页
+                    let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "", isMove:false)
+                    payAlert.show(view: self.view)
+                    payAlert.completeBlock = ({(password:String) -> Void in
+                        //调验证支付吗接口
+                        self.yanzhengzhifumima(password: password)
+                        print("输入的密码是:" + password)
+                    })
+                }else{
+                    self.tiaoye(rukou: "1")
+                }
+            }
+            let quxiao = UIAlertAction(title: "取消", style: .cancel) { (ss) in
+                self.swichButton.isOn = false
+                userDefaults.set(false, forKey: "xemmzf")
+            }
+            sheet.addAction(queding)
+            sheet.addAction(quxiao)
+            self.present(sheet, animated: true, completion: nil)
+            
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -77,7 +103,7 @@ class XL_AnQuanSZ_ViewController: UIViewController,UITableViewDelegate,UITableVi
             //跳页密码设置
             if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
                 //输入支付密码验证后再跳页
-                let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "")
+                let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "", isMove:false)
                 payAlert.show(view: self.view)
                 payAlert.completeBlock = ({(password:String) -> Void in
                     //调验证支付吗接口

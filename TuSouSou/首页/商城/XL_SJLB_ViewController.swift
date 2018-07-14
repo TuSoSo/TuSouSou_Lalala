@@ -138,11 +138,17 @@ class XL_SJLB_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let xiadan: XL_DPliebiaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpliebiao") as? XL_DPliebiaoViewController
-        xiadan?.lll = String(format: "%d",(businessList[indexPath.row]["merchantId"] as? Int)!)
-        xiadan?.ttt = businessList[indexPath.row]["merchantName"] as? String
-        //        xiada
-        self.navigationController?.pushViewController(xiadan!, animated: true)
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+            let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
+        }else{
+            let xiadan: XL_DPliebiaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpliebiao") as? XL_DPliebiaoViewController
+            xiadan?.lll = String(format: "%d",(businessList[indexPath.row]["merchantId"] as? Int)!)
+            xiadan?.ttt = businessList[indexPath.row]["merchantName"] as? String
+            //        xiada
+            self.navigationController?.pushViewController(xiadan!, animated: true)
+        }
     }
     
     @IBAction func liwoanniu(_ sender: Any) {

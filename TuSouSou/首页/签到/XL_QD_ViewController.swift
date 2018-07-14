@@ -19,7 +19,7 @@ class XL_QD_ViewController: UIViewController,UIWebViewDelegate,UIGestureRecogniz
     var isAuthentic = 0 //是否实名认证
     var xuyaosousoubi:Float = 0 //抽奖所用飕飕币
     var xianyouSousoubi:Float = 0
-    
+    var top1 = UITapGestureRecognizer()
     var mfLotteryNmber = 0 // 免费次数
     
     var diyi = 1
@@ -34,18 +34,23 @@ class XL_QD_ViewController: UIViewController,UIWebViewDelegate,UIGestureRecogniz
         let uul = URL(string: String(format: "%@",newString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
         self.webView.delegate = self
         self.webView.isUserInteractionEnabled = true
-        self.webView.scrollView.isUserInteractionEnabled = true
-        let top1 = UIGestureRecognizer(target: self, action: nil)
+        top1 = UITapGestureRecognizer(target: self, action: #selector(dianjiWebView))
+//            UIGestureRecognizer(target: self, action: #selector(dianjiWebView))
         top1.delegate = self
-        self.webView.scrollView.addGestureRecognizer(top1)
+        self.webView.addGestureRecognizer(top1)
         let request = NSURLRequest(url: uul!)
         self.webView.loadRequest(request as URLRequest)
     }
 
+    //多手势触发 ： 同控件中多个手势同时进行 需要出发的方法是哪一个？
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        dianjiWebView()
-        return true
+        if gestureRecognizer == self.top1 {
+            print("xxx")
+            return true
+        }
+        return false
     }
+
     // MARK: 绑定JS交互事件
     func webViewDidFinishLoad(_ webView: UIWebView) {
         if self.lotteryNmber > 0 {
@@ -55,7 +60,7 @@ class XL_QD_ViewController: UIViewController,UIWebViewDelegate,UIGestureRecogniz
             jiekou()
         }
     }
-func dianjiWebView() {
+    @objc func dianjiWebView() {
         if self.mfLotteryNmber > 0 {
             youcishu()
         }else{

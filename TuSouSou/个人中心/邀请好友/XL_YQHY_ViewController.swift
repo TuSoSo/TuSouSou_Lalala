@@ -10,10 +10,16 @@ import UIKit
 
 class XL_YQHY_ViewController: UIViewController,UIActionSheetDelegate{
 
+    @IBOutlet weak var youhuizhengce: UILabel!
     @IBOutlet weak var erweima: UIImageView!
+    var lujing = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "邀请好友"
+        let youhuizheng=userDefaults.value(forKey: "yaoqingyouhui") as! String
+        youhuizhengce.text = youhuizheng
+        let invitingCode = userDefaults.value(forKey: "invitationCode") as! String
+        lujing = "http://wx.tusousouxr.com/index.php/index/user/register/userType/1.html?invitationCode=" + invitingCode
         erweima.isUserInteractionEnabled = true
         //长按手势
         let longpressGesutre = UILongPressGestureRecognizer(target: self, action: #selector(longPress(sender:)))
@@ -34,7 +40,8 @@ class XL_YQHY_ViewController: UIViewController,UIActionSheetDelegate{
         view.endEditing(true)
         
         
-        let str:String = userDefaults.value(forKey: "invitationCode") as! String
+        let str:String = lujing
+        
         
         // 1. 创建二维码滤镜
         let filter = CIFilter(name: "CIQRCodeGenerator")
@@ -99,11 +106,12 @@ class XL_YQHY_ViewController: UIViewController,UIActionSheetDelegate{
     //inScene可选的值有三个：WXSceneTimeline（朋友圈）、WXSceneSession（聊天界面） 、WXSceneFavorite（收藏）
     func sendWXFX(inScene: WXScene){
         let webpage = WXWebpageObject()
-        webpage.webpageUrl = "www.baidu.com"
+        webpage.webpageUrl = lujing
         let msg = WXMediaMessage()
         msg.mediaObject = webpage
         msg.title = "欢迎注册使用飕飕网递"
         msg.description = "飕飕网递应用分享"
+        msg.setThumbImage(UIImage(named: "80"))
         //      msg.setThumbImage(UIImage(named: "引导1")) msg.setThumbImage(Data.sharedManager.searchArticle.imagedic[content.contentImg])
         let req = SendMessageToWXReq()
         req.message = msg

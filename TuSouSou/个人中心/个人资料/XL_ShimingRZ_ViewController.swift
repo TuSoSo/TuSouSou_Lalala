@@ -9,6 +9,8 @@
 import UIKit
 
 class XL_ShimingRZ_ViewController: UIViewController {
+    var xxx = 0
+    
     
     var jiemian = 1
     var shengyu = 0
@@ -23,8 +25,19 @@ class XL_ShimingRZ_ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //调一个接口。存剩余次数
+        if xxx == 1 {
+            fanhuidaoRoot()
+        }
         cishujiekou()
         jiazai()
+    }
+    func fanhuidaoRoot() {
+        let leftBarBtn = UIBarButtonItem(title: "X", style: .plain, target: self,
+                                         action: #selector(backToPrevious))
+        self.navigationItem.leftBarButtonItem = leftBarBtn
+    }
+    @objc func backToPrevious(){
+        self.navigationController!.popToRootViewController(animated: true)
     }
     func jiazai() {
         if jiemian == 1 {

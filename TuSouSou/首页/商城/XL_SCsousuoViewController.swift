@@ -124,7 +124,7 @@ class XL_SCsousuoViewController: UIViewController,UITableViewDelegate,UITableVie
         if businessList.count != 0{
             name.text = businessList[section]["merchantName"] as? String
         }
-        let jieshao = UILabel(frame: CGRect(x: 72, y: 37, width: Width - 142, height: 32))
+        let jieshao = UILabel(frame: CGRect(x: 72, y: 37, width: Width - 142, height: 34))
         jieshao.font = UIFont.systemFont(ofSize: 13)
         jieshao.textColor = UIColor(hexString: "6e6e6e")
         jieshao.numberOfLines = 2
@@ -186,19 +186,31 @@ class XL_SCsousuoViewController: UIViewController,UITableViewDelegate,UITableVie
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let xiadan: XL_DPliebiaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpliebiao") as? XL_DPliebiaoViewController
-        xiadan?.lll = String(format: "%d",(businessList[indexPath.section]["merchantId"] as? Int)!)
-        xiadan?.ttt = businessList[indexPath.section]["merchantName"] as? String
-        //        xiada
-        self.navigationController?.pushViewController(xiadan!, animated: true)
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+            let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
+        }else{
+            let xiadan: XL_DPliebiaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpliebiao") as? XL_DPliebiaoViewController
+            xiadan?.lll = String(format: "%d",(businessList[indexPath.section]["merchantId"] as? Int)!)
+            xiadan?.ttt = businessList[indexPath.section]["merchantName"] as? String
+            //        xiada
+            self.navigationController?.pushViewController(xiadan!, animated: true)
+        }
     }
     @objc func dianji(sender:UIButton?) {
-        let index = (sender?.tag)! - 140
-        let xiadan: XL_DPliebiaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpliebiao") as? XL_DPliebiaoViewController
-        xiadan?.lll = String(format: "%d",(businessList[index]["merchantId"] as? Int)!)
-        xiadan?.ttt = businessList[index]["merchantName"] as? String
-        //        xiada
-        self.navigationController?.pushViewController(xiadan!, animated: true)
+        if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+            userDefaults.set("0", forKey: "isDengLu")
+            let wanshan: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            self.navigationController?.pushViewController(wanshan!, animated: true)
+        }else{
+            let index = (sender?.tag)! - 140
+            let xiadan: XL_DPliebiaoViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpliebiao") as? XL_DPliebiaoViewController
+            xiadan?.lll = String(format: "%d",(businessList[index]["merchantId"] as? Int)!)
+            xiadan?.ttt = businessList[index]["merchantName"] as? String
+            //        xiada
+            self.navigationController?.pushViewController(xiadan!, animated: true)
+        }
     }
     func jiekou(string:String) {
         let method = "/business/search"

@@ -122,7 +122,7 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 quxiao.isHidden = false
                 jiedan.isHidden = false
             case "2":
-                zhuangtai.text = "待商家接单"
+                zhuangtai.text = "待接单"
                 quxiao.isHidden = false
                 jiedan.isHidden = false
             case "3":

@@ -17,8 +17,37 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
         super.viewDidLoad()
 
         self.title = "设置"
+        yonghuxinxichaxun()
         DelegateTable()
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        tableshezhi.reloadData()
+    }
+    func yonghuxinxichaxun() {
+        let method = "/user/approve"
+        let userId:String = userDefaults.value(forKey: "userId") as! String
+        let dic:[String:Any] = ["userId":userId]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                if nil != dic["isAuthentic"]{
+                    userDefaults.set(dic["isAuthentic"], forKey: "isRealAuthentication")
+                }
+                if nil != dic["firmAuthentic"]{
+                    userDefaults.set(dic["firmAuthentic"], forKey: "isFirmAdit")
+                }
+                if nil != dic["attestation"] {
+                    userDefaults.set(dic["attestation"], forKey: "attestation")
+                }
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
     }
     func yijian() {
         let alertController = UIAlertController(title: "意见反馈",
@@ -117,11 +146,41 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
                 Isrenzheng.textAlignment = .right
                 if indexPath.row == 3 {
                     //是否认证
-                    Isrenzheng.text = "未认证"
+//                    Isrenzheng.text = "未认证"
+                    let xx = userDefaults.value(forKey: "isFirmAdit") as! Int
+                    switch xx {
+                    case 1:
+                        Isrenzheng.text = "未认证"
+                    case 2:
+                        Isrenzheng.text = "认证中"
+                    case 3:
+                        Isrenzheng.text = "认证未通过"
+                    case 4:
+                        Isrenzheng.text = "已通过"
+                    default:
+                        break
+                    }
+                    
                     cell.contentView.addSubview(Isrenzheng)
                 }else if indexPath.row == 4 {
                     //是否认证
-                    Isrenzheng.text = "未认证"
+                    
+                    var xx = 1
+                    if nil != userDefaults.value(forKey: "attestation"){
+                       xx = userDefaults.value(forKey: "attestation") as! Int
+                    }
+                    switch xx {
+                    case 1:
+                        Isrenzheng.text = "未认证"
+                    case 2:
+                        Isrenzheng.text = "认证中"
+                    case 3:
+                        Isrenzheng.text = "认证未通过"
+                    case 4:
+                        Isrenzheng.text = "已通过"
+                    default:
+                        break
+                    }
                     cell.contentView.addSubview(Isrenzheng)
                 }
             }else {
@@ -152,11 +211,38 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             self.navigationController?.pushViewController(WDXX!, animated: true)
         }else if indexPath.row == 3 {
             //企业认证
-            let qiyeRZ: XL_QiyeRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qiyerz") as? XL_QiyeRZ_ViewController
-            self.navigationController?.pushViewController(qiyeRZ!, animated: true)
+            if userDefaults.value(forKey: "isFirmAdit") as! Int == 4 {
+                
+            }else{
+                if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+                    //弹框 --- 请先完成实名认证
+                    let sheet = UIAlertController(title: "温馨提示:", message: "请先完成实名认证再进行企业认证", preferredStyle: .alert)
+                    let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
+                        //接口 取回 token 调 阿里
+                        let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
+                        ShimingRZ?.jiemian = 1
+                        self.navigationController?.pushViewController(ShimingRZ!, animated: true)
+                    }
+                    let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                    sheet.addAction(queding)
+                    sheet.addAction(cancel)
+                    self.present(sheet, animated: true, completion: nil)
+                }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+                    //跳企业认证
+                    let qiyeRZ: XL_QiyeRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qiyerz") as? XL_QiyeRZ_ViewController
+                    self.navigationController?.pushViewController(qiyeRZ!, animated: true)
+                }
+            }
         }else if indexPath.row == 4 {
             //成为配送员
-            
+            if userDefaults.value(forKey: "attestation") as! Int == 1 || userDefaults.value(forKey: "attestation") as! Int == 3 {
+                 if userDefaults.value(forKey: "isOpen") as! Int == 1 {
+                    let WDXX: XL_PeiSongYuan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "peisongyuan") as? XL_PeiSongYuan_ViewController
+                    self.navigationController?.pushViewController(WDXX!, animated: true)
+                 }else {
+                    XL_waringBox().warningBoxModeText(message: "尚未开通，暂不能申请成为配送员", view: self.view)
+                }
+            }
         }
     }
     @objc func tuichu() {
@@ -164,6 +250,9 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             
         }) { (queding) in
             let WDXX: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+            userDefaults.set("0", forKey: "isDengLu")
+            userDefaults.set("", forKey: "nickname")
+            WDXX?.xxjj = 1
             self.navigationController?.pushViewController(WDXX!, animated: true)
         }
     }
@@ -172,12 +261,35 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             self.showConfirm(title: "温馨提示", message: "关闭后，将不再受到订单等推送通知", in: self, Quxiao: { (_) in
                 self.uiswitch.isOn = true
                 userDefaults.set(true, forKey: "Tuisong")
+//                self.tuisonggaibian()
             }) { (_) in
                 self.uiswitch.isOn = false
                 userDefaults.set(false, forKey: "Tuisong")
+                self.tuisonggaibian()
             }
         }else{
             userDefaults.set(true, forKey: "Tuisong")
+            tuisonggaibian()
+        }
+    }
+    func tuisonggaibian() {
+        var alias: String = " "
+        if nil == userDefaults.value(forKey: "Tuisong") ||  (userDefaults.value(forKey: "Tuisong") as! Bool){
+            if nil != userDefaults.value(forKey: "userId"){
+               alias = userDefaults.value(forKey: "userId") as! String
+            }
+        }
+        if alias == " " {
+            if nil != userDefaults.value(forKey: "userId"){
+                alias = userDefaults.value(forKey: "userId") as! String
+            }
+            JPUSHService.deleteAlias({ (iResCode, alias, aa) in
+                print("\(iResCode)\n别名:  \(alias)\n\(aa)")
+            }, seq: 1)
+        }else{
+            JPUSHService.setAlias(alias, completion: { (iResCode, alias, aa) in
+                print("\(iResCode)\n别名:  \(alias)\n\(aa)")
+            }, seq: 1)
         }
     }
     //MARK：提示框

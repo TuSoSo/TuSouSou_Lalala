@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Alamofire
 class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet weak var xuanzhongButton: UIButton!
@@ -17,6 +17,7 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var zhanghao: UITextField!
     @IBOutlet weak var YZMButton: UIButton!
     @IBOutlet weak var yanzhengma: UITextField!
+    var xxjj = 0
     
     @IBAction func xuanzhong(_ sender: Any) {
         if xuanzhongButton.isSelected == false {
@@ -27,6 +28,8 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
     }
     @IBAction func xieyi(_ sender: Any) {
       //跳页
+        let xieyi: XL_XieYi_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "xieyi") as? XL_XieYi_ViewController
+        self.navigationController?.pushViewController(xieyi!, animated: true)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +43,18 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
         NotificationCenter.default.addObserver(self,selector: #selector(WXLoginSuccess(notification:)),name: NSNotification.Name(rawValue: "WXLoginSuccessNotification"),object: nil)
         let name = Notification.Name(rawValue: "QQLoginSuccessNotification")
         NotificationCenter.default.addObserver(self, selector: #selector(QQLoginSuccess(notification:)), name: name, object:  nil)
-        
+        if xxjj == 1 {
+            fanhuidaoRoot()
+        }
         youAnniu()
+    }
+    func fanhuidaoRoot() {
+        let leftBarBtn = UIBarButtonItem(title: "X", style: .plain, target: self,
+                                         action: #selector(backToPrevious))
+        self.navigationItem.leftBarButtonItem = leftBarBtn
+    }
+    @objc func backToPrevious(){
+        self.navigationController!.popToRootViewController(animated: true)
     }
     func youAnniu() {
         let item = UIBarButtonItem(title:"账号密码登录",style: .plain,target:self,action:#selector(YouActio))
@@ -124,6 +137,7 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
                 userDefaults.set(openID, forKey: "openID")
                 userDefaults.set("1", forKey: "isDengLu")
                 AppDelegate().method()
+                self.navigationController?.popToRootViewController(animated: true)
             }else if (res as! [String: Any])["code"] as! String == "8000" {
                 //跳转到完善个人信息
                 userDefaults.set(openID, forKey: "openID")
@@ -239,12 +253,38 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
             DispatchQueue.main.async {
                 let jsonResult = try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! Dictionary<String,Any>
                 let openid: String = jsonResult["openid"] as! String
+                
+                let accessToken = jsonResult["access_token"] as! String
+                self.wechatLoginByRequestForUserInfo(accessToken:accessToken,openid:openid)
 //                userDefaults.set(openid, forKey: "WXopenid")
 //                let params = ["access_token": accessToken! as! String, "openid": openid! as! String] as Dictionary<String, Any>
                 //登录
                 self.dengdeng(loginMethod: "4", loginName: "", passWord: "", authCode: "", openID: openid, view: self.view)
             }
         }
+    }
+    func wechatLoginByRequestForUserInfo(accessToken:String,openid:String) {
+        // 获取用户信息
+       
+        let requestUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=\(accessToken)&openid=\(openid)"
+        
+//        DispatchQueue.global().async {
+        
+            let requestURL: URL = URL.init(string: requestUrl)!
+            let data = try? Data.init(contentsOf: requestURL, options: Data.ReadingOptions())
+            
+        
+            let jsonResult = try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! Dictionary<String,Any>
+                
+                print(jsonResult)
+        let nickname = jsonResult["nickname"] as! String
+        
+        userDefaults.set(nickname, forKey: "nickname")
+                //                userDefaults.set(openid, forKey: "WXopenid")
+                //                let params = ["access_token": accessToken! as! String, "openid": openid! as! String] as Dictionary<String, Any>
+               
+        
+//        }
     }
    
     @IBAction func qqDenglu(_ sender: Any) {
@@ -318,7 +358,7 @@ extension UIButton{
         // 在global线程里创建一个时间源
         let codeTimer = DispatchSource.makeTimerSource(queue:DispatchQueue.global())
         // 设定这个时间源是每秒循环一次，立即开始
-        codeTimer.scheduleRepeating(deadline: .now(), interval: .seconds(1))
+        codeTimer.schedule(deadline: .now(), repeating: .seconds(1))
         // 设定时间源的触发事件
         codeTimer.setEventHandler(handler: {
             

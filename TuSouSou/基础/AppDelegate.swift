@@ -229,6 +229,7 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
             userDefaults.set("", forKey: "dingdanhao")
+            userDefaults.set("2", forKey: "isNotPay")
         }) { (error) in
             
             print(error)
@@ -240,15 +241,17 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         JPUSHService.registerDeviceToken(deviceToken)
     }
     func method()  {
-        var alias: String = ""
-        if nil != userDefaults.value(forKey: "userId") {
-            alias = userDefaults.value(forKey: "userId") as! String
+        var alias: String = " "
+        if nil == userDefaults.value(forKey: "Tuisong") ||  (userDefaults.value(forKey: "Tuisong") as! Bool){
+            if nil != userDefaults.value(forKey: "userId"){
+                alias = userDefaults.value(forKey: "userId") as! String
+            }
         }
-        
-        JPUSHService.setAlias(alias, completion: { (iResCode, alias, aa) in
-            print("\(iResCode)\n别名:  \(alias)\n\(aa)")
-        }, seq: 1)
-        
+        if alias != " "{
+            JPUSHService.setAlias(alias, completion: { (iResCode, alias, aa) in
+                print("\(iResCode)\n别名:  \(alias)\n\(aa)")
+            }, seq: 1)
+        }
     }
     // iOS 10.x 需要
     @available(iOS 10.0, *)

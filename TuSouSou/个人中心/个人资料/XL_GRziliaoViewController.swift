@@ -142,6 +142,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 zuoLabel.text = "手机号"
                 let phoneLabel = UILabel(frame: CGRect(x: Width - 150, y: 11, width: 130, height: 22))
                 phoneLabel.text = "未绑定"
+               
                 phoneLabel.textColor = UIColor.darkGray
                 phoneLabel.text = ""
                 if nil != Dic!["mobile"] {
@@ -154,11 +155,15 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 
             }else if indexPath.row == 3{
                 zuoLabel.text = "微信号"
-                let WeChatLabel = UILabel(frame: CGRect(x: Width - 150, y: 11, width: 130, height: 22))
+                let WeChatLabel = UILabel(frame: CGRect(x: 100, y: 11, width: Width - 120, height: 22))
+                WeChatLabel.textAlignment = .right
                 WeChatLabel.text = "未绑定"
-                if nil != userDefaults.value(forKey: "weixinhao") {
-                    WeChatLabel.text = userDefaults.value(forKey: "weixinhao") as? String
+                if nil != userDefaults.value(forKey: "nickname") && (userDefaults.value(forKey: "nickname") as! String) != "" {
+                    WeChatLabel.text = userDefaults.value(forKey: "nickname") as? String
                 }
+//                if nil != userDefaults.value(forKey: "weixinhao") {
+//                    WeChatLabel.text = userDefaults.value(forKey: "weixinhao") as? String
+//                }
                 WeChatLabel.textColor = UIColor.darkGray
                 WeChatLabel.textAlignment = .right
                 WeChatLabel.font = UIFont.systemFont(ofSize: 14)
@@ -217,7 +222,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 case "3":
                     qiyeLabel.text = "认证未通过"
                 case "4":
-                    qiyeLabel.text = "已认证"
+                    qiyeLabel.text = "已通过"
                 default:
                     break
                 }

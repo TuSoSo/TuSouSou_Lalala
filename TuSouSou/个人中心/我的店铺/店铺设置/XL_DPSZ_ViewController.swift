@@ -28,6 +28,8 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     var Lat:String = ""
     var Lon:String = ""
     
+    var cishu = 0
+    
     @IBOutlet weak var tableDianpu: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +37,10 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         self.title = "店铺信息"
         shijianxuanze()
         youshangjiao()
-        jinrujiekou()
-        jinrujiekou()
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        jinrujiekou()
     }
     
     //MARK:tableviewDelegate
@@ -418,8 +421,8 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
-                userDefaults.set("2", forKey: "isFirmAdit")
+                XL_waringBox().warningBoxModeText(message: "提交成功", view: (self.navigationController?.view)!)
+//                userDefaults.set(2, forKey: "isFirmAdit")
                 self.navigationController?.popViewController(animated: true)
             }
         }) { (error) in
@@ -429,6 +432,7 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         }
     }
     func jinrujiekou() {
+        cishu += 1
         let method = "/merchant/merMessage"
         let userId:String = userDefaults.value(forKey: "userId") as! String
         let dic = ["userId":userId]
@@ -505,6 +509,9 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
                         }
                     })
                     self.tableDianpu.reloadData()
+                    if self.cishu == 1 {
+                        self.jinrujiekou()
+                    }
                 }
             }
         }) { (error) in

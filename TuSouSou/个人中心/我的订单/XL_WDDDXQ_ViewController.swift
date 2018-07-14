@@ -182,6 +182,8 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                 if indexPath.section == 0 {
                     if indexPath.row == 5{
                         return 80
+                    }else if indexPath.row == 0{
+                        return 60
                     }
                     return 44 // 订单编号、下单时间、取件时间、送达时间、订单备注、寄取地址
                 }else if indexPath.section == 1 {
@@ -309,26 +311,35 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
         let zuolabel = UILabel(frame: CGRect(x: 16, y: 11, width: 80, height: 22))
         zuolabel.font = UIFont.systemFont(ofSize: 15)
         zuolabel.textColor = UIColor.darkGray
-        
+    
         let youlabel = UILabel(frame: CGRect(x: 104, y: 11, width:  Width - 124, height: 22))
-        youlabel.adjustsFontSizeToFitWidth = true
         youlabel.font = UIFont.systemFont(ofSize: 15)
         youlabel.textColor = UIColor.darkGray
+//        youlabel.adjustsFontSizeToFitWidth = true
         youlabel.textAlignment = .right
+//        youlabel.numberOfLines = 2
         
-        let youlabel1 = UILabel(frame: CGRect(x: 96, y: 41, width:  Width - 124, height: 32))
+        let youlabel1 = UILabel(frame: CGRect(x: 96, y: 36, width:  Width - 120, height: 44))
 //        youlabel1.adjustsFontSizeToFitWidth = true
         youlabel1.font = UIFont.systemFont(ofSize: 14)
         youlabel1.textColor = UIColor.darkGray
         youlabel1.textAlignment = .right
         youlabel1.numberOfLines = 2
-       
+//        youlabel1.sizeToFit()
+        
+        let dingddd = UILabel(frame: CGRect(x: 104, y: 4, width:  Width - 124, height: 44))
+        dingddd.font = UIFont.systemFont(ofSize: 15)
+        dingddd.textColor = UIColor.darkGray
+        //        youlabel.adjustsFontSizeToFitWidth = true
+        dingddd.textAlignment = .right
+        dingddd.numberOfLines = 2
+        
         if indexPath.section == 0 {
             // 订单编号、下单时间、取件时间、送达时间、订单备注、寄取地址
             if indexPath.row == 0 {
                 zuolabel.text = "订单编号:"
-                youlabel.text = SPDic["orderCode"] as? String
-                cell.contentView.addSubview(youlabel)
+                dingddd.text = SPDic["orderCode"] as? String
+                cell.contentView.addSubview(dingddd)
                 cell.contentView.addSubview(zuolabel)
             }else if indexPath.row == 1 {
                 zuolabel.text = "下单时间:"
@@ -418,11 +429,11 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     if indexPath.row == 0 {
                         zuolabel.text = "付款方式:"
                         youlabel.text = ""
-                        if SPDic["paymentMethod"] as? Int == 1{
+                        if SPDic["paymentMethod"] as? String == "1"{
                             youlabel.text = "余额支付"
-                        }else if SPDic["paymentMethod"] as? Int == 2{
+                        }else if SPDic["paymentMethod"] as? String == "2"{
                             youlabel.text = "支付宝支付"
-                        }else if SPDic["paymentMethod"] as? Int == 3{
+                        }else if SPDic["paymentMethod"] as? String == "3"{
                             youlabel.text = "微信支付"
                         }
                         cell.contentView.addSubview(youlabel)
@@ -436,7 +447,14 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "直拿直送:"
                         var zhinazhi = "¥ 0.00"
                         if nil != SPDic["directSendAmount"] {
-                            zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+                            switch SPDic["directSendAmount"] {
+                            case is String:
+                                zhinazhi = "¥ 0.00"
+                            default:
+                                zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+                                break
+                                
+                            }
                         }
                         youlabel.text = zhinazhi
                         cell.contentView.addSubview(youlabel)
@@ -444,6 +462,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     }else if indexPath.row == 3 {
                         zuolabel.text = "小费:"
                         var qian = "0.00"
+                        youlabel.text = "¥ \(qian)"
                         if (SPDic["tip"] as! String).count != 0 {
                             qian = SPDic["tip"] as! String
                         }
@@ -524,11 +543,11 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     if indexPath.row == 0 {
                         zuolabel.text = "付款方式:"
                         youlabel.text = ""
-                        if SPDic["paymentMethod"] as? Int == 1{
+                        if SPDic["paymentMethod"] as? String == "1"{
                             youlabel.text = "余额支付"
-                        }else if SPDic["paymentMethod"] as? Int == 2{
+                        }else if SPDic["paymentMethod"] as? String == "2"{
                             youlabel.text = "支付宝支付"
-                        }else if SPDic["paymentMethod"] as? Int == 3{
+                        }else if SPDic["paymentMethod"] as? String == "3"{
                             youlabel.text = "微信支付"
                         }
                         cell.contentView.addSubview(youlabel)
@@ -542,7 +561,14 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "直拿直送:"
                         var zhinazhi = "¥ 0.00"
                         if nil != SPDic["directSendAmount"] {
-                            zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+                            switch SPDic["directSendAmount"] {
+                            case is String:
+                                zhinazhi = "¥ 0.00"
+                            default:
+                                zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+                                break
+                                
+                            }
                         }
                         youlabel.text = zhinazhi
                         cell.contentView.addSubview(youlabel)
@@ -550,6 +576,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     }else if indexPath.row == 3 {
                         zuolabel.text = "小费:"
                         var qian = "0.00"
+                        youlabel.text = "¥ \(qian)"
                         if (SPDic["tip"] as! String).count != 0 {
                             qian = SPDic["tip"] as! String
                         }
@@ -635,11 +662,11 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     if indexPath.row == 0 {
                         zuolabel.text = "付款方式:"
                         youlabel.text = ""
-                        if SPDic["paymentMethod"] as? Int == 1{
+                        if SPDic["paymentMethod"] as? String == "1"{
                             youlabel.text = "余额支付"
-                        }else if SPDic["paymentMethod"] as? Int == 2{
+                        }else if SPDic["paymentMethod"] as? String == "2"{
                             youlabel.text = "支付宝支付"
-                        }else if SPDic["paymentMethod"] as? Int == 3{
+                        }else if SPDic["paymentMethod"] as? String == "3"{
                             youlabel.text = "微信支付"
                         }
                         cell.contentView.addSubview(youlabel)
@@ -653,8 +680,21 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "直拿直送:"
                         //一会double一会string
                         var zhinazhi = "¥ 0.00"
+                        
                         if nil != SPDic["directSendAmount"] {
-                            zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+//                            let ss = SPDic["directSendAmount"]
+//                            guard ss is String else{
+//                                zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+//                                return zhinazhi
+//                            }
+                            switch SPDic["directSendAmount"] {
+                            case is String:
+                                zhinazhi = "¥ 0.00"
+                            default:
+                                zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+                                break
+                                
+                            }
                         }
                         youlabel.text = zhinazhi
                         cell.contentView.addSubview(youlabel)
@@ -662,6 +702,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     }else if indexPath.row == 3 {
                         zuolabel.text = "小费:"
                         var qian = "0.00"
+                        youlabel.text = "¥ \(qian)"
                         if (SPDic["tip"] as! String).count != 0 {
                             qian = SPDic["tip"] as! String
                         }
@@ -698,11 +739,11 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     if indexPath.row == 0 {
                         zuolabel.text = "付款方式:"
                         youlabel.text = ""
-                        if SPDic["paymentMethod"] as? Int == 1{
+                        if SPDic["paymentMethod"] as? String == "1"{
                             youlabel.text = "余额支付"
-                        }else if SPDic["paymentMethod"] as? Int == 2{
+                        }else if SPDic["paymentMethod"] as? String == "2"{
                             youlabel.text = "支付宝支付"
-                        }else if SPDic["paymentMethod"] as? Int == 3{
+                        }else if SPDic["paymentMethod"] as? String == "3"{
                             youlabel.text = "微信支付"
                         }
                         cell.contentView.addSubview(youlabel)
@@ -716,7 +757,14 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "直拿直送:"
                         var zhinazhi = "¥ 0.00"
                         if nil != SPDic["directSendAmount"] {
-                            zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+                            switch SPDic["directSendAmount"] {
+                            case is String:
+                                zhinazhi = "¥ 0.00"
+                            default:
+                                zhinazhi = String(format: "¥ %.2f", (SPDic["directSendAmount"] as? Float)!)
+                                break
+                                
+                            }
                         }
                         youlabel.text = zhinazhi
                         cell.contentView.addSubview(youlabel)
@@ -724,6 +772,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     }else if indexPath.row == 3 {
                         zuolabel.text = "小费:"
                         var qian = "0.00"
+                        youlabel.text = "¥ \(qian)"
                         if (SPDic["tip"] as! String).count != 0 {
                             qian = SPDic["tip"] as! String
                         }
@@ -793,14 +842,48 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
         cell.contentView.addSubview(name)
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            if indexPath.row == 2 {
-                //打电话
-                let dianPhone = "15545457012"
-                UIApplication.shared.openURL(NSURL.init(string: "tel://\(dianPhone)")! as URL)
+        if indexPath.section == 1 {
+            if indexPath.row == 1 {
+                //打电话 给
+                var phone = ""
+                if nil != SPDic["sendUserPhone"] && SPDic["sendUserPhone"] as! String != "" {
+                    phone = SPDic["sendUserPhone"] as! String
+                }
+                if phone != "" {
+                    UIApplication.shared.openURL(NSURL.init(string: "tel://\(phone)")! as URL)
+                }
+                
             }else if indexPath.row == 3 {
                 //跳转到 位置信息 -- WEB页
-                
+                var msg = ""
+                var isXS = 2
+                switch leixing! {
+                case "1":
+                    msg = "您的订单还没有支付哟～"
+                case "2":
+                    msg = "您的订单还没有被接哟～"
+                case "3":
+                    msg = "您的订单还没有被接哟～"
+                case "6":
+                    msg = "您的订单已经完成啦～"
+                case "7":
+                    msg = "您的订单已经取消了呢～"
+                default:
+                    isXS = 2
+                    break
+                }
+                if isXS == 2 {
+                    let wwddxq: XL_PSYweizhi_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "psyweizhi") as? XL_PSYweizhi_ViewController
+                    wwddxq?.longitudeJi = SPDic["longitudeJi"] as! String
+                    wwddxq?.latitudeJi = SPDic["latitudeJi"] as! String
+                    wwddxq?.longitudeShou = SPDic["longitudeShou"] as! String
+                    wwddxq?.latitudeShou = SPDic["latitudeShou"] as! String
+                    wwddxq?.longitudePost = SPDic["longitudePost"] as! String
+                    wwddxq?.latitudePost = SPDic["latitudePost"] as! String
+                    self.navigationController?.pushViewController(wwddxq!, animated: true)
+                }else{
+                    XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                }
             }
         }
     }

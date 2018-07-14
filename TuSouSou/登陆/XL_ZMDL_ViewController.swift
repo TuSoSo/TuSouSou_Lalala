@@ -48,6 +48,10 @@ class XL_ZMDL_ViewController: UIViewController,UITextFieldDelegate {
                     userDefaults.set(self.mima.text!, forKey: "passWord")
                     userDefaults.set("1", forKey: "isDengLu")
                     AppDelegate().method()
+                    self.navigationController?.popToRootViewController(animated: true)
+                }else{
+                    let msg = (res as! [String: Any])["msg"] as! String
+                    XL_waringBox().warningBoxModeText(message: msg, view: self.view)
                 }
             }) { (error) in
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

@@ -57,7 +57,8 @@ let userDefaults = UserDefaults.standard
 //用户类型： userType 1： 个人 2 ： 企业
 //企业用户是否审核通过：isFirmAdit(int) 1未认证,2认证中，3认证未通过，4认证通过
 //个人实名认证：isRealAuthentication（1未认证,2认证中，3认证未通过，4认证通过）
-//微信号： weixinhao
+//微信号： nickname
+//是否有位支付订单： isNotPay， 1有 2 没有
 let isDengLu = (userDefaults.value(forKey: "isDengLu") as! String == "0") ? true : false
 
 class XL_QuanJu: NSObject {

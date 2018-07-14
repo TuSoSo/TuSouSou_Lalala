@@ -77,9 +77,13 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
 //        JE.text = "¥\(HJjine)"
         jisuanfangfa()
         JE.textColor = UIColor.orange
+        
         let XiaDanButton = UIButton(frame: CGRect(x: 2/3 * Width - 20, y: 5, width: Width/3, height: 46))
         XiaDanButton.addTarget(self, action: #selector(XDaction), for: .touchUpInside)
         XiaDanButton.setTitle("立即下单", for: .normal)
+        if userDefaults.value(forKey: "isNotPay") as! String == "1" {
+            XiaDanButton.setTitle("有未支付订单", for: .normal)
+        }
         XiaDanButton.tintColor = UIColor.white
         XiaDanButton.backgroundColor = UIColor.orange
         ddView.addSubview(hengxian)
@@ -92,41 +96,45 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     @objc func XDaction() {
         //跳页
-        var dddingdan:[[String:Any]] = []
-        var x = 1
-        
-        for pro in classifyList {
-            if nil != pro["productInfoList"] {
-            let prodectList:[[String:Any]] = pro["productInfoList"] as! [[String : Any]]
-            
-            for shangpin in prodectList {
-                if nil != shangpin["number"] && shangpin["number"] as! String != "0" {
-                    dddingdan.append(shangpin)
-                    x = 2
-                }
-                }
-            }
-        }
-        if x == 1 {
-            showConfirm(title: "温习提示", message: "请挑选商品再下订单哟～", in: self, Quxiao: { (quxiao) in
-                
-            }) { (queding) in
-                
-            }
+        if userDefaults.value(forKey: "isNotPay") as! String == "1" {
+            //跳到我的订单
+            let WDDD: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
+            WDDD?.state = "1"
+            self.navigationController?.pushViewController(WDDD!, animated: true)
         }else{
-            let DP: XL_SPxiadanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spxiadan") as? XL_SPxiadanViewController
-            DP?.shangpinList = dddingdan
-            let jiage = (self.JE.text!).substring(fromIndex: 2)
-            DP?.shangID = lll!
-            DP?.jiage = jiage
-            DP?.mingzi = ttt!
-            DP?.dizhi = DPdizhi.text!
-            DP?.uuuu = dianputupian
-            self.navigationController?.pushViewController(DP!, animated: true)
+            var dddingdan:[[String:Any]] = []
+            var x = 1
+            
+            for pro in classifyList {
+                if nil != pro["productInfoList"] {
+                    let prodectList:[[String:Any]] = pro["productInfoList"] as! [[String : Any]]
+                    
+                    for shangpin in prodectList {
+                        if nil != shangpin["number"] && shangpin["number"] as! String != "0" {
+                            dddingdan.append(shangpin)
+                            x = 2
+                        }
+                    }
+                }
+            }
+            if x == 1 {
+                showConfirm(title: "温习提示", message: "请挑选商品再下订单哟～", in: self, Quxiao: { (quxiao) in
+                    
+                }) { (queding) in
+                    
+                }
+            }else{
+                let DP: XL_SPxiadanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spxiadan") as? XL_SPxiadanViewController
+                DP?.shangpinList = dddingdan
+                let jiage = (self.JE.text!).substring(fromIndex: 2)
+                DP?.shangID = lll!
+                DP?.jiage = jiage
+                DP?.mingzi = ttt!
+                DP?.dizhi = DPdizhi.text!
+                DP?.uuuu = dianputupian
+                self.navigationController?.pushViewController(DP!, animated: true)
+            }
         }
-        
-        
-        
     }
     func showConfirm(title: String, message: String, in viewController: UIViewController,Quxiao:((UIAlertAction)->Void)?,
                      Queding: ((UIAlertAction)->Void)?) {

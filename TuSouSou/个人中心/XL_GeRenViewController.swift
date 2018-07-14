@@ -89,8 +89,10 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
             let WDXX: XL_WDKF_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdkf") as? XL_WDKF_ViewController
             self.navigationController?.pushViewController(WDXX!, animated: true)
         }else if indexPath.row == 3 {
-            let WDXX: XL_WDdianou_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddianpu") as? XL_WDdianou_ViewController
-            self.navigationController?.pushViewController(WDXX!, animated: true)
+            if userDefaults.value(forKey: "isFirmAdit") as! Int == 4  {
+                let WDXX: XL_WDdianou_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddianpu") as? XL_WDdianou_ViewController
+                self.navigationController?.pushViewController(WDXX!, animated: true)
+            }
         }else if indexPath.row == 4 {
             let WDXX: XL_YQHY_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "yqhy") as? XL_YQHY_ViewController
             self.navigationController?.pushViewController(WDXX!, animated: true)
@@ -114,6 +116,7 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 if nil != data["mobile"] {
                     self.phone.text = data["mobile"] as? String
                 }
+                userDefaults.set(data["largessRule"], forKey: "yaoqingyouhui")
                 var ax:String = ""
                 if nil != data["photo"]{
                     ax = data["photo"] as! String
@@ -126,9 +129,11 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 //企业认证不等于4 都是个人
                 
                 if nil != data["name"] {
+                    userDefaults.set(0, forKey: "isFirmAdit")
                     self.name.text = (data["name"] as? String)! + " (个人版)"
                     if nil != data["isPass"] && data["isPass"] as!Int == 4{
                         self.name.text = (data["name"] as? String)! + " (企业版)"
+                        userDefaults.set(4, forKey: "isFirmAdit")
                     }
                 }
             }

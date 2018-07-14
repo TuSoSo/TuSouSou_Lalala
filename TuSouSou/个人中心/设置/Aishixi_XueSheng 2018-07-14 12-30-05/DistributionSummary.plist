@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Aishixi_XueSheng.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>bitcode</key>
+			<true/>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>2D020F3AC416E851B659FB7C2B430260760C3AC1</string>
+				<key>dateExpires</key>
+				<string>2019/2/26</string>
+				<key>type</key>
+				<string>iOS Distribution</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>GP8BUACAG4.com.GuoYun.Aishixi-XueSheng</string>
+				<key>aps-environment</key>
+				<string>production</string>
+				<key>beta-reports-active</key>
+				<true/>
+				<key>com.apple.developer.team-identifier</key>
+				<string>GP8BUACAG4</string>
+				<key>get-task-allow</key>
+				<false/>
+			</dict>
+			<key>name</key>
+			<string>Aishixi_XueSheng.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>778d14e6-75cc-4e01-8305-1f3c0fd8f16b</string>
+				<key>name</key>
+				<string>aiaiaiaishixi</string>
+			</dict>
+			<key>symbols</key>
+			<true/>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>GP8BUACAG4</string>
+				<key>name</key>
+				<string>Harbin Aipuyifeng Science&amp;Tech. Development Co., Ltd.</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

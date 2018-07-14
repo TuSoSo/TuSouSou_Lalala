@@ -20,7 +20,7 @@ class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITabl
     var city: String?
     var weizhi:String?
     
-    var cityList: [[String:String]]?
+    var cityList: [[String:Any]] = []
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dangqiancity: UILabel!
@@ -41,14 +41,14 @@ class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITabl
         let method = "/user/openCity"
 //        let userId:String = userDefaults.value(forKey: "userId") as! String
         let dic:[String:Any] = ["":""]
-        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
+        XL_waringBox().warningBoxModeIndeterminate(message: "加载中...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
+//                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                self.cityList = dic["cityList"] as? [[String : String]]
+                self.cityList = dic["cityList"] as! [[String : Any]]
                 self.tableView.reloadData()
             }
         }) { (error) in
@@ -64,7 +64,7 @@ class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITabl
     
     //MARK:tableviewDelegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6//cityList!.count
+        return cityList.count
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -73,7 +73,7 @@ class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITabl
         let cellString = "chengshi"
         
         let cell = (tableView.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
-        cell.textLabel?.text = (cityList![indexPath.row])["cityName"]
+        cell.textLabel?.text = (cityList[indexPath.row])["cityName"] as! String
 //        cell.selectionStyle = .none
         return cell
     }
@@ -81,7 +81,7 @@ class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITabl
         print(indexPath.row)
         //点击列表给city赋值
         if let block = self.Cityblock {
-            block(cityList![indexPath.row])
+            block(cityList[indexPath.row] as! [String : String])
         }
         self.navigationController?.popViewController(animated: true)
     }

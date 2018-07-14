@@ -183,30 +183,38 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         switch orderState {
         case "0":
             state.text = "初始化"
+            zhifu.isHidden = true
+            quxiao.isHidden = true
         case "1":
             state.text = "待支付"
+            zhifu.isHidden = false
+            quxiao.isHidden = false
         case "2":
             state.text = "待商家接单"
+            zhifu.isHidden = true
+            quxiao.isHidden = false
         case "3":
             state.text = "待配送员接单"
+            zhifu.isHidden = true
+            quxiao.isHidden = false
         case "4":
             state.text = "待配送"
+            zhifu.isHidden = true
+            quxiao.isHidden = false
         case "5":
             state.text = "配送中"
+            zhifu.isHidden = true
+            quxiao.isHidden = true
         case "6":
             state.text = "已完成"
+            zhifu.isHidden = true
+            quxiao.isHidden = true
         case "7":
             state.text = "已取消"
+            zhifu.isHidden = true
+            quxiao.isHidden = true
         default:
             break
-        }
-        if DDArr.count > 0 {
-            if  DDArr[indexPath.row]["isCas"] as! String  == "1" {
-                zhifu.isHidden = true
-            }
-            if DDArr[indexPath.row]["orderState"] as? String != "1" && DDArr[indexPath.row]["orderState"] as? String != "2" && DDArr[indexPath.row]["orderState"] as? String != "3" {
-                quxiao.isHidden = true
-            }
         }
         
         Jine.text = ""
@@ -239,10 +247,17 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
     
     }
     @objc func quxiaodingdan(sender: UITapGestureRecognizer) {
-        let location = sender.location(in: tableWDdingdan)
-        let indexPath = tableWDdingdan.indexPathForRow(at: location)
-//        DDArr = []
-        quxiao(str:(indexPath?.row)!)
+        let sheet = UIAlertController(title: "提示", message: "确定要取消订单?", preferredStyle: .alert)
+        let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
+            let location = sender.location(in: self.tableWDdingdan)
+            let indexPath = self.tableWDdingdan.indexPathForRow(at: location)
+            //        DDArr = []
+            self.quxiao(str:(indexPath?.row)!)
+        }
+        let quxiao = UIAlertAction(title: "取消", style: .cancel, handler:  nil)
+        sheet.addAction(queding)
+        sheet.addAction(quxiao)
+        self.present(sheet, animated: true, completion: nil)
     }
     @objc func zhifudingdan(sender: UITapGestureRecognizer) {
         let location = sender.location(in: tableWDdingdan)
@@ -355,6 +370,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
             userDefaults.set("", forKey: "dingdanhao")
+            userDefaults.set("2", forKey: "isNotPay")
         }) { (error) in
             
             print(error)
