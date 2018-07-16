@@ -90,6 +90,9 @@ class XL_ShimingRZ_ViewController: UIViewController {
                     }
                 }, withVC: self.navigationController)
                 
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -119,6 +122,9 @@ class XL_ShimingRZ_ViewController: UIViewController {
                 let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
                 aaa.addAction(cancelAction)
                 self.present(aaa, animated: true, completion: nil)
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -149,6 +155,9 @@ class XL_ShimingRZ_ViewController: UIViewController {
                 let houID = IDNumber?.suffix(from: endIndex!)
                 
                 self.ID.text = "\(qianID!)" + "********" + "\(houID!)"
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -176,10 +185,8 @@ class XL_ShimingRZ_ViewController: UIViewController {
                     self.present(aaa, animated: true, completion: nil)
                 }
             }else{
-//                let aaa = UIAlertController(title: "警告！", message: "您使用的身份证已经注册过，请使用其他身份证", preferredStyle: .alert)
-//                let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
-//                aaa.addAction(cancelAction)
-//                self.present(aaa, animated: true, completion: nil)
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

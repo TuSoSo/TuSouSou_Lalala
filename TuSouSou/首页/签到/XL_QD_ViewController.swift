@@ -152,6 +152,9 @@ class XL_QD_ViewController: UIViewController,UIWebViewDelegate,UIGestureRecogniz
                 }else{
                     XL_waringBox().warningBoxModeText(message: "飕飕币不足，不能抽奖哟～", view: self.view)
                 }
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             print(error)

@@ -68,17 +68,18 @@ class XL_AnQuanSZ_ViewController: UIViewController,UITableViewDelegate,UITableVi
         }else {
             let sheet = UIAlertController(title: "温馨提示", message: "开启后,再用余额付款时将不再输入支付密码。", preferredStyle: .alert)
             let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
-                self.swichButton.isOn = true
-                userDefaults.set(true, forKey: "xemmzf")
+               
                 //支付密码界面
                 //是否有支付密码
                 if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
                     //输入支付密码验证后再跳页
+                    self.swichButton.isOn = false
+                    userDefaults.set(false, forKey: "xemmzf")
                     let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "", isMove:false)
                     payAlert.show(view: self.view)
                     payAlert.completeBlock = ({(password:String) -> Void in
                         //调验证支付吗接口
-                        self.yanzhengzhifumima(password: password)
+                        self.yanzhengzhifumima(password: password, gai:2)
                         print("输入的密码是:" + password)
                     })
                 }else{
@@ -107,7 +108,7 @@ class XL_AnQuanSZ_ViewController: UIViewController,UITableViewDelegate,UITableVi
                 payAlert.show(view: self.view)
                 payAlert.completeBlock = ({(password:String) -> Void in
                     //调验证支付吗接口
-                    self.yanzhengzhifumima(password: password)
+                    self.yanzhengzhifumima(password: password, gai: 1)
                     print("输入的密码是:" + password)
                 })
             }else{
@@ -116,7 +117,7 @@ class XL_AnQuanSZ_ViewController: UIViewController,UITableViewDelegate,UITableVi
             
         }
     }
-    func yanzhengzhifumima(password:String) {
+    func yanzhengzhifumima(password:String,gai:Int) {
         let method = "/user/verifyPayPassword"
         let userId = userDefaults.value(forKey: "userId")
         let dic:[String:Any] = ["userId":userId!,"payPassword":password]
@@ -125,9 +126,16 @@ class XL_AnQuanSZ_ViewController: UIViewController,UITableViewDelegate,UITableVi
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-                self.tiaoye(rukou: "1")
+                if gai == 2 {
+                    self.swichButton.isOn = true
+                    userDefaults.set(true, forKey: "xemmzf")
+                }else{
+                   self.tiaoye(rukou: "1")
+                }
+                
             }else{
-                XL_waringBox().warningBoxModeText(message: "验证失败", view: self.view)
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

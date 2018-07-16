@@ -44,7 +44,8 @@ class XL_TX_ViewController: UIViewController,UITextFieldDelegate,UIImagePickerCo
                 let uul = URL(string: String(format: "%@",newstring.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
                 self.shoukuanma.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
             }else{
-                
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
@@ -135,6 +136,9 @@ class XL_TX_ViewController: UIViewController,UITextFieldDelegate,UIImagePickerCo
                 if (res as! [String: Any])["code"] as! String == "0000" {
                     XL_waringBox().warningBoxModeText(message: "提现成功", view: (self.navigationController?.view)!)
                     self.navigationController?.popViewController(animated: true)
+                }else{
+                    let msg = (res as! [String: Any])["msg"] as! String
+                    XL_waringBox().warningBoxModeText(message: msg, view: self.view)
                 }
             }) { (error) in
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

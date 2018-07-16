@@ -425,6 +425,9 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
                 XL_waringBox().warningBoxModeText(message: "提交成功", view: (self.navigationController?.view)!)
 //                userDefaults.set(2, forKey: "isFirmAdit")
                 self.navigationController?.popViewController(animated: true)
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -514,6 +517,9 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
                         self.jinrujiekou()
                     }
                 }
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

@@ -191,6 +191,9 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
                 XL_waringBox().warningBoxModeText(message: "删除成功", view: self.view)
                 let ss = ""
                 huidiao(ss)
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -212,6 +215,9 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
                 self.cityList += (dic["addressList"] as? [[String : Any]])!
                 self.count = dic["count"] as! Int
                 self.tableView.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

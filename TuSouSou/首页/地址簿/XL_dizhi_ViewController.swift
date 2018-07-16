@@ -115,6 +115,9 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
                 XL_waringBox().warningBoxModeText(message: "保存成功", view: self.view)
                 self.navigationController?.popViewController(animated: true)
                 
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

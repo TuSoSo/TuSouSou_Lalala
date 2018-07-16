@@ -347,6 +347,9 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                         self.zhifuhuidiao(string:orderCode)
                     }
                     
+                }else{
+                    let msg = (res as! [String: Any])["msg"] as! String
+                    XL_waringBox().warningBoxModeText(message: msg, view: self.view)
                 }
             }) { (error) in
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -502,6 +505,9 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 self.standardDistanceMoney.text = String(format: "基准距离金额(元) : %.2f", data["standardDistanceMoney"] as! Double)
                 self.overweightMoney.text = String(format: "超重每公斤金额(元) : %.2f", data["overweightMoney"] as! Double)
                 self.overdistanceMoney.text = String(format: "超出每公里金额(元) : %.2f", data["overdistanceMoney"] as! Double)
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -1177,6 +1183,9 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 self.pei.text = "¥ \(self.peisongfei)"
                 self.zhinazhi = String(format: "%.2f", data["directSendMoney"] as! Double)
                 self.jisuanyixia()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             print(error)
@@ -1184,7 +1193,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     }
     func jiekouJintianMingtian() {
         let method = "/order/getTimes"
-        let dic:[String:Any] = ["orderType":"3","merchantUserId":shangID!]
+        let dic:[String:Any] = ["orderType":"2","merchantUserId":shangID!]
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
             if (res as! [String: Any])["code"] as! String == "0000" {
@@ -1200,6 +1209,9 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 self.tomorrowTimes = data["tomorrowTimes"] as! [String]
                 self.jintableView.reloadData()
                 self.mingtableView.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             print(error)
@@ -1217,6 +1229,9 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 self.dangqianyue = self.preciseDecimal(x: data["balance"] as! String, p: 2)
                 self.sousouzhuanhualv = "\((data["percentage"] as? Double)!)"
                 self.tablequeren.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             print(error)

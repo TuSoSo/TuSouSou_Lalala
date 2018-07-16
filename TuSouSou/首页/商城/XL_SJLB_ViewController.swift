@@ -191,6 +191,9 @@ class XL_SJLB_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.businessList += dic["businessList"] as! [[String:Any]]
                 self.tablesjlb.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

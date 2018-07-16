@@ -32,6 +32,9 @@ class XL_DPCK_ViewController: UIViewController {
             if (res as! [String: Any])["code"] as! String == "0000" {
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.zhaop(dic: data)
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

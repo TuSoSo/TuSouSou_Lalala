@@ -281,6 +281,15 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         let userInfo = response.notification.request.content.userInfo;
         if response.notification.request.trigger is UNPushNotificationTrigger {
             JPUSHService.handleRemoteNotification(userInfo);
+            let aps = userInfo["aps"] as! [String:Any]
+            let content:String = aps["alert"] as! String
+            if content.contains("【订单】") {
+                userDefaults.set("1", forKey: "dingtui")
+            }else if content.contains("【公告】") {
+                userDefaults.set("1", forKey: "gongtui")
+            }else{
+                userDefaults.set("1", forKey: "xitui")
+            }
         }
         completionHandler();
         // 应用打开的时候收到推送消息
@@ -290,11 +299,11 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        let aps = userInfo["aps"] as! [String:String]
-        let content = aps["alert"]
-        if (content?.contains("【订单】"))! {
+        let aps = userInfo["aps"] as! [String:Any]
+        let content:String = aps["alert"] as! String
+        if content.contains("【订单】") {
             userDefaults.set("1", forKey: "dingtui")
-        }else if (content?.contains("【公告】"))! {
+        }else if content.contains("【公告】") {
             userDefaults.set("1", forKey: "gongtui")
         }else{
             userDefaults.set("1", forKey: "xitui")

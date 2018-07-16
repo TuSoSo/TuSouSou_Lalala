@@ -42,6 +42,9 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
                 if nil != dic["attestation"] {
                     userDefaults.set(dic["attestation"], forKey: "attestation")
                 }
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -89,6 +92,9 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
                 XL_waringBox().warningBoxModeText(message: "反馈成功", view: self.view)
 //                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

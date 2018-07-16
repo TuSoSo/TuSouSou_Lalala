@@ -170,6 +170,9 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
                         userDefaults.set(4, forKey: "isFirmAdit")
                     }
                 }
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

@@ -10,7 +10,7 @@ import UIKit
 
 class XL_SPK_ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     //MARK:block反向传值
-    typealias productId = (String) -> ()
+    typealias productId = (String,UIImage) -> ()
     var ProductBlock: productId?
     func productblock(block: productId?) {
         self.ProductBlock = block
@@ -87,6 +87,9 @@ class XL_SPK_ViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 self.DDArr += dic["productInfoList"] as! [[String : Any]]
                 self.count = dic["count"] as! Int
                 self.tablespk.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -205,9 +208,17 @@ class XL_SPK_ViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let location = sender.location(in: tablespk)
         let indexPath = tablespk.indexPathForRow(at: location)
         let id:String = DDArr[(indexPath?.row)!]["id"] as! String
+        let cell = tablespk.cellForRow(at: indexPath!)
+        var image:UIImage!
+        for view:UIView in (cell?.contentView.subviews)! {
+            if view is UIImageView {
+                image = (view as! UIImageView).image!
+            }
+        }
+        
         //把产品Id传会给上一页
          if let block = self.ProductBlock {
-               block(id)
+               block(id,image)
          }
          self.navigationController?.popViewController(animated: true)
         
@@ -239,6 +250,9 @@ class XL_SPK_ViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 //                XL_waringBox().warningBoxModeText(message: "加载成功", view: self.view)
                 self.DDArr = []
                 self.jiekou(index: self.tpye)
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

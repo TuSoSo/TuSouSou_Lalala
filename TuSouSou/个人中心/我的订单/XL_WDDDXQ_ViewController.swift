@@ -56,6 +56,9 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     self.shuzu = dic["productList"] as! [[String:Any]]
                 }
                 self.tablewdddxq.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -308,6 +311,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
         for v: UIView in cell.contentView.subviews {
             v.removeFromSuperview()
         }
+        cell.backgroundColor = UIColor.white
         let zuolabel = UILabel(frame: CGRect(x: 16, y: 11, width: 80, height: 22))
         zuolabel.font = UIFont.systemFont(ofSize: 15)
         zuolabel.textColor = UIColor.darkGray
@@ -440,7 +444,11 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         cell.contentView.addSubview(zuolabel)
                     }else if indexPath.row == 1 {
                         zuolabel.text = "配送费:"
-                        youlabel.text = SPDic["postAmount"] as? String
+                        if nil != SPDic["postAmount"]{
+                            youlabel.text = String(format: "¥ %@", (SPDic["postAmount"] as? String)!)
+                        }else{
+                            youlabel.text = "¥ 0.00m"
+                        }
                         cell.contentView.addSubview(youlabel)
                         cell.contentView.addSubview(zuolabel)
                     }else if indexPath.row == 2 {
@@ -935,11 +943,14 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "评价成功", view: self.view)
+                XL_waringBox().warningBoxModeText(message: "评价成功", view: (self.navigationController?.view)!)
                 self.navigationController?.popViewController(animated: true)
                 //                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 //                self.DDArr = dic["orderList"] as! [[String : Any]]
                 //                self.tableWDdingdan.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

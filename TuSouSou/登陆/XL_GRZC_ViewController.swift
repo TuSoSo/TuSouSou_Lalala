@@ -84,6 +84,9 @@ class XL_GRZC_ViewController: UIViewController,UITextFieldDelegate {
                     
                     //                    let dic = (res as! [String: Any])["data"] as! [String:Any]
                     
+                }else{
+                    let msg = (res as! [String: Any])["msg"] as! String
+                    XL_waringBox().warningBoxModeText(message: msg, view: self.view)
                 }
             }) { (error) in
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -112,6 +115,9 @@ class XL_GRZC_ViewController: UIViewController,UITextFieldDelegate {
                     XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                     XL_waringBox().warningBoxModeText(message: "验证码发送成功", view: self.view)
                     self.YZMdaoshu()
+                }else{
+                    let msg = (res as! [String: Any])["msg"] as! String
+                    XL_waringBox().warningBoxModeText(message: msg, view: self.view)
                 }
             }) { (error) in
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

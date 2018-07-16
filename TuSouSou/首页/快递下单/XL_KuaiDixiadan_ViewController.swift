@@ -139,6 +139,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                 self.dangqianyue = self.preciseDecimal(x: data["balance"] as! String, p: 2)
                 self.sousouzhuanhualv = "\((data["percentage"] as? Double)!)"
                 self._tableview.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             print(error)
@@ -164,7 +167,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
    
     func jiekouJintianMingtian() {
         let method = "/order/getTimes"
-        let dic:[String:Any] = ["orderType":orderType!,"merchantUserId":""]
+        let dic:[String:Any] = ["orderType":"1","merchantUserId":""]
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
             if (res as! [String: Any])["code"] as! String == "0000" {
@@ -173,6 +176,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                 self.tomorrowTimes = data["tomorrowTimes"] as! [String]
                 self.jintableView.reloadData()
                 self.mingtableView.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             print(error)
@@ -294,6 +300,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                 self.standardDistanceMoney.text = String(format: "基准距离金额(元) : %.2f", data["standardDistanceMoney"] as! Double)
                 self.overweightMoney.text = String(format: "超重每公斤金额(元) : %.2f", data["overweightMoney"] as! Double)
                 self.overdistanceMoney.text = String(format: "超出每公里金额(元) : %.2f", data["overdistanceMoney"] as! Double)
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -933,6 +942,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                     if self.zhifuButton2.isSelected == true{
                         self.zhifuhuidiao()
                     }
+                }else{
+                    let msg = (res as! [String: Any])["msg"] as! String
+                    XL_waringBox().warningBoxModeText(message: msg, view: self.view)
                 }
             }) { (error) in
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

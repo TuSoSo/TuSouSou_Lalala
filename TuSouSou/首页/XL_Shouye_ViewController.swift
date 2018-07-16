@@ -396,6 +396,9 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 xiadan?.julili = juli
                 self.navigationController?.pushViewController(xiadan!, animated: true)
                 
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -685,6 +688,9 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 self.labelList = data["labelList"] as! [[String:Any]]
                 self.excellentMerchantList += data["excellentMerchantList"] as! [[String:Any]]
                 self._tableView.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -1016,6 +1022,9 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
                     self.shouyejiekou()
                 }
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -1065,6 +1074,9 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
 //                isOpen(int):是否开通配送员(1.是2否)
 //                bySsMoney(String):被发送飕飕币数量
 
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

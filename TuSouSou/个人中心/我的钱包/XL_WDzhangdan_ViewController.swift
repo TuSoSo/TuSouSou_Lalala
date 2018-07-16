@@ -76,10 +76,12 @@ class XL_WDzhangdan_ViewController: UIViewController,UITableViewDelegate,UITable
             print(res)
             if (res as! [String: Any])["code"] as! String == "0000" {
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.count = data["count"] as! Int
                 self.zhangArr += data["flowRecord"] as! [[String:Any]]
                 self.tablezhangdan.reloadData()
             }else{
-                
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)

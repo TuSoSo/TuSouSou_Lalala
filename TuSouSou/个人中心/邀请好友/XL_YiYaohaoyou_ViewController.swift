@@ -100,6 +100,9 @@ class XL_YiYaohaoyou_ViewController: UIViewController,UITableViewDelegate,UITabl
                 
 //                XL_waringBox().warningBoxModeText(message: "删除成功", view: self.view)
                
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

@@ -407,6 +407,9 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
                 self.tableZhonglei.reloadData()
                 self.tableShangpin.reloadData()
                 self.youshangjiao()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -446,6 +449,9 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
                     self.isCollect = 1
                 }
                 self.youshangjiao()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

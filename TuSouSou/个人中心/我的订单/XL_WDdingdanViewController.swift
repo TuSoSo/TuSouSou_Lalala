@@ -105,6 +105,9 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
                 self.DDArr += dic["orderList"] as! [[String : Any]]
                 self.count = dic["count"] as! Int
                 self.tableWDdingdan.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

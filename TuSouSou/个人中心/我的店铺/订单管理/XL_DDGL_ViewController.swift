@@ -72,6 +72,9 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 self.DDArr += dic["orderList"] as! [[String : Any]]
                 self.count = dic["count"] as! Int
                 self.tablejiedan.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -259,6 +262,9 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 self.DDArr = []
                 
                 self.jiekou()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

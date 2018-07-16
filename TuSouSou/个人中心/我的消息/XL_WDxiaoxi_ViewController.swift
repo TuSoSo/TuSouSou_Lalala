@@ -35,6 +35,7 @@ class XL_WDxiaoxi_ViewController: UIViewController,UITableViewDataSource,UITable
         } else if (nil != userDefaults.value(forKey: "xitui")&&userDefaults.value(forKey: "xitui")as!String=="1") {
             arr3ziduan[2] = "2"
         }
+        tablexiao3hang.reloadData()
     }
     //MARK:tabledelegate
     func DelegateTable() {

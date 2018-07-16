@@ -40,6 +40,9 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 self.Dic = dic
                 
                 self.tableGRziliao.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -317,6 +320,9 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 XL_waringBox().warningBoxModeText(message: "保存成功", view: (self.navigationController?.view)!)
                 self.navigationController?.popViewController(animated: true)
 
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

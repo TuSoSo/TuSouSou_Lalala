@@ -50,6 +50,9 @@ class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITabl
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.cityList = dic["cityList"] as! [[String : Any]]
                 self.tableView.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

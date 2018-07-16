@@ -844,7 +844,8 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                         self.yyyyy()
                         self.youhui()
                     }else{
-                        
+                        let msg = (res as! [String: Any])["msg"] as! String
+                        XL_waringBox().warningBoxModeText(message: msg, view: self.view)
                     }
                 }) { (error) in
                     XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
@@ -977,10 +978,12 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                     print(res)
                     if (res as! [String: Any])["code"] as! String == "0000" {
                         //                    let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                        XL_waringBox().warningBoxModeText(message: "转账成功", view: self.view)
                         self.yyyyy()
                         self.youhui()
                     }else{
-                        
+                        let msg = (res as! [String: Any])["msg"] as! String
+                        XL_waringBox().warningBoxModeText(message: msg, view: self.view)
                     }
                 }) { (error) in
                     XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)

@@ -165,6 +165,9 @@ class XL_WDshoucang_ViewController: UIViewController,UITableViewDelegate,UITable
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.shoucangArr = data["businessList"] as! [[String:Any]]
                 self.tableShoucang.reloadData()
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)

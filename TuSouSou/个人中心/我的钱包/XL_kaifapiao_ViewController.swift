@@ -315,7 +315,8 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
                 self.navigationController?.popViewController(animated: true)
                 
             }else{
-                
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)

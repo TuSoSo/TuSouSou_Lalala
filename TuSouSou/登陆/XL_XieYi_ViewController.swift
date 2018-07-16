@@ -29,8 +29,9 @@ class XL_XieYi_ViewController: UIViewController,UITextViewDelegate {
 //                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
                 let data = (res as! [String: Any])["data"] as! [String:Any]
                 self.textView.text = data["context"] as! String
-            }else {
-                
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
