@@ -158,6 +158,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
                     case 4:
                         Isrenzheng.text = "已通过"
                     default:
+                        Isrenzheng.text = "未认证"
                         break
                     }
                     
@@ -235,12 +236,27 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             }
         }else if indexPath.row == 4 {
             //成为配送员
-            if userDefaults.value(forKey: "attestation") as! Int == 1 || userDefaults.value(forKey: "attestation") as! Int == 3 {
-                 if userDefaults.value(forKey: "isOpen") as! Int == 1 {
-                    let WDXX: XL_PeiSongYuan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "peisongyuan") as? XL_PeiSongYuan_ViewController
-                    self.navigationController?.pushViewController(WDXX!, animated: true)
-                 }else {
-                    XL_waringBox().warningBoxModeText(message: "尚未开通，暂不能申请成为配送员", view: self.view)
+            if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+                //弹框 --- 请先完成实名认证
+                let sheet = UIAlertController(title: "温馨提示:", message: "请先完成实名认证再进行企业认证", preferredStyle: .alert)
+                let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
+                    //接口 取回 token 调 阿里
+                    let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
+                    ShimingRZ?.jiemian = 1
+                    self.navigationController?.pushViewController(ShimingRZ!, animated: true)
+                }
+                let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                sheet.addAction(queding)
+                sheet.addAction(cancel)
+                self.present(sheet, animated: true, completion: nil)
+            }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+                if userDefaults.value(forKey: "attestation") as! Int == 1 || userDefaults.value(forKey: "attestation") as! Int == 3 {
+                    if userDefaults.value(forKey: "isOpen") as! Int == 1 {
+                        let WDXX: XL_PeiSongYuan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "peisongyuan") as? XL_PeiSongYuan_ViewController
+                        self.navigationController?.pushViewController(WDXX!, animated: true)
+                    }else {
+                        XL_waringBox().warningBoxModeText(message: "尚未开通，暂不能申请成为配送员", view: self.view)
+                    }
                 }
             }
         }

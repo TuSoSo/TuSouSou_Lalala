@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+//通知- 跳页 - 左上角为X
 @UIApplicationMain
 class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDelegate,TencentSessionDelegate,JPUSHRegisterDelegate {
     
@@ -104,20 +104,20 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
             if resp.errCode == WXSuccess.rawValue{//分享成功
                 NSLog("分享成功")
             }else{//分享失败
-                NSLog("分享失败，错误码：%d, 错误描述：%@", resp.errCode, resp.errStr)
+                print("分享失败")
             }
         }
         else if resp.isKind(of: PayResp.self) {
             var strMsg = "(resp.errCode)"
             switch resp.errCode {
             case 0 :
-                print("支付成功")
                 if nil != userDefaults.value(forKey: "xixi") && (userDefaults.value(forKey: "xixi") as! Int) == 2 {
                     chongzhijiekou(lalala: userDefaults.value(forKey: "hahaha") as! String)
                 }else{
                   self.zhifuhuidiao()
                 }
                 strMsg = "支付成功"
+                 NotificationCenter.default.post(name: NSNotification.Name("支付成功"), object: self, userInfo: nil)
             //                NSNotificationCenter.defaultCenter().postNotificationName(WXPaySuccessNotification, object: nil)
             default:
                 strMsg = "支付失败，请您重新支付!"
@@ -155,6 +155,7 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
                     }else{
                         self.zhifuhuidiao()
                     }
+                     NotificationCenter.default.post(name: NSNotification.Name("支付成功"), object: self, userInfo: nil)
                     strMsg = "支付成功"
                 }else{
                     strMsg = "支付失败，请您重新支付!"
@@ -261,6 +262,16 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         if notification.request.trigger is UNPushNotificationTrigger {
             JPUSHService.handleRemoteNotification(userInfo);
             //小红点通知显示
+            print(userInfo)
+            let aps = userInfo["aps"] as! [String:Any]
+            let content:String = aps["alert"] as! String
+            if content.contains("【订单】") {
+                userDefaults.set("1", forKey: "dingtui")
+            }else if content.contains("【公告】") {
+                userDefaults.set("1", forKey: "gongtui")
+            }else{
+                userDefaults.set("1", forKey: "xitui")
+            }
         }
         completionHandler(Int(UNNotificationPresentationOptions.alert.rawValue))
     }
@@ -279,6 +290,15 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        let aps = userInfo["aps"] as! [String:String]
+        let content = aps["alert"]
+        if (content?.contains("【订单】"))! {
+            userDefaults.set("1", forKey: "dingtui")
+        }else if (content?.contains("【公告】"))! {
+            userDefaults.set("1", forKey: "gongtui")
+        }else{
+            userDefaults.set("1", forKey: "xitui")
+        }
         
         JPUSHService.handleRemoteNotification(userInfo);
         //小红点通知显示

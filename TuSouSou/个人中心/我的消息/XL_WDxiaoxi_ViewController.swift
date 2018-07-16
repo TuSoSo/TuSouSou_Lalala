@@ -22,9 +22,19 @@ class XL_WDxiaoxi_ViewController: UIViewController,UITableViewDataSource,UITable
         super.viewDidLoad()
 
         self.title = "消息中心"
-        arr3ziduan = ["2","1","1"]
+        
         DelegateTable()
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        arr3ziduan = ["1","1","1"]
+        if (nil != userDefaults.value(forKey: "dingtui")&&userDefaults.value(forKey: "dingtui")as!String=="1") {
+            arr3ziduan[0] = "2"
+        }else if (nil != userDefaults.value(forKey: "gongtui")&&userDefaults.value(forKey: "gongtui")as!String=="1"){
+            arr3ziduan[1] = "2"
+        } else if (nil != userDefaults.value(forKey: "xitui")&&userDefaults.value(forKey: "xitui")as!String=="1") {
+            arr3ziduan[2] = "2"
+        }
     }
     //MARK:tabledelegate
     func DelegateTable() {

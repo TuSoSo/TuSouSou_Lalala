@@ -2826,11 +2826,6 @@
                                     <constraint firstAttribute="height" constant="86" id="r7K-SD-p17"/>
                                     <constraint firstAttribute="width" constant="86" id="tbT-8E-nji"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="43"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="用户名  (个人版)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YfZ-Zm-mzH">
                                 <rect key="frame" x="122" y="48" width="224" height="21.666666666666671"/>
@@ -4081,7 +4076,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="登录背景" translatesAutoresizingMaskIntoConstraints="NO" id="CTR-hy-nMm">
-                                <rect key="frame" x="0.0" y="20.000000000000014" width="414" height="245.33333333333337"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="230"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="230" id="7HA-qG-FSA"/>
+                                </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wa3-Fg-8XJ">
                                 <rect key="frame" x="0.0" y="20" width="414" height="230"/>
@@ -4093,7 +4091,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="wa3-Fg-8XJ" secondAttribute="trailing" id="CxU-c4-M3R"/>
-                            <constraint firstItem="CTR-hy-nMm" firstAttribute="height" secondItem="yL9-VY-JYM" secondAttribute="height" multiplier="1/3" id="DZ7-Lz-lt0"/>
                             <constraint firstItem="wa3-Fg-8XJ" firstAttribute="top" secondItem="G3p-yA-44z" secondAttribute="bottom" id="E9g-Ur-GpT"/>
                             <constraint firstItem="CTR-hy-nMm" firstAttribute="top" secondItem="G3p-yA-44z" secondAttribute="bottom" id="MEu-Zr-fyw"/>
                             <constraint firstAttribute="trailing" secondItem="CTR-hy-nMm" secondAttribute="trailing" id="QuW-rk-Tln"/>

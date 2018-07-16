@@ -81,10 +81,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     var overdistanceMoney = UILabel()
     
     //    let GouArr = ["","",""]
-    override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
-        
-    }
     //mark: 当键盘显示时
     @objc func handleKeyboardDisShow(notification: NSNotification) {
         //得到键盘frame
@@ -94,18 +90,32 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
             
             let frame = value.cgRectValue
-            let intersection = frame.intersection(self.view.frame)
-            UIView.animate(withDuration: duration, delay: 0.0,
-                           options: UIViewAnimationOptions(rawValue: curve), animations: {
-                            
-                            self.view.frame = CGRect(x: 0, y: -intersection.height
-                                + 64, width: self.view.frame.width, height: self.view.frame.height)
-                            
-            }, completion: nil)
+            if UIDevice.current.isX() {
+                let intersection = frame.intersection(self.view.frame)
+                UIView.animate(withDuration: duration, delay: 0.0,
+                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y: -intersection.height
+                                    + 88, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }else{
+                let intersection = frame.intersection(self.view.frame)
+                UIView.animate(withDuration: duration, delay: 0.0,
+                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y: -intersection.height
+                                    + 64, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }
+            
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        let name = Notification.Name(rawValue: "支付成功")
+        NotificationCenter.default.addObserver(self, selector: #selector(chenggongle(notification:)), name: name, object:  nil)
         print("\(mingzi)\n\(dizhi)\n\(uuuu)")
         Delegate()
         lianggetableviewUI()
@@ -115,9 +125,16 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         self.title = "确认订单"
         jiekouJintianMingtian()
         jisuanyixia()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        
         // Do any additional setup after loading the view.
     }
-    
+    @objc func chenggongle(notification:NSNotification) {
+        let adVC: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
+        //添加广告地址
+        adVC?.xll = 1
+        self.navigationController?.pushViewController(adVC!, animated: false)
+    }
     //MARK: tableviewdelegate
     func Delegate() {
         SwitchAnniu.isOn = false
@@ -549,7 +566,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 let uuu:URL = URL(string: String(format: "%@",newString!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
                 
                 imageView.sd_setImage(with:uuu , placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
-                let name = UILabel(frame: CGRect(x: 84, y: 16, width: Width - 142, height: 24))
+                let name = UILabel(frame: CGRect(x: 84, y: 8, width: Width - 142, height: 24))
                 name.textColor = UIColor(hexString: "8e8e8e")
                 name.text = mingzi
                 let jieshao = UILabel(frame: CGRect(x: 84, y: 32, width: Width - 142, height: 32))
@@ -1172,10 +1189,12 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             print(res)
             if (res as! [String: Any])["code"] as! String == "0000" {
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                if nil == data["todayTimes"] || (data["todayTimes"] as! [String]).count == 0  {
-                    
-                }else{
-                    self.todayTimes = data["todayTimes"] as! [String]
+                if nil != data["todayTimes"] && !(data["todayTimes"] is String) {
+                    if nil == data["todayTimes"] || (data["todayTimes"] as! [String]).count == 0  {
+                        
+                    }else{
+                        self.todayTimes = data["todayTimes"] as! [String]
+                    }
                 }
                 
                 self.tomorrowTimes = data["tomorrowTimes"] as! [String]

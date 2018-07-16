@@ -252,7 +252,8 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     }
     func shijianxuanze() {
         chunView = UIView(frame: CGRect(x: 0, y:0, width: Width, height: Height))
-        chunView.backgroundColor = UIColor.groupTableViewBackground
+        chunView.backgroundColor = UIColor.black
+        chunView.alpha = 0.8
         chunView.isHidden = true
         self.view.addSubview(chunView)
         banView = UIView(frame: CGRect(x: 0, y: Height - 300, width: Width, height: 300))

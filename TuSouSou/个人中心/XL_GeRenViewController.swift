@@ -26,6 +26,11 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
     }
     override func viewWillAppear(_ animated: Bool) {
+        if (nil != userDefaults.value(forKey: "dingtui")&&userDefaults.value(forKey: "dingtui")as!String=="1") || (nil != userDefaults.value(forKey: "gongtui")&&userDefaults.value(forKey: "gongtui")as!String=="1") || (nil != userDefaults.value(forKey: "xitui")&&userDefaults.value(forKey: "xitui")as!String=="1") {
+            xiaoxi_tupian.image = UIImage(named: "我的03")//有红点
+        }else{
+            xiaoxi_tupian.image = UIImage(named: "我的03-2")//没红点
+        }
         if nil != userDefaults.value(forKey: "userId") {
             yonghuxinxichaxun()
         }else{
@@ -92,6 +97,35 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
             if userDefaults.value(forKey: "isFirmAdit") as! Int == 4  {
                 let WDXX: XL_WDdianou_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddianpu") as? XL_WDdianou_ViewController
                 self.navigationController?.pushViewController(WDXX!, animated: true)
+            }else{
+                if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+                    //弹框 --- 请先完成实名认证
+                    let sheet = UIAlertController(title: "温馨提示:", message: "请先完成实名认证再进行企业认证", preferredStyle: .alert)
+                    let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
+                        //接口 取回 token 调 阿里
+                        let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
+                        ShimingRZ?.jiemian = 1
+                        self.navigationController?.pushViewController(ShimingRZ!, animated: true)
+                    }
+                    let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                    sheet.addAction(queding)
+                    sheet.addAction(cancel)
+                    self.present(sheet, animated: true, completion: nil)
+                }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+                    //请先企业认证
+                    //跳企业认证
+                    let sheet = UIAlertController(title: "温馨提示:", message: "请先完成企业认证", preferredStyle: .alert)
+                    let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
+                        //接口 取回 token 调 阿里
+                        let qiyeRZ: XL_QiyeRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qiyerz") as? XL_QiyeRZ_ViewController
+                        self.navigationController?.pushViewController(qiyeRZ!, animated: true)
+                    }
+                    let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                    sheet.addAction(queding)
+                    sheet.addAction(cancel)
+                    self.present(sheet, animated: true, completion: nil)
+                    
+                }
             }
         }else if indexPath.row == 4 {
             let WDXX: XL_YQHY_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "yqhy") as? XL_YQHY_ViewController

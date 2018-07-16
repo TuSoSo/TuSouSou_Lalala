@@ -42,6 +42,16 @@ class XL_WDXXLB_ViewController: UIViewController,UITableViewDelegate,UITableView
         footer.setRefreshingTarget(self, refreshingAction: #selector(footerRefresh))
         tablewdxxlb.mj_footer = footer
         self.title = TZName[index!]
+        switch index! {
+        case 0:
+            userDefaults.set("", forKey: "dingtui")
+        case 1:
+            userDefaults.set("", forKey: "gongtui")
+        case 2:
+            userDefaults.set("", forKey: "xitui")
+        default:
+            break
+        }
         tableDelegate()
         // Do any additional setup after loading the view.
     }
@@ -82,11 +92,15 @@ class XL_WDXXLB_ViewController: UIViewController,UITableViewDelegate,UITableView
         let cell = (tableView.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
         let titleLabel:UILabel = cell.viewWithTag(225) as! UILabel
         let shijianLabel:UILabel = cell.viewWithTag(226) as! UILabel
-       
-        titleLabel.text = XXArr[indexPath.row]["title"] as? String
-        shijianLabel.text = XXArr[indexPath.row]["pushTime"] as? String
-        shijianLabel.adjustsFontSizeToFitWidth = true
-        
+        if XXArr.count != 0 {
+            if nil != XXArr[indexPath.row]["title"] {
+                titleLabel.text = XXArr[indexPath.row]["title"] as? String
+            }
+            if nil != XXArr[indexPath.row]["pushTime"] {
+                titleLabel.text = XXArr[indexPath.row]["pushTime"] as? String
+            }
+            shijianLabel.adjustsFontSizeToFitWidth = true
+        }
         cell.selectionStyle = .none
         return cell
     }

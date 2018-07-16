@@ -281,7 +281,7 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
-        searchBar.alpha = 0.5
+        searchBar.alpha = 0.8
         searchBar.resignFirstResponder()
         tableviewtop.constant = 0.0
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) {

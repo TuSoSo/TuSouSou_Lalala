@@ -11,6 +11,8 @@ import UIKit
 class XL_WDXXXQ_ViewController: UIViewController {
 
     var mssId:String?
+    var DDArr:[String:Any] = [:]
+    
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var neirongLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -19,6 +21,18 @@ class XL_WDXXXQ_ViewController: UIViewController {
         self.title = "通知详情"
         // Do any additional setup after loading the view.
         xiaoxixiangqingjiekou()
+        if mssId == "1" {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(tiaoddxq))
+            neirongLabel.addGestureRecognizer(tap)
+            neirongLabel.isUserInteractionEnabled = true
+        }
+    }
+    @objc func tiaoddxq() {
+        let wwddxq: XL_WDDDXQ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdddxq") as? XL_WDDDXQ_ViewController
+        wwddxq?.shangLX = DDArr["orderType"]! as? String
+        wwddxq?.dingdanId = DDArr["orderId"] as? String
+        wwddxq?.leixing = DDArr["orderState"] as? String
+        self.navigationController?.pushViewController(wwddxq!, animated: true)
     }
     func xiaoxixiangqingjiekou() {
         let method = "/user/messageDetail"
@@ -31,7 +45,6 @@ class XL_WDXXXQ_ViewController: UIViewController {
             if (res as! [String: Any])["code"] as! String == "0000" {
                 //                XL_waringBox().warningBoxModeText(message: "评价成功", view: self.view)
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                
                 self.fuzhi(dic:data)
             }
         }) { (error) in

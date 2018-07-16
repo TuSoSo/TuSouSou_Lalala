@@ -102,37 +102,41 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
             WDDD?.state = "1"
             self.navigationController?.pushViewController(WDDD!, animated: true)
         }else{
-            var dddingdan:[[String:Any]] = []
-            var x = 1
-            
-            for pro in classifyList {
-                if nil != pro["productInfoList"] {
-                    let prodectList:[[String:Any]] = pro["productInfoList"] as! [[String : Any]]
-                    
-                    for shangpin in prodectList {
-                        if nil != shangpin["number"] && shangpin["number"] as! String != "0" {
-                            dddingdan.append(shangpin)
-                            x = 2
+            if self.isOrder == 1 {
+                var dddingdan:[[String:Any]] = []
+                var x = 1
+                
+                for pro in classifyList {
+                    if nil != pro["productInfoList"] {
+                        let prodectList:[[String:Any]] = pro["productInfoList"] as! [[String : Any]]
+                        
+                        for shangpin in prodectList {
+                            if nil != shangpin["number"] && shangpin["number"] as! String != "0" {
+                                dddingdan.append(shangpin)
+                                x = 2
+                            }
                         }
                     }
                 }
-            }
-            if x == 1 {
-                showConfirm(title: "温习提示", message: "请挑选商品再下订单哟～", in: self, Quxiao: { (quxiao) in
-                    
-                }) { (queding) in
-                    
+                if x == 1 {
+                    showConfirm(title: "温习提示", message: "请挑选商品再下订单哟～", in: self, Quxiao: { (quxiao) in
+                        
+                    }) { (queding) in
+                        
+                    }
+                }else{
+                    let DP: XL_SPxiadanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spxiadan") as? XL_SPxiadanViewController
+                    DP?.shangpinList = dddingdan
+                    let jiage = (self.JE.text!).substring(fromIndex: 2)
+                    DP?.shangID = lll!
+                    DP?.jiage = jiage
+                    DP?.mingzi = ttt!
+                    DP?.dizhi = DPdizhi.text!
+                    DP?.uuuu = dianputupian
+                    self.navigationController?.pushViewController(DP!, animated: true)
                 }
             }else{
-                let DP: XL_SPxiadanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spxiadan") as? XL_SPxiadanViewController
-                DP?.shangpinList = dddingdan
-                let jiage = (self.JE.text!).substring(fromIndex: 2)
-                DP?.shangID = lll!
-                DP?.jiage = jiage
-                DP?.mingzi = ttt!
-                DP?.dizhi = DPdizhi.text!
-                DP?.uuuu = dianputupian
-                self.navigationController?.pushViewController(DP!, animated: true)
+                XL_waringBox().warningBoxModeText(message: "不在营业时间内", view: self.view)
             }
         }
     }

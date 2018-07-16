@@ -166,22 +166,47 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
     @objc func quxiao(sender:UIGestureRecognizer) {
         let location = sender.location(in: tablejiedan)
         let indexPath = tablejiedan.indexPathForRow(at: location)
-        let orderId = DDArr[(indexPath?.row)!]["id"] as! String
+//        let orderId = DDArr[(indexPath?.row)!]["id"] as! String
+        let orderCode = DDArr[(indexPath?.row)!]["orderCode"] as! String
         let payMethod = DDArr[(indexPath?.row)!]["payMethod"] as! String
-        let jine = DDArr[(indexPath?.row)!]["productPrice"] as! String
-        
-        switch payMethod {
-        case "1":
-            let isOrder = "2"
-            dingdanjiekou(orderId: orderId, isOrder: isOrder)
-        case "2":
-            WXquxiao(dingdanhao: orderId, jine: jine)
-        case "3":
-            zhifubaoquxiao(dingdanhao: orderId, jine: jine)
-        default:
-            break
+        //        let jine = DDArr[(indexPath?.row)!]["productPrice"] as! String
+        let zongjia = DDArr[(indexPath?.row)!]["amount"] as! String
+        let sheet = UIAlertController(title: "提示", message: "确定要取消订单?", preferredStyle: .alert)
+        let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
+            switch payMethod {
+            case "1":
+//                self.dingdanjiekou(orderId: orderId, isOrder: isOrder)
+                //order/rufundAfterHandler
+                self.xxxx(orderCode: orderCode)
+            case "2":
+                self.zhifubaoquxiao(dingdanhao: orderCode, jine: zongjia)
+            case "3":
+                self.WXquxiao(dingdanhao: orderCode, jine: zongjia)
+            default:
+                break
+            }
         }
+        let quxiao = UIAlertAction(title: "取消", style: .cancel, handler:  nil)
+        sheet.addAction(queding)
+        sheet.addAction(quxiao)
+        self.present(sheet, animated: true, completion: nil)
         
+        
+        
+    }
+    func xxxx(orderCode:String) {
+        let method = "/order/rufundAfterHandler"
+        print(orderCode)
+        let dicc:[String:Any] = ["orderCode":orderCode]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+            print(res)
+            self.DDArr = []
+            self.jiekou()
+            userDefaults.set("", forKey: "dingdanhao")
+        }) { (error) in
+            
+            print(error)
+        }
     }
     func WXquxiao(dingdanhao:String,jine:String) {
         let method = "/weipay/Refund"
@@ -193,6 +218,8 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
         let dicc:[String:Any] = ["outTradeNo":dingdanhao,"outRefundNo":outRefundNo,"totalFee":totalAmount,"refundFee":totalAmount]
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
+            self.DDArr = []
+            self.jiekou()
             userDefaults.set("", forKey: "dingdanhao")
         }) { (error) in
             print(error)
@@ -205,6 +232,8 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
+            self.DDArr = []
+            self.jiekou()
             userDefaults.set("", forKey: "dingdanhao")
         }) { (error) in
             
@@ -228,6 +257,7 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
                 self.DDArr = []
+                
                 self.jiekou()
             }
         }) { (error) in
@@ -240,6 +270,7 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
         let wwddxq: XL_WDDDXQ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdddxq") as? XL_WDDDXQ_ViewController
         wwddxq?.dingdanId = DDArr[indexPath.row]["id"] as? String
         wwddxq?.leixing = DDArr[indexPath.row]["orderState"] as? String
+        wwddxq?.shangLX = "3"
         self.navigationController?.pushViewController(wwddxq!, animated: true)
     }
     func youshangjiao()  {

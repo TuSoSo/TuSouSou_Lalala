@@ -463,12 +463,12 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "小费:"
                         var qian = "0.00"
                         youlabel.text = "¥ \(qian)"
-                        if (SPDic["tip"] as! String).count != 0 {
+                       if nil != SPDic["tip"] && (SPDic["tip"] as! String).count != 0 {
                             qian = SPDic["tip"] as! String
                         }
-                        if SPDic["tipType"] as? String == "2"{
+                        if nil != SPDic["tipType"] && SPDic["tipType"] as? String == "2"{
                             youlabel.text = "¥ \(qian)"
-                        }else if SPDic["tipType"] as? String == "1"{
+                        }else if nil != SPDic["tipType"] && SPDic["tipType"] as? String == "1"{
                             youlabel.text = "\(qian) 个飕飕币"
                         }
                         cell.contentView.addSubview(youlabel)
@@ -504,6 +504,9 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         if nil != SPDic["evalSpeed"] {
                             fenshu = SPDic["evalSpeed"] as! Float
                         }
+                        if fenshu == 0 {
+                            fenshu = 5
+                        }
                         zuolabel.text = "配送速度"
                         ratingBar1.displayRating(fenshu)
                         cell.contentView.addSubview(ratingBar1)
@@ -512,6 +515,9 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         if nil != SPDic["evalServer"] {
                             fenshu = SPDic["evalServer"] as! Float
                         }
+                        if fenshu == 0 {
+                            fenshu = 5
+                        }
                         zuolabel.text = "服务态度"
                         ratingBar1.displayRating(fenshu)
                         cell.contentView.addSubview(ratingBar1)
@@ -519,6 +525,9 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     }else if indexPath.row == 2 {
                         if nil != SPDic["evalClear"] {
                             fenshu = SPDic["evalClear"] as! Float
+                        }
+                        if fenshu == 0 {
+                            fenshu = 5
                         }
                         zuolabel.text = "衣着整洁"
                         ratingBar1.displayRating(fenshu)
@@ -577,12 +586,12 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "小费:"
                         var qian = "0.00"
                         youlabel.text = "¥ \(qian)"
-                        if (SPDic["tip"] as! String).count != 0 {
+                        if nil != SPDic["tip"] && (SPDic["tip"] as! String).count != 0 {
                             qian = SPDic["tip"] as! String
                         }
-                        if SPDic["tipType"] as? String == "2"{
+                        if nil != SPDic["tipType"] && SPDic["tipType"] as? String == "2"{
                             youlabel.text = "¥ \(qian)"
-                        }else if SPDic["tipType"] as? String == "1"{
+                        }else if nil != SPDic["tipType"] && SPDic["tipType"] as? String == "1"{
                             youlabel.text = "\(qian) 个飕飕币"
                         }
                         cell.contentView.addSubview(youlabel)
@@ -618,6 +627,9 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         if nil != SPDic["evalSpeed"] {
                             fenshu = SPDic["evalSpeed"] as! Float
                         }
+                        if fenshu == 0 {
+                            fenshu = 5
+                        }
                         zuolabel.text = "配送速度"
                         ratingBar1.displayRating(fenshu)
                         cell.contentView.addSubview(ratingBar1)
@@ -626,6 +638,9 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         if nil != SPDic["evalServer"] {
                             fenshu = SPDic["evalServer"] as! Float
                         }
+                        if fenshu == 0 {
+                            fenshu = 5
+                        }
                         zuolabel.text = "服务态度"
                         ratingBar1.displayRating(fenshu)
                         cell.contentView.addSubview(ratingBar1)
@@ -633,6 +648,9 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     }else if indexPath.row == 2 {
                         if nil != SPDic["evalClear"] {
                             fenshu = SPDic["evalClear"] as! Float
+                        }
+                        if fenshu == 0 {
+                            fenshu = 5
                         }
                         zuolabel.text = "衣着整洁"
                         ratingBar1.displayRating(fenshu)
@@ -703,12 +721,12 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "小费:"
                         var qian = "0.00"
                         youlabel.text = "¥ \(qian)"
-                        if (SPDic["tip"] as! String).count != 0 {
+                        if nil != SPDic["tip"] && (SPDic["tip"] as! String).count != 0 {
                             qian = SPDic["tip"] as! String
                         }
-                        if SPDic["tipType"] as? String == "2"{
+                        if nil != SPDic["tipType"] && SPDic["tipType"] as? String == "2"{
                             youlabel.text = "¥ \(qian)"
-                        }else if SPDic["tipType"] as? String == "1"{
+                        }else if nil != SPDic["tipType"] && SPDic["tipType"] as? String == "1"{
                             youlabel.text = "\(qian) 个飕飕币"
                         }
                         cell.contentView.addSubview(youlabel)
@@ -773,12 +791,12 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "小费:"
                         var qian = "0.00"
                         youlabel.text = "¥ \(qian)"
-                        if (SPDic["tip"] as! String).count != 0 {
+                        if nil != SPDic["tip"] && (SPDic["tip"] as! String).count != 0 {
                             qian = SPDic["tip"] as! String
                         }
-                        if SPDic["tipType"] as? String == "2"{
+                        if nil != SPDic["tipType"] && SPDic["tipType"] as? String == "2"{
                             youlabel.text = "¥ \(qian)"
-                        }else if SPDic["tipType"] as? String == "1"{
+                        }else if nil != SPDic["tipType"] && SPDic["tipType"] as? String == "1"{
                             youlabel.text = "\(qian) 个飕飕币"
                         }else{
                             youlabel.text = "¥ \(qian)"
@@ -856,7 +874,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
             }else if indexPath.row == 3 {
                 //跳转到 位置信息 -- WEB页
                 var msg = ""
-                var isXS = 2
+                var isXS = 1
                 switch leixing! {
                 case "1":
                     msg = "您的订单还没有支付哟～"

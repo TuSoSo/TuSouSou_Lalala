@@ -10,7 +10,7 @@ import UIKit
 
 class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     var state: String? //是否可查看详情
-    
+    var xll = 0
     @IBOutlet weak var daipingButton: UIButton!
     @IBOutlet weak var quanbuButton: UIButton!
     @IBOutlet weak var youView: UIView!
@@ -44,6 +44,9 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet weak var tableWDdingdan: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        if xll == 1 {
+            fanhuidaoRoot()
+        }
         // 下拉刷新
         header.setRefreshingTarget(self, refreshingAction: #selector(headerRefresh))
         // 现在的版本要用mj_header
@@ -62,7 +65,14 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         self.title = "我的订单"
         // Do any additional setup after loading the view.
     }
-    
+    func fanhuidaoRoot() {
+        let leftBarBtn = UIBarButtonItem(title: "X", style: .plain, target: self,
+                                         action: #selector(backToPrevious))
+        self.navigationItem.leftBarButtonItem = leftBarBtn
+    }
+    @objc func backToPrevious(){
+        self.navigationController!.popToRootViewController(animated: true)
+    }
     @objc func headerRefresh() {
         footer.endRefreshingWithMoreData()
         pageNo = 1
@@ -247,11 +257,10 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
     
     }
     @objc func quxiaodingdan(sender: UITapGestureRecognizer) {
+        let location = sender.location(in: self.tableWDdingdan)
+        let indexPath = self.tableWDdingdan.indexPathForRow(at: location)
         let sheet = UIAlertController(title: "提示", message: "确定要取消订单?", preferredStyle: .alert)
         let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
-            let location = sender.location(in: self.tableWDdingdan)
-            let indexPath = self.tableWDdingdan.indexPathForRow(at: location)
-            //        DDArr = []
             self.quxiao(str:(indexPath?.row)!)
         }
         let quxiao = UIAlertAction(title: "取消", style: .cancel, handler:  nil)
@@ -301,6 +310,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
     }
     func quxiaohuidiao(dingdanhao:String) {
         let method = "/order/rufundAfterHandler"
+        print(dingdanhao)
         let dicc:[String:Any] = ["orderCode":dingdanhao]
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)

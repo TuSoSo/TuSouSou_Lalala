@@ -109,7 +109,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 zuoLabel.text = "头像"
                 imageTou = UIImageView(frame: CGRect(x: Width - 60, y: 10, width: 40, height: 40))
                 imageTou.layer.masksToBounds = true
-                imageTou.layer.cornerRadius = 20
+                imageTou.layer.cornerRadius = imageTou.frame.size.width/2
                 if zhaozhao == 0 {
                     var ax:String = ""
                     if nil != Dic!["photo"]{
@@ -195,7 +195,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 case "3":
                     shimingLabel.text = "认证未通过"
                 case "4":
-                    shimingLabel.text = "已认证"
+                    shimingLabel.text = "已通过"
                 default:
                     break
                 }

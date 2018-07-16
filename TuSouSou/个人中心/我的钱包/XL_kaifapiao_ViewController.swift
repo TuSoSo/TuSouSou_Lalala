@@ -312,6 +312,7 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
             print(res)
             if (res as! [String: Any])["code"] as! String == "0000" {
                 //                    let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.navigationController?.popViewController(animated: true)
                 
             }else{
                 

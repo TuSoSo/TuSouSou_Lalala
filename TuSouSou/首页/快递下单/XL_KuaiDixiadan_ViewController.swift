@@ -90,6 +90,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "确认订单"
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        let name = Notification.Name(rawValue: "支付成功")
+        NotificationCenter.default.addObserver(self, selector: #selector(chenggongle(notification:)), name: name, object:  nil)
         self.tableviewDelegate()
         self.TableviewCellUI()
 //        self.gundongDonghua()
@@ -104,6 +107,12 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         jiekouJintianMingtian()
         lianggetableviewUI()
         HeJijine.text = ddje
+    }
+    @objc func chenggongle(notification:NSNotification) {
+        let adVC: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
+        //添加广告地址
+        adVC?.xll = 1
+        self.navigationController?.pushViewController(adVC!, animated: false)
     }
     func youAnniu() {
         let item = UIBarButtonItem(title:"价格表",style: .plain,target:self,action:#selector(YouActio))
@@ -1114,10 +1123,6 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
-
-    }
     //mark: 当键盘显示时
     @objc func handleKeyboardDisShow(notification: NSNotification) {
         //得到键盘frame
@@ -1128,13 +1133,23 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
             
             let frame = value.cgRectValue
             let intersection = frame.intersection(self.view.frame)
-            UIView.animate(withDuration: duration, delay: 0.0,
-                           options: UIViewAnimationOptions(rawValue: curve), animations: {
-                  
-                            self.view.frame = CGRect(x: 0, y: -intersection.height
-                                + 64, width: self.view.frame.width, height: self.view.frame.height)
-                            
-            }, completion: nil)
+            if UIDevice.current.isX() {
+                UIView.animate(withDuration: duration, delay: 0.0,
+                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y: -intersection.height
+                                    + 88, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }else{
+                UIView.animate(withDuration: duration, delay: 0.0,
+                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y: -intersection.height
+                                    + 64, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }
         }
     }
    

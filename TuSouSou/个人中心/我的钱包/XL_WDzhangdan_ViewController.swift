@@ -110,16 +110,20 @@ class XL_WDzhangdan_ViewController: UIViewController,UITableViewDelegate,UITable
         
         imView.image = UIImage(named: "明细背景1")
         let shangLable = UILabel(frame: CGRect(x: 48, y: 24, width: 300, height: 30))
-        shangLable.text = zhangArr[indexPath.row]["turnoverType"] as? String
         shangLable.font = UIFont.systemFont(ofSize: 15)
         let xiaLable = UILabel(frame: CGRect(x: 48, y: 64, width: 200, height: 21))
         xiaLable.textColor = UIColor.darkGray
         xiaLable.font = UIFont.systemFont(ofSize: 14)
-        xiaLable.text = zhangArr[indexPath.row]["createTime"] as? String
         let youLable = UILabel(frame: CGRect(x: Width - 150, y: 32, width: 130, height: 32))
         youLable.textAlignment = .right
         youLable.textColor = UIColor.orange
-        youLable.text = String(format: "%@", (zhangArr[indexPath.row]["withdrawMoney"] as? String)!)
+        if zhangArr.count != 0 {
+            if nil != zhangArr[indexPath.row]["turnoverType"] {
+                shangLable.text = zhangArr[indexPath.row]["turnoverType"] as? String
+            }
+            xiaLable.text = zhangArr[indexPath.row]["createTime"] as? String
+            youLable.text = String(format: "%@", (zhangArr[indexPath.row]["withdrawMoney"] as? String)!)
+        }
         cell.contentView.addSubview(imView)
         cell.contentView.addSubview(shangLable)
         cell.contentView.addSubview(xiaLable)
