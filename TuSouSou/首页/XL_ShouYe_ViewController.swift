@@ -233,8 +233,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         if JianPanhuishou(){
             let chengshiList: XL_chengshiListViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "chengshilist") as! XL_chengshiListViewController
             //block 传值调用
-            chengshiList.Cityblock = {(cityname: [String:String]) in
-                self.city = cityname["cityName"]!
+            chengshiList.Cityblock = {(cityname: [String:Any]) in
+                self.city = cityname["cityName"] as! String
                 userDefaults.set(cityname["cityName"]!, forKey: "cityName")
                 self.dizhi()
             }
@@ -727,13 +727,16 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         scroll.tag = 999994
 //        scroll.backgroundColor = UIColor.gray
         var tuhuaArray: [String]  = []
+        var titiess:[String] = []
+        
         for dic in 0..<classifyList.count {
             if nil != classifyList[dic]["classifyImage"]{
                 tuhuaArray.append(TupianUrl + (classifyList[dic]["classifyImage"] as! String))
+                titiess.append(classifyList[dic]["classifyName"] as! String)
             }
         }
         scroll.frame = CGRect(x: 0, y: 0, width: Width - 0, height: 120)  //设置scrollview的大小
-        scroll.contentSize = CGSize(width: 100 * tuhuaArray.count, height: 0)   //内容大小
+        scroll.contentSize = CGSize(width: 90 * tuhuaArray.count + 10, height: 0)   //内容大小
         scroll.isPagingEnabled = false                 //是否支持分页
         scroll.isUserInteractionEnabled = true
         scroll.showsHorizontalScrollIndicator = false
@@ -741,11 +744,17 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             let url: URL = URL(string: tuhuaArray[i])!
             let imageView =  UIImageView()
             imageView.sd_setImage(with: url, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
-            imageView.frame = CGRect(x: Int((Width - 20) / 4) * i + 10, y:10, width: Int((Width - 20) / 4 - 10), height: 130)
+            imageView.frame = CGRect(x: 80 * i + 10 * (i + 1), y:10, width: 80, height: 80)
             imageView.tag = 600 + i
             imageView.isUserInteractionEnabled = true
             let tapGR = UITapGestureRecognizer(target: self, action: #selector(DianjiTuPian(sender:)))
             imageView.addGestureRecognizer(tapGR)
+            let titles: UILabel = UILabel(frame: CGRect(x: 80 * i + 10 * (i + 1), y:95, width: 80, height: 20))
+            titles.textAlignment = .center
+            titles.font = UIFont.systemFont(ofSize: 13)
+            titles.textColor = UIColor.darkGray
+            titles.text = titiess[i]
+            scroll.addSubview(titles)
             scroll.addSubview(imageView)
         }
         return scroll

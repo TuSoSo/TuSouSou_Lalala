@@ -162,8 +162,9 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
             cell.contentView.addSubview(view)
         }else{
             //确认按钮
-            let button = UIButton(frame: CGRect(x: 20, y: 48, width: Width - 40, height: 64))
-            button.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
+            let button = UIButton(frame: CGRect(x: 20, y: 48, width: Width - 40, height: 56))
+            button.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
+            button.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
             button.setTitle("确认提交", for: .normal)
             button.setTitleColor(UIColor.white, for: .normal)
             button.addTarget(self, action: #selector(queding), for: .touchUpInside)
@@ -390,49 +391,58 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         }
     }
     func Dianpujiekou() {
-        let method = "/merchant/saveApp"
-        let userId:String = userDefaults.value(forKey: "userId") as! String
-        XL_waringBox().warningBoxModeIndeterminate(message: "信息提交中...", view: self.view)
-        
-        let imagearr:[Any] = [imageDic["shang"]!,imageDic["xia"]!,imageDic["fa"]!]
-        let namearr:[Any] = ["logoUrl","picture1","picture2"]
-        
-        let keyArr = ["userId","name","phone","address","longitude","latitude","shopHours","firstType","secondType","cityName","logoUrl","picture1","picture2"]
-        var valueArr = [userId]
-        valueArr.append(DianpuDic["0"]!)
-        valueArr.append(DianpuDic["1"]!)
-        valueArr.append(DianpuDic["2"]!)
-        valueArr.append(Lon)
-        valueArr.append(Lat)
-        valueArr.append(String(format: "%@", DianpuDic["3"]! + "-" + DianpuDic["4"]!))
-        valueArr.append(fenleiId)
-        valueArr.append(huodongId)
-        let cityName:String = userDefaults.value(forKey: "cityName") as! String
-        valueArr.append(cityName)
-        valueArr.append("")
-        valueArr.append("")
-        valueArr.append("")
-//        for i in 0..<5 {
-//            if nil != DianpuDic["\(i)"]{
-//                valueArr.append(DianpuDic["\(i)"]!)
-//            }else{
-//                valueArr.append("")
-//            }
-//        }
-        XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "提交成功", view: (self.navigationController?.view)!)
-//                userDefaults.set(2, forKey: "isFirmAdit")
-                self.navigationController?.popViewController(animated: true)
+        if imageDic.keys.count != 3 {
+             XL_waringBox().warningBoxModeText(message: "请拍照必要的照片！", view: self.view)
+        }else{
+            let method = "/merchant/saveApp"
+            let userId:String = userDefaults.value(forKey: "userId") as! String
+            
+            
+            let imagearr:[Any] = [imageDic["shang"]!,imageDic["xia"]!,imageDic["fa"]!]
+            let namearr:[Any] = ["logoUrl","picture1","picture2"]
+            
+            let keyArr = ["userId","name","phone","address","longitude","latitude","shopHours","firstType","secondType","cityName","logoUrl","picture1","picture2"]
+            if DianpuDic.keys.count != 7{
+                XL_waringBox().warningBoxModeText(message: "请填写完整的信息～", view: self.view)
             }else{
-                let msg = (res as! [String: Any])["msg"] as! String
-                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                XL_waringBox().warningBoxModeIndeterminate(message: "信息提交中...", view: self.view)
+                var valueArr = [userId]
+                valueArr.append(DianpuDic["0"]!)
+                valueArr.append(DianpuDic["1"]!)
+                valueArr.append(DianpuDic["2"]!)
+                valueArr.append(Lon)
+                valueArr.append(Lat)
+                valueArr.append(String(format: "%@", DianpuDic["3"]! + "-" + DianpuDic["4"]!))
+                valueArr.append(fenleiId)
+                valueArr.append(huodongId)
+                let cityName:String = userDefaults.value(forKey: "cityName") as! String
+                valueArr.append(cityName)
+                valueArr.append("")
+                valueArr.append("")
+                valueArr.append("")
+                //        for i in 0..<5 {
+                //            if nil != DianpuDic["\(i)"]{
+                //                valueArr.append(DianpuDic["\(i)"]!)
+                //            }else{
+                //                valueArr.append("")
+                //            }
+                //        }
+                XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    if (res as! [String: Any])["code"] as! String == "0000" {
+                        XL_waringBox().warningBoxModeText(message: "提交成功", view: (self.navigationController?.view)!)
+                        //                userDefaults.set(2, forKey: "isFirmAdit")
+                        self.navigationController?.popViewController(animated: true)
+                    }else{
+                        let msg = (res as! [String: Any])["msg"] as! String
+                        XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                    }
+                }) { (error) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+                    print(error)
+                }
             }
-        }) { (error) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
-            print(error)
         }
     }
     func jinrujiekou() {
@@ -534,6 +544,8 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         self.navigationItem.rightBarButtonItem = item
     }
     @objc func YouActio() {
+        self.view.endEditing(true)
+        yincang()
         let xiadan: XL_DPCK_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpck") as? XL_DPCK_ViewController
        
         //        xiada

@@ -97,7 +97,7 @@ class XL_WDXXLB_ViewController: UIViewController,UITableViewDelegate,UITableView
                 titleLabel.text = XXArr[indexPath.row]["title"] as? String
             }
             if nil != XXArr[indexPath.row]["pushTime"] {
-                titleLabel.text = XXArr[indexPath.row]["pushTime"] as? String
+                shijianLabel.text = XXArr[indexPath.row]["pushTime"] as? String
             }
             shijianLabel.adjustsFontSizeToFitWidth = true
         }
@@ -107,6 +107,7 @@ class XL_WDXXLB_ViewController: UIViewController,UITableViewDelegate,UITableView
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let WDXXXQ: XL_WDXXXQ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdxxxq") as? XL_WDXXXQ_ViewController
+        WDXXXQ?.xxId = String(format:"%d",index! )
         WDXXXQ?.mssId = XXArr[indexPath.row]["id"] as? String
         self.navigationController?.pushViewController(WDXXXQ!, animated: true)
     }

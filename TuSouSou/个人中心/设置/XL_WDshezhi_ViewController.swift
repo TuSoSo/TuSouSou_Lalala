@@ -129,7 +129,8 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             //      按钮
             //确认按钮
             let button = UIButton(frame: CGRect(x: 20, y: 48, width: Width - 40, height: 64))
-            button.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
+            button.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
+            button.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
             button.setTitle("退出登录", for: .normal)
             button.setTitleColor(UIColor.white, for: .normal)
             button.addTarget(self, action: #selector(tuichu), for: .touchUpInside)

@@ -53,12 +53,12 @@ class XL_QD_ViewController: UIViewController,UIWebViewDelegate,UIGestureRecogniz
 
     // MARK: 绑定JS交互事件
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        if self.lotteryNmber > 0 {
-            let userId:String = userDefaults.value(forKey: "userId") as! String
-            let s = userId + "," + "1"
-            self.webView.stringByEvaluatingJavaScript(from: String(format: "javascript:javacalljswithargs('%@')", s))
-            jiekou()
-        }
+//        if self.lotteryNmber > 0 {
+//            let userId:String = userDefaults.value(forKey: "userId") as! String
+//            let s = userId + "," + "1"
+//            self.webView.stringByEvaluatingJavaScript(from: String(format: "javascript:javacalljswithargs('%@')", s))
+//            jiekou()
+//        }
     }
     @objc func dianjiWebView() {
         if self.mfLotteryNmber > 0 {

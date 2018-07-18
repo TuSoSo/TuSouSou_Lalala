@@ -17,6 +17,8 @@
 		0F1197AE2057610A00CA0AFB /* XL_GGXQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1197AD2057610A00CA0AFB /* XL_GGXQViewController.swift */; };
 		0F1A803F20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1A803E20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift */; };
 		0F1A804220BC266200CEC8A4 /* XL_GRziliaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1A804120BC266200CEC8A4 /* XL_GRziliaoViewController.swift */; };
+		0F2BA11220FEE573007662EC /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2BA11020FEE573007662EC /* UIView+Extensions.swift */; };
+		0F2BA11320FEE573007662EC /* UIView+ConstraintExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2BA11120FEE573007662EC /* UIView+ConstraintExtensions.swift */; };
 		0F31945820D0A5E000D091F7 /* XL_SJLB_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F31945720D0A5E000D091F7 /* XL_SJLB_ViewController.swift */; };
 		0F3E0C2720C27623003368C4 /* XL_WDQB_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3E0C2620C27623003368C4 /* XL_WDQB_ViewController.swift */; };
 		0F3E0C2920C27633003368C4 /* XL_WDdianou_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3E0C2820C27633003368C4 /* XL_WDdianou_ViewController.swift */; };
@@ -204,6 +206,8 @@
 		0F1197AD2057610A00CA0AFB /* XL_GGXQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GGXQViewController.swift; sourceTree = "<group>"; };
 		0F1A803E20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDdingdanViewController.swift; sourceTree = "<group>"; };
 		0F1A804120BC266200CEC8A4 /* XL_GRziliaoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_GRziliaoViewController.swift; sourceTree = "<group>"; };
+		0F2BA11020FEE573007662EC /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		0F2BA11120FEE573007662EC /* UIView+ConstraintExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+ConstraintExtensions.swift"; sourceTree = "<group>"; };
 		0F31945720D0A5E000D091F7 /* XL_SJLB_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SJLB_ViewController.swift; sourceTree = "<group>"; };
 		0F3E0C2620C27623003368C4 /* XL_WDQB_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDQB_ViewController.swift; sourceTree = "<group>"; };
 		0F3E0C2820C27633003368C4 /* XL_WDdianou_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDdianou_ViewController.swift; sourceTree = "<group>"; };
@@ -564,6 +568,15 @@
 				0F04B4EA20C12503004C4FBA /* XL_QiyeRZ_ViewController.swift */,
 			);
 			path = "个人资料";
+			sourceTree = "<group>";
+		};
+		0F2BA10F20FEE573007662EC /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				0F2BA11020FEE573007662EC /* UIView+Extensions.swift */,
+				0F2BA11120FEE573007662EC /* UIView+ConstraintExtensions.swift */,
+			);
+			path = Layout;
 			sourceTree = "<group>";
 		};
 		0F3F8B5120567BD600783C53 /* 侧滑栏 */ = {
@@ -940,6 +953,7 @@
 				0F65341020466D4800FF347F /* MainTableViewController.swift */,
 				0F65341420466F2E00FF347F /* secViewController.swift */,
 				0F9875A22044E72E00C34111 /* Info.plist */,
+				0F2BA10F20FEE573007662EC /* Layout */,
 				0FC9D80C2071D649002EAB4C /* waringBox */,
 				0F6EE57A20BD773A0062039C /* qq三方登录 */,
 			);
@@ -1235,7 +1249,7 @@
 					0F9875922044E72E00C34111 = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1429,6 +1443,7 @@
 				0F3E0C2D20C2765A003368C4 /* XL_YQHY_ViewController.swift in Sources */,
 				0FC9D81120721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift in Sources */,
 				0F4BF69F20C80B4400EF3341 /* XL_DDGL_ViewController.swift in Sources */,
+				0F2BA11320FEE573007662EC /* UIView+ConstraintExtensions.swift in Sources */,
 				0F3E0C2F20C2766C003368C4 /* XL_WDshezhi_ViewController.swift in Sources */,
 				0F701C4B20871FDF000F7F67 /* APOrderInfo.m in Sources */,
 				0F1A803F20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift in Sources */,
@@ -1437,6 +1452,7 @@
 				0F701C4C20871FDF000F7F67 /* APAuthInfo.m in Sources */,
 				0FC8D01020F4546800B126DA /* XL_huanjing_ViewController.swift in Sources */,
 				0F4BF69920C80B0F00EF3341 /* XL_DPCK_ViewController.swift in Sources */,
+				0F2BA11220FEE573007662EC /* UIView+Extensions.swift in Sources */,
 				0F7019DB2080A7B8000F7F67 /* XL_PaoMaView.swift in Sources */,
 				0F65341520466F2E00FF347F /* secViewController.swift in Sources */,
 				0FFEB76320E4C291003D5B3F /* AASeriesElement.swift in Sources */,
@@ -1652,7 +1668,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TuSouSou/TuSouSou.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer: zenggang dai (33XJ9875UT)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ZX7GYT2Q58;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1744,6 +1761,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Tusousou.TuSouSou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "d37f76a6-75d2-41df-a764-4f09000104ba";
+				PROVISIONING_PROFILE_SPECIFIER = Tusousou_KaiFa;
 				SWIFT_OBJC_BRIDGING_HEADER = "TuSouSou/OC-Swift桥连接/TuSouSou-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -1758,7 +1777,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TuSouSou/TuSouSou.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer: zenggang dai (33XJ9875UT)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ZX7GYT2Q58;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1850,6 +1870,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Tusousou.TuSouSou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "d37f76a6-75d2-41df-a764-4f09000104ba";
+				PROVISIONING_PROFILE_SPECIFIER = Tusousou_KaiFa;
 				SWIFT_OBJC_BRIDGING_HEADER = "TuSouSou/OC-Swift桥连接/TuSouSou-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

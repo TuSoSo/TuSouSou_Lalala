@@ -11,7 +11,10 @@ import UIKit
 class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
     
     let zuoDian = ["发票类型","抬头类型","发票抬头","发票税号","发票内容","邮箱地址","发票金额"]
+    let zuodianGR = ["发票类型","抬头类型","发票抬头","发票内容","邮箱地址","发票金额"]
+    
     let zuoGeren = ["发票类型","抬头类型","发票抬头","发票税号","发票内容","收件姓名","联系方式","详细地址","发票金额"]
+    let zuoGerenGR = ["发票类型","抬头类型","发票抬头","发票内容","收件姓名","联系方式","详细地址","发票金额"]
     var dianziFP = UIButton(); var zhizhiFP = UIButton()
     var qiyeTT = UIButton(); var GerenTT = UIButton()
     var TFDic:[String: Any] = [:]
@@ -24,11 +27,11 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
         super.viewDidLoad()
         delegeteTable()
         self.title = "开发票"
+        TFDic["4"] = "服务费"
         FPLXBtn()
     }
     func FPLXBtn() {
-        DDjine = UILabel(frame: CGRect(x: Width - 150, y: 8, width: 118, height: 32))
-        DDjine.textAlignment = .right
+        DDjine = UILabel(frame: CGRect(x: 112, y: 8, width: Width - 128, height: 32))
         DDjine.font = UIFont.systemFont(ofSize:  15)
         DDjine.textColor = UIColor.orange
         
@@ -52,6 +55,11 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
         }else{
             self.view.endEditing(true)
             TFDic = [:]
+            if qiyeTT.isSelected == true {
+                TFDic["4"] = "服务费"
+            }else{
+                TFDic["3"] = "服务费"
+            }
             dianziFP.isSelected = true
             zhizhiFP.isSelected = false
             tablekaifapiao.reloadData()
@@ -63,6 +71,11 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
         }else{
             self.view.endEditing(true)
             TFDic = [:]
+            if qiyeTT.isSelected == true {
+                TFDic["4"] = "服务费"
+            }else{
+                TFDic["3"] = "服务费"
+            }
             zhizhiFP.isSelected = true
             dianziFP.isSelected = false
             tablekaifapiao.reloadData()
@@ -74,6 +87,13 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
         }else{
             qiyeTT.isSelected = true
             GerenTT.isSelected = false
+            TFDic = [:]
+            if qiyeTT.isSelected == true {
+                TFDic["4"] = "服务费"
+            }else{
+                TFDic["3"] = "服务费"
+            }
+            tablekaifapiao.reloadData()
         }
     }
     @objc func geren() {
@@ -82,6 +102,13 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
         }else{
             GerenTT.isSelected = true
             qiyeTT.isSelected = false
+            TFDic = [:]
+            if qiyeTT.isSelected == true {
+                TFDic["4"] = "服务费"
+            }else{
+                TFDic["3"] = "服务费"
+            }
+            tablekaifapiao.reloadData()
         }
     }
     func delegeteTable(){
@@ -93,22 +120,44 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if dianziFP.isSelected == true {
-            if indexPath.row == 7 || indexPath.row == 8 {
-                return 120
+            if qiyeTT.isSelected == true {
+                if indexPath.row == 7 || indexPath.row == 8 {
+                    return 120
+                }
+            }else{
+                if indexPath.row == 6 || indexPath.row == 7 {
+                    return 120
+                }
             }
+            
         }
         if zhizhiFP.isEnabled == true {
-            if indexPath.row == 9 || indexPath.row == 10 {
-                return 120
+            if qiyeTT.isSelected == true {
+                if indexPath.row == 9 || indexPath.row == 10 {
+                    return 120
+                }
+            }else{
+                if indexPath.row == 8 || indexPath.row == 9 {
+                    return 120
+                }
             }
+            
         }
         return 48
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if dianziFP.isSelected == true{
-            return 9
+            if qiyeTT.isSelected==true{
+                return 9
+            }else{
+                return 8
+            }
         }else {
-            return 11
+            if qiyeTT.isSelected==true{
+                return 11
+            }else{
+                return 10
+            }
         }
     }
     
@@ -121,10 +170,17 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
         }
         var Arr:[String]!
         if dianziFP.isSelected == true {
-            Arr = zuoDian
-            
+            if qiyeTT.isSelected == true{
+                Arr = zuoDian
+            }else{
+                Arr = zuodianGR
+            }
         }else{
-            Arr = zuoGeren
+            if qiyeTT.isSelected == true {
+                Arr = zuoGeren
+            }else{
+                Arr = zuoGerenGR
+            }
         }
         
         let zuoLabel = UILabel(frame: CGRect(x: 16, y: 8, width: 80, height: 32))
@@ -141,7 +197,7 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
             if indexPath.row > 1 && indexPath.row < Arr.count - 1{
                 let TF = UITextField(frame: CGRect(x: 112, y: 8, width: Width - 128, height: 32))
                 TF.font = UIFont.systemFont(ofSize: 14)
-                TF.tag = indexPath.row
+                TF.tag = indexPath.row + 10086
                 TF.textColor = UIColor.darkGray
                 TF.delegate = self
                 if nil != TFDic["\(indexPath.row)"]{
@@ -154,7 +210,7 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
             cell.accessoryType = .none
             if indexPath.row == Arr.count - 1 {
                 if nil != TFDic["jine"] {
-                    DDjine.text = TFDic["jine"] as? String
+                    DDjine.text = String(format: "¥ %@", (TFDic["jine"] as? String)!)
                 }else{
                     DDjine.text = ""
                 }
@@ -165,55 +221,115 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
             cell.backgroundColor = UIColor.white
         }
         if dianziFP.isSelected == true {
-            if indexPath.row == 8 {
-                let button = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
-                //            button.layer.cornerRadius = 15
-                //            button.backgroundColor = UIColor.orange
-                button.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
-                button.setTitle("保存", for: .normal)
-                button.setTitleColor(UIColor.white, for: .normal)
-                button.addTarget(self, action: #selector(kaifaP), for: .touchUpInside)
-                //            button.isUserInteractionEnabled = true
-                //去掉当前cell的分割线
-                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
-                cell.backgroundColor = UIColor(hexString: "f0eff5")
-                cell.contentView.addSubview(button)
-                cell.accessoryType = .none
-            }else if indexPath.row == 7 {
-                let neirong =  UILabel(frame: CGRect(x: 20, y: 20, width: Width - 40, height: 120))
-                neirong.font = UIFont.systemFont(ofSize: 15)
-                neirong.text = "说明：发票金额限于跑腿费，商城商品的金额无法通过平台开发票。（发票邮寄或电子）纸质发票需要每个月20日统一寄出上一个自然月的发票，电子发票随时发送"
-                neirong.textColor = UIColor.darkGray
-                neirong.numberOfLines = 0
-                cell.contentView.addSubview(neirong)
-                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
-                cell.backgroundColor = UIColor(hexString: "f0eff5")
-                
+            if qiyeTT.isSelected == true{
+                if indexPath.row == 8 {
+                    let button = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
+                    //            button.layer.cornerRadius = 15
+                    //            button.backgroundColor = UIColor.orange
+                    button.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
+                    button.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
+                    button.setTitle("保存", for: .normal)
+                    button.setTitleColor(UIColor.white, for: .normal)
+                    button.addTarget(self, action: #selector(kaifaP), for: .touchUpInside)
+                    //            button.isUserInteractionEnabled = true
+                    //去掉当前cell的分割线
+                    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                    cell.backgroundColor = UIColor(hexString: "f0eff5")
+                    cell.contentView.addSubview(button)
+                    cell.accessoryType = .none
+                }else if indexPath.row == 7 {
+                    let neirong =  UILabel(frame: CGRect(x: 20, y: 20, width: Width - 40, height: 120))
+                    neirong.font = UIFont.systemFont(ofSize: 15)
+                    neirong.text = "说明：发票金额限于跑腿费，商城商品的金额无法通过平台开发票。（发票邮寄或电子）纸质发票需要每个月20日统一寄出上一个自然月的发票，电子发票随时发送"
+                    neirong.textColor = UIColor.darkGray
+                    neirong.numberOfLines = 0
+                    cell.contentView.addSubview(neirong)
+                    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                    cell.backgroundColor = UIColor(hexString: "f0eff5")
+                    
+                }
+            }else {
+                if indexPath.row == 7 {
+                    let button = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
+                    //            button.layer.cornerRadius = 15
+                    //            button.backgroundColor = UIColor.orange
+                    button.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
+                    button.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
+                    button.setTitle("保存", for: .normal)
+                    button.setTitleColor(UIColor.white, for: .normal)
+                    button.addTarget(self, action: #selector(kaifaP), for: .touchUpInside)
+                    //            button.isUserInteractionEnabled = true
+                    //去掉当前cell的分割线
+                    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                    cell.backgroundColor = UIColor(hexString: "f0eff5")
+                    cell.contentView.addSubview(button)
+                    cell.accessoryType = .none
+                }else if indexPath.row == 6 {
+                    let neirong =  UILabel(frame: CGRect(x: 20, y: 20, width: Width - 40, height: 120))
+                    neirong.font = UIFont.systemFont(ofSize: 15)
+                    neirong.text = "说明：发票金额限于跑腿费，商城商品的金额无法通过平台开发票。（发票邮寄或电子）纸质发票需要每个月20日统一寄出上一个自然月的发票，电子发票随时发送"
+                    neirong.textColor = UIColor.darkGray
+                    neirong.numberOfLines = 0
+                    cell.contentView.addSubview(neirong)
+                    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                    cell.backgroundColor = UIColor(hexString: "f0eff5")
+                    
+                }
             }
+            
         }else{
-            if indexPath.row == 10 {
-                let button = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
-                //            button.layer.cornerRadius = 15
-                //            button.backgroundColor = UIColor.orange
-                button.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
-                button.setTitle("保存", for: .normal)
-                button.setTitleColor(UIColor.white, for: .normal)
-                button.addTarget(self, action: #selector(kaifaP), for: .touchUpInside)
-                //            button.isUserInteractionEnabled = true
-                //去掉当前cell的分割线
-                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
-                cell.backgroundColor = UIColor(hexString: "f0eff5")
-                cell.contentView.addSubview(button)
-            }else if indexPath.row == 9 {
-                let neirong =  UILabel(frame: CGRect(x: 20, y: 20, width: Width - 40, height: 120))
-                neirong.font = UIFont.systemFont(ofSize: 15)
-                neirong.text = "说明：发票金额限于跑腿费，商城商品的金额无法通过平台开发票。（发票邮寄或电子）纸质发票需要每个月20日统一寄出上一个自然月的发票，电子发票随时发送"
-                neirong.textColor = UIColor.darkGray
-                neirong.numberOfLines = 0
-                cell.contentView.addSubview(neirong)
-                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
-                cell.backgroundColor = UIColor(hexString: "f0eff5")
+            if qiyeTT.isSelected == true{
+                if indexPath.row == 10 {
+                    let button = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
+                    //            button.layer.cornerRadius = 15
+                    //            button.backgroundColor = UIColor.orange
+                    button.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
+                    button.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
+                    button.setTitle("保存", for: .normal)
+                    button.setTitleColor(UIColor.white, for: .normal)
+                    button.addTarget(self, action: #selector(kaifaP), for: .touchUpInside)
+                    //            button.isUserInteractionEnabled = true
+                    //去掉当前cell的分割线
+                    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                    cell.backgroundColor = UIColor(hexString: "f0eff5")
+                    cell.contentView.addSubview(button)
+                }else if indexPath.row == 9 {
+                    let neirong =  UILabel(frame: CGRect(x: 20, y: 20, width: Width - 40, height: 120))
+                    neirong.font = UIFont.systemFont(ofSize: 15)
+                    neirong.text = "说明：发票金额限于跑腿费，商城商品的金额无法通过平台开发票。（发票邮寄或电子）纸质发票需要每个月20日统一寄出上一个自然月的发票，电子发票随时发送"
+                    neirong.textColor = UIColor.darkGray
+                    neirong.numberOfLines = 0
+                    cell.contentView.addSubview(neirong)
+                    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                    cell.backgroundColor = UIColor(hexString: "f0eff5")
+                }
+            }else {
+                if indexPath.row == 9 {
+                    let button = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
+                    //            button.layer.cornerRadius = 15
+                    //            button.backgroundColor = UIColor.orange
+                    button.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
+                    button.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
+                    button.setTitle("保存", for: .normal)
+                    button.setTitleColor(UIColor.white, for: .normal)
+                    button.addTarget(self, action: #selector(kaifaP), for: .touchUpInside)
+                    //            button.isUserInteractionEnabled = true
+                    //去掉当前cell的分割线
+                    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                    cell.backgroundColor = UIColor(hexString: "f0eff5")
+                    cell.contentView.addSubview(button)
+                }else if indexPath.row == 8 {
+                    let neirong =  UILabel(frame: CGRect(x: 20, y: 20, width: Width - 40, height: 120))
+                    neirong.font = UIFont.systemFont(ofSize: 15)
+                    neirong.text = "说明：发票金额限于跑腿费，商城商品的金额无法通过平台开发票。（发票邮寄或电子）纸质发票需要每个月20日统一寄出上一个自然月的发票，电子发票随时发送"
+                    neirong.textColor = UIColor.darkGray
+                    neirong.numberOfLines = 0
+                    cell.contentView.addSubview(neirong)
+                    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                    cell.backgroundColor = UIColor(hexString: "f0eff5")
+                }
             }
+            
         }
        
         cell.selectionStyle = .none
@@ -222,29 +338,56 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if dianziFP.isSelected == true {
-            if indexPath.row == 6{
-                //跳页 block 传值 订单金额
-                let WDDD: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
-                WDDD?.state = "2"
-                WDDD?.Dingdanblock = {(dingdanjine: [String]) in
-                    self.TFDic["jine"] = dingdanjine[0]
-                    self.TFDic["dingdanhao"] = dingdanjine[1]
-                    self.tablekaifapiao.reloadData()
+            if qiyeTT.isSelected == true{
+                if indexPath.row == 6{
+                    //跳页 block 传值 订单金额
+                    let WDDD: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
+                    WDDD?.state = "2"
+                    WDDD?.Dingdanblock = {(dingdanjine: [String]) in
+                        self.TFDic["jine"] = dingdanjine[0]
+                        self.TFDic["dingdanhao"] = dingdanjine[1]
+                        self.tablekaifapiao.reloadData()
+                    }
+                    self.navigationController?.pushViewController(WDDD!, animated: true)
                 }
-                self.navigationController?.pushViewController(WDDD!, animated: true)
-                
+            }else {
+                if indexPath.row == 5{
+                    //跳页 block 传值 订单金额
+                    let WDDD: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
+                    WDDD?.state = "2"
+                    WDDD?.Dingdanblock = {(dingdanjine: [String]) in
+                        self.TFDic["jine"] = dingdanjine[0]
+                        self.TFDic["dingdanhao"] = dingdanjine[1]
+                        self.tablekaifapiao.reloadData()
+                    }
+                    self.navigationController?.pushViewController(WDDD!, animated: true)
+                }
             }
         }else{
-            if indexPath.row == 8 {
-                //跳页 block 传值 订单金额
-                let WDDD: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
-                WDDD?.state = "2"
-                WDDD?.Dingdanblock = {(dingdanjine: [String]) in
-                    self.TFDic["jine"] = dingdanjine[0]
-                    self.TFDic["dingdanhao"] = dingdanjine[1]
-                    self.tablekaifapiao.reloadData()
+            if qiyeTT.isSelected == true{
+                if indexPath.row == 8 {
+                    //跳页 block 传值 订单金额
+                    let WDDD: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
+                    WDDD?.state = "2"
+                    WDDD?.Dingdanblock = {(dingdanjine: [String]) in
+                        self.TFDic["jine"] = dingdanjine[0]
+                        self.TFDic["dingdanhao"] = dingdanjine[1]
+                        self.tablekaifapiao.reloadData()
+                    }
+                    self.navigationController?.pushViewController(WDDD!, animated: true)
                 }
-                self.navigationController?.pushViewController(WDDD!, animated: true)
+            }else {
+                if indexPath.row == 7 {
+                    //跳页 block 传值 订单金额
+                    let WDDD: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
+                    WDDD?.state = "2"
+                    WDDD?.Dingdanblock = {(dingdanjine: [String]) in
+                        self.TFDic["jine"] = dingdanjine[0]
+                        self.TFDic["dingdanhao"] = dingdanjine[1]
+                        self.tablekaifapiao.reloadData()
+                    }
+                    self.navigationController?.pushViewController(WDDD!, animated: true)
+                }
             }
         }
     }
@@ -258,7 +401,18 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
         TFDic["\(textField.tag)"] = textField.text
         print(TFDic)
     }
-    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if qiyeTT.isSelected == true {
+            if textField.tag == 10086 + 4 {
+                return false
+            }
+        }else{
+            if textField.tag == 10086 + 3 {
+                return false
+            }
+        }
+        return true
+    }
     
     func anniu(button:UIButton, name: String,frame:CGRect) -> UIButton {
         button.frame = frame
@@ -275,54 +429,124 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
         return button
     }
     @objc func kaifaP() {
-        
-        print(TFDic)
-        let method = "/user/nvoice"
-        let userId = userDefaults.value(forKey: "userId")
-        var titleType = "2" //1 企业 2 个人
-        if GerenTT.isSelected == false {
-            titleType = "1"
-        }
-        let title = TFDic["2"] as! String//taitou
-        let taxNo = TFDic["3"] as! String//suihao
-        let conten = TFDic["4"] as! String//neirong
-        //        let invoiceType = ""//1 dianzi 2 zhizhi
-        var amoun = "" // jine
-        var recipients = "" //shoujianren
-        var phone = "" // dianhua
-        var address = ""//xiangxidizhi
-        var email = "" // dianziyoujian
-        let orderIdList = [["orderId":TFDic["dingdanhao"] as! String]]//dingdanhao
-        var dicc:[String:Any] = [:]
+        var xlPP = 0
         if dianziFP.isSelected == true {
-            //dianzifapiao
-            email = TFDic["5"] as! String
-            amoun = TFDic["jine"] as! String
-            dicc = ["userId":userId!,"invoiceType":"1","titleType":titleType,"title":title,"taxNo":taxNo,"conten":conten,"email":email,"amoun":amoun,"orderIdList":orderIdList]
+            if qiyeTT.isSelected == true{
+                for xx in 2..<6{
+                    if nil == TFDic["\(xx)"] {
+                        xlPP = 1
+                        break
+                    }
+                }
+            }else{
+                for xx in 2..<5{
+                    if nil == TFDic["\(xx)"] {
+                        xlPP = 1
+                        break
+                    }
+                }
+            }
         }else{
-            //zhizhifapiao
-            amoun = TFDic["jine"] as! String
-            recipients = TFDic["5"] as! String
-            phone = TFDic["6"] as! String
-            address = TFDic["7"] as! String
-            dicc = ["userId":userId!,"invoiceType":"2","titleType":titleType,"title":title,"taxNo":taxNo,"conten":conten,"recipients":recipients,"phone":phone,"address":address,"amoun":amoun,"orderIdList":orderIdList]
+            if qiyeTT.isSelected == true{
+                for xx in 2..<8{
+                    if nil == TFDic["\(xx)"] {
+                        xlPP = 1
+                        break
+                    }
+                }
+            }else{
+                for xx in 2..<7{
+                    if nil == TFDic["\(xx)"] {
+                        xlPP = 1
+                        break
+                    }
+                }
+            }
+        }
+        if nil == TFDic["jine"] {
+            xlPP = 1
+        }
+        if xlPP == 1 {
+            XL_waringBox().warningBoxModeText(message: "请完整的填写信息！", view: self.view)
+        }else{
+            let method = "/user/nvoice"
+            let userId = userDefaults.value(forKey: "userId")
+            var titleType = "2" //1 企业 2 个人
+            if GerenTT.isSelected == false {
+                titleType = "1"
+            }
+            let title = TFDic["2"] as! String//taitou
+            var taxNo = ""//suihao
+            var conten = ""//neirong
+            //        let invoiceType = ""//1 dianzi 2 zhizhi
+            var amoun = "" // jine
+            var recipients = "" //shoujianren
+            var phone = "" // dianhua
+            var address = ""//xiangxidizhi
+            var email = "" // dianziyoujian
+            let orderIdList = [["orderId":TFDic["dingdanhao"] as! String]]//dingdanhao
+            var dicc:[String:Any] = [:]
+            if dianziFP.isSelected == true {
+                if qiyeTT.isSelected == true{
+                    //dianzifapiao
+                    taxNo = TFDic["3"] as! String//suihao
+                    conten = TFDic["4"] as! String//neirong
+                    email = TFDic["5"] as! String
+                    amoun = TFDic["jine"] as! String
+                    dicc = ["userId":userId!,"invoiceType":"1","titleType":titleType,"title":title,"taxNo":taxNo,"conten":conten,"email":email,"amoun":amoun,"orderIdList":orderIdList]
+                    print(dicc)
+                }else{
+                    //dianzifapiao
+                    //                taxNo = TFDic["3"] as! String//suihao
+                    conten = TFDic["3"] as! String//neirong
+                    email = TFDic["4"] as! String
+                    amoun = TFDic["jine"] as! String
+                    dicc = ["userId":userId!,"invoiceType":"1","titleType":titleType,"title":title,"taxNo":taxNo,"conten":conten,"email":email,"amoun":amoun,"orderIdList":orderIdList]
+                    print(dicc)
+                }
+            }else{
+                if qiyeTT.isSelected == true{
+                    //zhizhifapiao
+                    taxNo = TFDic["3"] as! String//suihao
+                    conten = TFDic["4"] as! String//neirong
+                    amoun = TFDic["jine"] as! String
+                    recipients = TFDic["5"] as! String
+                    phone = TFDic["6"] as! String
+                    address = TFDic["7"] as! String
+                    dicc = ["userId":userId!,"invoiceType":"2","titleType":titleType,"title":title,"taxNo":taxNo,"conten":conten,"recipients":recipients,"phone":phone,"address":address,"amoun":amoun,"orderIdList":orderIdList]
+                    print(dicc)
+                }else{
+                    //zhizhifapiao
+                    //                taxNo = TFDic["3"] as! String//suihao
+                    conten = TFDic["3"] as! String//neirong
+                    amoun = TFDic["jine"] as! String
+                    recipients = TFDic["4"] as! String
+                    phone = TFDic["5"] as! String
+                    address = TFDic["6"] as! String
+                    dicc = ["userId":userId!,"invoiceType":"2","titleType":titleType,"title":title,"taxNo":taxNo,"conten":conten,"recipients":recipients,"phone":phone,"address":address,"amoun":amoun,"orderIdList":orderIdList]
+                    print(dicc)
+                }
+                
+            }
+            
+            XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+                print(res)
+                if (res as! [String: Any])["code"] as! String == "0000" {
+                    //                    let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                    self.navigationController?.popViewController(animated: true)
+                    
+                }else{
+                    let msg = (res as! [String: Any])["msg"] as! String
+                    XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                }
+            }) { (error) in
+                XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+                print(error)
+            }
         }
         
-        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
-            print(res)
-            if (res as! [String: Any])["code"] as! String == "0000" {
-                //                    let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                self.navigationController?.popViewController(animated: true)
-                
-            }else{
-                let msg = (res as! [String: Any])["msg"] as! String
-                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
-            }
-        }) { (error) in
-            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
-            print(error)
-        }
     }
+    
     /*
     // MARK: - Navigation
 

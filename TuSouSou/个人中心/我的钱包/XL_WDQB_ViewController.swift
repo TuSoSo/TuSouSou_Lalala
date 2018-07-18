@@ -57,8 +57,8 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         self.title = "我的钱包"
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
         let name = Notification.Name(rawValue: "支付成功")
         NotificationCenter.default.addObserver(self, selector: #selector(chenggongle(notification:)), name: name, object:  nil)
         zhongjianUI()
@@ -72,11 +72,59 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     @objc func keyboardWillShow(notification:NSNotification) {
         keyBoardisHidden = false
+        //得到键盘frame
+        if let userInfo = notification.userInfo,
+            let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue,
+            let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+            let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
+            let frame = value.cgRectValue
+            let intersection = frame.intersection(self.view.frame)
+            if UIDevice.current.isX() {
+                UIView.animate(withDuration: duration, delay: 0.0,
+                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y: -100, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }else {
+                UIView.animate(withDuration: duration, delay: 0.0,
+                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y:-80, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }
+        }
+        
     }
     @objc func keyboardWillHide(notification:NSNotification) {
         keyBoardisHidden = true
+        //得到键盘frame
+        if let userInfo = notification.userInfo,
+            let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue,
+            let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+            let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
+            let frame = value.cgRectValue
+            let intersection = frame.intersection(self.view.frame)
+            if UIDevice.current.isX() {
+                UIView.animate(withDuration: duration, delay: 0.0,
+                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y: 88, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }else {
+                UIView.animate(withDuration: duration, delay: 0.0,
+                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y:64, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }
+        }
     }
     func shangViewUI() {
+        
         for VV:UIView in shangView.subviews {
             if VV.tag == 1001 || VV.tag == 1002 || VV.tag == 1003 {
                 VV.removeFromSuperview()
@@ -324,8 +372,16 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         self.navigationItem.rightBarButtonItem = item
     }
     @objc func YouActio()  {
-        let WDXX: XL_WDzhangdan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdzhangdan") as? XL_WDzhangdan_ViewController
-        self.navigationController?.pushViewController(WDXX!, animated: true)
+        if keyBoardisHidden == false {
+            self.view.endEditing(true)
+        }else{
+            if yinying.isHidden == false {
+                yyyyy()
+            }else{
+                let WDXX: XL_WDzhangdan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdzhangdan") as? XL_WDzhangdan_ViewController
+                self.navigationController?.pushViewController(WDXX!, animated: true)
+            }
+        }
     }
     @objc func Yuechongzhi() {
         print("1")
@@ -737,7 +793,8 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                 //                self.tiaoye(rukou: "1")
                 self.TXVIEW(lalala: lalala, withdrawType: withdrawType)
             }else{
-                XL_waringBox().warningBoxModeText(message: "验证失败", view: self.view)
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -1150,7 +1207,6 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue,
             let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
             let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
-            
             let frame = value.cgRectValue
             let intersection = frame.intersection(self.view.frame)
             if UIDevice.current.isX() {
@@ -1158,7 +1214,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                                options: UIViewAnimationOptions(rawValue: curve), animations: {
                                 
                                 self.view.frame = CGRect(x: 0, y: -intersection.height
-                                    + 88, width: self.view.frame.width, height: self.view.frame.height)
+                                    + 120, width: self.view.frame.width, height: self.view.frame.height)
                                 
                 }, completion: nil)
             }else {
@@ -1166,7 +1222,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                                options: UIViewAnimationOptions(rawValue: curve), animations: {
                                 
                                 self.view.frame = CGRect(x: 0, y: -intersection.height
-                                    + 64, width: self.view.frame.width, height: self.view.frame.height)
+                                    + 100, width: self.view.frame.width, height: self.view.frame.height)
                                 
                 }, completion: nil)
             }

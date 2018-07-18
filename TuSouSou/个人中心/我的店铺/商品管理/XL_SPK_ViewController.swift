@@ -10,7 +10,7 @@ import UIKit
 
 class XL_SPK_ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     //MARK:block反向传值
-    typealias productId = (String,UIImage) -> ()
+    typealias productId = (String,UIImage,String) -> ()
     var ProductBlock: productId?
     func productblock(block: productId?) {
         self.ProductBlock = block
@@ -215,10 +215,16 @@ class XL_SPK_ViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 image = (view as! UIImageView).image!
             }
         }
+        var isShelf = "1"
+        if tpye == "1" {
+            isShelf = "1"
+        }else{
+            isShelf = "2"
+        }
         
         //把产品Id传会给上一页
          if let block = self.ProductBlock {
-               block(id,image)
+               block(id,image,isShelf)
          }
          self.navigationController?.popViewController(animated: true)
         

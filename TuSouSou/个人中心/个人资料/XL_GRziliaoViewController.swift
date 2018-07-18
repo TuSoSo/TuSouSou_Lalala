@@ -185,7 +185,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 zuoLabel.text = "实名认证"
                 let shimingLabel = UILabel(frame: CGRect(x: Width - 150, y: 11, width: 120, height: 22))
                 shimingLabel.font = UIFont.systemFont(ofSize: 14)
-                var xx = "0"
+                var xx = "1"
                 if nil != Dic!["isAuthentic"]{
                     xx = String(format: "%d", Dic!["isAuthentic"] as! Int)
                     userDefaults.set(Dic!["isAuthentic"], forKey: "isRealAuthentication")
@@ -237,7 +237,8 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
             }
         }else{
             let button = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
-            button.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
+            button.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
+            button.setBackgroundImage(UIImage(named: "button_normal_light"), for: .normal)
             button.setTitle("保存", for: .normal)
             button.addTarget(self, action: #selector(yonghuxinxixiugai), for: .touchUpInside)
             button.setTitleColor(UIColor.white, for: .normal)
@@ -301,7 +302,9 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
             }
         }
     }
-    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
+    }
     @objc func yonghuxinxixiugai() {
         let method = "/user/updateUserInfoApp"
         let userId:String = userDefaults.value(forKey: "userId") as! String

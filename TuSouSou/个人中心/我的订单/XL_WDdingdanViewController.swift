@@ -153,7 +153,6 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
                 orderType = DDArr[indexPath.row]["orderType"]! as! String
             }
         }
-        
         switch orderType {
         case "1":
             tou.text = "网递订单(寄)"
@@ -203,11 +202,11 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
             zhifu.isHidden = false
             quxiao.isHidden = false
         case "2":
-            state.text = "待商家接单"
+            state.text = "待接单"
             zhifu.isHidden = true
             quxiao.isHidden = false
         case "3":
-            state.text = "待配送员接单"
+            state.text = "待接单"
             zhifu.isHidden = true
             quxiao.isHidden = false
         case "4":

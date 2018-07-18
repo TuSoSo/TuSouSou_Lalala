@@ -9,7 +9,8 @@
 import UIKit
 
 class XL_WDXXXQ_ViewController: UIViewController {
-
+    var xxId:String?
+    
     var mssId:String?
     var DDArr:[String:Any] = [:]
     
@@ -21,18 +22,23 @@ class XL_WDXXXQ_ViewController: UIViewController {
         self.title = "通知详情"
         // Do any additional setup after loading the view.
         xiaoxixiangqingjiekou()
-        if mssId == "1" {
+        if xxId == "0" {
             let tap = UITapGestureRecognizer(target: self, action: #selector(tiaoddxq))
             neirongLabel.addGestureRecognizer(tap)
             neirongLabel.isUserInteractionEnabled = true
         }
     }
     @objc func tiaoddxq() {
-        let wwddxq: XL_WDDDXQ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdddxq") as? XL_WDDDXQ_ViewController
-        wwddxq?.shangLX = DDArr["orderType"]! as? String
-        wwddxq?.dingdanId = DDArr["orderId"] as? String
-        wwddxq?.leixing = DDArr["orderState"] as? String
-        self.navigationController?.pushViewController(wwddxq!, animated: true)
+        let neirong = DDArr["context"] as! String
+        if !neirong.contains("【订单】:您的订单编号") && !neirong.contains("【订单】:您有新的") {
+            
+        }else{
+            let wwddxq: XL_WDDDXQ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdddxq") as? XL_WDDDXQ_ViewController
+            wwddxq?.shangLX = DDArr["orderType"]! as? String
+            wwddxq?.dingdanId = DDArr["orderId"] as? String
+            wwddxq?.leixing = DDArr["orderState"] as? String
+            self.navigationController?.pushViewController(wwddxq!, animated: true)
+        }
     }
     func xiaoxixiangqingjiekou() {
         let method = "/user/messageDetail"
@@ -45,6 +51,7 @@ class XL_WDXXXQ_ViewController: UIViewController {
             if (res as! [String: Any])["code"] as! String == "0000" {
                 //                XL_waringBox().warningBoxModeText(message: "评价成功", view: self.view)
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.DDArr = data
                 self.fuzhi(dic:data)
             }else{
                 let msg = (res as! [String: Any])["msg"] as! String
@@ -58,10 +65,31 @@ class XL_WDXXXQ_ViewController: UIViewController {
     }
     func fuzhi(dic:[String:Any]) {
         titleLabel.text = dic["title"] as? String
-        neirongLabel.text = dic["context"] as? String
+        let neirong = dic["context"] as! String
+        if xxId == "0" {
+            if neirong.contains("[") {
+                var new = "xxx"
+                if neirong.contains("【订单】:您的订单编号") {
+                    new = neirong[13..<47]
+                }else if neirong.contains("【订单】:您有新的"){
+                    new = neirong[18..<52]
+                }
+                let attributedString =  NSMutableAttributedString(string: neirong)
+                let range = attributedString.string.range(of: new)
+                if nil != range {
+                    let nsrange = attributedString.string.nsRange(from: range!)
+                    attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: nsrange!)
+                    neirongLabel.attributedText = attributedString
+                }
+               
+            }
+        }else{
+            neirongLabel.text = neirong
+        }
+        
         timeLabel.text = dic["pushTime"] as? String
     }
-
+   
     /*
     // MARK: - Navigation
 

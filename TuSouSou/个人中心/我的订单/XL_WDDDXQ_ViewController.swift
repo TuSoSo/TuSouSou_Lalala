@@ -544,9 +544,11 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     }
                 }else if indexPath.section == 5{
                     // 确定按钮
-                    let PJbutton = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
-                    PJbutton.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
-                    PJbutton.setTitle("评价", for: .normal)
+                    let PJbutton = UIButton(frame: CGRect(x: Width/2 - 75, y: 16, width: 150, height: 56))
+                    PJbutton.backgroundColor = UIColor.orange
+//                    PJbutton.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
+//                    PJbutton.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
+                    PJbutton.setTitle("提交评价", for: .normal)
                     PJbutton.setTitleColor(UIColor.white, for: .normal)
 //                    PJbutton.isUserInteractionEnabled = true
                     PJbutton.addTarget(self, action: #selector(PJjiekou), for: .touchUpInside)
@@ -667,9 +669,11 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                     }
                 }else if indexPath.section == 4{
                     // 确定按钮
-                    let PJbutton = UIButton(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 56))
-                    PJbutton.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
-                    PJbutton.setTitle("评价", for: .normal)
+                    let PJbutton = UIButton(frame: CGRect(x: Width/2 - 75, y: 16, width: 150, height: 56))
+                    PJbutton.backgroundColor = UIColor.orange
+//                    PJbutton.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
+//                    PJbutton.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
+                    PJbutton.setTitle("提交评价", for: .normal)
                     PJbutton.setTitleColor(UIColor.white, for: .normal)
 //                    PJbutton.isUserInteractionEnabled = true
                     PJbutton.addTarget(self, action: #selector(PJjiekou), for: .touchUpInside)

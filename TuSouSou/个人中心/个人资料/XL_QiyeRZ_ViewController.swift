@@ -126,7 +126,8 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
         }else{
             //确认按钮
             let button = UIButton(frame: CGRect(x: 20, y: 48, width: Width - 40, height: 64))
-            button.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
+            button.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
+            button.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
             button.setTitle("确认", for: .normal)
             button.setTitleColor(UIColor.white, for: .normal)
             button.addTarget(self, action: #selector(queding), for: .touchUpInside)
@@ -240,43 +241,48 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
         }
     }
     func qiyerenzhengjiekou() {
-        let method = "/user/realAuthentication"
-        let userId:String = userDefaults.value(forKey: "userId") as! String
-        XL_waringBox().warningBoxModeIndeterminate(message: "信息提交中...", view: self.view)
-        
-        let imagearr:[Any] = [imageDic["shang"]!,imageDic["xia"]!,imageDic["fa"]!]
-        let namearr:[Any] = ["FacePic","licensePic","idCardPic1"]
-        let keyArr = ["userId","firmName","firmAddress","firmLinkman","idCard","licenseNo","corporation","phone"]
-        var valueArr = [userId]
-        var xxxx = 0
-        for i in 0..<7 {
-            if nil != qiyeDic["\(i)"]{
-               valueArr.append(qiyeDic["\(i)"]!)
-            }else{
-                xxxx = 1
-                valueArr.append("")
-            }
-        }
-        if xxxx == 1  {
-            XL_waringBox().warningBoxModeText(message: "请填写完整信息！", view: self.view)
+       
+        if imageDic.keys.count != 3 {
+            XL_waringBox().warningBoxModeText(message: "请拍照必要照片！", view: self.view)
         }else{
-            XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
-                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-                if (res as! [String: Any])["code"] as! String == "0000" {
-                    XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
-                    userDefaults.set(2, forKey: "isFirmAdit")
-                    self.navigationController?.popViewController(animated: true)
+            let method = "/user/realAuthentication"
+            let userId:String = userDefaults.value(forKey: "userId") as! String
+           
+            let imagearr:[Any] = [imageDic["shang"]!,imageDic["xia"]!,imageDic["fa"]!]
+            let namearr:[Any] = ["FacePic","licensePic","idCardPic1"]
+            let keyArr = ["userId","firmName","firmAddress","firmLinkman","idCard","licenseNo","corporation","phone"]
+            var valueArr = [userId]
+            var xxxx = 0
+            for i in 0..<7 {
+                if nil != qiyeDic["\(i)"]{
+                    valueArr.append(qiyeDic["\(i)"]!)
                 }else{
-                    let Msg = (res as! [String: Any])["msg"] as! String
-                    XL_waringBox().warningBoxModeText(message: Msg, view: self.view)
+                    xxxx = 1
+                    valueArr.append("")
                 }
-            }) { (error) in
-                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-                XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
-                print(error)
+            }
+            if xxxx == 1  {
+                XL_waringBox().warningBoxModeText(message: "请填写完整信息！", view: self.view)
+            }else{
+                XL_waringBox().warningBoxModeIndeterminate(message: "信息提交中...", view: self.view)
+                
+                XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    if (res as! [String: Any])["code"] as! String == "0000" {
+                        XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
+                        userDefaults.set(2, forKey: "isFirmAdit")
+                        self.navigationController?.popViewController(animated: true)
+                    }else{
+                        let Msg = (res as! [String: Any])["msg"] as! String
+                        XL_waringBox().warningBoxModeText(message: Msg, view: self.view)
+                    }
+                }) { (error) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+                    print(error)
+                }
             }
         }
-        
     }
     /*
     // MARK: - Navigation

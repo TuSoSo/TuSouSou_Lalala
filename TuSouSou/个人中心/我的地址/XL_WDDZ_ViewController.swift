@@ -115,18 +115,14 @@ class XL_WDDZ_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
         let nameString:UILabel = cell.viewWithTag(1132) as! UILabel
         let phoneString:UILabel = cell.viewWithTag(1133) as! UILabel
         let dizhiString:UILabel = cell.viewWithTag(1134) as! UILabel
-        
-        nameString.text = (cityList[indexPath.row])["userName"] as? String
-        phoneString.text = "+ 86" + ((cityList[indexPath.row])["phone"]! as! String)
-        dizhiString.text = ((cityList[indexPath.row])["location"]! as! String) + ((cityList[indexPath.row])["address"]! as! String)
-        
-        
-        
+        if cityList.count != 0 {
+            nameString.text = (cityList[indexPath.row])["userName"] as? String
+            phoneString.text = "+ 86" + ((cityList[indexPath.row])["phone"]! as! String)
+            dizhiString.text = ((cityList[indexPath.row])["location"]! as! String) + ((cityList[indexPath.row])["address"]! as! String)
+        }
         return cell
     }
-    
     //在这里修改删除按钮的文字
-    
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         
         return "点击删除"
@@ -180,7 +176,7 @@ class XL_WDDZ_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "加载成功", view: self.view)
+//                XL_waringBox().warningBoxModeText(message: "加载成功", view: self.view)
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.cityList += (dic["addressList"] as? [[String : Any]])!
                 self.count = dic["count"] as! Int

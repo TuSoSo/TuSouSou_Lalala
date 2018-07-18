@@ -42,7 +42,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     let _tableview: UITableView! = UITableView()
     let body: [String: String] = [:]
     let uiswitch0 = UISwitch()
-    let uiswitch1 = UISwitch()
+//    let uiswitch1 = UISwitch()
     var zhifuButton0 = UIButton()
     var zhifuButton1 = UIButton()
     var zhifuButton2 = UIButton()
@@ -59,7 +59,8 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     var DiKou = UILabel()
     var JJE = UILabel()
     var dikoudejine:String = "0"
-    
+    //小费的两个按钮
+    var ButtonRMB = UIButton(); var ButtonSSB = UIButton()
     var yueLabel = UILabel()
     
     var tomorrowTimes:[String] = []
@@ -155,14 +156,20 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         jintableView.register(UITableViewCell.self, forCellReuseIdentifier: "jincell")
         mingtableView.register(UITableViewCell.self, forCellReuseIdentifier:"mingcell")
         
-        jintableView.frame = CGRect(x: 0, y: Height/2, width: Width/2, height: Height/2)
-        mingtableView.frame = CGRect(x: Width/2, y: Height/2, width: Width/2, height: Height/2)
         jintableView.tableFooterView = UIView()
         mingtableView.tableFooterView = UIView()
         jintableView.isHidden = true
         mingtableView.isHidden = true
         self.view.addSubview(jintableView)
         self.view.addSubview(mingtableView)
+        jintableView.Top.layout(constrain: self.view.CenterY, constant: 0)
+            .Left.layout(constrain: self.view.Left, constant: 0)
+            .Right.layout(constrain: self.view.CenterX, constant: 0)
+            .Bottom.layout(constrain: self.view.Bottom, constant: 0)
+        mingtableView.Top.layout(constrain: self.view.CenterY, constant: 0)
+            .Left.layout(constrain: self.view.CenterX, constant: 0)
+            .Right.layout(constrain: self.view.Right, constant: 0)
+            .Bottom.layout(constrain: self.view.Bottom, constant: 0)
     }
    
     func jiekouJintianMingtian() {
@@ -182,6 +189,54 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
             }
         }) { (error) in
             print(error)
+        }
+    }
+    func ButtonXF() {
+        ButtonRMB = anniu(button: ButtonRMB, name: "人民币", frame: CGRect(x: Width - 180, y: 8, width: 80, height: 32))
+        ButtonRMB.isSelected = true
+        ButtonRMB.addTarget(self, action: #selector(renminbi), for: .touchUpInside)
+        ButtonSSB = anniu(button: ButtonSSB, name: "飕飕币", frame: CGRect(x: Width - 90, y: 8, width: 80, height: 32))
+        ButtonSSB.isSelected = false
+        ButtonSSB.addTarget(self, action: #selector(sousousousoubi), for: .touchUpInside)
+    }
+//    @objc func switchDidChange1() {
+//        xiaofeiTF.text = ""
+//        if uiswitch1.isOn == true {
+//            yangjiao.text = "飕飕币"
+//            tipType = "1"
+//        }else{
+//            tipType = "2"
+//            yangjiao.text = "¥"
+//        }
+//        jisuanfangfa()
+//        _tableview.reloadData()
+//    }
+    @objc func renminbi() {
+        if ButtonRMB.isSelected == true {
+            
+        }else{
+            tipType = "2"
+            xiaofeiTF.text = ""
+            self.view.endEditing(true)
+//            TFDic = [:]
+            ButtonRMB.isSelected = true
+            ButtonSSB.isSelected = false
+            jisuanfangfa()
+            _tableview.reloadData()
+        }
+    }
+    @objc func sousousousoubi() {
+        if ButtonSSB.isSelected == true {
+            
+        }else{
+            tipType = "1"
+            xiaofeiTF.text = ""
+            self.view.endEditing(true)
+            //            TFDic = [:]
+            ButtonSSB.isSelected = true
+            ButtonRMB.isSelected = false
+            jisuanfangfa()
+            _tableview.reloadData()
         }
     }
     func tishiUI() {
@@ -345,9 +400,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         uiswitch0.isOn = false
         uiswitch0.addTarget(self, action: #selector(switchDidChange0), for: .valueChanged)
         
-        uiswitch1.center = CGPoint(x: Width - 45, y: 24)
-        uiswitch1.isOn = false
-        uiswitch1.addTarget(self, action: #selector(switchDidChange1), for: .valueChanged)
+//        uiswitch1.center = CGPoint(x: Width - 45, y: 24)
+//        uiswitch1.isOn = false
+//        uiswitch1.addTarget(self, action: #selector(switchDidChange1), for: .valueChanged)
         
         zhifuButton0 = UIButton(frame: CGRect(x: Width - 32, y: 16, width: 16, height: 16))
         zhifuButton0.setImage(UIImage(named: "圆圈未选中"), for: .normal)
@@ -372,7 +427,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         
         xiaofeiTF.layer.borderWidth = 1
         xiaofeiTF.layer.borderColor = UIColor(hexString: "f7ead3").cgColor
-        
+        ButtonXF()
         souBzhiF = UITextField(frame: CGRect(x: 122, y: 8, width: 100, height: 32))
         souBzhiF.delegate = self
         souBzhiF.layer.borderWidth = 1
@@ -482,17 +537,16 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                     cell.addSubview(juli)
                 case 3:
                     DuoLabel.text = "加小费"
-                    if uiswitch1.isOn == false {
+                    if ButtonRMB.isSelected == true{
                         xiaofeiTF.placeholder = "1~500元"
-                        xiaofeiTF.keyboardType = .decimalPad
                     }else{
                         xiaofeiTF.placeholder = ""
-                        xiaofeiTF.keyboardType = .decimalPad
                     }
+                    xiaofeiTF.keyboardType = .decimalPad
                     cell.addSubview(DuoLabel)
                     cell.addSubview(xiaofeiTF)
-                    cell.addSubview(yangjiao)
-                    cell.addSubview(uiswitch1)
+                    cell.addSubview(ButtonRMB)
+                    cell.addSubview(ButtonSSB)
                 case 4:
                     DuoLabel.text = "备注:"
                     cell.addSubview(DuoLabel)
@@ -671,9 +725,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
 
    //MARK: textFieldDelegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let text = textField.text!
+//        let text = textField.text!
         
-        let len = text.count + string.count - range.length
+//        let len = text.count + string.count - range.length
         if textField == souBzhiF {
             var zhuan = "0"
             let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
@@ -701,7 +755,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
             
         }
         if textField == xiaofeiTF {
-            if uiswitch1.isOn == false{
+            if ButtonRMB.isSelected == true{
                 let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
                 if newString.contains(".") {
                     let arr = newString.components(separatedBy: ".")
@@ -738,7 +792,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == xiaofeiTF {
-            if uiswitch1.isOn == false{
+            if ButtonRMB.isSelected == true {
                 var xx = "0"
                 if xiaofeiTF.text?.count != 0{
                     xx = xiaofeiTF.text!
@@ -803,18 +857,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         self.jisuanfangfa()
         _tableview.reloadData()
     }
-    @objc func switchDidChange1() {
-        xiaofeiTF.text = ""
-        if uiswitch1.isOn == true {
-            yangjiao.text = "飕飕币"
-            tipType = "1"
-        }else{
-            tipType = "2"
-            yangjiao.text = "¥"
-        }
-        jisuanfangfa()
-        _tableview.reloadData()
-    }
+   
     @objc func DidzhifuButton0()  {
         if zhifuButton0.isSelected == false {
             zhifuButton0.isSelected = true
@@ -904,7 +947,8 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                 self.zhifuhuidiao()
                 self.zhifu_xiao()
             }else{
-                XL_waringBox().warningBoxModeText(message: "验证失败", view: self.view)
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -919,7 +963,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     }
     func zhifu_xiao (){
         var ssbSum = ""
-        if uiswitch1.isOn == true {
+        if ButtonSSB.isSelected == true {
             ssbSum = xiaofeiTF.text!
         }
         var isDirectSend = "1"
@@ -1031,7 +1075,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         dikoudejine = String(format:"%.2f", Float(string)! * Float(sousouzhuanhualv)!)
         
         JJE.text = dikoudejine
-        if uiswitch1.isOn == true {
+        if ButtonSSB.isSelected == true {
             if (Float(xiaofeiTF.text!)! + Float(string)!) > Float(sousoubishuliang)! {
                 showConfirm(title: "温馨提示", message: "yoyo~ 您的飕飕币不够了哟~", in: self, confirme: { (s) in
                     self.souBzhiF.text = "0"
@@ -1072,7 +1116,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
             zhi = 0
             zhinazhisongLa.text = "直拿直送: ¥ 0"
         }
-        if uiswitch1.isOn == true {
+        if ButtonSSB.isSelected == true {
              self.HeJijine.text = String(format: "%.2f", pei + zhi  - dikou)
         }else{
              self.HeJijine.text = String(format: "%.2f", pei + zhi + xiao - dikou)
@@ -1164,7 +1208,21 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
             }
         }
     }
-   
+    func anniu(button:UIButton, name: String,frame:CGRect) -> UIButton {
+        button.frame = frame
+        button.setTitle(name, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.setTitleColor(UIColor.darkGray, for: .normal)
+        button.setTitleColor(UIColor.darkGray, for: .selected)
+        button.setImage(UIImage(named: "圆圈未选中"), for: .normal)
+        button.setImage(UIImage(named: "圆圈选中"), for: .selected)
+        //button图片的偏移量，距上左下右分别(10, 10, 10, 60)像素点
+        button.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 60);
+        //button标题的偏移量，这个偏移量是相对于图片的
+        button.titleEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+        return button
+    }
     
 }
 //MARK：扩展UIColor

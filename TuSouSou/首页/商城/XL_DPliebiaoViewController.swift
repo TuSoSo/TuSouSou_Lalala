@@ -85,7 +85,7 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
             XiaDanButton.setTitle("有未支付订单", for: .normal)
         }
         XiaDanButton.tintColor = UIColor.white
-        XiaDanButton.backgroundColor = UIColor.orange
+        XiaDanButton.setBackgroundImage(UIImage(named: "按钮背景2"), for: .normal)
         ddView.addSubview(hengxian)
         ddView.addSubview(Label)
         ddView.addSubview(JE)

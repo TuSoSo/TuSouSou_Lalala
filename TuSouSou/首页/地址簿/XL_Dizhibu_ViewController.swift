@@ -210,7 +210,7 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "加载成功", view: self.view)
+//                XL_waringBox().warningBoxModeText(message: "加载成功", view: self.view)
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.cityList += (dic["addressList"] as? [[String : Any]])!
                 self.count = dic["count"] as! Int

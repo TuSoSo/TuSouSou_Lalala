@@ -32,6 +32,14 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     
     var peisongfei = "0"
     var zhinazhi = "0"
+    //明细
+    var baiVV = UIView()
+    var zhinazhisongLa = UILabel()
+    var peisongfeiLa = UILabel()
+    var juliLa = UILabel()
+    var xiaofeiLa = UILabel()
+    var dikouLa = UILabel()
+    var shiyongssbLa = UILabel()
     
     var sousoubishuliang = "0"
     var dangqianyue = "0"
@@ -129,6 +137,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         
         // Do any additional setup after loading the view.
     }
+    
     @objc func chenggongle(notification:NSNotification) {
         let adVC: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
         //添加广告地址
@@ -151,15 +160,20 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         mingtableView.dataSource = self
         jintableView.register(UITableViewCell.self, forCellReuseIdentifier: "jincell")
         mingtableView.register(UITableViewCell.self, forCellReuseIdentifier:"mingcell")
-        
-        jintableView.frame = CGRect(x: 0, y: Height/2, width: Width/2, height: Height/2)
-        mingtableView.frame = CGRect(x: Width/2, y: Height/2, width: Width/2, height: Height/2)
         jintableView.tableFooterView = UIView()
         mingtableView.tableFooterView = UIView()
         jintableView.isHidden = true
         mingtableView.isHidden = true
         self.view.addSubview(jintableView)
         self.view.addSubview(mingtableView)
+        jintableView.Top.layout(constrain: self.view.CenterY, constant: 0)
+            .Left.layout(constrain: self.view.Left, constant: 0)
+            .Right.layout(constrain: self.view.CenterX, constant: 0)
+            .Bottom.layout(constrain: self.view.Bottom, constant: 0)
+        mingtableView.Top.layout(constrain: self.view.CenterY, constant: 0)
+            .Left.layout(constrain: self.view.CenterX, constant: 0)
+            .Right.layout(constrain: self.view.Right, constant: 0)
+            .Bottom.layout(constrain: self.view.Bottom, constant: 0)
     }
     func ddView() {
         let ddView = UIView()
@@ -178,14 +192,18 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         jisuanyixia()
         HJJE.font = UIFont.systemFont(ofSize: 19)
         HJJE.textColor = UIColor.orange
-        let XiaDanButton = UIButton(frame: CGRect(x: 2/3 * Width - 20, y: 5, width: Width/3, height: 46))
+        let wenhaobutton = UIButton(frame: CGRect(x: Width/2, y: 12, width: 36, height: 36))
+        wenhaobutton.setImage(UIImage(named: "wenhao"), for: .normal)
+        wenhaobutton.addTarget(self, action: #selector(wahaha), for: .touchUpInside)
+        
+        let XiaDanButton = UIButton(frame: CGRect(x: Width - 140, y: 12, width: 120, height: 36))
         XiaDanButton.addTarget(self, action: #selector(ZFaction), for: .touchUpInside)
         XiaDanButton.setTitle("确认支付", for: .normal)
         XiaDanButton.tintColor = UIColor.white
-        XiaDanButton.backgroundColor = UIColor.orange
+        XiaDanButton.setBackgroundImage(UIImage(named: "按钮背景2"), for: .normal)
         ddView.addSubview(hengxian)
         ddView.addSubview(Label)
-        
+        ddView.addSubview(wenhaobutton)
         ddView.addSubview(HJJE)
         ddView.addSubview(XiaDanButton)
         self.view.addSubview(ddView)
@@ -233,6 +251,59 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         jiageView.addSubview(titi)
         jiageView.addSubview(button1)
         self.view.addSubview(jiageView)
+        mingxi()
+    }
+    @objc func wahaha() {
+        banview.isHidden = false
+        baiVV.isHidden = false
+    }
+    func mingxi() {
+//        小费变成合计金额
+        baiVV = UIView(frame: CGRect(x: 24, y: Height/2 - 200, width: Width - 48, height: 280))
+        baiVV.backgroundColor = UIColor.white
+        baiVV.isHidden = true
+        let weixintishi = UILabel(frame: CGRect(x: 24, y: 16, width: baiVV.frame.size.width - 36, height: 24))
+        weixintishi.font = UIFont.systemFont(ofSize: 30)
+        weixintishi.text = "明细"
+        
+        zhinazhisongLa = UILabel(frame: CGRect(x: 24, y: 48, width: baiVV.frame.size.width - 36, height: 24))
+        zhinazhisongLa.text = "合计金额: ¥ \(jiage)"
+        zhinazhisongLa.font = UIFont.systemFont(ofSize: 15)
+        peisongfeiLa = UILabel(frame: CGRect(x: 24, y: 80, width: baiVV.frame.size.width - 36, height: 24))
+        peisongfeiLa.text = "直拿直送: ¥ 0.0"
+        peisongfeiLa.font = UIFont.systemFont(ofSize: 15)
+        juliLa = UILabel(frame: CGRect(x: 24, y: 112, width: baiVV.frame.size.width - 36, height: 24))
+        juliLa.text = "配送费: ¥ \(peisongfei)"
+        juliLa.font = UIFont.systemFont(ofSize: 15)
+        xiaofeiLa = UILabel(frame: CGRect(x: 24, y: 144, width: baiVV.frame.size.width - 36, height: 24))
+        xiaofeiLa.text = "距离: \(julili) 公里"
+        xiaofeiLa.font = UIFont.systemFont(ofSize: 15)
+        dikouLa = UILabel(frame: CGRect(x: 24, y: 176, width: baiVV.frame.size.width - 36, height: 24))
+        dikouLa.text = "抵扣: ¥ 0.0"
+        dikouLa.font = UIFont.systemFont(ofSize: 15)
+        shiyongssbLa = UILabel(frame: CGRect(x: 24, y: 208, width: baiVV.frame.size.width - 36, height: 24))
+        shiyongssbLa.text = "使用飕飕币: 0.0 个"
+        shiyongssbLa.font = UIFont.systemFont(ofSize: 15)
+        //        let peisong = UILabel(frame: CGRect(x: 24, y: 80, width: baiVV.frame.size.width - 36, height: 24))
+        //        peisong.font = UIFont.systemFont(ofSize: 16)
+        //        peisong.text = "配送费：¥ \(peisongfei)"
+        //
+        //        let zhina = UILabel(frame: CGRect(x: 24, y: 120, width: baiVV.frame.size.width - 36, height: 24))
+        //        zhina.font = UIFont.systemFont(ofSize: 16)
+        //        zhina.text = "直拿直送：¥ \(zhinazhi)"
+        let button = UIButton(frame: CGRect(x: baiVV.frame.size.width - 74, y: baiVV.frame.size.height - 44, width: 50, height: 32))
+        button.setTitle("确定", for: .normal)
+        button.setTitleColor(UIColor.orange, for: .normal)
+        button.addTarget(self, action: #selector(ss), for: .touchUpInside)
+        baiVV.addSubview(zhinazhisongLa)
+        baiVV.addSubview(peisongfeiLa)
+        baiVV.addSubview(juliLa)
+        baiVV.addSubview(xiaofeiLa)
+        baiVV.addSubview(dikouLa)
+        baiVV.addSubview(shiyongssbLa)
+        baiVV.addSubview(button)
+        baiVV.addSubview(weixintishi)
+        self.view.addSubview(baiVV)
     }
     @objc func ZFaction() {
         if shouName.text != "收件人姓名"  {
@@ -284,7 +355,8 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 //                self.tiaoye(rukou: "1")
                 self.zhifu_xiao()
             }else{
-                XL_waringBox().warningBoxModeText(message: "验证失败", view: self.view)
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -518,6 +590,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     @objc func ss() {
         banview.isHidden = true
         jintableView.isHidden = true
+        baiVV.isHidden = true
         mingtableView.isHidden = true
         jiageView.isHidden = true
     }
@@ -1004,12 +1077,14 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         if Float(zhuan)! > Float(sousoubishuliang)! {
             showConfirm(title: "温馨提示", message: "yoyo~ 您没有足够飕飕币哟~", in: self, confirme: { (s) in
                 self.souBzhiF.text = "0"
+                
                 self.dikoujisuan(string: self.souBzhiF.text!)
             }) { (w) in
                 self.souBzhiF.text = self.sousoubishuliang
                 self.dikoujisuan(string: self.souBzhiF.text!)
             }
         }
+        
         self.dikoujisuan(string:zhuan)
         
 //        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
@@ -1026,6 +1101,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     func textFieldDidEndEditing(_ textField: UITextField) {
     
         textField.text = preciseDecimal(x: textField.text!, p: 4)
+        
         jisuanyixia()
     }
     //MARK: textviewDelegate
@@ -1064,7 +1140,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     @objc func switchDidChange() {
         if shouName.text! == "收件人姓名" {
             self.showConfirm(title: "温馨提示", message: "选择直拿直送之前需要确定收件人信息哟～", in: self, confirme: { (_) in
-                
             }) { (_) in
                 let dizhibu: XL_Dizhibu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhibu") as! XL_Dizhibu_ViewController
                 dizhibu.biaoti = "3"
@@ -1140,6 +1215,8 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     }
     func dikoujisuan(string:String){
         dikoudejine = String(format:"%.2f", Float(string)! * Float(sousouzhuanhualv)!)
+        shiyongssbLa.text = "使用飕飕币: \(string)个"
+        dikouLa.text = "抵扣: ¥ \(dikoudejine)"
         JJE.text = dikoudejine
         jisuanyixia()
     }
@@ -1149,9 +1226,10 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         var zhi:Float = Float(zhinazhi)!
         let dikou:Float = Float(dikoudejine)!
         let jia:Float = Float(jiage)!
-        
+        self.peisongfeiLa.text = "直拿直送: ¥ \(self.zhinazhi)"
         if SwitchAnniu.isOn == false {
             zhi = 0
+            self.peisongfeiLa.text = "直拿直送: ¥ 0.0"
         }
         self.HJJE.text = String(format: "%.2f",jia + pei + zhi  - dikou)
         if  Float(HJJE.text!)! < 0 {
@@ -1178,9 +1256,11 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             if (res as! [String: Any])["code"] as! String == "0000" {
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.julili = String(format: "%@", data["instance"] as! String)
+                self.xiaofeiLa.text = "距离: \(self.julili) 公里"
                 self.li.text = "\(self.julili) 公里"
                 self.peisongfei = String(format: "%.2f", data["postAmount"] as! Double)
                 self.pei.text = "¥ \(self.peisongfei)"
+                self.juliLa.text = "配送费: ¥ \(self.peisongfei)"
                 self.zhinazhi = String(format: "%.2f", data["directSendMoney"] as! Double)
                 self.jisuanyixia()
             }else{
@@ -1269,6 +1349,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         jiageView.isHidden = false
         banview.isHidden = false
     }
+   
     /*
      // MARK: - Navigation
      

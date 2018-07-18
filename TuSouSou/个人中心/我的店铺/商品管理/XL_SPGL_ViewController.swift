@@ -21,14 +21,24 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     var leibieId = ""
     var productId = ""
     
+    var isShelf = "1"
+    var keyBoardisHidden = true
     
     @IBOutlet weak var tableshangpin: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         tableDelegate()
         self.title = "商品管理"
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
         youshangjiao()
         // Do any additional setup after loading the view.
+    }
+    @objc func keyboardWillShow(notification:NSNotification) {
+        keyBoardisHidden = false
+    }
+    @objc func keyboardWillHide(notification:NSNotification) {
+        keyBoardisHidden = true
     }
     //MARK:tableviewDelegate
     func tableDelegate() {
@@ -175,33 +185,39 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
             view.addSubview(imageView)
             cell.contentView.addSubview(view)
         }else{
-            //保存按钮
-            let button = UIButton(frame: CGRect(x: 20, y: 48, width: Width/2 - 40, height: 64))
-            button.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
             if xlxl == 1 {
-                button.setTitle("修改到仓库", for: .normal)
+                //保存按钮
+                let button = UIButton(frame: CGRect(x: 20, y: 48, width: Width - 40, height: 56))
+                button.backgroundColor = UIColor.orange
+                button.setTitle("修改", for: .normal)
+                button.setTitleColor(UIColor.white, for: .normal)
+                button.addTarget(self, action: #selector(xiugai), for: .touchUpInside)
+                //去掉当前cell的分割线
+                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                cell.backgroundColor = UIColor(hexString: "f0eff5")
+                cell.contentView.addSubview(button)
             }else{
-               button.setTitle("保存", for: .normal)
-            }
-            
-            button.setTitleColor(UIColor.white, for: .normal)
-            button.addTarget(self, action: #selector(baocun), for: .touchUpInside)
-            //发布按钮
-            let fabu = UIButton(frame: CGRect(x: Width/2 + 20, y: 48, width: Width/2 - 40, height: 64))
-            fabu.setBackgroundImage(UIImage(named: "立即签到背景"), for: .normal)
-            if xlxl == 1 {
-                fabu.setTitle("修改到出售", for: .normal)
-            }else{
+                //保存按钮
+                let button = UIButton(frame: CGRect(x: 20, y: 48, width: Width/2 - 40, height: 56))
+                button.backgroundColor = UIColor.orange
+                
+                button.setTitle("保存", for: .normal)
+                
+                button.setTitleColor(UIColor.white, for: .normal)
+                button.addTarget(self, action: #selector(baocun), for: .touchUpInside)
+                //发布按钮
+                let fabu = UIButton(frame: CGRect(x: Width/2 + 20, y: 48, width: Width/2 - 40, height: 56))
+                fabu.backgroundColor = UIColor.orange
                 fabu.setTitle("发布", for: .normal)
+                fabu.setTitleColor(UIColor.white, for: .normal)
+                fabu.addTarget(self, action: #selector(fabujiekou), for: .touchUpInside)
+                //            button.isUserInteractionEnabled = true
+                //去掉当前cell的分割线
+                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                cell.backgroundColor = UIColor(hexString: "f0eff5")
+                cell.contentView.addSubview(button)
+                cell.contentView.addSubview(fabu)
             }
-            fabu.setTitleColor(UIColor.white, for: .normal)
-            fabu.addTarget(self, action: #selector(fabujiekou), for: .touchUpInside)
-            //            button.isUserInteractionEnabled = true
-            //去掉当前cell的分割线
-            cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
-            cell.backgroundColor = UIColor(hexString: "f0eff5")
-            cell.contentView.addSubview(button)
-            cell.contentView.addSubview(fabu)
         }
         cell.selectionStyle = .none
         return cell
@@ -240,6 +256,55 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         
         self.present(alertController, animated: true, completion: nil)
     }
+    @objc func xiugai() {
+        self.view.endEditing(true)
+        if imageDic.keys.count != 1 {
+            XL_waringBox().warningBoxModeText(message: "请拍照必要的照片！", view: self.view)
+        }else{
+            if DianpuDic.keys.count != 5{
+                XL_waringBox().warningBoxModeText(message: "请填写完整的信息～", view: self.view)
+            }else{
+                let method = "/user/publishPro2"
+                let userId:String = userDefaults.value(forKey: "userId") as! String
+                let imagearr:[Any] = [imageDic["shang"]!]
+                let namearr:[Any] = ["picture"]
+                
+                let keyArr = ["userId","productId","productName","productPrice","productNum","productType","productTypeName","describe","isShelf"]
+                var valueArr = [userId]
+                valueArr.append(productId)
+                valueArr.append(DianpuDic["0"]!)
+                valueArr.append(DianpuDic["1"]!)
+                valueArr.append(DianpuDic["2"]!)
+                valueArr.append(leibieId)
+                valueArr.append(DianpuDic["4"]!)
+                valueArr.append(DianpuDic["miaoshu"]!)
+                valueArr.append(isShelf)
+                XL_waringBox().warningBoxModeIndeterminate(message: "发布中...", view: self.view)
+                XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    if (res as! [String: Any])["code"] as! String == "0000" {
+                        XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
+                        let xiadan: XL_SPK_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spk") as? XL_SPK_ViewController
+                        xiadan?.ProductBlock = {(productId :String,image:UIImage,isShelf:String) in
+                            self.productId = productId
+                            self.imageDic["shang"] = image
+                            self.xiugaineirong(productInfoId: productId)
+                            self.xlxl = 1
+                            self.isShelf = isShelf
+                        }
+                        self.navigationController?.pushViewController(xiadan!, animated: true)
+                    }else{
+                        let msg = (res as! [String: Any])["msg"] as! String
+                        XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                    }
+                }) { (error) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+                    print(error)
+                }
+            }
+        }
+    }
     func leibiejiekou() {
         let method = "/user/findProTypeApp"
         let userId = userDefaults.value(forKey: "userId")
@@ -252,7 +317,7 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.leiBArr = dic["pushTypeInfoList"] as! [[String : Any]]
                 self.tanLeibie()
-//                self.tablesplx.reloadData()
+                //                self.tablesplx.reloadData()
             }else{
                 let msg = (res as! [String: Any])["msg"] as! String
                 XL_waringBox().warningBoxModeText(message: msg, view: self.view)
@@ -283,9 +348,9 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        if textField.tag == 332 || textField.tag == 333 || textField.tag == 334 {
-//            return false
-//        }
+        //        if textField.tag == 332 || textField.tag == 333 || textField.tag == 334 {
+        //            return false
+        //        }
         return true
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -367,86 +432,106 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         }
     }
     @objc func fabujiekou() {
-        let method = "/user/publishPro2"
-        let userId:String = userDefaults.value(forKey: "userId") as! String
-        let imagearr:[Any] = [imageDic["shang"]!]
-        let namearr:[Any] = ["picture"]
-        
-        let keyArr = ["userId","productId","productName","productPrice","productNum","productType","productTypeName","describe","isShelf"]
-        var valueArr = [userId]
-        valueArr.append(productId)
-        valueArr.append(DianpuDic["0"]!)
-        valueArr.append(DianpuDic["1"]!)
-        valueArr.append(DianpuDic["2"]!)
-        valueArr.append(leibieId)
-        valueArr.append(DianpuDic["4"]!)
-        valueArr.append(DianpuDic["miaoshu"]!)
-        valueArr.append("1")
-        XL_waringBox().warningBoxModeIndeterminate(message: "发布中...", view: self.view)
-        XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
-                let xiadan: XL_SPK_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spk") as? XL_SPK_ViewController
-                xiadan?.ProductBlock = {(productId :String,image:UIImage) in
-                    self.productId = productId
-                    self.imageDic["shang"] = image
-                    self.xiugaineirong(productInfoId: productId)
-                    self.xlxl = 1
-                }
-                self.navigationController?.pushViewController(xiadan!, animated: true)
+        self.view.endEditing(true)
+        if imageDic.keys.count != 1 {
+            XL_waringBox().warningBoxModeText(message: "请拍照必要的照片！", view: self.view)
+        }else{
+            if DianpuDic.keys.count != 5{
+                XL_waringBox().warningBoxModeText(message: "请填写完整的信息～", view: self.view)
             }else{
-                let msg = (res as! [String: Any])["msg"] as! String
-                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                let method = "/user/publishPro2"
+                let userId:String = userDefaults.value(forKey: "userId") as! String
+                let imagearr:[Any] = [imageDic["shang"]!]
+                let namearr:[Any] = ["picture"]
+                
+                let keyArr = ["userId","productId","productName","productPrice","productNum","productType","productTypeName","describe","isShelf"]
+                var valueArr = [userId]
+                valueArr.append(productId)
+                valueArr.append(DianpuDic["0"]!)
+                valueArr.append(DianpuDic["1"]!)
+                valueArr.append(DianpuDic["2"]!)
+                valueArr.append(leibieId)
+                valueArr.append(DianpuDic["4"]!)
+                valueArr.append(DianpuDic["miaoshu"]!)
+                valueArr.append("1")
+                XL_waringBox().warningBoxModeIndeterminate(message: "发布中...", view: self.view)
+                XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    if (res as! [String: Any])["code"] as! String == "0000" {
+                        XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
+                        let xiadan: XL_SPK_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spk") as? XL_SPK_ViewController
+                        xiadan?.ProductBlock = {(productId :String,image:UIImage,isShelf:String) in
+                            self.productId = productId
+                            self.imageDic["shang"] = image
+                            self.xiugaineirong(productInfoId: productId)
+                            self.xlxl = 1
+                            self.isShelf = isShelf
+                        }
+                        self.navigationController?.pushViewController(xiadan!, animated: true)
+                    }else{
+                        let msg = (res as! [String: Any])["msg"] as! String
+                        XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                    }
+                }) { (error) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+                    print(error)
+                }
             }
-        }) { (error) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
-            print(error)
         }
     }
     func baocunjiekou() {
-        let method = "/user/publishPro2"
-        let userId:String = userDefaults.value(forKey: "userId") as! String
-        let imagearr:[Any] = [imageDic["shang"]!]
-        let namearr:[Any] = ["picture"]
-        
-        let keyArr = ["userId","productId","productName","productPrice","productNum","productType","productTypeName","describe","isShelf"]
-        var valueArr = [userId]
-        valueArr.append(productId)
-        valueArr.append(DianpuDic["0"]!)
-        valueArr.append(DianpuDic["1"]!)
-        valueArr.append(DianpuDic["2"]!)
-        valueArr.append(leibieId)
-        valueArr.append(DianpuDic["4"]!)
-        valueArr.append(DianpuDic["miaoshu"]!)
-        valueArr.append("2")
-        XL_waringBox().warningBoxModeIndeterminate(message: "保存中...", view: self.view)
-        XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
-                let xiadan: XL_SPK_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spk") as? XL_SPK_ViewController
-                xiadan?.ProductBlock = {(productId :String,image:UIImage) in
-                    self.productId = productId
-                    self.imageDic["shang"] = image
-                    self.xiugaineirong(productInfoId: productId)
-                    self.xlxl = 1
-                }
-                self.navigationController?.pushViewController(xiadan!, animated: true)
+        self.view.endEditing(true)
+        if imageDic.keys.count != 1 {
+            XL_waringBox().warningBoxModeText(message: "请拍照必要的照片！", view: self.view)
+        }else{
+            if DianpuDic.keys.count != 5{
+                XL_waringBox().warningBoxModeText(message: "请填写完整的信息～", view: self.view)
             }else{
-                let msg = (res as! [String: Any])["msg"] as! String
-                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                let method = "/user/publishPro2"
+                let userId:String = userDefaults.value(forKey: "userId") as! String
+                let imagearr:[Any] = [imageDic["shang"]!]
+                let namearr:[Any] = ["picture"]
+                
+                let keyArr = ["userId","productId","productName","productPrice","productNum","productType","productTypeName","describe","isShelf"]
+                var valueArr = [userId]
+                valueArr.append(productId)
+                valueArr.append(DianpuDic["0"]!)
+                valueArr.append(DianpuDic["1"]!)
+                valueArr.append(DianpuDic["2"]!)
+                valueArr.append(leibieId)
+                valueArr.append(DianpuDic["4"]!)
+                valueArr.append(DianpuDic["miaoshu"]!)
+                valueArr.append("2")
+                XL_waringBox().warningBoxModeIndeterminate(message: "保存中...", view: self.view)
+                XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    if (res as! [String: Any])["code"] as! String == "0000" {
+                        XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
+                        let xiadan: XL_SPK_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spk") as? XL_SPK_ViewController
+                        xiadan?.ProductBlock = {(productId :String,image:UIImage,isShelf:String) in
+                            self.productId = productId
+                            self.imageDic["shang"] = image
+                            self.xiugaineirong(productInfoId: productId)
+                            self.xlxl = 1
+                            self.isShelf = isShelf
+                        }
+                        self.navigationController?.pushViewController(xiadan!, animated: true)
+                    }else{
+                        let msg = (res as! [String: Any])["msg"] as! String
+                        XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                    }
+                }) { (error) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+                    print(error)
+                }
             }
-        }) { (error) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
-            print(error)
         }
     }
     func xiugaineirong(productInfoId:String) {
         let method = "/user/selProductInfo"
-//        let userId = userDefaults.value(forKey: "userId")
+        //        let userId = userDefaults.value(forKey: "userId")
         let dic:[String:Any] = ["productInfoId":productInfoId]
         XL_waringBox().warningBoxModeIndeterminate(message: "加载中...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
@@ -481,15 +566,18 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         self.navigationItem.rightBarButtonItem = item
     }
     @objc func YouActio() {
-        let xiadan: XL_SPK_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spk") as? XL_SPK_ViewController
-        xiadan?.ProductBlock = {(productId :String,image:UIImage) in
-            self.productId = productId
-            self.imageDic["shang"] = image
-            self.xiugaineirong(productInfoId: productId)
-            self.xlxl = 1
+        if keyBoardisHidden == false {
+            self.view.endEditing(true)
+        }else{
+            let xiadan: XL_SPK_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spk") as? XL_SPK_ViewController
+            xiadan?.ProductBlock = {(productId :String,image:UIImage,isShelf:String) in
+                self.productId = productId
+                self.imageDic["shang"] = image
+                self.xiugaineirong(productInfoId: productId)
+                self.xlxl = 1
+                self.isShelf = isShelf
+            }
+            self.navigationController?.pushViewController(xiadan!, animated: true)
         }
-        self.navigationController?.pushViewController(xiadan!, animated: true)
     }
-
-
 }

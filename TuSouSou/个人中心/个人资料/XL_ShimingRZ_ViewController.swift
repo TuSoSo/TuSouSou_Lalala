@@ -25,7 +25,8 @@ class XL_ShimingRZ_ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //调一个接口。存剩余次数
-        if xxx == 1 {
+        if xxx == 1 && jiemian == 1 {
+            
             fanhuidaoRoot()
         }
         cishujiekou()
@@ -77,10 +78,10 @@ class XL_ShimingRZ_ViewController: UIViewController {
                 RPSDK.start(verifyToken, rpCompleted: { (auditState: AUDIT) in
                     if auditState == AUDIT.PASS { //认证通过
                         //调接口 传
-                        self.shimingrenzhengjiekou()
+                        self.shimingrenzhengjiekou(authenticationResults: "1")
                     }
                     else if auditState == AUDIT.FAIL { //认证不通过
-                        
+                        self.shimingrenzhengjiekou(authenticationResults: "2")
                     }
                     else if auditState == AUDIT.IN_AUDIT { //认证中，通常不会出现，只有在认证审核系统内部出现超时，未在限定时间内返回认证结果时出现。此时提示用户系统处理中，稍后查看认证结果即可。
                     }
@@ -99,13 +100,13 @@ class XL_ShimingRZ_ViewController: UIViewController {
             print(error)
         }
     }
-    func shimingrenzhengjiekou() {
+    func shimingrenzhengjiekou(authenticationResults:String) {
         let method = "/user/realNameAuthentication"
 //        XL_waringBox().warningBoxModeIndeterminate(message: "保存中...", view: self.view)
         let userId = userDefaults.value(forKey: "userId")
         let ticketId = userDefaults.value(forKey: "ticketId")
         
-        let dic:[String:Any] = ["userId":userId!,"authenticationResults":"1","ticketId":ticketId!]
+        let dic:[String:Any] = ["userId":userId!,"authenticationResults":authenticationResults,"ticketId":ticketId!]
         
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -118,7 +119,7 @@ class XL_ShimingRZ_ViewController: UIViewController {
             }else if (res as! [String: Any])["code"] as! String == "1003"{
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.remainder = data["remainder"] as! String
-                let aaa = UIAlertController(title: "警告！", message: "您使用的身份证已经注册过，请使用其他身份证", preferredStyle: .alert)
+                let aaa = UIAlertController(title: "警告！", message: "同一张身份证只能认证一次，该身份证已通过认证，此账号剩余认证次数仅剩\(self.remainder)次，请慎用。", preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
                 aaa.addAction(cancelAction)
                 self.present(aaa, animated: true, completion: nil)
@@ -185,6 +186,15 @@ class XL_ShimingRZ_ViewController: UIViewController {
                     self.present(aaa, animated: true, completion: nil)
                 }
             }else{
+                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                self.remainder = data["remainder"] as! String
+                if self.remainder == "0" {
+                    //弹出
+                    let aaa = UIAlertController(title: "温馨提示：", message: "此账号已没有认证次数！", preferredStyle: .alert)
+                    let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
+                    aaa.addAction(cancelAction)
+                    self.present(aaa, animated: true, completion: nil)
+                }
                 let msg = (res as! [String: Any])["msg"] as! String
                 XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }

@@ -73,9 +73,11 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
     }
     
     @IBAction func queding(_ sender: Any) {
-        if Name.text?.count == 0 || !(Pone.text?.isPhoneNumber())! || dingweiDZ.text?.count == 0 {
+        if Name.text?.count == 0 || dingweiDZ.text?.count == 0 {
             XL_waringBox().warningBoxModeText(message: "请完善信息！", view: self.view)
-        }else{
+        }else if  !(Pone.text?.isPhoneNumber())!{
+            XL_waringBox().warningBoxModeText(message: "请填写正确的手机号！", view: self.view)
+        }else {
             //点击列表给city赋值
             let dic = ["name": Name.text!,"phone": Pone.text!,"dizhi": dingweiDZ.text!,"xiangzhi": XiangZhi.text!,"lat": lat,"lon": lon]
             

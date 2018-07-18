@@ -10,7 +10,7 @@ import UIKit
 
 class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate {
     //MARK:block反向传值
-    typealias CityName = ([String:String]) -> ()
+    typealias CityName = ([String:Any]) -> ()
     var Cityblock: CityName?
     func cityblock(block: CityName?) {
         self.Cityblock = block
@@ -84,7 +84,7 @@ class XL_chengshiListViewController: UIViewController,UITableViewDelegate,UITabl
         print(indexPath.row)
         //点击列表给city赋值
         if let block = self.Cityblock {
-            block(cityList[indexPath.row] as! [String : String])
+            block(cityList[indexPath.row] as! [String : Any])
         }
         self.navigationController?.popViewController(animated: true)
     }
