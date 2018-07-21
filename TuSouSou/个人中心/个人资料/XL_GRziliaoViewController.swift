@@ -112,6 +112,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 zuoLabel.text = "头像"
                 imageTou = UIImageView(frame: CGRect(x: Width - 60, y: 10, width: 40, height: 40))
                 imageTou.layer.masksToBounds = true
+                imageTou.contentMode = .scaleAspectFill
                 imageTou.layer.cornerRadius = imageTou.frame.size.width/2
                 if zhaozhao == 0 {
                     var ax:String = ""
@@ -145,7 +146,6 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 zuoLabel.text = "手机号"
                 let phoneLabel = UILabel(frame: CGRect(x: Width - 150, y: 11, width: 130, height: 22))
                 phoneLabel.text = "未绑定"
-               
                 phoneLabel.textColor = UIColor.darkGray
                 phoneLabel.text = ""
                 if nil != Dic!["mobile"] {
@@ -160,13 +160,8 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 zuoLabel.text = "微信号"
                 let WeChatLabel = UILabel(frame: CGRect(x: 100, y: 11, width: Width - 120, height: 22))
                 WeChatLabel.textAlignment = .right
-                WeChatLabel.text = "未绑定"
-                if nil != userDefaults.value(forKey: "nickname") && (userDefaults.value(forKey: "nickname") as! String) != "" {
-                    WeChatLabel.text = userDefaults.value(forKey: "nickname") as? String
-                }
-//                if nil != userDefaults.value(forKey: "weixinhao") {
-//                    WeChatLabel.text = userDefaults.value(forKey: "weixinhao") as? String
-//                }
+                WeChatLabel.text = Dic!["weChatName"] as? String
+              
                 WeChatLabel.textColor = UIColor.darkGray
                 WeChatLabel.textAlignment = .right
                 WeChatLabel.font = UIFont.systemFont(ofSize: 14)
@@ -250,6 +245,15 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
         }
         return cell
     }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == nameFD {
+            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            if newString.count > 10 {
+                return false
+            }
+        }
+        return true
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
@@ -277,8 +281,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 }
             }else if indexPath.row == 1 {
                 //如果企业认证通过则不跳页
-                if userDefaults.value(forKey: "isFirmAdit") as! Int == 4 {
-                    
+                if userDefaults.value(forKey: "isFirmAdit") as! Int == 4 || userDefaults.value(forKey: "isFirmAdit") as! Int == 2 {
                 }else{
                 if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
                     //弹框 --- 请先完成实名认证
@@ -287,6 +290,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                         //接口 取回 token 调 阿里
                         let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
                         ShimingRZ?.jiemian = 1
+                        ShimingRZ?.yyy = 1
                 self.navigationController?.pushViewController(ShimingRZ!, animated: true)
                     }
                     let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
@@ -311,10 +315,9 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
         XL_waringBox().warningBoxModeIndeterminate(message: "保存中...", view: self.view)
         let imagearr:[Any] = [imageTou.image!]
         let namearr:[Any] = ["photo"]
-        
 //        let dic:[String:Any] = ["userId":userId,"name":""]
-        let keyarr = ["userId","name"]
-        let valuearr = [userId,nameFD.text!]
+        let keyarr = ["userId","name","photo2"]
+        let valuearr = [userId,nameFD.text!,""]
         
         
         XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyarr, valueArray: valuearr, methodName: method, success: { (res) in

@@ -97,6 +97,11 @@
 		0FA34A5720F99F0200374493 /* XL_XieYi_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA34A5620F99F0200374493 /* XL_XieYi_ViewController.swift */; };
 		0FA34A5920F9A34200374493 /* XL_PeiSongYuan_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA34A5820F9A34200374493 /* XL_PeiSongYuan_ViewController.swift */; };
 		0FA34A5B20F9F7E600374493 /* XL_PSYweizhi_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA34A5A20F9F7E600374493 /* XL_PSYweizhi_ViewController.swift */; };
+		0FAB33CC210215490015E3A8 /* DatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FAB33CA210215480015E3A8 /* DatePickerView.xib */; };
+		0FAB33CD210215490015E3A8 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB33CB210215490015E3A8 /* DatePickerView.swift */; };
+		0FAB33D22102159C0015E3A8 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB33CF2102159B0015E3A8 /* UIColor+Extension.swift */; };
+		0FAB33D32102159C0015E3A8 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB33D02102159B0015E3A8 /* Date+Extension.swift */; };
+		0FAB33D42102159C0015E3A8 /* UIKit+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB33D12102159C0015E3A8 /* UIKit+Extension.swift */; };
 		0FBD75F120567CD1004A8571 /* XL_LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBD75F020567CD1004A8571 /* XL_LeftMenuViewController.swift */; };
 		0FC49C8020A0580B00F5561B /* XL_SPxiadanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC49C7F20A0580B00F5561B /* XL_SPxiadanViewController.swift */; };
 		0FC49C8220A0585300F5561B /* XL_DPliebiaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC49C8120A0585300F5561B /* XL_DPliebiaoViewController.swift */; };
@@ -372,6 +377,11 @@
 		0FA34A5620F99F0200374493 /* XL_XieYi_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_XieYi_ViewController.swift; sourceTree = "<group>"; };
 		0FA34A5820F9A34200374493 /* XL_PeiSongYuan_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_PeiSongYuan_ViewController.swift; sourceTree = "<group>"; };
 		0FA34A5A20F9F7E600374493 /* XL_PSYweizhi_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_PSYweizhi_ViewController.swift; sourceTree = "<group>"; };
+		0FAB33CA210215480015E3A8 /* DatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
+		0FAB33CB210215490015E3A8 /* DatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
+		0FAB33CF2102159B0015E3A8 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		0FAB33D02102159B0015E3A8 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		0FAB33D12102159C0015E3A8 /* UIKit+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+Extension.swift"; sourceTree = "<group>"; };
 		0FBD75F020567CD1004A8571 /* XL_LeftMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_LeftMenuViewController.swift; sourceTree = "<group>"; };
 		0FC49C7F20A0580B00F5561B /* XL_SPxiadanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SPxiadanViewController.swift; sourceTree = "<group>"; };
 		0FC49C8120A0585300F5561B /* XL_DPliebiaoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DPliebiaoViewController.swift; sourceTree = "<group>"; };
@@ -937,6 +947,8 @@
 		0F9875952044E72E00C34111 /* TuSouSou */ = {
 			isa = PBXGroup;
 			children = (
+				0FAB33CE210215740015E3A8 /* Extension */,
+				0FAB33C9210215000015E3A8 /* DatePickerView */,
 				0FFEB76820E75C6A003D5B3F /* 阿里实人认证SDK */,
 				0FFEB74E20E4C281003D5B3F /* 折线图 */,
 				0F4BF69320C7675D00EF3341 /* Sound */,
@@ -976,6 +988,25 @@
 				0F9875B82044E72F00C34111 /* Info.plist */,
 			);
 			path = TuSouSouUITests;
+			sourceTree = "<group>";
+		};
+		0FAB33C9210215000015E3A8 /* DatePickerView */ = {
+			isa = PBXGroup;
+			children = (
+				0FAB33CB210215490015E3A8 /* DatePickerView.swift */,
+				0FAB33CA210215480015E3A8 /* DatePickerView.xib */,
+			);
+			path = DatePickerView;
+			sourceTree = "<group>";
+		};
+		0FAB33CE210215740015E3A8 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				0FAB33CF2102159B0015E3A8 /* UIColor+Extension.swift */,
+				0FAB33D12102159C0015E3A8 /* UIKit+Extension.swift */,
+				0FAB33D02102159B0015E3A8 /* Date+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		0FB777E220A01CF7005901D0 /* 商城 */ = {
@@ -1293,6 +1324,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FAB33CC210215490015E3A8 /* DatePickerView.xib in Resources */,
 				0FC8D03420F5F7D400B126DA /* ordernewtip.wav in Resources */,
 				0FC8D01C20F5EEEA00B126DA /* ssbzsdz.wav in Resources */,
 				0FFEB75C20E4C291003D5B3F /* AAHighchartsMore.js in Resources */,
@@ -1438,10 +1470,12 @@
 				0F1A804220BC266200CEC8A4 /* XL_GRziliaoViewController.swift in Sources */,
 				0F9723DB20BF838A0064A678 /* XL_WDDDXQ_ViewController.swift in Sources */,
 				0FDDB4032056DD0400522188 /* XL_GuanggaoViewController.swift in Sources */,
+				0FAB33D42102159C0015E3A8 /* UIKit+Extension.swift in Sources */,
 				0FEBB58820C4EB1900FBEC1D /* XL_GRZC_ViewController.swift in Sources */,
 				0F3E0C2920C27633003368C4 /* XL_WDdianou_ViewController.swift in Sources */,
 				0F3E0C2D20C2765A003368C4 /* XL_YQHY_ViewController.swift in Sources */,
 				0FC9D81120721B35002EAB4C /* XL_KuaiDixiadan_ViewController.swift in Sources */,
+				0FAB33D32102159C0015E3A8 /* Date+Extension.swift in Sources */,
 				0F4BF69F20C80B4400EF3341 /* XL_DDGL_ViewController.swift in Sources */,
 				0F2BA11320FEE573007662EC /* UIView+ConstraintExtensions.swift in Sources */,
 				0F3E0C2F20C2766C003368C4 /* XL_WDshezhi_ViewController.swift in Sources */,
@@ -1449,6 +1483,7 @@
 				0F1A803F20BBF21C00CEC8A4 /* XL_WDdingdanViewController.swift in Sources */,
 				0FD9EC6920A01D6D009B0AED /* XL_SCsousuoViewController.swift in Sources */,
 				0FEBB58420C4EAFA00FBEC1D /* XL_ZMDL_ViewController.swift in Sources */,
+				0FAB33CD210215490015E3A8 /* DatePickerView.swift in Sources */,
 				0F701C4C20871FDF000F7F67 /* APAuthInfo.m in Sources */,
 				0FC8D01020F4546800B126DA /* XL_huanjing_ViewController.swift in Sources */,
 				0F4BF69920C80B0F00EF3341 /* XL_DPCK_ViewController.swift in Sources */,
@@ -1498,6 +1533,7 @@
 				0FEBB58220C4E89000FBEC1D /* XL_Guanyuwomen_ViewController.swift in Sources */,
 				0F4BF69D20C80B2E00EF3341 /* XL_SPK_ViewController.swift in Sources */,
 				0F3E0C3120C27755003368C4 /* XL_WDzhangdan_ViewController.swift in Sources */,
+				0FAB33D22102159C0015E3A8 /* UIColor+Extension.swift in Sources */,
 				0FFEB76020E4C291003D5B3F /* AAChartView.swift in Sources */,
 				0F04B4E320C0F3B2004C4FBA /* XL_WDXXLB_ViewController.swift in Sources */,
 			);

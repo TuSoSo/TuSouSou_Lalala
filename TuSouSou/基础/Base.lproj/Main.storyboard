@@ -2863,10 +2863,10 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="head" translatesAutoresizingMaskIntoConstraints="NO" id="T0m-CT-uPx">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="head" translatesAutoresizingMaskIntoConstraints="NO" id="T0m-CT-uPx">
                                 <rect key="frame" x="20" y="36" width="86" height="86"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="86" id="r7K-SD-p17"/>
+                                    <constraint firstAttribute="width" secondItem="T0m-CT-uPx" secondAttribute="height" multiplier="1:1" id="cua-2o-UTw"/>
                                     <constraint firstAttribute="width" constant="86" id="tbT-8E-nji"/>
                                 </constraints>
                             </imageView>
@@ -6114,10 +6114,10 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3pv-80-Y60">
-                                <rect key="frame" x="20" y="251.99999999999997" width="374" height="411.33333333333326"/>
+                                <rect key="frame" x="20" y="252" width="374" height="374"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="3pv-80-Y60" secondAttribute="height" multiplier="1:1.1" id="uGb-5U-bc7"/>
+                                    <constraint firstAttribute="width" secondItem="3pv-80-Y60" secondAttribute="height" multiplier="1:1" id="uGb-5U-bc7"/>
                                 </constraints>
                             </webView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="handle" translatesAutoresizingMaskIntoConstraints="NO" id="Hho-y6-zol">
@@ -6479,13 +6479,13 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="W92-r6-fqh" secondAttribute="bottom" id="Ckb-o9-7cm"/>
                             <constraint firstItem="pvz-WT-m2j" firstAttribute="leading" secondItem="kry-bX-62u" secondAttribute="leading" id="LJB-4n-jR9"/>
                             <constraint firstAttribute="trailing" secondItem="W92-r6-fqh" secondAttribute="trailing" id="MdF-Ho-vJ0"/>
                             <constraint firstAttribute="trailing" secondItem="pvz-WT-m2j" secondAttribute="trailing" id="NsY-8H-D45"/>
                             <constraint firstItem="W92-r6-fqh" firstAttribute="top" secondItem="nkT-dn-7kV" secondAttribute="bottom" id="l38-kJ-skN"/>
                             <constraint firstAttribute="bottom" secondItem="pvz-WT-m2j" secondAttribute="bottom" id="lSt-KB-fe8"/>
                             <constraint firstItem="pvz-WT-m2j" firstAttribute="top" secondItem="nkT-dn-7kV" secondAttribute="bottom" id="sLT-Ck-4FW"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="W92-r6-fqh" secondAttribute="bottom" id="tdi-Zx-0cJ"/>
                             <constraint firstItem="W92-r6-fqh" firstAttribute="leading" secondItem="kry-bX-62u" secondAttribute="leading" id="uaW-OG-bPz"/>
                         </constraints>
                     </view>

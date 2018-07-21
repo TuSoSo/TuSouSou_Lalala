@@ -128,7 +128,9 @@ class XL_Dizhibu_ViewController: UIViewController,UITableViewDelegate,UITableVie
         let dizhiString:UILabel = cell.viewWithTag(134) as! UILabel
         if cityList.count != 0 {
             nameString.text = (cityList[indexPath.row])["userName"] as? String
+            nameString.adjustsFontSizeToFitWidth = true
             phoneString.text = "+ 86" + ((cityList[indexPath.row])["phone"]! as! String)
+            phoneString.adjustsFontSizeToFitWidth = true
             dizhiString.text = ((cityList[indexPath.row])["location"]! as! String) + ((cityList[indexPath.row])["address"]! as! String)
         }
         

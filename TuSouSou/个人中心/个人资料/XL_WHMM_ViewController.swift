@@ -22,16 +22,10 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var yanzhengma: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        if rukou == "0" {
-            self.title = "重置登录密码"
-        }else{
-            self.title = "重置支付密码"
-            mima.placeholder = "请输入支付密码"
-            remima.placeholder = "再次输入支付密码"
-        }
         
+        zhanghao.text = userDefaults.value(forKey: "phone") as? String
         zhanghao.delegate = self
-        zhanghao.keyboardType = .numberPad
+//        zhanghao.keyboardType = .numberPad
         mima.delegate = self
         mima.keyboardType = .asciiCapable
         mima.autocorrectionType = .no //联想
@@ -42,6 +36,15 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
         remima.autocapitalizationType = .none //首字母不大写
         yanzhengma.delegate = self
         yanzhengma.keyboardType = .numberPad
+        if rukou == "0" {
+            self.title = "重置登录密码"
+        }else{
+            self.title = "重置支付密码"
+            mima.placeholder = "请输入支付密码(6位数字)"
+            mima.keyboardType = .numberPad
+            remima.placeholder = "再次输入支付密码(6位数字)"
+            remima.keyboardType = .numberPad
+        }
         // Do any additional setup after loading the view.
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -50,6 +53,18 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
         let len = text.count + string.count - range.length
         if rukou == "1" {
             if textField == mima || textField == remima{
+                //判断是否是数字
+                let length = string.lengthOfBytes(using: String.Encoding.utf8)
+                
+                for loopIndex in 0..<length {
+                    
+                    let char = (string as NSString).character(at: loopIndex)
+                    
+                    if char < 48 {return false }
+                    
+                    if char > 57 {return false }
+                    
+                }
                 return len <= 6
             }
         }
@@ -71,6 +86,12 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
                 XL_waringBox().warningBoxModeText(message: "密码过短", view: self.view)
             }
         }
+    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == zhanghao {
+            return false
+        }
+        return true
     }
     @IBAction func huoquYZM(_ sender: Any) {
         FaSongYZM()
@@ -116,12 +137,17 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
         }else{
             passwordType = "1"
         }
-        if (zhanghao.text?.isPhoneNumber())! && mima.text == remima.text && (yanzhengma.text?.count)! > 0 && isTrue{
+        if (zhanghao.text?.isPhoneNumber())!{
+            if isTrue {
+                if mima.text == remima.text {
+                    if (yanzhengma.text?.count)! > 0 {
             let method = "/user/setPassword"
-            let userId = userDefaults.value(forKey: "userId")
-            let dic:[String:Any] = ["userId":userId!,"newPassword":mima.text!,"passwordType":passwordType,"authCode":yanzhengma.text!]
+            let userId = userDefaults.value(forKey: "userId") as! String
+                        let dic:[String:Any] = ["userId":userId,"newPassword":mima.text!,"passwordType":passwordType,"authCode":yanzhengma.text!]
             XL_waringBox().warningBoxModeIndeterminate(message: "密码验证中...", view: self.view)
-            XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            let accessToken = userDefaults.value(forKey: "accessToken") as! String
+                        
+            XL_QuanJu().TokenWangluo(methodName: method, methodType: .post, userId: userId, accessToken: accessToken, rucan: dic, success:{ (res) in
                 print(res)
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                 if (res as! [String: Any])["code"] as! String == "0000" {
@@ -140,13 +166,18 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                 XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
                 print(error)
+                        }
+                    }else{
+                        XL_waringBox().warningBoxModeIndeterminate(message: "请填写验证码", view: self.view)
+                    }
+                }else{
+                    XL_waringBox().warningBoxModeIndeterminate(message: "两次密码不相同", view: self.view)
+                }
+            }else{
+                XL_waringBox().warningBoxModeIndeterminate(message: "支付密码为 6位", view: self.view)
             }
         }else{
-            if isTrue{
-                 XL_waringBox().warningBoxModeIndeterminate(message: "请填写完整信息", view: self.view)
-            }else{
-                 XL_waringBox().warningBoxModeIndeterminate(message: "支付密码为 6位", view: self.view)
-            }
+                XL_waringBox().warningBoxModeIndeterminate(message: "请填写正确的手机号", view: self.view)
         }
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

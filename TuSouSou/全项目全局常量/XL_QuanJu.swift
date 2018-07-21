@@ -18,13 +18,13 @@ let Scheme = "http://"
 let AppName = "/tusousou"
 let apath  =  "/api/rest/1.0"
 //域名
-let QianWaiWangIP = "www.tusousouxr.com"
+//let QianWaiWangIP = "www.tusousouxr.com"
 //服务器
 //let QianWaiWangIP = "39.107.255.187:8080"
 //宋浩然
 //let QianWaiWangIP = "192.168.1.175:8085"
 //小调
-//let QianWaiWangIP = "192.168.1.181:8088"
+let QianWaiWangIP = "192.168.1.181:8088"
 //小展
 //let QianWaiWangIP = "192.168.1.189:8080"
 //二号
@@ -57,7 +57,7 @@ let userDefaults = UserDefaults.standard
 //用户类型： userType 1： 个人 2 ： 企业
 //企业用户是否审核通过：isFirmAdit(int) 1未认证,2认证中，3认证未通过，4认证通过
 //个人实名认证：isRealAuthentication（1未认证,2认证中，3认证未通过，4认证通过）
-//微信号： nickname
+//单点登录： accessToken
 //是否有位支付订单： isNotPay， 1有 2 没有
 let isDengLu = (userDefaults.value(forKey: "isDengLu") as! String == "0") ? true : false
 
@@ -72,6 +72,24 @@ class XL_QuanJu: NSObject {
         let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue)
         return JSONString! as String
         
+    }
+    /**
+     普通接口
+     */
+    func TokenWangluo(methodName: String, methodType: HTTPMethod,userId:String,accessToken:String, rucan: Dictionary<String, Any>, success: @escaping(_ result: Any) -> (), failed: @escaping(_ error: Error) ->()) {
+        let urlString = "\(url)\(methodName)"
+        print(urlString)
+        let JsonString = self.getJSONStringFromDictionary(dictionary: rucan as NSDictionary)
+        let params: Parameters = ["params": JsonString,"userId":userId,"accessToken":accessToken]
+        
+        Alamofire.request(urlString, method: methodType, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON { (responseDate) in
+            guard let result = responseDate.result.value
+                else {
+                    failed(responseDate.error!)
+                    return
+            }
+            success(result)
+        }
     }
    /**
      普通接口

@@ -22,7 +22,7 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
         self.title = "个人中心"
         tableDelegate()
         touxiang.layer.masksToBounds = true
-        touxiang.layer.cornerRadius = touxiang.frame.size.height/2
+        touxiang.layer.cornerRadius = touxiang.frame.size.width/2
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -76,10 +76,8 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
         let cell = (tableView.dequeueReusableCell(withIdentifier: cellString, for: indexPath)) as UITableViewCell
         let touimage: UIImageView = cell.viewWithTag(141) as! UIImageView
         let nameString:UILabel = cell.viewWithTag(142) as! UILabel
-        
         touimage.image = UIImage(named: "\(touarr[indexPath.row])")
         nameString.text = "\(namearr[indexPath.row])"
-        
         cell.selectionStyle = .none
         return cell
     }
@@ -97,6 +95,8 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
             if userDefaults.value(forKey: "isFirmAdit") as! Int == 4  {
                 let WDXX: XL_WDdianou_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddianpu") as? XL_WDdianou_ViewController
                 self.navigationController?.pushViewController(WDXX!, animated: true)
+            }else if userDefaults.value(forKey: "isFirmAdit") as! Int == 2{
+                 XL_waringBox().warningBoxModeText(message: "企业认证中", view: self.view)
             }else{
                 if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
                     //弹框 --- 请先完成实名认证
@@ -105,6 +105,7 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
                         //接口 取回 token 调 阿里
                         let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
                         ShimingRZ?.jiemian = 1
+                        ShimingRZ?.yyy = 1 
                         self.navigationController?.pushViewController(ShimingRZ!, animated: true)
                     }
                     let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)

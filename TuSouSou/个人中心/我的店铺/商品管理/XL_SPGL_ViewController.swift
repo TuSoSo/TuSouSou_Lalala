@@ -344,13 +344,44 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
             DianpuDic["\(textField.tag - 330)"] = textField.text!
         }else{
             DianpuDic["miaoshu"] = textField.text!
+            //界面回去
+            if UIDevice.current.isX() {
+                UIView.animate(withDuration: 0.3, delay: 0.0,
+                               options: .curveLinear, animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y: 88, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }else {
+                UIView.animate(withDuration: 0.3, delay: 0.0,
+                               options: .curveLinear, animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y:64, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }
         }
         
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        //        if textField.tag == 332 || textField.tag == 333 || textField.tag == 334 {
-        //            return false
-        //        }
+        if textField == textFD {
+            //界面上移
+            if UIDevice.current.isX() {
+                UIView.animate(withDuration: 0.3, delay: 0.0,
+                               options: .curveEaseInOut, animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y: -100, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }else {
+                UIView.animate(withDuration: 0.3, delay: 0.0,
+                               options: .curveEaseInOut, animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y:-80, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }
+        }
         return true
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

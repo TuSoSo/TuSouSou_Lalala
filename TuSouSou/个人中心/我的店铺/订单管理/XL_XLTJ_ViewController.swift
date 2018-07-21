@@ -14,105 +14,111 @@ class XL_XLTJ_ViewController: UIViewController {
     @IBOutlet weak var dingdanshuliang: UILabel!
     @IBOutlet weak var jieshubutton: UIButton!
     @IBOutlet weak var kaishibutton: UIButton!
-    var NwDatePicker = UIDatePicker()
-    var banView = UIView()
+
     var shangdic:[String:String] = [:]
     var nage = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "销量统计"
-        tanchulai()
     }
     
     @IBAction func kaishi(_ sender: Any) {
         nage = 1
-        chu()
+        shijian()
     }
     
     @IBAction func jieshu(_ sender: Any) {
         nage = 2
-        chu()
+        shijian()
     }
-    func chu()  {
-        banView.isHidden = false
-        NwDatePicker.isHidden = false
-    }
-    @objc func mei() {
-        banView.isHidden = true
-        NwDatePicker.isHidden = true
-    }
-    func tanchulai() {
-        banView.frame = CGRect(x: 0, y: 0, width: Width, height: Height)
-        banView.backgroundColor = UIColor.black
-        banView.alpha = 0.8
-        let top1 = UITapGestureRecognizer(target: self, action: #selector(mei))
-        banView.addGestureRecognizer(top1)
-        self.view.addSubview(banView)
-        banView.isHidden = true
-        NwDatePicker.frame = CGRect(x: 0, y: Height - 300, width: Width, height: 300)
-        NwDatePicker.backgroundColor = UIColor.white
-        NwDatePicker.locale = Locale.init(identifier: "zh_CN")
-        NwDatePicker.isHidden = true
-//        NwDatePicker.layer.borderWidth = 1
-//        NwDatePicker.layer.borderColor = (UIColor.groupTableViewBackground as! CGColor)
-        NwDatePicker.datePickerMode = .date
-        NwDatePicker.addTarget(self, action: #selector(chooseDate( _:)), for:UIControlEvents.valueChanged)
-        self.view.addSubview(NwDatePicker)
-    }
-    @objc func chooseDate(_ datePicker:UIDatePicker) {
-        let  chooseDate = datePicker.date
-        let  dateFormater = DateFormatter.init()
-        dateFormater.dateFormat = "YYYY-MM-dd"
-        let date = dateFormater.string(from: chooseDate)
-        if nage == 1 {
-            kaishibutton.setTitle(date, for: .normal)
-            shangdic["1"] = date
-        }else{
-            jieshubutton.setTitle(date, for: .normal)
-            shangdic["2"] = date
+    func shijian() {
+        let dateFormatter = "HH:mm"
+        let datePicker = DatePickerView.datePicker(frame: CGRect(x: 0, y: 0, width: Width, height: Height), style: .hourMinute, scrollToDate: Date()) { date in
+            guard let date = date else { return }
+            
+            let dateStr = date.toString(dateFormatter)
+//            XL_waringBox().warningBoxModeText(message: "\(dateStr)", view: self.view)
+            if self.nage == 1 {
+                self.shangdic["1"] = dateStr
+                self.kaishibutton.setTitle(dateStr, for: .normal)
+                if nil != self.shangdic["2"] && (self.shangdic["2"]!).count>0{
+                    if !self.shijianpanduan(kaiTime: self.shangdic["1"]!, guanTime: self.shangdic["2"]!) {
+                        XL_waringBox().warningBoxModeText(message: "开始时间不能大于结束时间", view: self.view)
+                        self.shangdic["1"] = ""
+                        self.kaishibutton.setTitle("点击选择开始时间", for: .normal)
+                    }
+                }
+                
+            }else if self.nage == 2 {
+                self.shangdic["2"] = dateStr
+                self.jieshubutton.setTitle(dateStr, for: .normal)
+                if nil != self.shangdic["1"] && (self.shangdic["1"]!).count>0{
+                    if !self.shijianpanduan(kaiTime: self.shangdic["1"]!, guanTime: self.shangdic["2"]!) {
+                        XL_waringBox().warningBoxModeText(message: "结束时间不能小于开始时间", view: self.view)
+                        self.shangdic["2"] = ""
+                        self.jieshubutton.setTitle("点击选择结束时间", for: .normal)
+                    }
+                }
+            }
         }
-//        print(dateFormater.string(from: chooseDate))
+        
+        let date = Date.date("时分", formatter: dateFormatter)
+        datePicker.scrollToDate = date == nil ? Date.date(Date().toString(dateFormatter), formatter: dateFormatter)! : date!
+        datePicker.show()
     }
+    func shijianpanduan(kaiTime:String,guanTime:String) -> Bool {
+        let kaiarr:[String] = kaiTime.components(separatedBy: ":")
+        let guanarr:[String] = guanTime.components(separatedBy: ":")
+        if Int(kaiarr[0])! < Int(guanarr[0])! {
+            return true
+        }else if Int(kaiarr[0])! == Int(guanarr[0])! {
+            if Int(kaiarr[1])! < Int(guanarr[1])! {
+                return true
+            }else {
+                return false
+            }
+        }else {
+            return false
+        }
+        
+    }
+    
     @IBAction func chaxun(_ sender: Any) {
         //接口
-        let method = "/order/orderSalesCounts"
-        let userId = userDefaults.value(forKey: "userId")
-        var xx = 1
-        var beginTime = ""
-        if nil != shangdic["1"] {
-            beginTime = shangdic["1"]!
+        if nil == shangdic["1"] || shangdic["1"]!.count == 0 {
+            XL_waringBox().warningBoxModeText(message: "请选择开始时间", view: self.view)
         }else{
-            xx = 2
-        }
-        var endTime = ""
-        if nil != shangdic["2"] {
-            endTime = shangdic["2"]!
-        }else{
-            xx = 2
-        }
-        if xx == 1 {
-            let dic:[String:Any] = ["userId":userId!,"beginTime":beginTime,"endTime":endTime]
-            XL_waringBox().warningBoxModeIndeterminate(message: "查询中...", view: self.view)
-            XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
-                print(res)
-                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-                if (res as! [String: Any])["code"] as! String == "0000" {
-                    let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                    self.jiemianjiazai(dic: data)
-                    
-                }else{
-                    let msg = (res as! [String: Any])["msg"] as! String
-                    XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+            if nil == shangdic["2"] || shangdic["2"]!.count == 0 {
+                XL_waringBox().warningBoxModeText(message: "请选择结束时间", view: self.view)
+            }else{
+                let method = "/order/orderSalesCounts"
+                let userId = userDefaults.value(forKey: "userId")
+                let beginTime = shangdic["1"]!
+                let endTime = shangdic["2"]!
+                
+                let dic:[String:Any] = ["userId":userId!,"beginTime":beginTime,"endTime":endTime]
+                XL_waringBox().warningBoxModeIndeterminate(message: "查询中...", view: self.view)
+                XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+                    print(res)
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    if (res as! [String: Any])["code"] as! String == "0000" {
+                        let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                        self.jiemianjiazai(dic: data)
+                        
+                    }else{
+                        let msg = (res as! [String: Any])["msg"] as! String
+                        XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                    }
+                }) { (error) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+                    print(error)
                 }
-            }) { (error) in
-                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-                XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
-                print(error)
             }
-        }else{
-            XL_waringBox().warningBoxModeText(message: "请选择时间", view: self.view)
         }
+       
+       
     }
     func jiemianjiazai(dic:[String:Any]) {
         var salesMoney = (dic["salesMoney"] as? String)!

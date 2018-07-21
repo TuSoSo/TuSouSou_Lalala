@@ -9,6 +9,8 @@
 import UIKit
 
 class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
+    var yyy = 0
+    
     
     var qiyeDic:[String:String] = [:]
     
@@ -24,8 +26,18 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
         super.viewDidLoad()
         tableDelegate()
         self.title = "企业认证"
-        // Do any additional setup after loading the view.
+//        if yyy == 1 {
+//            //左上角为X
+//            fanhuidaoRoot()
+//        }
     }
+//    func fanhuidaoRoot() {
+//        let leftBarBtn = UIBarButtonItem(title: "X", style: .plain, target: self,action: #selector(backToPrevious))
+//        self.navigationItem.leftBarButtonItem = leftBarBtn
+//    }
+//    @objc func backToPrevious()  {
+//
+//    }
     //MARK:tableviewDelegate
     func tableDelegate() {
         tableQiye.delegate = self
@@ -269,9 +281,31 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
                 XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyArr, valueArray: valueArr, methodName: method, success: { (res) in
                     XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                     if (res as! [String: Any])["code"] as! String == "0000" {
-                        XL_waringBox().warningBoxModeText(message: "提交成功", view: self.view)
+                        
                         userDefaults.set(2, forKey: "isFirmAdit")
-                        self.navigationController?.popViewController(animated: true)
+                        if self.yyy == 2 {
+                            //跳登陆。或者直接登录
+                            //
+                            let sheet  = UIAlertController(title: "提示", message: "企业认证资料提交成功，请等待审核，现已可以用此账号进行登录。", preferredStyle: .alert)
+                            let queding = UIAlertAction(title: "确定", style: .cancel, handler: { (ss) in
+                                for controller: UIViewController in (self.navigationController?.viewControllers)! {
+                                    if controller.isKind(of: XL_Denglu_ViewController.self) == true{
+                                        let a = controller as! XL_Denglu_ViewController
+                                        self.navigationController?.popToViewController(a, animated: true)
+                                        
+                                    }
+                                }
+                            })
+                            sheet.addAction(queding)
+                            self.present(sheet, animated: true, completion: nil)
+                        }else if self.yyy == 1 {
+                           XL_waringBox().warningBoxModeText(message: "等待审核中～～", view: (self.navigationController?.view)!)
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }else{
+                           XL_waringBox().warningBoxModeText(message: "等待审核中～～", view: (self.navigationController?.view)!)
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                        
                     }else{
                         let Msg = (res as! [String: Any])["msg"] as! String
                         XL_waringBox().warningBoxModeText(message: Msg, view: self.view)

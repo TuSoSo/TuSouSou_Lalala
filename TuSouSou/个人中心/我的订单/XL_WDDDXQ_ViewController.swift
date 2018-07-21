@@ -11,6 +11,8 @@ import UIKit
 class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,RatingBarDelegate {
     var leixing:String? //是否已完成
     var shangLX:String? //是否有商品
+    var isPingjia = 0
+    
     
     var evalClear:Float = 10.0
     var evalSpeed:Float = 10.0
@@ -513,6 +515,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                             fenshu = SPDic["evalSpeed"] as! Float
                         }
                         if fenshu == 0 {
+                            isPingjia = 1
                             fenshu = 5
                         }
                         zuolabel.text = "配送速度"
@@ -525,6 +528,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         }
                         if fenshu == 0 {
                             fenshu = 5
+                            isPingjia = 1
                         }
                         zuolabel.text = "服务态度"
                         ratingBar1.displayRating(fenshu)
@@ -535,6 +539,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                             fenshu = SPDic["evalClear"] as! Float
                         }
                         if fenshu == 0 {
+                            isPingjia = 1
                             fenshu = 5
                         }
                         zuolabel.text = "衣着整洁"
@@ -545,10 +550,19 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                 }else if indexPath.section == 5{
                     // 确定按钮
                     let PJbutton = UIButton(frame: CGRect(x: Width/2 - 75, y: 16, width: 150, height: 56))
-                    PJbutton.backgroundColor = UIColor.orange
+                    
 //                    PJbutton.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
 //                    PJbutton.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
-                    PJbutton.setTitle("提交评价", for: .normal)
+                    PJbutton.isSelected = false
+                    if isPingjia == 0 {
+                        PJbutton.setTitle("已评价", for: .selected)
+                        PJbutton.isSelected = true
+                        PJbutton.backgroundColor = UIColor.orange
+                    }else{
+                        PJbutton.setTitle("提交评价", for: .normal)
+                        PJbutton.isSelected = false
+                        PJbutton.backgroundColor = UIColor.orange
+                    }
                     PJbutton.setTitleColor(UIColor.white, for: .normal)
 //                    PJbutton.isUserInteractionEnabled = true
                     PJbutton.addTarget(self, action: #selector(PJjiekou), for: .touchUpInside)
@@ -639,6 +653,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         }
                         if fenshu == 0 {
                             fenshu = 5
+                            isPingjia = 1
                         }
                         zuolabel.text = "配送速度"
                         ratingBar1.displayRating(fenshu)
@@ -650,6 +665,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         }
                         if fenshu == 0 {
                             fenshu = 5
+                            isPingjia = 1
                         }
                         zuolabel.text = "服务态度"
                         ratingBar1.displayRating(fenshu)
@@ -661,6 +677,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         }
                         if fenshu == 0 {
                             fenshu = 5
+                            isPingjia = 1
                         }
                         zuolabel.text = "衣着整洁"
                         ratingBar1.displayRating(fenshu)
@@ -670,10 +687,16 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                 }else if indexPath.section == 4{
                     // 确定按钮
                     let PJbutton = UIButton(frame: CGRect(x: Width/2 - 75, y: 16, width: 150, height: 56))
-                    PJbutton.backgroundColor = UIColor.orange
-//                    PJbutton.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
-//                    PJbutton.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
-                    PJbutton.setTitle("提交评价", for: .normal)
+                    PJbutton.isSelected = false
+                    if isPingjia == 0 {
+                        PJbutton.setTitle("已评价", for: .selected)
+                        PJbutton.isSelected = true
+                        PJbutton.backgroundColor = UIColor.orange
+                    }else {
+                        PJbutton.setTitle("提交评价", for: .normal)
+                        PJbutton.isSelected = false
+                        PJbutton.backgroundColor = UIColor.orange
+                    }
                     PJbutton.setTitleColor(UIColor.white, for: .normal)
 //                    PJbutton.isUserInteractionEnabled = true
                     PJbutton.addTarget(self, action: #selector(PJjiekou), for: .touchUpInside)
@@ -904,12 +927,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                 }
                 if isXS == 2 {
                     let wwddxq: XL_PSYweizhi_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "psyweizhi") as? XL_PSYweizhi_ViewController
-                    wwddxq?.longitudeJi = SPDic["longitudeJi"] as! String
-                    wwddxq?.latitudeJi = SPDic["latitudeJi"] as! String
-                    wwddxq?.longitudeShou = SPDic["longitudeShou"] as! String
-                    wwddxq?.latitudeShou = SPDic["latitudeShou"] as! String
-                    wwddxq?.longitudePost = SPDic["longitudePost"] as! String
-                    wwddxq?.latitudePost = SPDic["latitudePost"] as! String
+                    wwddxq?.longitudeJi = dingdanId!
                     self.navigationController?.pushViewController(wwddxq!, animated: true)
                 }else{
                     XL_waringBox().warningBoxModeText(message: msg, view: self.view)
@@ -934,7 +952,9 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
     }
     @objc func PJjiekou() {
         print("评价接口")
-        pingjiajiekou()
+        if isPingjia != 0 {
+            pingjiajiekou()
+        }
     }
     func pingjiajiekou() {
         let method = "/user/evaluate"

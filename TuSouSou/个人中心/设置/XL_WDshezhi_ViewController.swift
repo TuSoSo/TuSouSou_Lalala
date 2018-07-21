@@ -219,7 +219,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             self.navigationController?.pushViewController(WDXX!, animated: true)
         }else if indexPath.row == 3 {
             //企业认证
-            if userDefaults.value(forKey: "isFirmAdit") as! Int == 4 {
+            if userDefaults.value(forKey: "isFirmAdit") as! Int == 4 || userDefaults.value(forKey: "isFirmAdit") as! Int == 2 {
                 
             }else{
                 if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
@@ -229,6 +229,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
                         //接口 取回 token 调 阿里
                         let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
                         ShimingRZ?.jiemian = 1
+                       ShimingRZ?.yyy = 1
                         self.navigationController?.pushViewController(ShimingRZ!, animated: true)
                     }
                     let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
@@ -275,6 +276,10 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             let WDXX: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
             userDefaults.set("0", forKey: "isDengLu")
             userDefaults.set("", forKey: "nickname")
+            userDefaults.set(true, forKey: "Tuisong")
+            JPUSHService.deleteAlias({ (iResCode, alias, aa) in
+                print("\(iResCode)\n别名:  \(alias)\n\(aa)")
+            }, seq: 1)
             WDXX?.xxjj = 1
             self.navigationController?.pushViewController(WDXX!, animated: true)
         }

@@ -11,11 +11,6 @@ import UIKit
 class XL_PSYweizhi_ViewController: UIViewController,UIWebViewDelegate {
 
     var longitudeJi = ""
-    var latitudeJi = ""
-    var longitudeShou = ""
-    var latitudeShou = ""
-    var longitudePost = ""
-    var latitudePost = ""
     
     @IBOutlet weak var wenview: UIWebView!
     override func viewDidLoad() {
@@ -33,7 +28,7 @@ class XL_PSYweizhi_ViewController: UIViewController,UIWebViewDelegate {
     }
     // MARK: 绑定JS交互事件
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        let s = longitudeJi + "," + latitudeJi + "," + longitudeShou + "," + latitudeShou + "," + longitudePost + "," + latitudePost + "," + "寄(取)件位置" + "," + "收件位置" + "," + "配送员位置";
+        let s = longitudeJi
         wenview.stringByEvaluatingJavaScript(from: String(format: "javascript:addSpot('%@')", s))
     }
     

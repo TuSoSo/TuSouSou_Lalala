@@ -354,7 +354,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 }
                 
                 if !shang.isPhoneNumber() || !xia.isPhoneNumber() {
-                    XL_waringBox().warningBoxModeText(message: "请完善订单信息", view: self.view)
+                    XL_waringBox().warningBoxModeText(message: "请填写正确的手机号", view: self.view)
                 }else{
                     xiadanjiekou(shang:shang,xia:xia)
                 }
@@ -405,6 +405,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
             print(error)
         }
+
     }
     //MARK:下边整体界面 除了商城
     func xiajiemian() {
@@ -413,7 +414,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             jiqujianView.isHidden = false
             shangtuPutlet.image = UIImage(named:"ji")
             xiatuOutlet.image = UIImage(named:"shou")
-            shDZOutlet.text = weizhi
+            shDZOutlet.text = "寄件人地址"
             xiaDZOutlet.text = "收件人地址"
             xiaName.text = "收件人姓名"
             xiaPhone.text = "收件人电话"
@@ -427,7 +428,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             shDZOutlet.text = "取件人地址"
             shangName.text = "取件人姓名"
             shangPhone.text = "取件人电话"
-            xiaDZOutlet.text = weizhi
+            xiaDZOutlet.text = "收件人地址"
             xiaName.text = "收件人姓名"
             xiaPhone.text = "收件人电话"
             _tableView.isHidden = true
@@ -840,7 +841,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 self.city = city
                 userDefaults.set(city, forKey: "cityName")
                 //当前位置显示的
-                self.weizhi = State + city + (SubLocality as String) + Street
+//                self.weizhi = State + city + (SubLocality as String) + Street
                 self.dizhi()
             }
             else
@@ -861,12 +862,16 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
     //MARK:寄件取件商城切换
     @IBAction func jijianButton(_ sender: Any) {
         daohang = 1
+        self.shangDiZhi = ""
+        self.shangXiangQing = ""
         shangjiemian()
         xiajiemian()
     }
     
     @IBAction func qujianButton(_ sender: Any) {
         daohang = 2
+        self.shangDiZhi = ""
+        self.shangXiangQing = ""
         shangjiemian()
         xiajiemian()
     }
@@ -1007,65 +1012,93 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
             break
         }
     }
-    //自动登录
-    func zidongdenglu(loginMethod: String,loginName:String,passWord:String,authCode:String, openID: String) {
-        let method = "/user/logined"
-        let dic = ["loginPlatform":"1","loginMethod":loginMethod,"loginName":loginName,"passWord":passWord,"authCode":authCode,"openID":openID]
-//        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
-        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
-            print(res)
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
-                let dic = (res as! [String: Any])["data"] as! [String:Any]
-                userDefaults.set(dic["userId"], forKey: "userId")
-                userDefaults.set(dic["isPayPassWord"], forKey: "isPayPassWord")
-                userDefaults.set(dic["userPhone"], forKey: "userPhone")
-                userDefaults.set(dic["invitationCode"], forKey: "invitationCode")
-                userDefaults.set(loginMethod, forKey: "loginMethod")
-                userDefaults.set(passWord, forKey: "passWord")
-                userDefaults.set(openID, forKey: "openID")
-                userDefaults.set("1", forKey: "isDengLu")
-                AppDelegate().method()
-                let time: TimeInterval = 1
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
-                    self.shouyejiekou()
-                }
-            }else{
-                let msg = (res as! [String: Any])["msg"] as! String
-                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
-            }
-        }) { (error) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
-            print(error)
-        }
-    }
+//    //自动登录
+//    func zidongdenglu(loginMethod: String,loginName:String,passWord:String,authCode:String, openID: String) {
+//        let method = "/user/logined"
+//        let dic = ["loginPlatform":"1","loginMethod":loginMethod,"loginName":loginName,"passWord":passWord,"authCode":authCode,"openID":openID]
+////        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
+//        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+//            print(res)
+//            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+//            if (res as! [String: Any])["code"] as! String == "0000" {
+//                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
+//                let dic = (res as! [String: Any])["data"] as! [String:Any]
+//                userDefaults.set(dic["userId"], forKey: "userId")
+//                userDefaults.set(dic["isPayPassWord"], forKey: "isPayPassWord")
+//                userDefaults.set(dic["userPhone"], forKey: "userPhone")
+//                userDefaults.set(dic["invitationCode"], forKey: "invitationCode")
+//                userDefaults.set(loginMethod, forKey: "loginMethod")
+//                userDefaults.set(passWord, forKey: "passWord")
+//                userDefaults.set(openID, forKey: "openID")
+//                userDefaults.set("1", forKey: "isDengLu")
+//                userDefaults.set(dic["accessToken"], forKey: "accessToken")
+//                AppDelegate().method()
+//                let time: TimeInterval = 1
+//                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
+//                    self.shouyejiekou()
+//                }
+//            }else{
+//                let msg = (res as! [String: Any])["msg"] as! String
+//                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+//            }
+//        }) { (error) in
+//            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+//            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+//            print(error)
+//        }
+//    }
     func shouyejiekou(){
         let method = "/user/Home"
         let userId:String = userDefaults.value(forKey: "userId") as! String
         let dic:[String:Any] = ["userId":userId,"cityName":city]
 //        XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
-        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+        guard let accessToken = userDefaults.value(forKey: "accessToken") else {
+            return
+        }
+        XL_QuanJu().TokenWangluo(methodName: method, methodType: .post, userId: userId, accessToken: accessToken as! String, rucan: dic, success: { (res) in
             print(res)
-        
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
 //                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 let jjj:String = String(format: "%f", dic["percentage"] as! Double)
-                
-                let bySsMoney = dic["bySsMoney"] as! String
-                let isNotPay = dic["isNotPay"] as! String
+                var bySsMoney = ""
+                if  nil != dic["bySsMoney"]{
+                    bySsMoney = dic["bySsMoney"] as! String
+                }
+                var isNotPay = "2"
+                if nil != dic["isNotPay"]{
+                    isNotPay = dic["isNotPay"] as! String
+                }
                 let jiage:String = self.preciseDecimal(x: jjj, p: 4)
                 //jiage 转保留4位小数
                 self.jinrisousouBi.text = "今日飕飕币价格：\(jiage)"
                 self.jinrisousouBi.adjustsFontSizeToFitWidth = true
-                userDefaults.set(dic["userType"], forKey: "userType")
-                userDefaults.set(dic["isFirmAdit"], forKey: "isFirmAdit")
-                userDefaults.set(dic["isRealAuthentication"], forKey: "isRealAuthentication")
-                userDefaults.set(dic["phone"], forKey: "phone")
-                userDefaults.set(dic["isOpen"], forKey: "isOpen")
+                var userType = 1
+                if nil != dic["userType"]{
+                    userType = dic["userType"] as! Int
+                }
+                var isFirmAdit = 1
+                if nil != dic["isFirmAdit"]{
+                    isFirmAdit = dic["isFirmAdit"] as! Int
+                }
+                var isRealAuthentication = 1
+                if nil != dic["isRealAuthentication"]{
+                    isRealAuthentication = dic["isRealAuthentication"] as! Int
+                }
+                var phone = ""
+                if nil != dic["phone"]{
+                    phone = dic["phone"] as! String
+                }
+                var isOpen = 1
+                if nil != dic["isOpen"]{
+                    isOpen = dic["isOpen"] as! Int
+                }
+                userDefaults.set(userType, forKey: "userType")
+                userDefaults.set(isFirmAdit, forKey: "isFirmAdit")
+                userDefaults.set(isRealAuthentication, forKey: "isRealAuthentication")
+                userDefaults.set(phone, forKey: "phone")
+                userDefaults.set(isOpen, forKey: "isOpen")
                 if bySsMoney != "" {
                     //alert
                     let sheet = UIAlertController(title: "温馨提示:", message: "您获得了 \(bySsMoney)个飕飕币～", preferredStyle: .alert)
@@ -1083,6 +1116,20 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
 //                isOpen(int):是否开通配送员(1.是2否)
 //                bySsMoney(String):被发送飕飕币数量
 
+            }else if (res as! [String: Any])["code"] as! String == "1000" {
+                let sheet = UIAlertController(title: "安全提示:", message: "您的账号在其它地方登录，注意账号安全，请重新登录。", preferredStyle: .alert)
+                let cancel = UIAlertAction(title: "确定", style: .cancel, handler: { (ss) in
+                    let WDXX: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+                    userDefaults.set("0", forKey: "isDengLu")
+                    userDefaults.set(true, forKey: "Tuisong")
+                    JPUSHService.deleteAlias({ (iResCode, alias, aa) in
+                        print("\(iResCode)\n别名:  \(alias)\n\(aa)")
+                    }, seq: 1)
+                    WDXX?.xxjj = 1
+                    self.navigationController?.pushViewController(WDXX!, animated: true)
+                })
+                sheet.addAction(cancel)
+                self.present(sheet, animated: true, completion: nil)
             }else{
                 let msg = (res as! [String: Any])["msg"] as! String
                 XL_waringBox().warningBoxModeText(message: msg, view: self.view)

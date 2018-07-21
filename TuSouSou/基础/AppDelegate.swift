@@ -22,6 +22,7 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
             UIScrollView.appearance().contentInsetAdjustmentBehavior = .never
             //            appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         }
+        
         //阿里实人认证
         RPSDK.initialize(.online)
         //极光推送
@@ -51,6 +52,7 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         //        取得当前版本号
         let infoDic = Bundle.main.infoDictionary
         let currentAppVersion = infoDic! ["CFBundleShortVersionString"] as! String
+        huoquAppStore(version:currentAppVersion)
         //        取得之前版本号
         let userDefaults = UserDefaults.standard
         let appVersion = userDefaults.string(forKey: "appVersion")
@@ -64,14 +66,61 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
             window?.makeKeyAndVisible()
         }else{
             let advertiseVC: XL_GuanggaoViewController! = storyboard.instantiateViewController(withIdentifier: "guanggao") as! XL_GuanggaoViewController
-            
             window?.rootViewController = advertiseVC
         }
         
         
         return true
     }
-    
+    func huoquAppStore(version:String) {
+        let appidStr:String="1391440776"
+        
+//        let appidStr:String="1080090899"
+        let appurlStr:String=String.init(format: "https://itunes.apple.com/cn/lookup?id=%@", appidStr)
+        
+        let url:URL=URL.init(string: appurlStr)!
+        
+        do{
+            
+            let jsonData=try Data.init(contentsOf: url)
+            
+            let json=try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String:Any]
+            
+            let res=json["results"]//APPstore信
+            
+            if res is [[String:Any]] {
+                if (res as! [[String:Any]]).count != 0 {
+                    let arr = res as! [[String: Any]]
+                    let xxxdic = arr[0]
+                    let newversion = xxxdic["version"] as! String
+                    banben(version: version, newversion: newversion)
+                }
+            }
+        }catch{
+        }
+    }
+    func banben(version:String,newversion:String) {
+        if version != newversion {
+            let alertWindow = UIWindow(frame: UIScreen.main.bounds)
+            alertWindow.rootViewController = UIViewController()
+            
+            alertWindow.windowLevel = UIWindowLevelAlert + 1;
+            alertWindow.makeKeyAndVisible()
+            
+            //跳转到App Store
+            let sheet = UIAlertController(title: "温馨提示", message: "请前往App Store 下载新版本", preferredStyle: .alert)
+            let queding = UIAlertAction(title: "好的", style: .cancel, handler: { (ss) in
+                self.gotoAppStore()
+            })
+            sheet.addAction(queding)
+            alertWindow.rootViewController?.present(sheet, animated: true, completion: nil)
+        }
+    }
+    func gotoAppStore() {
+        let urlString = "itms-apps://itunes.apple.com/app/id1391440776"
+        let url = NSURL(string: urlString)
+        UIApplication.shared.openURL(url! as URL)
+    }
     //MARK:微信三方登录
     func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
         if url.scheme == WeiXin_AppID {
@@ -101,11 +150,19 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
     func onResp(_ resp: BaseResp!) {
         
         if resp.isKind(of: SendMessageToWXResp.self) {//确保是对我们分享操作的回调
+            var strMsg = ""
             if resp.errCode == WXSuccess.rawValue{//分享成功
-                NSLog("分享成功")
+                strMsg = "分享成功"
             }else{//分享失败
-                print("分享失败")
+                strMsg = "分享失败"
             }
+//            let tabBarController = self.window?.rootViewController as! UITabBarController
+//            let navController = tabBarController.selectedViewController as! UINavigationController
+//            let serviceViewController = navController.topViewController
+//
+//            XL_waringBox().warningBoxModeText(message: strMsg, view:(serviceViewController?.navigationController?.view)! )
+            let alert = UIAlertView(title: nil, message: strMsg, delegate: nil, cancelButtonTitle: "确定")
+            alert.show()
         }
         else if resp.isKind(of: PayResp.self) {
             var strMsg = "(resp.errCode)"

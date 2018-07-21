@@ -47,7 +47,7 @@ class XL_WDdianou_ViewController: UIViewController {
             let WDXX: XL_DDGL_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ddgl") as? XL_DDGL_ViewController
             self.navigationController?.pushViewController(WDXX!, animated: true)
         }else{
-            XL_waringBox().warningBoxModeText(message: "您还有有开店哟～请先进入店铺设置～", view: self.view)
+            XL_waringBox().warningBoxModeText(message: "您还没有开店哟～请先进入店铺设置～", view: self.view)
         }
     }
     @IBAction func shangpinshezhi(_ sender: Any) {
@@ -55,7 +55,7 @@ class XL_WDdianou_ViewController: UIViewController {
             let WDXX: XL_SPGL_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "spgl") as? XL_SPGL_ViewController
             self.navigationController?.pushViewController(WDXX!, animated: true)
         }else {
-            XL_waringBox().warningBoxModeText(message: "您还有有开店哟～请先进入店铺设置～", view: self.view)
+            XL_waringBox().warningBoxModeText(message: "您还没有开店哟～请先进入店铺设置～", view: self.view)
         }
     }
     @IBAction func dianpushizhe(_ sender: Any) {

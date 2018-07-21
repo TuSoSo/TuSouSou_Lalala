@@ -43,6 +43,7 @@ class XL_TX_ViewController: UIViewController,UITextFieldDelegate,UIImagePickerCo
                 let newstring = TupianUrl + logoUrl
                 let uul = URL(string: String(format: "%@",newstring.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))
                 self.shoukuanma.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
+                self.xxx = 1
             }else{
                 let msg = (res as! [String: Any])["msg"] as! String
                 XL_waringBox().warningBoxModeText(message: msg, view: self.view)

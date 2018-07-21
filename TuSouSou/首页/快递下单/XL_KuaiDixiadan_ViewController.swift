@@ -22,7 +22,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     var paymentMethod = ""
     
     var dkAmount = ""
-    
+    var cicishushu = 0
     var orderType:Int?
     var zhinazhisong:String?
     var dingdanjine:String?
@@ -30,7 +30,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     var zhinazhi = "0"
     var julili = "0"
     
-    
+  //
     var dingdanID:String?
     var dingdanhao :String?
     
@@ -192,10 +192,10 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     func ButtonXF() {
-        ButtonRMB = anniu(button: ButtonRMB, name: "人民币", frame: CGRect(x: Width - 180, y: 8, width: 80, height: 32))
+        ButtonRMB = anniu(button: ButtonRMB, name: "人民币", frame: CGRect(x: Width - 160, y: 8, width: 70, height: 32))
         ButtonRMB.isSelected = true
         ButtonRMB.addTarget(self, action: #selector(renminbi), for: .touchUpInside)
-        ButtonSSB = anniu(button: ButtonSSB, name: "飕飕币", frame: CGRect(x: Width - 90, y: 8, width: 80, height: 32))
+        ButtonSSB = anniu(button: ButtonSSB, name: "飕飕币", frame: CGRect(x: Width - 80, y: 8, width: 70, height: 32))
         ButtonSSB.isSelected = false
         ButtonSSB.addTarget(self, action: #selector(sousousousoubi), for: .touchUpInside)
     }
@@ -419,7 +419,8 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         zhifuButton2 = UIButton(frame: CGRect(x: Width - 32, y: 16, width: 16, height: 16))
         zhifuButton2.setImage(UIImage(named: "圆圈未选中"), for: .normal)
         zhifuButton2.setImage(UIImage(named: "圆圈选中"), for: .selected)
-        zhifuButton2.isSelected = false
+        zhifuButton2.isSelected = true
+        paymentMethod = "1"
         zhifuButton2.addTarget(self, action: #selector(DidzhifuButton2), for: .touchUpInside)
         
         xiaofeiTF = UITextField(frame: CGRect(x: 102, y: 8, width: 100, height: 32))
@@ -576,8 +577,12 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                      如果够 - 则添加zhifuButton2
                      如果不够 - 泽添加yueLabel
                      */
-                  
+                    cicishushu += 1
                     if Float(HeJijine.text!)! <= Float(dangqianyue)!{
+                        if cicishushu < 3{
+                            zhifuButton2.isSelected = true
+                            paymentMethod = "1"
+                        }
                         cell.addSubview(zhifuButton2)
                     }else{
                         cell.addSubview(yueLabel)
@@ -1135,18 +1140,13 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     func isPurnFloat(string: String) -> Bool {
-        
         let scan: Scanner = Scanner(string: string)
-        
         var val:Float = 0
-        
         return scan.scanFloat(&val) && scan.isAtEnd
     }
     //MARK：提示框
     func showConfirm(title: String, message: String, in viewController: UIViewController,confirme:((UIAlertAction)->Void)?,
                      confirm: ((UIAlertAction)->Void)?) {
-       
-        
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: confirme))
         alert.addAction(UIAlertAction(title: "确定", style: .default, handler: confirm))
@@ -1186,24 +1186,19 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue,
         let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
         let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
-            
             let frame = value.cgRectValue
             let intersection = frame.intersection(self.view.frame)
             if UIDevice.current.isX() {
                 UIView.animate(withDuration: duration, delay: 0.0,
                                options: UIViewAnimationOptions(rawValue: curve), animations: {
-                                
                                 self.view.frame = CGRect(x: 0, y: -intersection.height
                                     + 88, width: self.view.frame.width, height: self.view.frame.height)
-                                
                 }, completion: nil)
             }else{
                 UIView.animate(withDuration: duration, delay: 0.0,
                                options: UIViewAnimationOptions(rawValue: curve), animations: {
-                                
                                 self.view.frame = CGRect(x: 0, y: -intersection.height
                                     + 64, width: self.view.frame.width, height: self.view.frame.height)
-                                
                 }, completion: nil)
             }
         }
@@ -1218,19 +1213,17 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         button.setImage(UIImage(named: "圆圈未选中"), for: .normal)
         button.setImage(UIImage(named: "圆圈选中"), for: .selected)
         //button图片的偏移量，距上左下右分别(10, 10, 10, 60)像素点
-        button.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 60);
+        button.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 48);
         //button标题的偏移量，这个偏移量是相对于图片的
         button.titleEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
         return button
     }
-    
 }
 //MARK：扩展UIColor
 extension UIColor{
     convenience init(hexString:String){
         //处理数值
         var cString = hexString.uppercased().trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        
         let length = (cString as NSString).length
         //错误处理
         if (length < 6 || length > 7 || (!cString.hasPrefix("#") && length == 7)){
@@ -1238,24 +1231,18 @@ extension UIColor{
             self.init(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
             return
         }
-        
         if cString.hasPrefix("#"){
             cString = (cString as NSString).substring(from: 1)
         }
-        
         //字符chuan截取
         var range = NSRange()
         range.location = 0
         range.length = 2
-        
         let rString = (cString as NSString).substring(with: range)
-        
         range.location = 2
         let gString = (cString as NSString).substring(with: range)
-        
         range.location = 4
         let bString = (cString as NSString).substring(with: range)
-        
         //存储转换后的数值
         var r:UInt32 = 0,g:UInt32 = 0,b:UInt32 = 0
         //进行转换

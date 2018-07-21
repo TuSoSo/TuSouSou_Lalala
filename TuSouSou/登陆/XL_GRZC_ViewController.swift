@@ -61,7 +61,9 @@ class XL_GRZC_ViewController: UIViewController,UITextFieldDelegate {
         }
     }
     @IBAction func zhuce(_ sender: Any) {
-        if (zhanghao.text?.isPhoneNumber())! && mima.text == remima.text && (yanZM.text?.count)! > 0 {
+        if (zhanghao.text?.isPhoneNumber())! {
+            if mima.text == remima.text{
+                if (yanZM.text?.count)! > 0{
             let method = "/user/register"
             let dic = ["phone":zhanghao.text!,"passWord":mima.text!,"invitationCode":yaoqingren.text!,"authCode":yanZM.text!,"userType":state!] as [String : Any]
             XL_waringBox().warningBoxModeIndeterminate(message: "注册中...", view: self.view)
@@ -70,15 +72,24 @@ class XL_GRZC_ViewController: UIViewController,UITextFieldDelegate {
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                 if (res as! [String: Any])["code"] as! String == "0000" {
                     XL_waringBox().warningBoxModeText(message: "注册成功", view: self.view)
+                    let data = (res as! [String: Any])["data"] as! [String:Any]
+                    
+                    userDefaults.set(data["userId"], forKey: "userId")
                     //返回登录界面
                     if self.state == 1 {
                         //普通注册
-                        let WDXX: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
-                        self.navigationController?.popToViewController(WDXX!, animated: true)
+                        for controller: UIViewController in (self.navigationController?.viewControllers)! {
+                            if controller.isKind(of: XL_Denglu_ViewController.self) == true{
+                                let a = controller as! XL_Denglu_ViewController
+                                self.navigationController?.popToViewController(a, animated: true)
+                                
+                            }
+                        }
                     }else if self.state == 2 {
                         //跳转到企业认证 //先跳到实名注册
                         let qiyeRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
                         qiyeRZ?.xxx = 1
+                       qiyeRZ?.yyy = 2
                         self.navigationController?.pushViewController(qiyeRZ!, animated: true)
                     }
                     
@@ -92,9 +103,15 @@ class XL_GRZC_ViewController: UIViewController,UITextFieldDelegate {
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                 XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
                 print(error)
+                    }
+                }else{
+                     XL_waringBox().warningBoxModeText(message: "请填写验证码", view: self.view)
+                }
+            }else{
+                 XL_waringBox().warningBoxModeText(message: "两次密码不相同", view: self.view)
             }
         }else {
-            XL_waringBox().warningBoxModeText(message: "请完善信息", view: self.view)
+            XL_waringBox().warningBoxModeText(message: "请填写正确的手机号", view: self.view)
         }
         
         

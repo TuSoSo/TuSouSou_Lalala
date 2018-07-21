@@ -30,7 +30,8 @@ class XL_ZMDL_ViewController: UIViewController,UITextFieldDelegate {
 
     @IBAction func denglu(_ sender: Any) {
         self.view.endEditing(true)
-        if (zhanghao.text?.isPhoneNumber())! && (mima.text?.count)! > 0 {
+        if (zhanghao.text?.isPhoneNumber())!{
+            if (mima.text?.count)! > 0  {
             let method = "/user/logined"
             let dic = ["loginPlatform":"1","loginMethod":"2","loginName":zhanghao.text!,"passWord":mima.text!,"authCode":"","openID":""]
             XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: self.view)
@@ -47,6 +48,7 @@ class XL_ZMDL_ViewController: UIViewController,UITextFieldDelegate {
                     userDefaults.set("2", forKey: "loginMethod")
                     userDefaults.set(self.mima.text!, forKey: "passWord")
                     userDefaults.set("1", forKey: "isDengLu")
+                    userDefaults.set(dic["accessToken"], forKey: "accessToken")
                     AppDelegate().method()
                     self.navigationController?.popToRootViewController(animated: true)
                 }else{
@@ -57,9 +59,12 @@ class XL_ZMDL_ViewController: UIViewController,UITextFieldDelegate {
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                 XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
                 print(error)
+                }
+            }else{
+                XL_waringBox().warningBoxModeText(message: "请填写密码", view: self.view)
             }
         }else {
-            XL_waringBox().warningBoxModeText(message: "请完善信息", view: self.view)
+            XL_waringBox().warningBoxModeText(message: "请填写正确的手机号", view: self.view)
         }
     }
     func textFieldDidEndEditing(_ textField: UITextField) {

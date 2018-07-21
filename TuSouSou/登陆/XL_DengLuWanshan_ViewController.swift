@@ -89,6 +89,7 @@ class XL_DengLuWanshan_ViewController: UIViewController,UITextFieldDelegate {
                 userDefaults.set(passWord, forKey: "passWord")
                 userDefaults.set(openID, forKey: "openID")
                 userDefaults.set("1", forKey: "isDengLu")
+                userDefaults.set(dic["accessToken"], forKey: "accessToken")
                 AppDelegate().method()
                 self.navigationController?.popToRootViewController(animated: true)
             }else if (res as! [String: Any])["code"] as! String == "8000" {

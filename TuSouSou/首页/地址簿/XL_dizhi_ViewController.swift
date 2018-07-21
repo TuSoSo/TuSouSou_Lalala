@@ -35,10 +35,15 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
        
         Pone.keyboardType = .numberPad
         Name.text = namename
+        Name.delegate = self
         Pone.text = diandianhua
         XiangZhi.text = xiangqing
-        dingweiDZ.text = didizhi
-        loadLocation()
+        if didizhi == "" {
+            dingweiDZ.text = "请选择地址"
+        }else{
+            dingweiDZ.text = didizhi
+        }
+//        loadLocation()
 //        shiFouButton.isSelected = true
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -51,6 +56,20 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
             Pone.becomeFirstResponder()
         default:
             break
+        }
+        return true
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        if textField == Pone {
+            if newString.count > 11 {
+                return false
+            }
+        }
+        if textField == Name {
+            if newString.count > 10 {
+                return false
+            }
         }
         return true
     }
@@ -178,80 +197,80 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
         Name.placeholder = "\(title)人姓名"
         Pone.placeholder = "\(title)人电话"
     }
-    //MARK: 原生定位初始化
-    func loadLocation() {
-        locationManager.delegate = self
-        //定位方式
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
-        //更新距离
-        locationManager.distanceFilter = 100
-        //发出授权请求
-        locationManager.requestAlwaysAuthorization()
-        
-        if (CLLocationManager.locationServicesEnabled()){
-            //允许使用定位服务的话，开始定位服务更新
-            locationManager.startUpdatingLocation()
-            print("定位开始")
-            
-        }else{
-            print("权限未开启")
-        }
-    }
-    //    MARK:定位代理实现
-    
-    //获取定位信息
-    var currLocation: CLLocation?
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //取得locations数组的最后一个
-        currLocation = locations.last!
-        if self.lon == "" {
-            lon = (currLocation?.coordinate.longitude.description)!
-        }
-        if self.lat == "" {
-            lat = (currLocation?.coordinate.latitude.description)!
-        }
-        
-        
-        LonLatToCity()
-        //停止定位
-        locationManager.stopUpdatingLocation()
-    }
-    
-    //出现错误
-    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
-        print(error as Any)
-    }
-    
-    ///将经纬度转换为城市名
-    func LonLatToCity(){
-        let geocoder: CLGeocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation((currLocation)!) { (placemark, error) -> Void in
-            
-            if(error == nil)
-            {
-                let array = placemark! as NSArray
-                let mark = array.firstObject as! CLPlacemark
-                //省
-                let State: String = (mark.addressDictionary! as NSDictionary).value(forKey: "State") as! String
-                //区
-                let SubLocality: NSString = (mark.addressDictionary! as NSDictionary).value(forKey: "SubLocality") as! NSString
-                //城市
-                let city: String = (mark.addressDictionary! as NSDictionary).value(forKey: "City") as! String
-                //街道
-                let Street: String = (mark.addressDictionary! as NSDictionary).value(forKey: "Street") as! String
-                //当前位置显示的
-                let weizhi = State + city + (SubLocality as String) + Street
-                if self.didizhi == "" {
-                    self.dingweiDZ.text = weizhi
-                }
-            }
-            else
-            {
-                print(error as Any)
-            }
-        }
-    }
+//    //MARK: 原生定位初始化
+//    func loadLocation() {
+//        locationManager.delegate = self
+//        //定位方式
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//
+//        //更新距离
+//        locationManager.distanceFilter = 100
+//        //发出授权请求
+//        locationManager.requestAlwaysAuthorization()
+//
+//        if (CLLocationManager.locationServicesEnabled()){
+//            //允许使用定位服务的话，开始定位服务更新
+//            locationManager.startUpdatingLocation()
+//            print("定位开始")
+//
+//        }else{
+//            print("权限未开启")
+//        }
+//    }
+//    //    MARK:定位代理实现
+//
+//    //获取定位信息
+//    var currLocation: CLLocation?
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        //取得locations数组的最后一个
+//        currLocation = locations.last!
+//        if self.lon == "" {
+//            lon = (currLocation?.coordinate.longitude.description)!
+//        }
+//        if self.lat == "" {
+//            lat = (currLocation?.coordinate.latitude.description)!
+//        }
+//
+//
+//        LonLatToCity()
+//        //停止定位
+//        locationManager.stopUpdatingLocation()
+//    }
+//
+//    //出现错误
+//    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
+//        print(error as Any)
+//    }
+//
+//    ///将经纬度转换为城市名
+//    func LonLatToCity(){
+//        let geocoder: CLGeocoder = CLGeocoder()
+//        geocoder.reverseGeocodeLocation((currLocation)!) { (placemark, error) -> Void in
+//            
+//            if(error == nil)
+//            {
+//                let array = placemark! as NSArray
+//                let mark = array.firstObject as! CLPlacemark
+//                //省
+//                let State: String = (mark.addressDictionary! as NSDictionary).value(forKey: "State") as! String
+//                //区
+//                let SubLocality: NSString = (mark.addressDictionary! as NSDictionary).value(forKey: "SubLocality") as! NSString
+//                //城市
+//                let city: String = (mark.addressDictionary! as NSDictionary).value(forKey: "City") as! String
+//                //街道
+//                let Street: String = (mark.addressDictionary! as NSDictionary).value(forKey: "Street") as! String
+//                //当前位置显示的
+//                let weizhi = State + city + (SubLocality as String) + Street
+//                if self.didizhi == "" {
+//                    self.dingweiDZ.text = weizhi
+//                }
+//            }
+//            else
+//            {
+//                print(error as Any)
+//            }
+//        }
+//    }
     override func viewWillDisappear(_ animated: Bool) {
           self.view.endEditing(true)
     }

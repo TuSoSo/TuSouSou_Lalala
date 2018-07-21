@@ -24,6 +24,10 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     var li = UILabel()
     var julili = "0"
     
+    var cicishushu = 0
+    
+    //合计的view
+    var ddView = UIView()
     var tomorrowTimes:[String] = []
     var todayTimes:[String] = []
     
@@ -87,8 +91,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     var standardDistanceMoney = UILabel()
     var overweightMoney = UILabel()
     var overdistanceMoney = UILabel()
-    
-    //    let GouArr = ["","",""]
     //mark: 当键盘显示时
     @objc func handleKeyboardDisShow(notification: NSNotification) {
         //得到键盘frame
@@ -96,28 +98,23 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue,
             let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
             let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
-            
             let frame = value.cgRectValue
+            let intersection = frame.intersection(self.view.frame)
             if UIDevice.current.isX() {
-                let intersection = frame.intersection(self.view.frame)
                 UIView.animate(withDuration: duration, delay: 0.0,
                                options: UIViewAnimationOptions(rawValue: curve), animations: {
                                 
                                 self.view.frame = CGRect(x: 0, y: -intersection.height
                                     + 88, width: self.view.frame.width, height: self.view.frame.height)
-                                
                 }, completion: nil)
             }else{
-                let intersection = frame.intersection(self.view.frame)
                 UIView.animate(withDuration: duration, delay: 0.0,
                                options: UIViewAnimationOptions(rawValue: curve), animations: {
                                 
                                 self.view.frame = CGRect(x: 0, y: -intersection.height
                                     + 64, width: self.view.frame.width, height: self.view.frame.height)
-                                
                 }, completion: nil)
             }
-            
         }
     }
     override func viewDidLoad() {
@@ -151,7 +148,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         tablequeren.dataSource = self
         tablequeren.register(UITableViewCell.self, forCellReuseIdentifier: "queren")
         tableviewUI()
-        ddView()
+        ddViewX()
     }
     func lianggetableviewUI() {
         jintableView.delegate = self
@@ -175,8 +172,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             .Right.layout(constrain: self.view.Right, constant: 0)
             .Bottom.layout(constrain: self.view.Bottom, constant: 0)
     }
-    func ddView() {
-        let ddView = UIView()
+    func ddViewX() {
         if UIDevice.current.isX() {
             ddView.frame = CGRect(x: 0, y: Height - 150, width: Width, height: 60)
         }else{
@@ -267,7 +263,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         weixintishi.text = "明细"
         
         zhinazhisongLa = UILabel(frame: CGRect(x: 24, y: 48, width: baiVV.frame.size.width - 36, height: 24))
-        zhinazhisongLa.text = "合计金额: ¥ \(jiage)"
+        zhinazhisongLa.text = "商品金额: ¥ \(jiage)"
         zhinazhisongLa.font = UIFont.systemFont(ofSize: 15)
         peisongfeiLa = UILabel(frame: CGRect(x: 24, y: 80, width: baiVV.frame.size.width - 36, height: 24))
         peisongfeiLa.text = "直拿直送: ¥ 0.0"
@@ -438,6 +434,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
             userDefaults.set("", forKey: "dingdanhao")
+            XL_waringBox().warningBoxModeText(message: "下单成功了哟～", view: (self.navigationController?.view)!)
             //跳转到 订单
             self.navigationController?.popToRootViewController(animated: true)
         }) { (error) in
@@ -524,7 +521,8 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         zhifuButton2 = UIButton(frame: CGRect(x: Width - 32, y: 16, width: 16, height: 16))
         zhifuButton2.setImage(UIImage(named: "圆圈未选中"), for: .normal)
         zhifuButton2.setImage(UIImage(named: "圆圈选中"), for: .selected)
-        zhifuButton2.isSelected = false
+        zhifuButton2.isSelected = true
+        paymentMethod = "1"
         zhifuButton2.addTarget(self, action: #selector(zfzhifuButton2), for: .touchUpInside)
         
         beizhuTF = UITextView(frame: CGRect(x: 92, y: 8, width: Width - 130, height: 32))
@@ -553,6 +551,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         
         yueLabel = UILabel(frame: CGRect(x: Width - 100, y: 8, width: 84, height: 32))
         yueLabel.text = "余额不足"
+        
         yueLabel.textAlignment = .right
         yueLabel.font = UIFont.systemFont(ofSize: 16)
         yueLabel.textColor = UIColor.orange
@@ -888,9 +887,13 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                     cell.contentView.addSubview(sousoubiView!)
                 }else if indexPath.row == 1 {
                     //余额
-                    self.gundongDonghua(string: "余额(¥ \(dangqianyue)支付")
-                   
+                    self.gundongDonghua(string: "余额(¥ \(dangqianyue))支付")
+                     cicishushu += 1
                     if Float(HJJE.text!)! <= Float(dangqianyue)!{
+                        if cicishushu < 3{
+                            zhifuButton2.isSelected = true
+                            paymentMethod = "1"
+                        }
                         cell.contentView.addSubview(zhifuButton2)
                     }else{
                         cell.contentView.addSubview(yueLabel)
@@ -1139,6 +1142,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     }
     @objc func switchDidChange() {
         if shouName.text! == "收件人姓名" {
+            self.SwitchAnniu.isOn = false
             self.showConfirm(title: "温馨提示", message: "选择直拿直送之前需要确定收件人信息哟～", in: self, confirme: { (_) in
             }) { (_) in
                 let dizhibu: XL_Dizhibu_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhibu") as! XL_Dizhibu_ViewController
@@ -1151,6 +1155,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                     self.shangLat = xuanzhiBody["lat"]!
                     self.shangLon = xuanzhiBody["lon"]!
                     self.jiekoupeisong()
+                    self.SwitchAnniu.isOn = true
                 }
                 self.navigationController?.pushViewController(dizhibu, animated: true)
             }

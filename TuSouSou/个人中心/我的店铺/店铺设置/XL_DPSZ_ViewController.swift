@@ -17,9 +17,9 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     var fenleiId = ""
     var huodongId = ""
     
-    var NwDatePicker = UIDatePicker()
-    var banView = UIView()
-    var chunView = UIView()
+    // 顶部刷新
+    let header = MJRefreshNormalHeader()
+
     let zuoArr:[String] = ["商户名称:","联系电话:","店铺地址:","开始时间:","结束时间:","分类类别:","活动类别:"]
     let youArr:[String] = ["请填写商户名称","请填写联系电话","请选择店铺地址","请选择开始营业时间","请选择结束营业时间","请选择分类类别","请选择活动类别"]
     
@@ -35,14 +35,18 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         super.viewDidLoad()
         tableDelegate()
         self.title = "店铺信息"
-        shijianxuanze()
         youshangjiao()
+        jinrujiekou()
+        // 下拉刷新
+        header.setRefreshingTarget(self, refreshingAction: #selector(headerRefresh))
+         tableDianpu.mj_header = header
         // Do any additional setup after loading the view.
     }
-    override func viewWillAppear(_ animated: Bool) {
+    @objc func headerRefresh() {
         jinrujiekou()
+        tableDianpu.mj_header.endRefreshing()
     }
-    
+ 
     //MARK:tableviewDelegate
     func tableDelegate() {
         tableDianpu.delegate = self
@@ -86,6 +90,9 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         for v: UIView in cell.contentView.subviews {
             v.removeFromSuperview()
         }
+        cell.backgroundColor = UIColor.white
+        cell.accessoryType = .none
+        cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0)
         if indexPath.section == 0 {
             let view = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: 56))
             view.backgroundColor = UIColor.white
@@ -107,7 +114,7 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
             let label = UILabel(frame:CGRect(x: 88, y: 12, width: Width - 104, height: 32))
             label.text = youArr[indexPath.row]
             label.textColor = UIColor(hexString: "c7c7cd")
-            if nil != DianpuDic["\(indexPath.row)"]{
+            if nil != DianpuDic["\(indexPath.row)"] && DianpuDic["\(indexPath.row)"] != ""{
                 label.text = DianpuDic["\(indexPath.row)"]!
                 label.textColor = UIColor.black
             }
@@ -185,6 +192,7 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
                     self.DianpuDic["2"] = baidudizhi["dizhi"]
                     self.Lon = baidudizhi["lon"]!
                     self.Lat = baidudizhi["lat"]!
+                    print(baidudizhi)
                     self.tableDianpu.reloadData()
                 }
                 self.navigationController?.pushViewController(baiduditu, animated: true)
@@ -241,53 +249,58 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         
     }
     func shijian() {
-        NwDatePicker.isHidden = false
-        banView.isHidden = false
-        chunView.isHidden = false
-    }
-    @objc func yincang() {
-        chunView.isHidden = true
-        NwDatePicker.isHidden = true
-        banView.isHidden = true
-        tableDianpu.reloadData()
-    }
-    func shijianxuanze() {
-        chunView = UIView(frame: CGRect(x: 0, y:0, width: Width, height: Height))
-        chunView.backgroundColor = UIColor.black
-        chunView.alpha = 0.8
-        chunView.isHidden = true
-        self.view.addSubview(chunView)
-        banView = UIView(frame: CGRect(x: 0, y: Height - 300, width: Width, height: 300))
-        banView.backgroundColor = UIColor.white
-        self.view.addSubview(banView)
-        banView.isHidden = true
-        banView.isUserInteractionEnabled = true
-        let tapOne = UITapGestureRecognizer(target: self, action: #selector(yincang))
-        chunView.addGestureRecognizer(tapOne)
-        NwDatePicker = UIDatePicker(frame: CGRect(x: 0, y: Height - 300, width: Width, height: 300))
-        NwDatePicker.layer.borderWidth = 1
-        NwDatePicker.layer.borderColor = UIColor.gray.cgColor
-        NwDatePicker.datePickerMode = .time
-        NwDatePicker.locale = Locale.init(identifier: "zh_CN")
-        NwDatePicker.addTarget(self, action: #selector(chooseDate( _:)), for:UIControlEvents.valueChanged)
-        self.view.addSubview(NwDatePicker)
-        NwDatePicker.isHidden = true
-    }
-    @objc func chooseDate(_ datePicker:UIDatePicker) {
-        let  chooseDate = datePicker.date
-        let  dateFormater = DateFormatter.init()
-        dateFormater.dateFormat = "HH:mm"
-        if shi == 1 {
-            DianpuDic["3"] = dateFormater.string(from: chooseDate)
-        }else if shi == 2 {
-            DianpuDic["4"] = dateFormater.string(from: chooseDate)
+        let dateFormatter = "HH:mm"
+        let datePicker = DatePickerView.datePicker(frame: CGRect(x: 0, y: 0, width: Width, height: Height), style: .hourMinute, scrollToDate: Date()) { date in
+            guard let date = date else { return }
+            
+            let dateStr = date.toString(dateFormatter)
+//            XL_waringBox().warningBoxModeText(message: "\(dateStr)", view: self.view)
+            if self.shi == 1 {
+                self.DianpuDic["3"] = dateStr
+                if nil != self.DianpuDic["4"] && (self.DianpuDic["4"]!).count>0{
+                    if !self.shijianpanduan(kaiTime: self.DianpuDic["3"]!, guanTime: self.DianpuDic["4"]!) {
+                        XL_waringBox().warningBoxModeText(message: "开始时间不能大于结束时间", view: self.view)
+                        self.DianpuDic["3"] = ""
+                    }
+                }
+                
+            }else if self.shi == 2 {
+                self.DianpuDic["4"] = dateStr
+                if nil != self.DianpuDic["3"] && (self.DianpuDic["3"]!).count>0{
+                    if !self.shijianpanduan(kaiTime: self.DianpuDic["3"]!, guanTime: self.DianpuDic["4"]!) {
+                        XL_waringBox().warningBoxModeText(message: "结束时间不能小于开始时间", view: self.view)
+                        self.DianpuDic["4"] = ""
+                    }
+                }
+            }
+            self.tableDianpu.reloadData()
         }
-        print(dateFormater.string(from: chooseDate))
+        
+        let date = Date.date("时分", formatter: dateFormatter)
+        datePicker.scrollToDate = date == nil ? Date.date(Date().toString(dateFormatter), formatter: dateFormatter)! : date!
+        datePicker.show()
+    }
+    func shijianpanduan(kaiTime:String,guanTime:String) -> Bool {
+        let kaiarr:[String] = kaiTime.components(separatedBy: ":")
+        let guanarr:[String] = guanTime.components(separatedBy: ":")
+        if Int(kaiarr[0])! < Int(guanarr[0])! {
+            return true
+        }else if Int(kaiarr[0])! == Int(guanarr[0])! {
+            if Int(kaiarr[1])! < Int(guanarr[1])! {
+                return true
+            }else {
+                return false
+            }
+        }else {
+            return false
+        }
+        
     }
     //MARK: textfieldDelegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         DianpuDic["\(textField.tag - 330)"] = newString
+        
         return true
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -523,7 +536,7 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
                         }
                     })
                     self.tableDianpu.reloadData()
-                    if self.cishu == 1 {
+                    if self.cishu < 3 {
                         self.jinrujiekou()
                     }
                 }
@@ -545,7 +558,6 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     }
     @objc func YouActio() {
         self.view.endEditing(true)
-        yincang()
         let xiadan: XL_DPCK_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dpck") as? XL_DPCK_ViewController
        
         //        xiada

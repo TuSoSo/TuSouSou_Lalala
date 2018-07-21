@@ -287,9 +287,12 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
             zuoIndex = indexPath.row
             productInfoList = []
             if nil != classifyList[indexPath.row]["productInfoList"] {
-                productInfoList = classifyList[indexPath.row]["productInfoList"] as! [[String : Any]]
+                if (classifyList[indexPath.row]["productInfoList"] as! [[String : Any]]).count > 0 {
+                    productInfoList = classifyList[indexPath.row]["productInfoList"] as! [[String : Any]]
+                }else {
+                    XL_waringBox().warningBoxModeText(message: "这里面空空如也～", view: self.view)
+                }
             }
-            
             tableShangpin.reloadData()
         }
     }
@@ -401,7 +404,13 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
                 
                 self.classifyList = data["classifyList"] as! [[String:Any]]
                 if self.classifyList.count > 0 && nil != self.classifyList[0]["productInfoList"] {
-                    self.productInfoList = self.classifyList[0]["productInfoList"] as! [[String : Any]]
+                    if self.classifyList[0].count > 0{
+                        self.productInfoList = self.classifyList[0]["productInfoList"] as! [[String : Any]]
+                    }else{
+                        XL_waringBox().warningBoxModeText(message: "这里面空空如也～", view: self.view)
+                    }
+                }else{
+                    XL_waringBox().warningBoxModeText(message: "这里面空空如也～", view: self.view)
                 }
                 
                 self.tableZhonglei.reloadData()

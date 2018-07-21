@@ -27,7 +27,7 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
         }
     }
     @IBAction func xieyi(_ sender: Any) {
-      //跳页
+        //跳页
         let xieyi: XL_XieYi_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "xieyi") as? XL_XieYi_ViewController
         self.navigationController?.pushViewController(xieyi!, animated: true)
     }
@@ -88,42 +88,48 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
         if xuanzhongButton.isSelected == true {
             XL_waringBox().warningBoxModeText(message: "请同意用户协议", view: self.view)
         }else{
-        if (zhanghao.text?.isPhoneNumber())! && (yanzhengma.text?.count)! > 0 {
-//            dengdeng(loginMethod: "1", loginName: zhanghao.text!, passWord: "", authCode: yanzhengma.text!, openID: "",view: self.view)
-            let method = "/user/logined"
-            let dic = ["loginPlatform":"1","loginMethod":"1","loginName":zhanghao.text!,"passWord":"","authCode":yanzhengma.text!,"openID":""]
-            XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: view)
-            XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
-                print(res)
-                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-                if (res as! [String: Any])["code"] as! String == "0000" {
-                    XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
-                    let dic = (res as! [String: Any])["data"] as! [String:Any]
-                    userDefaults.set(dic["userId"], forKey: "userId")
-                    userDefaults.set(dic["isPayPassWord"], forKey: "isPayPassWord")
-                    userDefaults.set(dic["userPhone"], forKey: "userPhone")
-                    userDefaults.set(dic["invitationCode"], forKey: "invitationCode")
-                    userDefaults.set("1", forKey: "loginMethod")
-                    userDefaults.set("1", forKey: "isDengLu")
-                    AppDelegate().method()
-                    self.navigationController?.popToRootViewController(animated: true)
+            if (zhanghao.text?.isPhoneNumber())! {
+                if (yanzhengma.text?.count)! > 0 {
+                //            dengdeng(loginMethod: "1", loginName: zhanghao.text!, passWord: "", authCode: yanzhengma.text!, openID: "",view: self.view)
+                let method = "/user/logined"
+                let dic = ["loginPlatform":"1","loginMethod":"1","loginName":zhanghao.text!,"passWord":"","authCode":yanzhengma.text!,"openID":""]
+                XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: view)
+                XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+                    print(res)
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    if (res as! [String: Any])["code"] as! String == "0000" {
+                        XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
+                        let dic = (res as! [String: Any])["data"] as! [String:Any]
+                        userDefaults.set(dic["userId"], forKey: "userId")
+                        userDefaults.set(dic["isPayPassWord"], forKey: "isPayPassWord")
+                        userDefaults.set(dic["userPhone"], forKey: "userPhone")
+                        userDefaults.set(dic["invitationCode"], forKey: "invitationCode")
+                        userDefaults.set("1", forKey: "loginMethod")
+                        userDefaults.set("1", forKey: "isDengLu")
+                        userDefaults.set(dic["accessToken"], forKey: "accessToken")
+                        AppDelegate().method()
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }else{
+                        let msg = (res as! [String: Any])["msg"] as! String
+                        XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                    }
+                }) { (error) in
+                    XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+                    XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+                    print(error)
+                    }
+                    
                 }else{
-                    let msg = (res as! [String: Any])["msg"] as! String
-                    XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+                    XL_waringBox().warningBoxModeText(message: "请填写验证码", view: self.view)
                 }
-            }) { (error) in
-                XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-                XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
-                print(error)
+            }else {
+                XL_waringBox().warningBoxModeText(message: "请填写正确的手机号", view: self.view)
             }
-        }else {
-            XL_waringBox().warningBoxModeText(message: "请完善信息", view: self.view)
-        }
         }
     }
-    func dengdeng(loginMethod: String,loginName:String,passWord:String,authCode:String, openID: String,view: UIView) {
+    func dengdeng(loginMethod: String,loginName:String,passWord:String,authCode:String, openID: String,view: UIView,WeChatName:String) {
         let method = "/user/logined"
-        let dic = ["loginPlatform":"1","loginMethod":loginMethod,"loginName":loginName,"passWord":passWord,"authCode":authCode,"openID":openID]
+        let dic = ["loginPlatform":"1","loginMethod":loginMethod,"loginName":loginName,"passWord":passWord,"authCode":authCode,"openID":openID,"WeChatName":WeChatName]
         XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
@@ -139,6 +145,7 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
                 userDefaults.set(passWord, forKey: "passWord")
                 userDefaults.set(openID, forKey: "openID")
                 userDefaults.set("1", forKey: "isDengLu")
+                userDefaults.set(dic["accessToken"], forKey: "accessToken")
                 AppDelegate().method()
                 self.navigationController?.popToRootViewController(animated: true)
             }else if (res as! [String: Any])["code"] as! String == "8000" {
@@ -161,7 +168,7 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
     }
     @IBAction func huoquyanzhengma(_ sender: Any) {
         self.view.endEditing(true)
-         FaSongYZM()
+        FaSongYZM()
     }
     func FaSongYZM() {
         if zhanghao.text!.isPhoneNumber() {
@@ -191,17 +198,17 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
     }
     
     
-//    @IBAction func ZMdenglu(_ sender: Any) {
-//        let WDXX: XL_ZMDL_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "zmdl") as? XL_ZMDL_ViewController
-//        self.navigationController?.pushViewController(WDXX!, animated: true)
-//    }
+    //    @IBAction func ZMdenglu(_ sender: Any) {
+    //        let WDXX: XL_ZMDL_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "zmdl") as? XL_ZMDL_ViewController
+    //        self.navigationController?.pushViewController(WDXX!, animated: true)
+    //    }
     
-
-//    @IBAction func WJmima(_ sender: Any) {
-//        let WDXX: XL_WHMM_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "whmm") as? XL_WHMM_ViewController
-//        self.navigationController?.pushViewController(WDXX!, animated: true)
-//    }
-
+    
+    //    @IBAction func WJmima(_ sender: Any) {
+    //        let WDXX: XL_WHMM_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "whmm") as? XL_WHMM_ViewController
+    //        self.navigationController?.pushViewController(WDXX!, animated: true)
+    //    }
+    
     @IBAction func GRzc(_ sender: Any) {
         if xuanzhongButton.isSelected == true {
             XL_waringBox().warningBoxModeText(message: "请同意用户协议", view: self.view)
@@ -212,14 +219,14 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
         }
         
     }
-
+    
     @IBAction func QYzc(_ sender: Any) {
         if xuanzhongButton.isSelected == true {
             XL_waringBox().warningBoxModeText(message: "请同意用户协议", view: self.view)
         }else{
-        let WDXX: XL_GRZC_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "grzc") as? XL_GRZC_ViewController
-        WDXX?.state = 2
-        self.navigationController?.pushViewController(WDXX!, animated: true)
+            let WDXX: XL_GRZC_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "grzc") as? XL_GRZC_ViewController
+            WDXX?.state = 2
+            self.navigationController?.pushViewController(WDXX!, animated: true)
         }
     }
     
@@ -227,26 +234,26 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
         if xuanzhongButton.isSelected == true {
             XL_waringBox().warningBoxModeText(message: "请同意用户协议", view: self.view)
         }else{
-        let urlStr = "weixin://"
-        if UIApplication.shared.canOpenURL(URL.init(string: urlStr)!) {
-            let red = SendAuthReq.init()
-            red.scope = "snsapi_message,snsapi_userinfo,snsapi_friend,snsapi_contact"
-            red.state = "\(arc4random()%100)"
-            WXApi.send(red)
-        }else{
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(URL.init(string: "http://weixin.qq.com/r/qUQVDfDEVK0rrbRu9xG7")!, options: [:], completionHandler: nil)
-            } else {
-                // Fallback on earlier versions
-                UIApplication.shared.openURL(URL.init(string: "http://weixin.qq.com/r/qUQVDfDEVK0rrbRu9xG7")!)
+            let urlStr = "weixin://"
+            if UIApplication.shared.canOpenURL(URL.init(string: urlStr)!) {
+                let red = SendAuthReq.init()
+                red.scope = "snsapi_message,snsapi_userinfo,snsapi_friend,snsapi_contact"
+                red.state = "\(arc4random()%100)"
+                WXApi.send(red)
+            }else{
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(URL.init(string: "http://weixin.qq.com/r/qUQVDfDEVK0rrbRu9xG7")!, options: [:], completionHandler: nil)
+                } else {
+                    // Fallback on earlier versions
+                    UIApplication.shared.openURL(URL.init(string: "http://weixin.qq.com/r/qUQVDfDEVK0rrbRu9xG7")!)
+                }
             }
-        }
         }
     }
     /**  QQ通知  */
     @objc func QQLoginSuccess(notification:Notification) {
         let openid = notification.userInfo!["openId"] as! String
-        self.dengdeng(loginMethod: "3", loginName: "", passWord: "", authCode: "", openID: openid, view: self.view)
+        self.dengdeng(loginMethod: "3", loginName: "", passWord: "", authCode: "", openID: openid, view: self.view, WeChatName: "")
     }
     /**  微信通知  */
     @objc func WXLoginSuccess(notification:Notification) {
@@ -265,45 +272,47 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
                 
                 let accessToken = jsonResult["access_token"] as! String
                 self.wechatLoginByRequestForUserInfo(accessToken:accessToken,openid:openid)
-//                userDefaults.set(openid, forKey: "WXopenid")
-//                let params = ["access_token": accessToken! as! String, "openid": openid! as! String] as Dictionary<String, Any>
-                //登录
-                self.dengdeng(loginMethod: "4", loginName: "", passWord: "", authCode: "", openID: openid, view: self.view)
+                
+                //                userDefaults.set(openid, forKey: "WXopenid")
+                //                let params = ["access_token": accessToken! as! String, "openid": openid! as! String] as Dictionary<String, Any>
+                
             }
         }
     }
     func wechatLoginByRequestForUserInfo(accessToken:String,openid:String) {
         // 获取用户信息
-       
+        
         let requestUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=\(accessToken)&openid=\(openid)"
         
-//        DispatchQueue.global().async {
+        //        DispatchQueue.global().async {
         
-            let requestURL: URL = URL.init(string: requestUrl)!
-            let data = try? Data.init(contentsOf: requestURL, options: Data.ReadingOptions())
-            
+        let requestURL: URL = URL.init(string: requestUrl)!
+        let data = try? Data.init(contentsOf: requestURL, options: Data.ReadingOptions())
         
-            let jsonResult = try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! Dictionary<String,Any>
-                
-                print(jsonResult)
+        
+        let jsonResult = try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! Dictionary<String,Any>
+        
+        print(jsonResult)
         let nickname = jsonResult["nickname"] as! String
+        //登录
+        self.dengdeng(loginMethod: "4", loginName: "", passWord: "", authCode: "", openID: openid, view: self.view, WeChatName: nickname)
         
         userDefaults.set(nickname, forKey: "nickname")
-                //                userDefaults.set(openid, forKey: "WXopenid")
-                //                let params = ["access_token": accessToken! as! String, "openid": openid! as! String] as Dictionary<String, Any>
-               
+        //                userDefaults.set(openid, forKey: "WXopenid")
+        //                let params = ["access_token": accessToken! as! String, "openid": openid! as! String] as Dictionary<String, Any>
         
-//        }
+        
+        //        }
     }
-   
+    
     @IBAction func qqDenglu(_ sender: Any) {
         if xuanzhongButton.isSelected == true {
             XL_waringBox().warningBoxModeText(message: "请同意用户协议", view: self.view)
         }else{
-        let appDel = UIApplication.shared.delegate as! AppDelegate
-        // 需要获取的用户信息
-        let permissions = [kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO]
-        appDel.tencentAuth.authorize(permissions)
+            let appDel = UIApplication.shared.delegate as! AppDelegate
+            // 需要获取的用户信息
+            let permissions = [kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO]
+            appDel.tencentAuth.authorize(permissions)
         }
     }
 }

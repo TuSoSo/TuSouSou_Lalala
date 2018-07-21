@@ -7,10 +7,10 @@
 //
 
 import UIKit
-
+//zzp1z5
 class XL_ShimingRZ_ViewController: UIViewController {
     var xxx = 0
-    
+    var yyy = 0
     
     var jiemian = 1
     var shengyu = 0
@@ -26,19 +26,23 @@ class XL_ShimingRZ_ViewController: UIViewController {
         super.viewDidLoad()
         //调一个接口。存剩余次数
         if xxx == 1 && jiemian == 1 {
-            
             fanhuidaoRoot()
         }
         cishujiekou()
         jiazai()
     }
     func fanhuidaoRoot() {
-        let leftBarBtn = UIBarButtonItem(title: "X", style: .plain, target: self,
-                                         action: #selector(backToPrevious))
+        let leftBarBtn = UIBarButtonItem(title: "X", style: .plain, target: self,action: #selector(backToPrevious))
         self.navigationItem.leftBarButtonItem = leftBarBtn
     }
     @objc func backToPrevious(){
-        self.navigationController!.popToRootViewController(animated: true)
+        for controller: UIViewController in (self.navigationController?.viewControllers)! {
+            if controller.isKind(of: XL_Denglu_ViewController.self) == true{
+                let a = controller as! XL_Denglu_ViewController
+                self.navigationController?.popToViewController(a, animated: true)
+                
+            }
+        }
     }
     func jiazai() {
         if jiemian == 1 {
@@ -46,12 +50,26 @@ class XL_ShimingRZ_ViewController: UIViewController {
             tongguojiemian.isHidden = true
             shirenrenzhengjiemian.isHidden = false
         }else{
+            if yyy > 0 {
+                let anniu = UIButton(frame: CGRect(x: 40, y: Height - 180, width: Width - 80, height: 48))
+                anniu.setTitle("下一步", for: .normal)
+                anniu.setTitleColor(UIColor.white, for: .normal)
+                anniu.setBackgroundImage(UIImage(named: "button_normal_dark"), for: .normal)
+                anniu.setBackgroundImage(UIImage(named: "button_normal_light"), for: .highlighted)
+                anniu.addTarget(self, action: #selector(xiayibu), for: .touchUpInside)
+                self.view.addSubview(anniu)
+            }
             self.title = "实名认证结果"
             tongguojiemian.isHidden = false
             shirenrenzhengjiemian.isHidden = true
             self.shenfenzheng()
         }
         //调一个接口。存剩余次数
+    }
+    @objc func xiayibu() {
+        let qiyeRZ: XL_QiyeRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qiyerz") as? XL_QiyeRZ_ViewController
+        qiyeRZ?.yyy = yyy
+        self.navigationController?.pushViewController(qiyeRZ!, animated: true)
     }
     @IBAction func renzhneg(_ sender: Any) {
         //如果次数大于0

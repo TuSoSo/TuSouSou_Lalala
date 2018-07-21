@@ -392,7 +392,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         let method = "/weipay/App"
         let totalAmount = Float(jine)! * 100
         
-        let dicc:[String:Any] = ["outTradeNo":string,"totalAmount":"1"/*totalAmount*/]
+        let dicc:[String:Any] = ["outTradeNo":string,"totalAmount":totalAmount]
        userDefaults.set(string, forKey: "dingdanhao")
         //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
@@ -427,7 +427,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         let method = "/AliPay/App"
         let totalAmount = Float(jine)!
         userDefaults.set(string, forKey: "dingdanhao")
-        let dicc:[String:Any] = ["outTradeNo":string,"totalAmount":"0.01"/*totalAmount*/]
+        let dicc:[String:Any] = ["outTradeNo":string,"totalAmount":totalAmount]
         //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
