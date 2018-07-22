@@ -91,6 +91,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     var standardDistanceMoney = UILabel()
     var overweightMoney = UILabel()
     var overdistanceMoney = UILabel()
+        
     //mark: 当键盘显示时
     @objc func handleKeyboardDisShow(notification: NSNotification) {
         //得到键盘frame
@@ -134,7 +135,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         
         // Do any additional setup after loading the view.
     }
-    
     @objc func chenggongle(notification:NSNotification) {
         let adVC: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
         //添加广告地址
@@ -1260,7 +1260,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         let indexPath = IndexPath(row: 1, section: 3)
         tablequeren.reloadRows(at: [indexPath], with: .fade)
     }
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
     func jiekoupeisong() {
