@@ -1078,14 +1078,14 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 if nil != dic["userType"]{
                     userType = dic["userType"] as! Int
                 }
-                var isFirmAdit = 1
-                if nil != dic["isFirmAdit"]{
-                    isFirmAdit = dic["isFirmAdit"] as! Int
-                }
-                var isRealAuthentication = 1
-                if nil != dic["isRealAuthentication"]{
-                    isRealAuthentication = dic["isRealAuthentication"] as! Int
-                }
+//                var isFirmAdit = 1
+//                if nil != dic["isFirmAdit"]{
+//                    isFirmAdit = dic["isFirmAdit"] as! Int
+//                }
+//                var isRealAuthentication = 1
+//                if nil != dic["isRealAuthentication"]{
+//                    isRealAuthentication = dic["isRealAuthentication"] as! Int
+//                }
                 var phone = ""
                 if nil != dic["phone"]{
                     phone = dic["phone"] as! String
@@ -1095,8 +1095,8 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                     isOpen = dic["isOpen"] as! Int
                 }
                 userDefaults.set(userType, forKey: "userType")
-                userDefaults.set(isFirmAdit, forKey: "isFirmAdit")
-                userDefaults.set(isRealAuthentication, forKey: "isRealAuthentication")
+//                userDefaults.set(isFirmAdit, forKey: "isFirmAdit")
+//                userDefaults.set(isRealAuthentication, forKey: "isRealAuthentication")
                 userDefaults.set(phone, forKey: "phone")
                 userDefaults.set(isOpen, forKey: "isOpen")
                 if bySsMoney != "" {
@@ -1113,6 +1113,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 }else if isNotPay == "2"{
                     self.xiadananniu.setTitle("立即下单", for: .normal)
                 }
+                self.zhuangtai()
 //                isOpen(int):是否开通配送员(1.是2否)
 //                bySsMoney(String):被发送飕飕币数量
 
@@ -1141,7 +1142,37 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         }
     }
     
-    
+    func zhuangtai() {
+        let method = "/user/approve"
+        let userId:String = userDefaults.value(forKey: "userId") as! String
+        let dic:[String:Any] = ["userId":userId]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                //实人
+                if nil != dic["isAuthentic"]{
+                    userDefaults.set(dic["isAuthentic"], forKey: "isRealAuthentication")
+                }
+                //企业
+                if nil != dic["firmAuthentic"]{
+                    userDefaults.set(dic["firmAuthentic"], forKey: "isFirmAdit")
+                }
+                //配送员
+                if nil != dic["attestation"] {
+                    userDefaults.set(dic["attestation"], forKey: "attestation")
+                }
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+    }
     
     func preciseDecimal(x : String, p : Int) -> String {
         //        为了安全要判空

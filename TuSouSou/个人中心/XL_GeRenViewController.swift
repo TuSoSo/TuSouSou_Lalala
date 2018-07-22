@@ -168,14 +168,14 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
 //                    userDefaults.set(0, forKey: "isFirmAdit")
                     self.name.text = (data["name"] as? String)! + " (个人版)"
                     if nil != data["isAuthentic"] {
-                        userDefaults.set(data["isAuthentic"], forKey: "isRealAuthentication")
+//                        userDefaults.set(data["isAuthentic"], forKey: "isRealAuthentication")
                     }
                     if nil != data["isPass"] {
                         if data["isPass"] as!Int == 4{
                             self.name.text = (data["name"] as? String)! + " (企业版)"
-                            userDefaults.set(4, forKey: "isFirmAdit")
+//                            userDefaults.set(4, forKey: "isFirmAdit")
                         }else{
-                            userDefaults.set(data["isPass"], forKey: "isFirmAdit")
+//                            userDefaults.set(data["isPass"], forKey: "isFirmAdit")
                         }
                     }
                 }

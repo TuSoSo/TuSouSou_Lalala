@@ -252,17 +252,28 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         zoushi(dateFlag: ZY)
     }
     func qiye() {
-        let method = "/user/findUserInfo"
-        let userId = userDefaults.value(forKey: "userId")
-        let dicc:[String:Any] = ["userId":userId!]
-        //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
-        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+        let method = "/user/approve"
+        let userId:String = userDefaults.value(forKey: "userId") as! String
+        let dic:[String:Any] = ["userId":userId]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                self.isPass = data["isPass"] as! Int
-                self.youhui()
+                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                //实人
+                if nil != dic["isAuthentic"]{
+                    userDefaults.set(dic["isAuthentic"], forKey: "isRealAuthentication")
+                }
+                //企业
+                if nil != dic["firmAuthentic"]{
+                    userDefaults.set(dic["firmAuthentic"], forKey: "isFirmAdit")
+                    self.isPass = dic["firmAuthentic"] as! Int
+                    self.youhui()
+                }
+                //配送员
+                if nil != dic["attestation"] {
+                    userDefaults.set(dic["attestation"], forKey: "attestation")
+                }
             }else{
                 let msg = (res as! [String: Any])["msg"] as! String
                 XL_waringBox().warningBoxModeText(message: msg, view: self.view)
@@ -272,6 +283,26 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
             print(error)
         }
+//        let method = "/user/findUserInfo"
+//        let userId = userDefaults.value(forKey: "userId")
+//        let dicc:[String:Any] = ["userId":userId!]
+//        //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
+//        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+//            print(res)
+//            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+//            if (res as! [String: Any])["code"] as! String == "0000" {
+//                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+//                self.isPass = data["isPass"] as! Int
+//                self.youhui()
+//            }else{
+//                let msg = (res as! [String: Any])["msg"] as! String
+//                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+//            }
+//        }) { (error) in
+//            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+//            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+//            print(error)
+//        }
     }
     func youhui() {
         let method = "/user/wallat"

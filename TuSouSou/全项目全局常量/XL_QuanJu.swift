@@ -18,13 +18,13 @@ let Scheme = "http://"
 let AppName = "/tusousou"
 let apath  =  "/api/rest/1.0"
 //域名
-//let QianWaiWangIP = "www.tusousouxr.com"
+let QianWaiWangIP = "www.tusousouxr.com"
 //服务器
 //let QianWaiWangIP = "39.107.255.187:8080"
 //宋浩然
 //let QianWaiWangIP = "192.168.1.175:8085"
 //小调
-let QianWaiWangIP = "192.168.1.181:8088"
+//let QianWaiWangIP = "192.168.1.181:8088"
 //小展
 //let QianWaiWangIP = "192.168.1.189:8080"
 //二号

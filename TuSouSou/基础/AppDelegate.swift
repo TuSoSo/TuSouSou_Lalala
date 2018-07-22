@@ -170,6 +170,7 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
             case 0 :
                 if nil != userDefaults.value(forKey: "xixi") && (userDefaults.value(forKey: "xixi") as! Int) == 2 {
                     chongzhijiekou(lalala: userDefaults.value(forKey: "hahaha") as! String)
+                    
                 }else{
                   self.zhifuhuidiao()
                 }

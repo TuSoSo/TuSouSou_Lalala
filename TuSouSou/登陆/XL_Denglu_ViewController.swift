@@ -294,10 +294,9 @@ class XL_Denglu_ViewController: UIViewController,UITextFieldDelegate {
         
         print(jsonResult)
         let nickname = jsonResult["nickname"] as! String
+        userDefaults.set(nickname, forKey: "nickname")
         //登录
         self.dengdeng(loginMethod: "4", loginName: "", passWord: "", authCode: "", openID: openid, view: self.view, WeChatName: nickname)
-        
-        userDefaults.set(nickname, forKey: "nickname")
         //                userDefaults.set(openid, forKey: "WXopenid")
         //                let params = ["access_token": accessToken! as! String, "openid": openid! as! String] as Dictionary<String, Any>
         

@@ -890,7 +890,8 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                     self.gundongDonghua(string: "余额(¥ \(dangqianyue))支付")
                      cicishushu += 1
                     if Float(HJJE.text!)! <= Float(dangqianyue)!{
-                        if cicishushu < 3{
+//                        if cicishushu < 3{
+                        if paymentMethod == "" {
                             zhifuButton2.isSelected = true
                             paymentMethod = "1"
                         }
@@ -963,6 +964,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                     tablequeren.reloadData()
                 }
                 if indexPath.row == 2 {
+                    if HJJE.text != "0.00" {
                     if zhifuButton0.isSelected == false {
                         zhifuButton0.isSelected = true
                         paymentMethod = "2"
@@ -973,8 +975,10 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                     zhifuButton1.isSelected = false
                     zhifuButton2.isSelected = false
                     tablequeren.reloadData()
+                    }
                 }
                 if indexPath.row == 3 {
+                    if HJJE.text != "0.00" {
                     if zhifuButton1.isSelected == false {
                         zhifuButton1.isSelected = true
                         paymentMethod = "3"
@@ -985,6 +989,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                     zhifuButton0.isSelected = false
                     zhifuButton2.isSelected = false
                     tablequeren.reloadData()
+                    }
                 }
                 
             }
@@ -1068,10 +1073,9 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     }
     //MARK: textFieldDelegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let text = textField.text!
-        
-        let len = text.count + string.count - range.length
-        
+//        let text = textField.text!
+//
+//        let len = text.count + string.count - range.length
         var zhuan = "0"
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         if newString.count != 0 {
@@ -1079,34 +1083,31 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         }
         if Float(zhuan)! > Float(sousoubishuliang)! {
             showConfirm(title: "温馨提示", message: "yoyo~ 您没有足够飕飕币哟~", in: self, confirme: { (s) in
-                self.souBzhiF.text = "0"
-                
-                self.dikoujisuan(string: self.souBzhiF.text!)
+                self.souBzhiF.text = ""
+                self.dikoujisuan(string: "0")
             }) { (w) in
                 self.souBzhiF.text = self.sousoubishuliang
                 self.dikoujisuan(string: self.souBzhiF.text!)
             }
         }
-        
-        self.dikoujisuan(string:zhuan)
-        
 //        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-        if newString.contains(".") {
-            let arr = newString.components(separatedBy: ".")
+        if zhuan.contains(".") {
+            let arr = zhuan.components(separatedBy: ".")
             if  arr[1].count > 0 {
                 if arr[1].count > 4 {
                     return false
                 }
             }
         }
+        self.dikoujisuan(string:zhuan)
         return true
     }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-    
-        textField.text = preciseDecimal(x: textField.text!, p: 4)
-        
-        jisuanyixia()
-    }
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//
+//        textField.text = preciseDecimal(x: textField.text!, p: 4)
+//
+//        jisuanyixia()
+//    }
     //MARK: textviewDelegate
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         self.placeholderLabel.isHidden = true
@@ -1186,6 +1187,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     
     //zhifuxuanze
     @objc func zfzhifuButton0()  {
+        if HJJE.text != "0.00" {
         if zhifuButton0.isSelected == false {
             zhifuButton0.isSelected = true
             paymentMethod = "2"
@@ -1195,8 +1197,10 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         }
         zhifuButton1.isSelected = false
         zhifuButton2.isSelected = false
+        }
     }
     @objc func zfzhifuButton1()  {
+        if HJJE.text != "0.00" {
         if zhifuButton1.isSelected == false {
             zhifuButton1.isSelected = true
             paymentMethod = "3"
@@ -1206,6 +1210,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         }
         zhifuButton0.isSelected = false
         zhifuButton2.isSelected = false
+        }
     }
     @objc func zfzhifuButton2()  {
         if zhifuButton2.isSelected == false {
@@ -1239,6 +1244,10 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         self.HJJE.text = String(format: "%.2f",jia + pei + zhi  - dikou)
         if  Float(HJJE.text!)! < 0 {
             HJJE.text = "0.00"
+            zhifuButton2.isSelected = true
+            paymentMethod = "1"
+            zhifuButton1.isSelected = false
+            zhifuButton0.isSelected = false
 //            self.dikoujisuan(string: self.souBzhiF.text!)
 //            showConfirm(title: "温馨提示", message: "yoyo~ 您的飕飕币使用太多了哟~", in: self, confirme: { (s) in
 //                self.souBzhiF.text = "0"
@@ -1248,6 +1257,8 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
 //                self.dikoujisuan(string: self.souBzhiF.text!)
 //            }
         }
+        let indexPath = IndexPath(row: 1, section: 3)
+        tablequeren.reloadRows(at: [indexPath], with: .fade)
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.view.endEditing(true)

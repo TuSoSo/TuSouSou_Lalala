@@ -38,7 +38,39 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
 //                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.Dic = dic
+                self.renzhengxinxi()
                 
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+            }
+        }) { (error) in
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+            print(error)
+        }
+    }
+    func renzhengxinxi() {
+        let method = "/user/approve"
+        let userId:String = userDefaults.value(forKey: "userId") as! String
+        let dic:[String:Any] = ["userId":userId]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+            print(res)
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                //实人
+                if nil != dic["isAuthentic"]{
+                    userDefaults.set(dic["isAuthentic"], forKey: "isRealAuthentication")
+                }
+                //企业
+                if nil != dic["firmAuthentic"]{
+                    userDefaults.set(dic["firmAuthentic"], forKey: "isFirmAdit")
+                }
+                //配送员
+                if nil != dic["attestation"] {
+                    userDefaults.set(dic["attestation"], forKey: "attestation")
+                }
                 self.tableGRziliao.reloadData()
             }else{
                 let msg = (res as! [String: Any])["msg"] as! String
@@ -180,11 +212,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 zuoLabel.text = "实名认证"
                 let shimingLabel = UILabel(frame: CGRect(x: Width - 150, y: 11, width: 120, height: 22))
                 shimingLabel.font = UIFont.systemFont(ofSize: 14)
-                var xx = "1"
-                if nil != Dic!["isAuthentic"]{
-                    xx = String(format: "%d", Dic!["isAuthentic"] as! Int)
-                    userDefaults.set(Dic!["isAuthentic"], forKey: "isRealAuthentication")
-                }
+                let xx = String(format: "%d",userDefaults.value(forKey: "isRealAuthentication") as! Int)
                 switch xx {
                 case "1":
                     shimingLabel.text = "未认证"
@@ -207,11 +235,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 let qiyeLabel = UILabel(frame: CGRect(x: Width - 150, y: 11, width: 120, height: 22))
                 qiyeLabel.font = UIFont.systemFont(ofSize: 14)
                 qiyeLabel.text = "未认证"
-                var xx = "0"
-                if nil != Dic!["isPass"]{
-                    xx = String(format: "%d", Dic!["isPass"] as! Int)
-                    userDefaults.set(Dic!["isPass"], forKey: "isFirmAdit")
-                }
+                let xx = String(format: "%d", userDefaults.value(forKey: "isFirmAdit") as! Int)
                 switch xx {
                 case "1":
                     qiyeLabel.text = "未认证"

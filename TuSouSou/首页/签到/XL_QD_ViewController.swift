@@ -21,13 +21,39 @@ class XL_QD_ViewController: UIViewController,UIWebViewDelegate,UIGestureRecogniz
     var xianyouSousoubi:Float = 0
     var top1 = UITapGestureRecognizer()
     var mfLotteryNmber = 0 // 免费次数
-    
+    var guizeArr : [String] = []
+ 
     var diyi = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "签到"
         jiekou()
+        youshangjiao()
+    }
+    func youshangjiao()  {
+        var item = UIBarButtonItem()
+        
+        item = UIBarButtonItem(title:"签到规则",style: .plain,target:self,action:#selector(YouActio))
+        
+        self.navigationItem.rightBarButtonItem = item
+    }
+    @objc func YouActio() {
+        //
+        let sheet = UIAlertController(title: "签到规则", message: "", preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        cancelAction.setValue(UIColor.orange, forKey: "titleTextColor")
+        var haha = UIAlertAction()
+        for i in 0..<guizeArr.count {
+            let title = guizeArr[i]
+            haha = UIAlertAction(title: title, style: .default, handler: nil)
+            haha.setValue(UIColor.darkGray, forKey: "titleTextColor")
+            haha.setValue(NSNumber(integerLiteral: NSTextAlignment.left.rawValue), forKey: "titleTextAlignment")
+            sheet.addAction(haha)
+        }
+        
+        sheet.addAction(cancelAction)
+        self.present(sheet, animated: true, completion: nil)
     }
     func web() {
         let newString = "\(sanfangUrl)/lotterys/dialAward.jsp"
@@ -123,6 +149,8 @@ class XL_QD_ViewController: UIViewController,UIWebViewDelegate,UIGestureRecogniz
                 if self.isSign == "1" {
                     self.button.isEnabled = false
                 }
+                self.guizeArr = data["signRule"] as! [String]
+                
                 self.xuyaosousoubi = Float(data["ssAmount"] as! Int)
                 if self.diyi == 1 {
                    self.diyi = 2

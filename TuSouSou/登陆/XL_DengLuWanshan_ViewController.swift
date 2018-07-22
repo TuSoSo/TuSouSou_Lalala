@@ -67,13 +67,14 @@ class XL_DengLuWanshan_ViewController: UIViewController,UITextFieldDelegate {
     @IBAction func dengluanniu(_ sender: Any) {
         self.view.endEditing(true)
         let openId:String = userDefaults.value(forKey: "openID") as! String
+        let nickname = userDefaults.value(forKey: "nickname") as! String
         
-        dengfangfa(loginMethod: isWQ!, loginName: phone.text!, passWord: "", authCode: yanzhengma.text!, openID: openId, view: (self.navigationController?.view)!)
+        dengfangfa(loginMethod: isWQ!, loginName: phone.text!, passWord: "", authCode: yanzhengma.text!, openID: openId, view: (self.navigationController?.view)! ,WeChatName: nickname)
     }
     
-    func dengfangfa(loginMethod: String,loginName:String,passWord:String,authCode:String, openID: String,view: UIView) {
+    func dengfangfa(loginMethod: String,loginName:String,passWord:String,authCode:String, openID: String,view: UIView, WeChatName: String) {
         let method = "/user/logined"
-        let dic = ["loginPlatform":"1","loginMethod":loginMethod,"loginName":loginName,"passWord":passWord,"authCode":authCode,"openID":openID]
+        let dic = ["loginPlatform":"1","loginMethod":loginMethod,"loginName":loginName,"passWord":passWord,"authCode":authCode,"openID":openID,"WeChatName": WeChatName]
         XL_waringBox().warningBoxModeIndeterminate(message: "登录中...", view: view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
