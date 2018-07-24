@@ -146,7 +146,18 @@ class XL_PeiSongYuan_ViewController: UIViewController,UIImagePickerControllerDel
         print("调接口")
         peisongyuanjiekou()
     }
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField.tag == 330 {
+            if !textField.text!.chk18PaperId() {
+                textField.text = ""
+                XL_waringBox().warningBoxModeText(message: "请输入正确的身份证号", view: self.view)
+                return false
+            }
+        }
+        return true
+    }
     func textFieldDidEndEditing(_ textField: UITextField) {
+        
         qiyeDic["\(textField.tag - 330)"] = textField.text!
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -271,7 +282,7 @@ class XL_PeiSongYuan_ViewController: UIViewController,UIImagePickerControllerDel
                 }
             }
         }else{
-            XL_waringBox().warningBoxModeText(message: "请选择照片！", view: self.view)
+            XL_waringBox().warningBoxModeText(message: "请选择必要照片！", view: self.view)
         }
     }
     /*

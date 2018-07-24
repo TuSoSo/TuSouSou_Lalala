@@ -41,6 +41,7 @@
 		0F4BF69D20C80B2E00EF3341 /* XL_SPK_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF69C20C80B2E00EF3341 /* XL_SPK_ViewController.swift */; };
 		0F4BF69F20C80B4400EF3341 /* XL_DDGL_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BF69E20C80B4400EF3341 /* XL_DDGL_ViewController.swift */; };
 		0F54B4A320566AA1004CFF7F /* XL_chengshiListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54B4A220566AA1004CFF7F /* XL_chengshiListViewController.swift */; };
+		0F5CFD8921057D8200D9E86C /* XL_NSString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5CFD8821057D8200D9E86C /* XL_NSString+Extension.swift */; };
 		0F5D7CC920513DD500411262 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CC820513DD500411262 /* CoreLocation.framework */; };
 		0F5D7CCB20513DDD00411262 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CCA20513DDD00411262 /* SystemConfiguration.framework */; };
 		0F5D7CCD20513DE300411262 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CCC20513DE300411262 /* Security.framework */; };
@@ -50,6 +51,7 @@
 		0F5D7CD520513E1800411262 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D7CD420513E1800411262 /* AdSupport.framework */; };
 		0F65341220466D4800FF347F /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65341020466D4800FF347F /* MainTableViewController.swift */; };
 		0F65341520466F2E00FF347F /* secViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65341420466F2E00FF347F /* secViewController.swift */; };
+		0F6E75CA2104A2B1007F2340 /* LAXImagePickerControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6E75C92104A2B1007F2340 /* LAXImagePickerControllerViewController.swift */; };
 		0F6EE57920BD4ED60062039C /* XL_Denglu_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6EE57820BD4ED60062039C /* XL_Denglu_ViewController.swift */; };
 		0F6EE57D20BD776E0062039C /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6EE57B20BD776E0062039C /* TencentOpenAPI.framework */; };
 		0F6EE57E20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F6EE57C20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle */; };
@@ -235,6 +237,7 @@
 		0F4BF69C20C80B2E00EF3341 /* XL_SPK_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_SPK_ViewController.swift; sourceTree = "<group>"; };
 		0F4BF69E20C80B4400EF3341 /* XL_DDGL_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_DDGL_ViewController.swift; sourceTree = "<group>"; };
 		0F54B4A220566AA1004CFF7F /* XL_chengshiListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_chengshiListViewController.swift; sourceTree = "<group>"; };
+		0F5CFD8821057D8200D9E86C /* XL_NSString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XL_NSString+Extension.swift"; sourceTree = "<group>"; };
 		0F5D7CC820513DD500411262 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0F5D7CCA20513DDD00411262 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0F5D7CCC20513DE300411262 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -244,6 +247,7 @@
 		0F5D7CD420513E1800411262 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		0F65341020466D4800FF347F /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		0F65341420466F2E00FF347F /* secViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = secViewController.swift; sourceTree = "<group>"; };
+		0F6E75C92104A2B1007F2340 /* LAXImagePickerControllerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LAXImagePickerControllerViewController.swift; sourceTree = "<group>"; };
 		0F6EE57820BD4ED60062039C /* XL_Denglu_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_Denglu_ViewController.swift; sourceTree = "<group>"; };
 		0F6EE57B20BD776E0062039C /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		0F6EE57C20BD776E0062039C /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
@@ -706,6 +710,14 @@
 			path = "订单管理";
 			sourceTree = "<group>";
 		};
+		0F6E75C82104A29F007F2340 /* 相机 */ = {
+			isa = PBXGroup;
+			children = (
+				0F6E75C92104A2B1007F2340 /* LAXImagePickerControllerViewController.swift */,
+			);
+			path = "相机";
+			sourceTree = "<group>";
+		};
 		0F6EE57720BD303E0062039C /* 登陆 */ = {
 			isa = PBXGroup;
 			children = (
@@ -947,6 +959,7 @@
 		0F9875952044E72E00C34111 /* TuSouSou */ = {
 			isa = PBXGroup;
 			children = (
+				0F6E75C82104A29F007F2340 /* 相机 */,
 				0FAB33CE210215740015E3A8 /* Extension */,
 				0FAB33C9210215000015E3A8 /* DatePickerView */,
 				0FFEB76820E75C6A003D5B3F /* 阿里实人认证SDK */,
@@ -1005,6 +1018,7 @@
 				0FAB33CF2102159B0015E3A8 /* UIColor+Extension.swift */,
 				0FAB33D12102159C0015E3A8 /* UIKit+Extension.swift */,
 				0FAB33D02102159B0015E3A8 /* Date+Extension.swift */,
+				0F5CFD8821057D8200D9E86C /* XL_NSString+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1459,6 +1473,7 @@
 				0F77B2EA20E234A500509200 /* XL_XLTJ_ViewController.swift in Sources */,
 				0F65341220466D4800FF347F /* MainTableViewController.swift in Sources */,
 				0FC9D80E2071D68D002EAB4C /* XL_waringBox.swift in Sources */,
+				0F5CFD8921057D8200D9E86C /* XL_NSString+Extension.swift in Sources */,
 				0F9723E220BF9D330064A678 /* WNRatingBar.swift in Sources */,
 				0F40C1DD20B79CFF006B1602 /* XL_GeRenViewController.swift in Sources */,
 				0F7B3D8B20C91070006EB908 /* XL_DengLuWanshan_ViewController.swift in Sources */,
@@ -1502,6 +1517,7 @@
 				0FFEB76520E659E6003D5B3F /* XL_TX_ViewController.swift in Sources */,
 				0F77B2E820E07DE100509200 /* XL_SPLX_ViewController.swift in Sources */,
 				0F701C4D20871FDF000F7F67 /* openssl_wrapper.m in Sources */,
+				0F6E75CA2104A2B1007F2340 /* LAXImagePickerControllerViewController.swift in Sources */,
 				0F8836D82088880F000C6CA6 /* XL_weixinObjc.swift in Sources */,
 				0F7B3D8F20CA1462006EB908 /* PayAlert.swift in Sources */,
 				0F03E34F205FC190007A42D0 /* XL_dizhi_ViewController.swift in Sources */,

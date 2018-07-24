@@ -351,6 +351,8 @@ extension String{
         {
             return false
         }
+        
+        
     }
     func nsRange(from range: Range<String.Index>) -> NSRange? {
         
@@ -361,9 +363,7 @@ extension String{
             return NSMakeRange(utf16view.distance(from: utf16view.startIndex, to: from), utf16view.distance(from: from, to: to))
             
         }
-        
         return nil
-        
     }
 }
 extension UIButton{

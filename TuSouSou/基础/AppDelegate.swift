@@ -16,13 +16,18 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
     var tencentAuth: TencentOAuth!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        tencentAuth = TencentOAuth(appId: qqAppID, andDelegate: self)
-        WXApi.registerApp(WeiXin_AppID)
-        if #available(iOS 11.0, *) {
-            UIScrollView.appearance().contentInsetAdjustmentBehavior = .never
-            //            appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        //tableview
+        if UIDevice.current.isX() {
+            if #available(iOS 11.0, *) {
+//                UIScrollView.appearance().contentInsetAdjustmentBehavior = .never
+            }else {
+                // Fallback on earlier versions
+            }
         }
         
+        tencentAuth = TencentOAuth(appId: qqAppID, andDelegate: self)
+        WXApi.registerApp(WeiXin_AppID)
+       
         //阿里实人认证
         RPSDK.initialize(.online)
         //极光推送
@@ -268,8 +273,9 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
     }
     func chongzhijiekou(lalala:String) {
         let method = "/distribution/recharge"
+        let rechargeType = userDefaults.value(forKey: "rechargeType") as! String
         let userId = userDefaults.value(forKey: "userId")
-        let dicc:[String:Any] = ["userId":userId!,"money":lalala]
+        let dicc:[String:Any] = ["userId":userId!,"money":lalala,"rechargeType":rechargeType]
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
             userDefaults.set("", forKey: "hahaha")

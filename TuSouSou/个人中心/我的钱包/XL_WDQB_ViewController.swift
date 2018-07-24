@@ -427,12 +427,28 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     @objc func Sousoubizhuanrang() {
         print("2")
-        ZhuanrangViewInit()
-        yinying.isHidden = false
+        if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+            //接口 取回 token 调 阿里
+            let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
+            ShimingRZ?.jiemian = 1
+            self.navigationController?.pushViewController(ShimingRZ!, animated: true)
+        }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+            //显示界面
+            ZhuanrangViewInit()
+            yinying.isHidden = false
+        }
     }
     @objc func Sousoubitixian() {
         print("3")
-        tanchu()
+        if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+            //接口 取回 token 调 阿里
+            let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
+            ShimingRZ?.jiemian = 1
+            self.navigationController?.pushViewController(ShimingRZ!, animated: true)
+        }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+            //显示界面
+           tanchu()
+        }
     }
     @objc func Xiaoshoutixian() {
         print("4")
@@ -473,6 +489,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     func ZhuanrangViewInit() {
         //转让
+        ZHIWEI = 0
         let Shoujihao = UILabel(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 24))
         Shoujihao.font = UIFont.systemFont(ofSize: 15)
         Shoujihao.textColor = UIColor.darkGray
@@ -525,6 +542,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     func chongzhiViewInit() {
         //充值
+        ZHIWEI = 0
         let chongzhijine = UILabel(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 24))
         chongzhijine.font = UIFont.systemFont(ofSize: 15)
         chongzhijine.textColor = UIColor.darkGray
@@ -576,6 +594,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     func tixianyueInit() {
         //飕飕币提现到余额
+        ZHIWEI = 0
         let tidaoyue = UILabel(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 24))
         tidaoyue.font = UIFont.systemFont(ofSize: 15)
         tidaoyue.textColor = UIColor.darkGray
@@ -619,6 +638,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     func tichengxianjinViewInit() {
         //提现成现金
+        ZHIWEI = 0
         let tichengxianjin = UILabel(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 24))
         tichengxianjin.font = UIFont.systemFont(ofSize: 15)
         tichengxianjin.textColor = UIColor.darkGray
@@ -671,6 +691,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     func tixianviewInit(){
         //销售提现
+        ZHIWEI = 0
         let xiaoshoutixian = UILabel(frame: CGRect(x: 20, y: 16, width: Width - 40, height: 24))
         xiaoshoutixian.font = UIFont.systemFont(ofSize: 15)
         xiaoshoutixian.textColor = UIColor.darkGray
@@ -767,7 +788,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                     view.removeFromSuperview()
                 }
             }
-            ZHIWEI = 0
+//            ZHIWEI = 0
             tichengzhuanhua.text = "飕飕币转换成人民币: ¥0.00"
             tidaozhuanhua.text = "飕飕币转换成余额: ¥0.00"
         }else{
@@ -857,12 +878,12 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         if isPass == 4 {
             userType = "2"
         }
-        self.yyyyy()
         let wwddxq: XL_TX_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "tx") as? XL_TX_ViewController
         wwddxq?.userType = userType
         wwddxq?.lalala = lalala
-        wwddxq?.withdrawMethod = String(format: "%d", ZHIWEI)
-        wwddxq?.withdrawType = withdrawType
+        wwddxq?.withdrawMethod = String(format: "%d", ZHIWEI) //1 zhifubao 2 weixin
+        wwddxq?.withdrawType = withdrawType //1,sousoubi 3 xiaoshou
+        self.yyyyy()
         self.navigationController?.pushViewController(wwddxq!, animated: true)
     }
     func tiaoye(rukou:String) {
@@ -992,8 +1013,10 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                         userDefaults.set(2, forKey: "xixi")
                         if self.ZHIWEI == 1 {
                             self.zhifubaoZhiFu(string: outRefundNo, jine: lalala)
+                            userDefaults.set("2", forKey: "chongzhi")
                         }else if self.ZHIWEI == 2 {
                             self.WXZhiFu(string: outRefundNo, jine: lalala)
+                            userDefaults.set("3", forKey: "chongzhi")
                         }
                     }
                 }else{
@@ -1041,7 +1064,7 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     func zhifubaoZhiFu(string:String,jine:String) {
         let method = "/AliPay/App"
-        let totalAmount = Float(jine)!
+        let totalAmount = jine
         userDefaults.set(string, forKey: "dingdanhao")
         let dicc:[String:Any] = ["outTradeNo":string,"totalAmount":totalAmount]
         //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)

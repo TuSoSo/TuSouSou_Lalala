@@ -109,7 +109,9 @@ class XL_WDzhangdan_ViewController: UIViewController,UITableViewDelegate,UITable
         }//明细背景1
         let imView = UIImageView(frame: CGRect(x: 0, y: 0, width: Width, height: 96))
         
-        imView.image = UIImage(named: "明细背景1")
+        imView.image = UIImage(named: "WechatIMG3")
+        let imagaa = UIImageView(frame: CGRect(x: 0, y: 36, width: 24, height: 24))
+        imagaa.image = UIImage(named: "WechatIMG2")
         let shangLable = UILabel(frame: CGRect(x: 48, y: 24, width: 300, height: 30))
         shangLable.font = UIFont.systemFont(ofSize: 15)
         let xiaLable = UILabel(frame: CGRect(x: 48, y: 64, width: 200, height: 21))
@@ -126,6 +128,7 @@ class XL_WDzhangdan_ViewController: UIViewController,UITableViewDelegate,UITable
             youLable.text = String(format: "%@", (zhangArr[indexPath.row]["withdrawMoney"] as? String)!)
         }
         cell.contentView.addSubview(imView)
+        cell.contentView.addSubview(imagaa)
         cell.contentView.addSubview(shangLable)
         cell.contentView.addSubview(xiaLable)
         cell.contentView.addSubview(youLable)
@@ -135,7 +138,6 @@ class XL_WDzhangdan_ViewController: UIViewController,UITableViewDelegate,UITable
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     func youAnniu() {
         let item = UIBarButtonItem(title:"开发票",style: .plain,target:self,action:#selector(YouActio))
         self.navigationItem.rightBarButtonItem = item

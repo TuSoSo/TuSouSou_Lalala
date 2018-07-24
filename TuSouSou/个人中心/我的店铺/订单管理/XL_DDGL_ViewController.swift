@@ -230,7 +230,7 @@ class XL_DDGL_ViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     func zhifubaoquxiao(dingdanhao:String,jine:String) {
         let method = "/AliPay/Refund"
-        let totalAmount = Float(jine)!
+        let totalAmount = jine
         let dicc:[String:Any] = ["outTradeNo":dingdanhao,"tradeNo":"","refundAmount":totalAmount,"refundReason":"","outRequestNo":""]
         
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in

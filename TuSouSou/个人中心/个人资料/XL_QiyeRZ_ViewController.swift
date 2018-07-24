@@ -158,6 +158,16 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
         qiyeDic["\(textField.tag - 330)"] = newString
         return true
     }
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField.tag == 333 {
+            if !textField.text!.chk18PaperId() {
+                textField.text = ""
+                XL_waringBox().warningBoxModeText(message: "请输入正确的身份证号", view: self.view)
+                return false
+            }
+        }
+        return true
+    }
     func textFieldDidEndEditing(_ textField: UITextField) {
         qiyeDic["\(textField.tag - 330)"] = textField.text!
     }

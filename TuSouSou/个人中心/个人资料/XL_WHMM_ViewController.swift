@@ -143,7 +143,7 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
                     if (yanzhengma.text?.count)! > 0 {
             let method = "/user/setPassword"
             let userId = userDefaults.value(forKey: "userId") as! String
-                        let dic:[String:Any] = ["userId":userId,"newPassword":mima.text!,"passwordType":passwordType,"authCode":yanzhengma.text!]
+            let dic:[String:Any] = ["userId":userId,"newPassword":mima.text!,"passwordType":passwordType,"authCode":yanzhengma.text!]
             XL_waringBox().warningBoxModeIndeterminate(message: "密码验证中...", view: self.view)
             let accessToken = userDefaults.value(forKey: "accessToken") as! String
                         
@@ -154,10 +154,21 @@ class XL_WHMM_ViewController: UIViewController,UITextFieldDelegate {
                     if self.rukou == "1"{
                         XL_waringBox().warningBoxModeText(message: "支付密码设置成功", view: (self.navigationController?.view)!)
                         userDefaults.set(1, forKey: "isPayPassWord")
+                        self.navigationController?.popViewController(animated: true)
                     }else{
                         XL_waringBox().warningBoxModeText(message: "登陆密码设置成功", view: (self.navigationController?.view)!)
+                        //跳到登陆
+                        let WDXX: XL_Denglu_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "denglu") as? XL_Denglu_ViewController
+                        userDefaults.set("0", forKey: "isDengLu")
+                        userDefaults.set("", forKey: "nickname")
+                        userDefaults.set(true, forKey: "Tuisong")
+                        JPUSHService.deleteAlias({ (iResCode, alias, aa) in
+                            print("\(iResCode)\n别名:  \(alias)\n\(aa)")
+                        }, seq: 1)
+                        WDXX?.xxjj = 1
+                        self.navigationController?.pushViewController(WDXX!, animated: true)
                     }
-                    self.navigationController?.popViewController(animated: true)
+                    
                 }else{
                     let msg = (res as! [String: Any])["msg"] as! String
                     XL_waringBox().warningBoxModeText(message: msg, view: self.view)

@@ -398,7 +398,7 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
         self.view.endEditing(true)
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
-        TFDic["\(textField.tag)"] = textField.text
+        TFDic["\(textField.tag - 10086)"] = textField.text
         print(TFDic)
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -533,6 +533,7 @@ class XL_kaifapiao_ViewController: UIViewController,UITableViewDelegate,UITableV
                 print(res)
                 if (res as! [String: Any])["code"] as! String == "0000" {
                     //                    let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                    XL_waringBox().warningBoxModeText(message: "发票已开，请等待发送～", view: (self.navigationController?.view)!)
                     self.navigationController?.popViewController(animated: true)
                     
                 }else{

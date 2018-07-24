@@ -131,8 +131,11 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         self.title = "确认订单"
         jiekouJintianMingtian()
         jisuanyixia()
+    //输入textField 刷新下一行row tableview跳动， 给他一个预估高度就可以解决了～
+        tablequeren.estimatedRowHeight = 0   //
+        tablequeren.estimatedSectionFooterHeight = 0
+        tablequeren.estimatedSectionHeaderHeight = 0
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
-        
         // Do any additional setup after loading the view.
     }
     @objc func chenggongle(notification:NSNotification) {
@@ -191,7 +194,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         let wenhaobutton = UIButton(frame: CGRect(x: Width/2, y: 12, width: 36, height: 36))
         wenhaobutton.setImage(UIImage(named: "wenhao"), for: .normal)
         wenhaobutton.addTarget(self, action: #selector(wahaha), for: .touchUpInside)
-        
         let XiaDanButton = UIButton(frame: CGRect(x: Width - 140, y: 12, width: 120, height: 36))
         XiaDanButton.addTarget(self, action: #selector(ZFaction), for: .touchUpInside)
         XiaDanButton.setTitle("确认支付", for: .normal)
@@ -203,7 +205,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         ddView.addSubview(HJJE)
         ddView.addSubview(XiaDanButton)
         self.view.addSubview(ddView)
-        
         banview = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: Height))
         banview.backgroundColor = UIColor.black
         banview.alpha = 0.8
@@ -372,7 +373,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         return false
     }
     func zhifu_xiao (){
-      
         var isDirectSend = "1"
         if SwitchAnniu.isOn == false {
             isDirectSend = "2"
@@ -395,12 +395,10 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 list.append(xxdic)
             }
             var shang = shouPhone.text!
-            
             if isJiabaliu(string: shouPhone.text!){
                 shang = shouPhone.text!.substring(fromIndex: 4)
             }
             let dic:[String:Any] = ["merchantUserId":shangID!,"userId":userId!,"sendTime":sendTime,"isToday":isToday,"isDirectSend":isDirectSend,"remarks":beizhuTF.text!,"paymentMethod":paymentMethod,"amount":HJJE.text!,"postAmount":peisongfei,"ssbSum":souBzhiF.text!,"addressName":shouName.text!,"addressPhone":shang,"addressLocation":shouLoction.text!,"longitude":shangLon,"latitude":shangLat,"list":list,"dkAmount":dikoudejine]
-            //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
             XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
                 print(res)
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -414,7 +412,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                     }else {
                         self.zhifuhuidiao(string:orderCode)
                     }
-                    
                 }else{
                     let msg = (res as! [String: Any])["msg"] as! String
                     XL_waringBox().warningBoxModeText(message: msg, view: self.view)
@@ -425,12 +422,10 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 print(error)
             }
         }
-        
     }
     func zhifuhuidiao(string:String) {
         let method = "/order/payAfterHandler"
         let dicc:[String:Any] = ["orderCode":string]
-        //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
             userDefaults.set("", forKey: "dingdanhao")
@@ -445,14 +440,12 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     func WXZhiFu(string:String) {
         let method = "/weipay/App"
         let totalAmount = Float(HJJE.text!)! * 100
-        
         let dicc:[String:Any] = ["outTradeNo":string,"totalAmount":totalAmount]
         //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             let data :[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-            
             let orderBody = XL_weixinObjc()
             orderBody.appid = data["appid"] as? String
             orderBody.noncestr = data["noncestr"] as? String
@@ -469,28 +462,22 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             req.package = orderBody.package
             req.sign = orderBody.sign
             WXApi.send(req)
-            
         }) { (error) in
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
             print(error)
         }
-        
-        
     }
     func zhifubaoZhiFu(string:String) {
         let method = "/AliPay/App"
-        let totalAmount = Float(HJJE.text!)!
-        
+        let totalAmount = HJJE.text!
         let dicc:[String:Any] = ["outTradeNo":string,"totalAmount":totalAmount]
-        //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             let data :[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
             let appScheme = "TuSouSou"
             let orderString = data["orderString"] as! String
-            
             AlipaySDK.defaultService().payOrder(orderString, fromScheme: appScheme) { (resultDic) -> () in
                 for (key,value) in resultDic! {
                     print("\(key) : \(value)")
@@ -501,35 +488,28 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
             print(error)
         }
-        
     }
     func tableviewUI() {
-        
-        
         zhifuButton0 = UIButton(frame: CGRect(x: Width - 32, y: 16, width: 16, height: 16))
         zhifuButton0.setImage(UIImage(named: "圆圈未选中"), for: .normal)
         zhifuButton0.setImage(UIImage(named: "圆圈选中"), for: .selected)
         zhifuButton0.isSelected = false
         zhifuButton0.addTarget(self, action:                #selector(zfzhifuButton0), for: .touchUpInside)
-        
         zhifuButton1 = UIButton(frame: CGRect(x: Width - 32, y: 16, width: 16, height: 16))
         zhifuButton1.setImage(UIImage(named: "圆圈未选中"), for: .normal)
         zhifuButton1.setImage(UIImage(named: "圆圈选中"), for: .selected)
         zhifuButton1.isSelected = false
         zhifuButton1.addTarget(self, action: #selector(zfzhifuButton1), for: .touchUpInside)
-        
         zhifuButton2 = UIButton(frame: CGRect(x: Width - 32, y: 16, width: 16, height: 16))
         zhifuButton2.setImage(UIImage(named: "圆圈未选中"), for: .normal)
         zhifuButton2.setImage(UIImage(named: "圆圈选中"), for: .selected)
         zhifuButton2.isSelected = true
         paymentMethod = "1"
         zhifuButton2.addTarget(self, action: #selector(zfzhifuButton2), for: .touchUpInside)
-        
         beizhuTF = UITextView(frame: CGRect(x: 92, y: 8, width: Width - 130, height: 32))
         beizhuTF.isScrollEnabled = false
         beizhuTF.delegate = self
         beizhuTF.font = UIFont.systemFont(ofSize: 14)
-        
         //手动提示
         self.placeholderLabel.frame = CGRect(x: 0 , y: 5, width: 100, height: 20)
         self.placeholderLabel.font = UIFont.systemFont(ofSize: 14)
@@ -541,30 +521,23 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         souBzhiF.delegate = self
         souBzhiF.layer.borderWidth = 1
         souBzhiF.layer.borderColor = UIColor(hexString: "f7ead3").cgColor
-        
         DiKou = UILabel(frame: CGRect(x: Width - 138, y: 8, width: 30, height: 32))
         DiKou.text = "抵扣"
         DiKou.font = UIFont.systemFont(ofSize: 14)
         JJE = UILabel(frame: CGRect(x: Width - 100, y: 8, width: 86, height: 32))
         JJE.font = UIFont.systemFont(ofSize: 17)
         JJE.textColor = UIColor.orange
-        
         yueLabel = UILabel(frame: CGRect(x: Width - 100, y: 8, width: 84, height: 32))
         yueLabel.text = "余额不足"
-        
         yueLabel.textAlignment = .right
         yueLabel.font = UIFont.systemFont(ofSize: 16)
         yueLabel.textColor = UIColor.orange
-        
         yangjiao = UILabel(frame: CGRect(x: 210, y: 8, width: 10, height: 32))
-        
-       
     }
     func jiagebiao() {
         let method = "/order/getPostMoney"
         let userId = userDefaults.value(forKey: "userId")
         let dic:[String:Any] = ["userId":userId!]
-        
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -642,7 +615,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 let imageView = UIImageView(frame: CGRect(x: 8, y: 10, width: 60, height: 48))
                 let newString = uuuu?.absoluteString
                 let uuu:URL = URL(string: String(format: "%@",newString!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
-                
                 imageView.sd_setImage(with:uuu , placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
                 let name = UILabel(frame: CGRect(x: 84, y: 8, width: Width - 142, height: 24))
                 name.textColor = UIColor(hexString: "8e8e8e")
@@ -652,7 +624,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 jieshao.textColor = UIColor(hexString: "6e6e6e")
                 jieshao.numberOfLines = 2
                 let weizhi = dizhi
-                
                 jieshao.text = "购买地:\(weizhi)"
                 View.addSubview(imageView)
                 View.addSubview(jieshao)
@@ -660,7 +631,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 View.addSubview(shangxian)
                 View.addSubview(xiaxian)
                 View.backgroundColor = UIColor.white
-                
                 return View
             }else if section == 3 {
                 let View = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: 44))
@@ -735,7 +705,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                         jiee = shangpinList[indexPath.row]["picture"] as! String
                     }
                 }
-                
                 let newString1 = TupianUrl + jiee
                 let uul:URL = URL(string: String(format: "%@",newString1.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! ))!
                 imageView.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
@@ -770,8 +739,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             }else if indexPath.section == 1 {
                 if indexPath.row == 0 {
                     //收件人信息
-                    
-                    
                     let imageview = UIImageView(frame: CGRect(x: 16, y: 38, width: 44, height: 44))
                     imageview.image = UIImage(named: "shou")
                     
@@ -873,6 +840,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                     beizhu.text = "备注:"
                     beizhu.font = UIFont.systemFont(ofSize: 15)
                     beizhu.textColor = UIColor(hexString: "727272")
+                    beizhuTF.layoutManager.allowsNonContiguousLayout = false
                     cell.contentView.addSubview(beizhu)
                     cell.contentView.addSubview(beizhuTF)
                 }
@@ -929,9 +897,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         }else{
             cell.textLabel?.text = tomorrowTimes[indexPath.row]
         }
-        
-        
-        
         return cell
     }
     
@@ -941,7 +906,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 if indexPath.row == 0 {
                     // 跳收件地址簿  选择完之后调用获取配送费接口
                     //跳页，回调到地址栏
-                   
+                    
                 }
             }else if indexPath.section == 2{
                 if indexPath.row == 0 {
@@ -991,7 +956,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                     tablequeren.reloadData()
                     }
                 }
-                
             }
         }else if tableView == jintableView{
             ZuoLabel.text = "今天 " + todayTimes[indexPath.row]
@@ -1010,10 +974,8 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         }
     }
     @objc func dizhizhi() {
-        print("1")
         let tianjiadizhi: XL_dizhi_ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dizhi") as! XL_dizhi_ViewController
         tianjiadizhi.Shei = "shoujian"
-        
         if self.shouName.text != "收件人姓名"{
             tianjiadizhi.namename = shouName.text!
         }
@@ -1028,7 +990,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         tianjiadizhi.xiangqing = self.shangXiangQing
         tianjiadizhi.lon = self.shangLon
         tianjiadizhi.lat = self.shangLat
-        
         //block 传值调用
         tianjiadizhi.dixiang = {(diBody: [String: String]) in
             self.diName = diBody["name"]!
@@ -1073,9 +1034,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
     }
     //MARK: textFieldDelegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        let text = textField.text!
-//
-//        let len = text.count + string.count - range.length
         var zhuan = "0"
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         if newString.count != 0 {
@@ -1090,7 +1048,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 self.dikoujisuan(string: self.souBzhiF.text!)
             }
         }
-//        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         if zhuan.contains(".") {
             let arr = zhuan.components(separatedBy: ".")
             if  arr[1].count > 0 {
@@ -1184,7 +1141,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         alert.addAction(UIAlertAction(title: "确定", style: .default, handler: confirm))
         viewController.present(alert, animated: true)
     }
-    
     //zhifuxuanze
     @objc func zfzhifuButton0()  {
         if HJJE.text != "0.00" {
@@ -1231,7 +1187,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         jisuanyixia()
     }
     func jisuanyixia() {
-        //        jiage +
         let pei:Float = Float(peisongfei)!
         var zhi:Float = Float(zhinazhi)!
         let dikou:Float = Float(dikoudejine)!
@@ -1248,17 +1203,10 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             paymentMethod = "1"
             zhifuButton1.isSelected = false
             zhifuButton0.isSelected = false
-//            self.dikoujisuan(string: self.souBzhiF.text!)
-//            showConfirm(title: "温馨提示", message: "yoyo~ 您的飕飕币使用太多了哟~", in: self, confirme: { (s) in
-//                self.souBzhiF.text = "0"
-//                self.dikoujisuan(string: self.souBzhiF.text!)
-//            }) { (w) in
-//                self.souBzhiF.text = "0"
-//                self.dikoujisuan(string: self.souBzhiF.text!)
-//            }
         }
+//        tablequeren.reloadData()
         let indexPath = IndexPath(row: 1, section: 3)
-        tablequeren.reloadRows(at: [indexPath], with: .fade)
+        tablequeren.reloadRows(at: [indexPath], with: .none)
     }
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)

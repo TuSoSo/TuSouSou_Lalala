@@ -342,7 +342,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
     }
     func zhifubaoquxiao(dingdanhao:String,jine:String) {
         let method = "/AliPay/Refund"
-        let totalAmount = Float(jine)!
+        let totalAmount = jine
         let dicc:[String:Any] = ["outTradeNo":dingdanhao,"tradeNo":"","refundAmount":totalAmount,"refundReason":"","outRequestNo":""]
  
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
@@ -425,7 +425,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
     }
     func zhifubaoZhiFu(string:String,jine:String) {
         let method = "/AliPay/App"
-        let totalAmount = Float(jine)!
+        let totalAmount = jine
         userDefaults.set(string, forKey: "dingdanhao")
         let dicc:[String:Any] = ["outTradeNo":string,"totalAmount":totalAmount]
         //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)

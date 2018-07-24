@@ -89,7 +89,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-                XL_waringBox().warningBoxModeText(message: "反馈成功", view: self.view)
+                XL_waringBox().warningBoxModeText(message: "感谢您的宝贵意见", view: self.view)
 //                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 
             }else{
@@ -246,7 +246,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             //成为配送员
             if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
                 //弹框 --- 请先完成实名认证
-                let sheet = UIAlertController(title: "温馨提示:", message: "请先完成实名认证再进行企业认证", preferredStyle: .alert)
+                let sheet = UIAlertController(title: "温馨提示:", message: "请先完成实名认证再进行配送员认证", preferredStyle: .alert)
                 let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
                     //接口 取回 token 调 阿里
                     let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController

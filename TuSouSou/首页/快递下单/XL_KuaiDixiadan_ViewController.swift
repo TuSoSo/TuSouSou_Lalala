@@ -21,6 +21,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     var tipType = "2"
     var paymentMethod = ""
     
+    @IBOutlet weak var xiaView: UIView!
     var dkAmount = ""
     var cicishushu = 0
     var orderType:Int?
@@ -88,10 +89,16 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     var xiaofeiLa = UILabel()
     var dikouLa = UILabel()
     var shiyongssbLa = UILabel()
+    
+    var XLJP:Float = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "确认订单"
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         let name = Notification.Name(rawValue: "支付成功")
         NotificationCenter.default.addObserver(self, selector: #selector(chenggongle(notification:)), name: name, object:  nil)
         self.tableviewDelegate()
@@ -108,6 +115,45 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         jiekouJintianMingtian()
         lianggetableviewUI()
         HeJijine.text = ddje
+    }
+    @objc func keyboardWillShow(notification:NSNotification) {
+        //得到键盘frame
+        if let userInfo = notification.userInfo,
+            let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue{
+            let frame = value.cgRectValue
+            let intersection = frame.intersection(self.view.frame)
+            XLJP = fabsf(Float(intersection.height))
+            if Float(XLJP) != 1 && Float(XLJP) != 0{
+                userDefaults.set(XLJP, forKey: "jianpan")
+            }else{
+                XLJP = userDefaults.value(forKey: "jianpan") as! Float
+            }
+        }
+    }
+    @objc func keyboardWillHide(notification:NSNotification) {
+        //得到键盘frame
+        if let userInfo = notification.userInfo,
+            let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue,
+            let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+            let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
+            let frame = value.cgRectValue
+            let intersection = frame.intersection(self.view.frame)
+            if UIDevice.current.isX() {
+                UIView.animate(withDuration: duration, delay: 0.0,
+                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y: 88, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }else {
+                UIView.animate(withDuration: duration, delay: 0.0,
+                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+                                
+                                self.view.frame = CGRect(x: 0, y:64, width: self.view.frame.width, height: self.view.frame.height)
+                                
+                }, completion: nil)
+            }
+        }
     }
     @objc func chenggongle(notification:NSNotification) {
         let adVC: XL_WDdingdanViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddingdan") as? XL_WDdingdanViewController
@@ -382,14 +428,17 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         _tableview.delegate = self
         _tableview.dataSource = self
         _tableview?.register(UITableViewCell.self, forCellReuseIdentifier: "dingdan")
-        _tableview.frame = CGRect(x: 0, y: 0, width: Width, height: Height - 120)
+        
         if UIDevice.current.isX() {
             _tableview.frame = CGRect(x: 0, y: 0, width: Width, height: Height - 172)
+        }else{
+            _tableview.frame = CGRect(x: 0, y: 0, width: Width, height: Height - 120)
         }
         _tableview.tableFooterView = UIView()
         _tableview.rowHeight = UITableViewAutomaticDimension;
         _tableview.estimatedRowHeight = 100;
         self.view.addSubview(_tableview)
+        self.view.bringSubview(toFront: xiaView)
     }
     func TableviewCellUI() {
         ZuoLabel = UILabel(frame: CGRect(x: 16, y: 8, width: 80, height: 32))
@@ -732,6 +781,38 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     }
 
    //MARK: textFieldDelegate
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField != xiaofeiTF {
+                if UIDevice.current.isX() {
+                    UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+                        self.view.frame = CGRect(x: 0, y:  CGFloat(-self.XLJP
+                            + 88), width: self.view.frame.width, height: self.view.frame.height)
+                    }, completion: nil)
+                }else {
+                    UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+                        self.view.frame = CGRect(x: 0, y:  CGFloat(-self.XLJP
+                            + 64), width: self.view.frame.width, height: self.view.frame.height)
+                    }, completion: nil)
+            }
+        }else{
+            UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+//                self.xiaView.backgroundColor = UIColor.black
+                self.xiaView.frame = CGRect(x: 0, y: Height - CGFloat(self.XLJP + 64 + 44), width: Width, height: 44)
+            }, completion: nil)
+        }
+        return true
+    }
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField == xiaofeiTF {
+            UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+                
+                self.xiaView.frame = CGRect(x: 0, y: Height - 44 - 64, width: Width, height: 44)
+//                self.xiaView.frame = CGRect(x: 0, y:  CGFloat(-self.XLJP
+//                    + 88), width: self.view.frame.width, height: self.view.frame.height)
+            }, completion: nil)
+        }
+        return true
+    }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 //        let text = textField.text!
 //        let len = text.count + string.count - range.length
@@ -771,6 +852,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                 var newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
                 if newString.contains(".") {
                     let arr = newString.components(separatedBy: ".")
+                    if arr.count > 2 {
+                        return false
+                    }
                     if  arr[1].count > 0 {
                         if arr[1].count > 2 {
                             return false
@@ -1086,7 +1170,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     }
     func zhifubaoZhiFu() {
         let method = "/AliPay/App"
-        let totalAmount = Float(HeJijine.text!)!
+        let totalAmount = HeJijine.text!
         
         let dicc:[String:Any] = ["outTradeNo":dingdanhao!,"totalAmount":totalAmount]
         //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
@@ -1227,29 +1311,29 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         self.view.endEditing(true)
     }
     //mark: 当键盘显示时
-    @objc func handleKeyboardDisShow(notification: NSNotification) {
-        //得到键盘frame
-        if let userInfo = notification.userInfo,
-        let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue,
-        let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
-        let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
-            let frame = value.cgRectValue
-            let intersection = frame.intersection(self.view.frame)
-            if UIDevice.current.isX() {
-                UIView.animate(withDuration: duration, delay: 0.0,
-                               options: UIViewAnimationOptions(rawValue: curve), animations: {
-                                self.view.frame = CGRect(x: 0, y: -intersection.height
-                                    + 88, width: self.view.frame.width, height: self.view.frame.height)
-                }, completion: nil)
-            }else{
-                UIView.animate(withDuration: duration, delay: 0.0,
-                               options: UIViewAnimationOptions(rawValue: curve), animations: {
-                                self.view.frame = CGRect(x: 0, y: -intersection.height
-                                    + 64, width: self.view.frame.width, height: self.view.frame.height)
-                }, completion: nil)
-            }
-        }
-    }
+//    @objc func handleKeyboardDisShow(notification: NSNotification) {
+//        //得到键盘frame
+//        if let userInfo = notification.userInfo,
+//        let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue,
+//        let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+//        let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
+//            let frame = value.cgRectValue
+//            let intersection = frame.intersection(self.view.frame)
+//            if UIDevice.current.isX() {
+//                UIView.animate(withDuration: duration, delay: 0.0,
+//                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+//                                self.view.frame = CGRect(x: 0, y: -intersection.height
+//                                    + 88, width: self.view.frame.width, height: self.view.frame.height)
+//                }, completion: nil)
+//            }else{
+//                UIView.animate(withDuration: duration, delay: 0.0,
+//                               options: UIViewAnimationOptions(rawValue: curve), animations: {
+//                                self.view.frame = CGRect(x: 0, y: -intersection.height
+//                                    + 64, width: self.view.frame.width, height: self.view.frame.height)
+//                }, completion: nil)
+//            }
+//        }
+//    }
     func anniu(button:UIButton, name: String,frame:CGRect) -> UIButton {
         button.frame = frame
         button.setTitle(name, for: .normal)

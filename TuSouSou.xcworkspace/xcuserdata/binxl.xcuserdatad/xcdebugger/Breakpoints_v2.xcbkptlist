@@ -57,28 +57,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x6211;&#x7684;&#x8ba2;&#x5355;/XL_WDdingdanViewController.swift"
-            timestampString = "553699078.710289"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "316"
-            endingLineNumber = "316"
-            landmarkName = "quxiaohuidiao(dingdanhao:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x6211;&#x7684;&#x94b1;&#x5305;/XL_WDQB_ViewController.swift"
-            timestampString = "553950943.600817"
+            timestampString = "554124540.8360699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1017"
-            endingLineNumber = "1017"
+            startingLineNumber = "1040"
+            endingLineNumber = "1040"
             landmarkName = "WXZhiFu(string:jine:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -89,13 +73,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TuSouSou/&#x9996;&#x9875;/&#x5546;&#x57ce;/XL_SPxiadanViewController.swift"
-            timestampString = "553950943.600872"
+            filePath = "TuSouSou/&#x4e2a;&#x4eba;&#x4e2d;&#x5fc3;/&#x6211;&#x7684;&#x94b1;&#x5305;/XL_WDQB_ViewController.swift"
+            timestampString = "554124540.836136"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1103"
-            endingLineNumber = "1103"
-            landmarkName = "textField(_:shouldChangeCharactersIn:replacementString:)"
+            startingLineNumber = "885"
+            endingLineNumber = "885"
+            landmarkName = "TXVIEW(lalala:withdrawType:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

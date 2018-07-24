@@ -292,6 +292,8 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
                 }else {
                     XL_waringBox().warningBoxModeText(message: "这里面空空如也～", view: self.view)
                 }
+            }else {
+                XL_waringBox().warningBoxModeText(message: "这里面空空如也～", view: self.view)
             }
             tableShangpin.reloadData()
         }

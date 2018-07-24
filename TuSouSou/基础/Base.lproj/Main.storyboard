@@ -2560,15 +2560,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kkk-lM-jwm">
-                                <rect key="frame" x="0.0" y="696" width="414" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="uQJ-wE-c9f"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y1m-iP-ejc">
-                                <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y1m-iP-ejc">
+                                <rect key="frame" x="0.0" y="546" width="414" height="44"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="合计:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2b1-Cl-mid">
                                         <rect key="frame" x="8" y="12" width="42" height="21"/>
@@ -2627,6 +2620,13 @@
                                     <constraint firstAttribute="height" constant="44" id="vav-dG-mXF"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kkk-lM-jwm">
+                                <rect key="frame" x="0.0" y="645" width="414" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="uQJ-wE-c9f"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -2640,6 +2640,7 @@
                     </view>
                     <connections>
                         <outlet property="HeJijine" destination="73L-aI-RiO" id="0I1-2S-WdF"/>
+                        <outlet property="xiaView" destination="y1m-iP-ejc" id="Wl3-wG-4dh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7O1-X3-mfO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -6185,7 +6186,7 @@
                             <constraint firstItem="4lQ-y0-v0B" firstAttribute="top" secondItem="ByL-6x-qbf" secondAttribute="top" id="15W-3v-DED"/>
                             <constraint firstItem="4lQ-y0-v0B" firstAttribute="leading" secondItem="ByL-6x-qbf" secondAttribute="leading" id="622-NS-yWm"/>
                             <constraint firstAttribute="trailing" secondItem="4lQ-y0-v0B" secondAttribute="trailing" id="HQF-Vw-GG8"/>
-                            <constraint firstItem="ahQ-8O-9Ee" firstAttribute="top" secondItem="4lQ-y0-v0B" secondAttribute="bottom" id="ORV-Uu-8Gn"/>
+                            <constraint firstAttribute="bottom" secondItem="4lQ-y0-v0B" secondAttribute="bottom" id="QPr-sW-qQV"/>
                         </constraints>
                     </view>
                     <connections>
@@ -6194,7 +6195,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mfN-sk-QNx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-204" y="2023"/>
+            <point key="canvasLocation" x="-204.34782608695653" y="2022.5543478260872"/>
         </scene>
         <!--An QuanSZ View Controller-->
         <scene sceneID="G2E-L4-bhj">
