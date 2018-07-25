@@ -37,7 +37,7 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         JPUSHService.register(forRemoteNotificationConfig: entity, delegate: self);
         // 注册极光推送
         //apsForProduction : false 为开发环境 ，true 为生产环境
-        JPUSHService.setup(withOption: launchOptions, appKey: JPush_AppKey, channel:"App Store" , apsForProduction: false);
+        JPUSHService.setup(withOption: launchOptions, appKey: JPush_AppKey, channel:"App Store" , apsForProduction: isProduction);
         
         JPUSHService.registrationIDCompletionHandler { (resCode, registrationID) in
             if resCode == 0 {

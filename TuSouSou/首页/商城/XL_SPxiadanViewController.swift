@@ -133,8 +133,8 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         jisuanyixia()
     //输入textField 刷新下一行row tableview跳动， 给他一个预估高度就可以解决了～
         tablequeren.estimatedRowHeight = 0   //
-        tablequeren.estimatedSectionFooterHeight = 0
-        tablequeren.estimatedSectionHeaderHeight = 0
+//        tablequeren.estimatedSectionFooterHeight = 0
+//        tablequeren.estimatedSectionHeaderHeight = 0
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDisShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
         // Do any additional setup after loading the view.
     }
@@ -181,7 +181,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         }else{
             ddView.frame = CGRect(x: 0, y: Height - 120, width: Width, height: 60)
         }
-        //        ddView.backgroundColor = UIColor.blue
         let hengxian = UIView(frame: CGRect(x: 0, y: 0, width: Width, height: 1))
         hengxian.backgroundColor = UIColor(hexString: "f2f2f2")
         let Label = UILabel(frame: CGRect(x: 8, y: 15, width: 40, height: 30))

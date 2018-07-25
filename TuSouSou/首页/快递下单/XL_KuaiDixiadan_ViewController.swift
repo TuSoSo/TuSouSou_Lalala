@@ -128,6 +128,18 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
             }else{
                 XLJP = userDefaults.value(forKey: "jianpan") as! Float
             }
+            if UIDevice.current.isX() {
+                UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+                    self.view.frame = CGRect(x: 0, y:  CGFloat(-self.XLJP
+                        + 88), width: self.view.frame.width, height: self.view.frame.height)
+                }, completion: nil)
+            }else {
+                UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+                    self.view.frame = CGRect(x: 0, y:  CGFloat(-self.XLJP
+                        + 64), width: self.view.frame.width, height: self.view.frame.height)
+                }, completion: nil)
+            }
+            
         }
     }
     @objc func keyboardWillHide(notification:NSNotification) {
@@ -436,7 +448,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         }
         _tableview.tableFooterView = UIView()
         _tableview.rowHeight = UITableViewAutomaticDimension;
-        _tableview.estimatedRowHeight = 100;
+        _tableview.estimatedRowHeight = 0;
         self.view.addSubview(_tableview)
         self.view.bringSubview(toFront: xiaView)
     }
@@ -782,34 +794,46 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
 
    //MARK: textFieldDelegate
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField != xiaofeiTF {
-                if UIDevice.current.isX() {
-                    UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
-                        self.view.frame = CGRect(x: 0, y:  CGFloat(-self.XLJP
-                            + 88), width: self.view.frame.width, height: self.view.frame.height)
-                    }, completion: nil)
-                }else {
-                    UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
-                        self.view.frame = CGRect(x: 0, y:  CGFloat(-self.XLJP
-                            + 64), width: self.view.frame.width, height: self.view.frame.height)
-                    }, completion: nil)
-            }
-        }else{
-            UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
-//                self.xiaView.backgroundColor = UIColor.black
-                self.xiaView.frame = CGRect(x: 0, y: Height - CGFloat(self.XLJP + 64 + 44), width: Width, height: 44)
-            }, completion: nil)
-        }
+//        if textField != xiaofeiTF {
+//                if UIDevice.current.isX() {
+//                    UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+//                        self.view.frame = CGRect(x: 0, y:  CGFloat(-self.XLJP
+//                            + 88), width: self.view.frame.width, height: self.view.frame.height)
+//                    }, completion: nil)
+//                }else {
+//                    UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+//                        self.view.frame = CGRect(x: 0, y:  CGFloat(-self.XLJP
+//                            + 64), width: self.view.frame.width, height: self.view.frame.height)
+//                    }, completion: nil)
+//            }
+//        }else{
+//            if UIDevice.current.isX() {
+//                UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+//                    var frame = self.xiaView.frame
+//                    frame.origin.y = Height - CGFloat(self.XLJP + 88 + 44)
+//                    self.xiaView.frame = frame
+//                }, completion: nil)
+//            }else{
+//                UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+//                    var frame = self.xiaView.frame
+//                    frame.origin.y = Height - CGFloat(self.XLJP + 64 + 44)
+//                    self.xiaView.frame = frame
+//                }, completion: nil)
+//            }
+//        }
         return true
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField == xiaofeiTF {
-            UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
-                
-                self.xiaView.frame = CGRect(x: 0, y: Height - 44 - 64, width: Width, height: 44)
-//                self.xiaView.frame = CGRect(x: 0, y:  CGFloat(-self.XLJP
-//                    + 88), width: self.view.frame.width, height: self.view.frame.height)
-            }, completion: nil)
+            if UIDevice.current.isX() {
+                UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+                    self.xiaView.frame = CGRect(x: 0, y: Height - 44 - 88, width: Width, height: 44)
+                }, completion: nil)
+            }else{
+                UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+                    self.xiaView.frame = CGRect(x: 0, y: Height - 44 - 64, width: Width, height: 44)
+                }, completion: nil)
+            }
         }
         return true
     }
@@ -861,6 +885,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                         }
                     }
                 }
+                
                 if newString.count == 0 {
                     newString = "0"
                 }
@@ -1267,7 +1292,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         }
         let indexPath = IndexPath(row: 1, section: 1)
         _tableview.reloadRows(at: [indexPath], with: .fade)
-       
+       self.view.bringSubview(toFront: xiaView)
 //        _tableview.reloadData()
     }
     func isPurnFloat(string: String) -> Bool {
