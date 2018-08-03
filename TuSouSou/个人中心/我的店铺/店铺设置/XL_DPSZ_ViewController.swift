@@ -363,6 +363,7 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     func ZHAOXIANG() {
         let picker:UIImagePickerController = UIImagePickerController()
         picker.delegate = self as UIImagePickerControllerDelegate & UINavigationControllerDelegate
+        
         picker.sourceType = .camera
         picker.allowsEditing = true
         picker.cameraDevice = UIImagePickerControllerCameraDevice.front
@@ -392,7 +393,7 @@ class XL_DPSZ_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true)
-        if let photo = info[UIImagePickerControllerOriginalImage] as! UIImage?{
+        if let photo = info[UIImagePickerControllerEditedImage] as! UIImage?{
             if self.isSHX == 1 {
                 self.imageDic["shang"] = photo
             }else if self.isSHX == 2 {

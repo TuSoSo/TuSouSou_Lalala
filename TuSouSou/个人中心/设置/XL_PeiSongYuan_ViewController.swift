@@ -208,9 +208,7 @@ class XL_PeiSongYuan_ViewController: UIViewController,UIImagePickerControllerDel
         picker.allowsEditing = true
         picker.cameraDevice = UIImagePickerControllerCameraDevice.front
         if UIImagePickerController.isSourceTypeAvailable(.camera){
-            
             self.present(picker, animated: true, completion: { () -> Void in
-                
             })
         }else{
             XL_waringBox().warningBoxModeText(message: "为授予防问相机权限", view: self.view)
@@ -233,7 +231,7 @@ class XL_PeiSongYuan_ViewController: UIViewController,UIImagePickerControllerDel
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true)
-        if let photo = info[UIImagePickerControllerOriginalImage] as! UIImage?{
+        if let photo = info[UIImagePickerControllerEditedImage] as! UIImage?{
             if self.isSHX == 1 {
                 self.imageDic["shang"] = photo
             }else if self.isSHX == 2 {

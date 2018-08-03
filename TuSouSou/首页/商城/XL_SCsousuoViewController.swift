@@ -119,7 +119,6 @@ class XL_SCsousuoViewController: UIViewController,UITableViewDelegate,UITableVie
         imageView.sd_setImage(with: uul, placeholderImage: UIImage(named: "加载失败"), options: SDWebImageOptions.progressiveDownload, completed: nil)
         let name = UILabel(frame: CGRect(x: 72, y: 12, width: Width - 142, height: 24))
         name.textColor = UIColor(hexString: "8e8e8e")
-        
         name.text = ""
         if businessList.count != 0{
             name.text = businessList[section]["merchantName"] as? String

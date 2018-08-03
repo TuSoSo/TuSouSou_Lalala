@@ -33,8 +33,8 @@ class XL_XLTJ_ViewController: UIViewController {
         shijian()
     }
     func shijian() {
-        let dateFormatter = "HH:mm"
-        let datePicker = DatePickerView.datePicker(frame: CGRect(x: 0, y: 0, width: Width, height: Height), style: .hourMinute, scrollToDate: Date()) { date in
+        let dateFormatter = "yyyy-MM-dd"
+        let datePicker = DatePickerView.datePicker(frame: CGRect(x: 0, y: 0, width: Width, height: Height), style: .yearMonthDay, scrollToDate: Date()) { date in
             guard let date = date else { return }
             
             let dateStr = date.toString(dateFormatter)
@@ -63,19 +63,26 @@ class XL_XLTJ_ViewController: UIViewController {
             }
         }
         
-        let date = Date.date("时分", formatter: dateFormatter)
+        let date = Date.date("年月日", formatter: dateFormatter)
         datePicker.scrollToDate = date == nil ? Date.date(Date().toString(dateFormatter), formatter: dateFormatter)! : date!
         datePicker.show()
     }
     func shijianpanduan(kaiTime:String,guanTime:String) -> Bool {
-        let kaiarr:[String] = kaiTime.components(separatedBy: ":")
-        let guanarr:[String] = guanTime.components(separatedBy: ":")
+        let kaiarr:[String] = kaiTime.components(separatedBy: "-")
+        let guanarr:[String] = guanTime.components(separatedBy: "-")
         if Int(kaiarr[0])! < Int(guanarr[0])! {
             return true
         }else if Int(kaiarr[0])! == Int(guanarr[0])! {
             if Int(kaiarr[1])! < Int(guanarr[1])! {
                 return true
             }else {
+                if Int(kaiarr[1])! == Int(guanarr[1])! {
+                    if Int(kaiarr[2])! <= Int(guanarr[2])! {
+                        return true
+                    }else {
+                        return false
+                    }
+                }
                 return false
             }
         }else {

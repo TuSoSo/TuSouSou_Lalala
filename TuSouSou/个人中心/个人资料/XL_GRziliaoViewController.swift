@@ -416,7 +416,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true)
-        if let photo = info[UIImagePickerControllerOriginalImage] as! UIImage?{
+        if let photo = info[UIImagePickerControllerEditedImage] as! UIImage?{
             zhaozhao = 1
             imageXX = photo
             tableGRziliao.reloadData()

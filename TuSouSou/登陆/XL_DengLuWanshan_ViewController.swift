@@ -68,9 +68,13 @@ class XL_DengLuWanshan_ViewController: UIViewController,UITextFieldDelegate {
         self.view.endEditing(true)
         let openId:String = userDefaults.value(forKey: "openID") as! String
         let nickname = userDefaults.value(forKey: "nickname") as! String
+        print(nickname)
+//        let nicknameutf:String = String(format: "%@",nickname.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! )
         
         dengfangfa(loginMethod: isWQ!, loginName: phone.text!, passWord: "", authCode: yanzhengma.text!, openID: openId, view: (self.navigationController?.view)! ,WeChatName: nickname)
+        
     }
+    
     
     func dengfangfa(loginMethod: String,loginName:String,passWord:String,authCode:String, openID: String,view: UIView, WeChatName: String) {
         let method = "/user/logined"

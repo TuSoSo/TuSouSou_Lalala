@@ -109,7 +109,7 @@ class XL_TX_ViewController: UIViewController,UITextFieldDelegate,UIImagePickerCo
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true)
-        if let photo = info[UIImagePickerControllerOriginalImage] as! UIImage?{
+        if let photo = info[UIImagePickerControllerEditedImage] as! UIImage?{
             xxx = 1
             shoukuanma.image = photo
         }
@@ -130,8 +130,6 @@ class XL_TX_ViewController: UIViewController,UITextFieldDelegate,UIImagePickerCo
             //        let dic:[String:Any] = ["userId":userId,"name":""]
             let keyarr = ["userId","userType","money","withdrawMethod","withdrawCode","withdrawName","withdrawType"]
             let valuearr:[Any] = [userId!,userType,lalala,withdrawMethod,zhanghao.text!,Name.text!,withdrawType]
-            
-            
             XL_QuanJu().UploadWangluo(imageArray: imagearr, NameArray: namearr, keyArray: keyarr, valueArray: valuearr, methodName: method, success: { (res) in
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                 if (res as! [String: Any])["code"] as! String == "0000" {

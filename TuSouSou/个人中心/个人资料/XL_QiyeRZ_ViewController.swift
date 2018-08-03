@@ -251,7 +251,7 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true)
-        if let photo = info[UIImagePickerControllerOriginalImage] as! UIImage?{
+        if let photo = info[UIImagePickerControllerEditedImage] as! UIImage?{
             if self.isSHX == 1 {
                 self.imageDic["shang"] = photo
             }else if self.isSHX == 2 {

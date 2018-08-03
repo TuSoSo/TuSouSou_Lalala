@@ -10,6 +10,7 @@ import UIKit
 
 class XL_YQHY_ViewController: UIViewController,UIActionSheetDelegate{
 
+    @IBOutlet weak var wodeerweima: UILabel!
     @IBOutlet weak var youhuizhengce: UILabel!
     @IBOutlet weak var erweima: UIImageView!
     var lujing = ""
@@ -19,6 +20,7 @@ class XL_YQHY_ViewController: UIViewController,UIActionSheetDelegate{
         let youhuizheng=userDefaults.value(forKey: "yaoqingyouhui") as! String
         youhuizhengce.text = youhuizheng
         let invitingCode = userDefaults.value(forKey: "invitationCode") as! String
+        wodeerweima.text = "我的邀请码为: \(invitingCode)"
         lujing = "http://wx.tusousouxr.com/index.php/index/user/register/userType/1.html?invitationCode=" + invitingCode
         erweima.isUserInteractionEnabled = true
         //长按手势

@@ -457,7 +457,7 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true)
-        if let photo = info[UIImagePickerControllerOriginalImage] as! UIImage?{
+        if let photo = info[UIImagePickerControllerEditedImage] as! UIImage?{
             self.imageDic["shang"] = photo
             tableshangpin.reloadData()
         }

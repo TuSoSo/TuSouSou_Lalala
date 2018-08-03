@@ -5653,6 +5653,7 @@
                     </view>
                     <connections>
                         <outlet property="erweima" destination="QTw-fa-xQ6" id="yP4-qX-Aeo"/>
+                        <outlet property="wodeerweima" destination="4J6-ND-vAd" id="MFq-d5-4sO"/>
                         <outlet property="youhuizhengce" destination="NYW-zK-B28" id="s2B-oQ-F7L"/>
                     </connections>
                 </viewController>
