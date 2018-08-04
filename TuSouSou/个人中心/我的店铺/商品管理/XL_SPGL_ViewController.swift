@@ -13,7 +13,7 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     
     var DianpuDic:[String:String] = [:]
     
-    let zuoArr:[String] = ["商品名称:","商品单价:","商品数量:","类别管理:","商品类别:"]
+    let zuoArr:[String] = ["商品名称:","商品单价:","商品数量:","商品规格:","类别管理:","商品类别:"]
     var textFD = UITextField()
     var imageDic:[String : Any] = [:]
     var leiBArr:[[String:Any]] = []
@@ -53,7 +53,7 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 5
+            return 6
         }else{
             return 1
         }
@@ -144,7 +144,7 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
             }
             label.font = UIFont.systemFont(ofSize: 14)
             view.addSubview(zuoLable)
-            if indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2 {
+            if indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 {
                 view.addSubview(youTF)
             }else{
                 view.addSubview(label)
@@ -224,11 +224,11 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            if indexPath.row == 3 {
+            if indexPath.row == 4 {
                 //跳类别管理 天街类别
                 let WDXX: XL_SPLX_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "splx") as? XL_SPLX_ViewController
                 self.navigationController?.pushViewController(WDXX!, animated: true)
-            }else if indexPath.row == 4 {
+            }else if indexPath.row == 5 {
                 //弹出商品类别
                 leibiejiekou()
             }
@@ -247,12 +247,12 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
             paizhaoAction = UIAlertAction(title: title, style: .default) { (ss) in
                 self.leibie = self.leiBArr[i]["productTpyeName"] as! String
                 self.leibieId = self.leiBArr[i]["id"] as! String
-                self.DianpuDic["4"] = self.leibie
+                self.DianpuDic["5"] = self.leibie
                 self.tableshangpin.reloadData()
             }
+            alertController.addAction(paizhaoAction)
         }
         alertController.addAction(cancelAction)
-        alertController.addAction(paizhaoAction)
         
         self.present(alertController, animated: true, completion: nil)
     }
@@ -261,7 +261,7 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         if imageDic.keys.count != 1 {
             XL_waringBox().warningBoxModeText(message: "请拍照必要的照片！", view: self.view)
         }else{
-            if DianpuDic.keys.count != 5{
+            if DianpuDic.keys.count != 6{
                 XL_waringBox().warningBoxModeText(message: "请填写完整的信息～", view: self.view)
             }else{
                 let method = "/user/publishPro2"
@@ -269,14 +269,15 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
                 let imagearr:[Any] = [imageDic["shang"]!]
                 let namearr:[Any] = ["picture"]
                 
-                let keyArr = ["userId","productId","productName","productPrice","productNum","productType","productTypeName","describe","isShelf"]
+                let keyArr = ["userId","productId","productName","productPrice","productNum","productSpec","productType","productTypeName","describe","isShelf"]
                 var valueArr = [userId]
                 valueArr.append(productId)
                 valueArr.append(DianpuDic["0"]!)
                 valueArr.append(DianpuDic["1"]!)
                 valueArr.append(DianpuDic["2"]!)
+                valueArr.append(DianpuDic["3"]!)
                 valueArr.append(leibieId)
-                valueArr.append(DianpuDic["4"]!)
+                valueArr.append(DianpuDic["5"]!)
                 valueArr.append(DianpuDic["miaoshu"]!)
                 valueArr.append(isShelf)
                 XL_waringBox().warningBoxModeIndeterminate(message: "发布中...", view: self.view)
@@ -467,7 +468,7 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         if imageDic.keys.count != 1 {
             XL_waringBox().warningBoxModeText(message: "请拍照必要的照片！", view: self.view)
         }else{
-            if DianpuDic.keys.count != 5{
+            if DianpuDic.keys.count != 6{
                 XL_waringBox().warningBoxModeText(message: "请填写完整的信息～", view: self.view)
             }else{
                 let method = "/user/publishPro2"
@@ -475,14 +476,15 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
                 let imagearr:[Any] = [imageDic["shang"]!]
                 let namearr:[Any] = ["picture"]
                 
-                let keyArr = ["userId","productId","productName","productPrice","productNum","productType","productTypeName","describe","isShelf"]
+                let keyArr = ["userId","productId","productName","productPrice","productNum","productSpec","productType","productTypeName","describe","isShelf"]
                 var valueArr = [userId]
                 valueArr.append(productId)
                 valueArr.append(DianpuDic["0"]!)
                 valueArr.append(DianpuDic["1"]!)
                 valueArr.append(DianpuDic["2"]!)
+                valueArr.append(DianpuDic["3"]!)
                 valueArr.append(leibieId)
-                valueArr.append(DianpuDic["4"]!)
+                valueArr.append(DianpuDic["5"]!)
                 valueArr.append(DianpuDic["miaoshu"]!)
                 valueArr.append("1")
                 XL_waringBox().warningBoxModeIndeterminate(message: "发布中...", view: self.view)
@@ -516,7 +518,7 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
         if imageDic.keys.count != 1 {
             XL_waringBox().warningBoxModeText(message: "请拍照必要的照片！", view: self.view)
         }else{
-            if DianpuDic.keys.count != 5{
+            if DianpuDic.keys.count != 6{
                 XL_waringBox().warningBoxModeText(message: "请填写完整的信息～", view: self.view)
             }else{
                 let method = "/user/publishPro2"
@@ -524,14 +526,15 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
                 let imagearr:[Any] = [imageDic["shang"]!]
                 let namearr:[Any] = ["picture"]
                 
-                let keyArr = ["userId","productId","productName","productPrice","productNum","productType","productTypeName","describe","isShelf"]
+                let keyArr = ["userId","productId","productName","productPrice","productNum","productSpec","productType","productTypeName","describe","isShelf"]
                 var valueArr = [userId]
                 valueArr.append(productId)
                 valueArr.append(DianpuDic["0"]!)
                 valueArr.append(DianpuDic["1"]!)
                 valueArr.append(DianpuDic["2"]!)
+                valueArr.append(DianpuDic["3"]!)
                 valueArr.append(leibieId)
-                valueArr.append(DianpuDic["4"]!)
+                valueArr.append(DianpuDic["5"]!)
                 valueArr.append(DianpuDic["miaoshu"]!)
                 valueArr.append("2")
                 XL_waringBox().warningBoxModeIndeterminate(message: "保存中...", view: self.view)
@@ -575,7 +578,8 @@ class XL_SPGL_ViewController:UIViewController,UIImagePickerControllerDelegate,UI
                 self.DianpuDic["0"] = productInfo["productName"] as? String
                 self.DianpuDic["1"] = productInfo["productPrice"] as? String
                 self.DianpuDic["2"] = productInfo["productNum"] as? String
-                self.DianpuDic["4"] = productInfo["productTypeName"] as? String
+                self.DianpuDic["3"] = productInfo["productSpec"] as? String
+                self.DianpuDic["5"] = productInfo["productTypeName"] as? String
                 self.leibieId = String(format: "%d", productInfo["productType"] as! Int)
                 self.DianpuDic["miaoshu"] = productInfo["productDesc"] as? String
                 self.tableshangpin.reloadData()
