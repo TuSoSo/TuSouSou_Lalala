@@ -10,12 +10,28 @@ import UIKit
 //通知- 跳页 - 左上角为X
 @UIApplicationMain
 class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDelegate,TencentSessionDelegate,JPUSHRegisterDelegate {
-    
+    let appID = "1391440776"//1080090899//1391440776
     var window: UIWindow?
     var _mapManager: BMKMapManager?
     var tencentAuth: TencentOAuth!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        if isJailBreak() {
+            let alertWindow = UIWindow(frame: UIScreen.main.bounds)
+            alertWindow.rootViewController = UIViewController()
+            
+            alertWindow.windowLevel = UIWindowLevelAlert + 1;
+            alertWindow.makeKeyAndVisible()
+            
+            //跳转到App Store
+            let sheet = UIAlertController(title: "温馨提示", message: "您的手机为越狱版本，我们暂时并不支持哟", preferredStyle: .alert)
+            let queding = UIAlertAction(title: "好的", style: .cancel, handler: { (ss) in
+                //崩溃
+                exit(0)
+            })
+            sheet.addAction(queding)
+            alertWindow.rootViewController?.present(sheet, animated: true, completion: nil)
+        }
         //tableview
         if UIDevice.current.isX() {
             if #available(iOS 11.0, *) {
@@ -77,11 +93,18 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         
         return true
     }
+    func isJailBreak() -> Bool {
+        if (getenv("DYLD_INSERT_LIBRARIES") != nil) {
+            //越狱了
+            return true
+        }else{
+            return false
+        }
+    }
+    
     func huoquAppStore(version:String) {
-        let appidStr:String="1391440776"
         
-//        let appidStr:String="1080090899"
-        let appurlStr:String=String.init(format: "https://itunes.apple.com/cn/lookup?id=%@", appidStr)
+        let appurlStr:String=String.init(format: "https://itunes.apple.com/cn/lookup?id=%@", appID)
         
         let url:URL=URL.init(string: appurlStr)!
         
@@ -122,7 +145,8 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         }
     }
     func gotoAppStore() {
-        let urlString = "itms-apps://itunes.apple.com/app/id1391440776"
+        
+        let urlString = "itms-apps://itunes.apple.com/app/id\(appID)"
         let url = NSURL(string: urlString)
         UIApplication.shared.openURL(url! as URL)
     }
@@ -173,18 +197,18 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
             var strMsg = "(resp.errCode)"
             switch resp.errCode {
             case 0 :
-                if nil != userDefaults.value(forKey: "xixi") && (userDefaults.value(forKey: "xixi") as! Int) == 2 {
-                    chongzhijiekou(lalala: userDefaults.value(forKey: "hahaha") as! String)
-                    
-                }else{
-                  self.zhifuhuidiao()
-                }
+//                if nil != userDefaults.value(forKey: "xixi") && (userDefaults.value(forKey: "xixi") as! Int) == 2 {
+//                    chongzhijiekou(lalala: userDefaults.value(forKey: "hahaha") as! String)
+//
+//                }else{
+////                  self.zhifuhuidiao()
+//                }
                 strMsg = "支付成功"
                  NotificationCenter.default.post(name: NSNotification.Name("支付成功"), object: self, userInfo: nil)
             //                NSNotificationCenter.defaultCenter().postNotificationName(WXPaySuccessNotification, object: nil)
             default:
                 strMsg = "支付失败，请您重新支付!"
-                userDefaults.set(0, forKey: "xixi")
+//                userDefaults.set(0, forKey: "xixi")
                 print("retcode = (resp.errCode), retstr = (resp.errStr)")
             }
             let alert = UIAlertView(title: nil, message: strMsg, delegate: nil, cancelButtonTitle: "好的")
@@ -213,16 +237,16 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
             AlipaySDK.defaultService().processOrder(withPaymentResult: url) { (resultDic) in
                 var strMsg = ""
                 if resultDic!["resultStatus"] as! String == "9000" {
-                    if nil != userDefaults.value(forKey: "xixi") && (userDefaults.value(forKey: "xixi") as! Int) == 2 {
-                        self.chongzhijiekou(lalala: userDefaults.value(forKey: "hahaha") as! String)
-                    }else{
-                        self.zhifuhuidiao()
-                    }
+//                    if nil != userDefaults.value(forKey: "xixi") && (userDefaults.value(forKey: "xixi") as! Int) == 2 {
+//                        self.chongzhijiekou(lalala: userDefaults.value(forKey: "hahaha") as! String)
+//                    }else{
+////                        self.zhifuhuidiao()
+//                    }
                      NotificationCenter.default.post(name: NSNotification.Name("支付成功"), object: self, userInfo: nil)
                     strMsg = "支付成功"
                 }else{
                     strMsg = "支付失败，请您重新支付!"
-                    userDefaults.set(0, forKey: "xixi")
+//                    userDefaults.set(0, forKey: "xixi")
                 }
                 let alert = UIAlertView(title: nil, message: strMsg, delegate: nil, cancelButtonTitle: "好的")
                 alert.show()
@@ -239,27 +263,19 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         }
         return true
     }
-    
-    
     func tencentDidLogin() {
         // 登录成功后要调用一下这个方法, 才能获取到个人信息
         self.tencentAuth.getUserInfo()
     }
-    
     func tencentDidNotNetWork() {
         // 网络异常
     }
-    
     func tencentDidNotLogin(_ cancelled: Bool) {
-        
     }
-    
     func getUserInfoResponse(_ response: APIResponse!) {
         // 获取个人信息
         if response.retCode == 0 {
-            
             if (response.jsonResponse) != nil {
-                
                 if let uid = self.tencentAuth.getUserOpenID() {
                     // 获取uid
                     NotificationCenter.default.post(name: NSNotification.Name("QQLoginSuccessNotification"), object: self, userInfo: ["openId":uid])
@@ -273,6 +289,7 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
     }
     func chongzhijiekou(lalala:String) {
         let method = "/distribution/recharge"
+//        rechargeType 2 支付宝 3 微信
         let rechargeType = userDefaults.value(forKey: "rechargeType") as! String
         let userId = userDefaults.value(forKey: "userId")
         let dicc:[String:Any] = ["userId":userId!,"money":lalala,"rechargeType":rechargeType]
@@ -289,19 +306,16 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         if (userDefaults.value(forKey: "dingdanhao") as!  String).count != 0 {
             dingdanhao = userDefaults.value(forKey: "dingdanhao") as! String
         }
-        
         let dicc:[String:Any] = ["orderCode":dingdanhao]
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
             userDefaults.set("", forKey: "dingdanhao")
             userDefaults.set("2", forKey: "isNotPay")
         }) { (error) in
-            
             print(error)
         }
     }
     // MARK: -JPUSHRegisterDelegate
-    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         JPUSHService.registerDeviceToken(deviceToken)
     }
@@ -321,7 +335,6 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
     // iOS 10.x 需要
     @available(iOS 10.0, *)
     func jpushNotificationCenter(_ center: UNUserNotificationCenter!, willPresent notification: UNNotification!, withCompletionHandler completionHandler: ((Int) -> Void)!) {
-        
         let userInfo = notification.request.content.userInfo;
         if notification.request.trigger is UNPushNotificationTrigger {
             JPUSHService.handleRemoteNotification(userInfo);
@@ -341,7 +354,6 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
     }
     @available(iOS 10.0, *)
     func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
-        
         let userInfo = response.notification.request.content.userInfo;
         if response.notification.request.trigger is UNPushNotificationTrigger {
             JPUSHService.handleRemoteNotification(userInfo);
@@ -358,10 +370,8 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         completionHandler();
         // 应用打开的时候收到推送消息
         UIApplication.shared.applicationIconBadgeNumber = 0;
-        
         //        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationName_ReceivePush), object: NotificationObject_Sueecess, userInfo: userInfo)
     }
-    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         let aps = userInfo["aps"] as! [String:Any]
         let content:String = aps["alert"] as! String
@@ -372,18 +382,23 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         }else{
             userDefaults.set("1", forKey: "xitui")
         }
-        
         JPUSHService.handleRemoteNotification(userInfo);
         //小红点通知显示
-        
-        
         completionHandler(UIBackgroundFetchResult.newData);
     }
     func applicationWillEnterForeground(_ application: UIApplication) {
+        if userDefaults.value(forKey: "xlxla") != nil && userDefaults.value(forKey: "xlxla") as! String != "" {
+            NotificationCenter.default.post(name: NSNotification.Name("wodelaotian"), object: self, userInfo: nil)
+            userDefaults.set("", forKey: "xlxla")
+        }
         application.cancelAllLocalNotifications()
+        let infoDic = Bundle.main.infoDictionary
+        let currentAppVersion = infoDic! ["CFBundleShortVersionString"] as! String
+        huoquAppStore(version:currentAppVersion)
     }
     func applicationDidEnterBackground(_ application: UIApplication) {
         application.applicationIconBadgeNumber = 0
+        
     }
     
 }

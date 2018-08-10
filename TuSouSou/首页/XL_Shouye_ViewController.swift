@@ -270,7 +270,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         //从广告页跳转到详情
         let name = Notification.Name(rawValue: "pushtoad")
         NotificationCenter.default.addObserver(self, selector: #selector(pushToad(notification:)), name: name, object:  nil)
-        leixingInt = 1
+        leixingInt = 5
         leixing(lei: leixingInt!)
         daohang = 1
         self.TableViewDelegate()
@@ -842,6 +842,11 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 userDefaults.set(city, forKey: "cityName")
                 //当前位置显示的
 //                self.weizhi = State + city + (SubLocality as String) + Street
+                if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
+                    userDefaults.set("0", forKey: "isDengLu")
+                }else{
+                    self.shouyejiekou()
+                }
                 self.dizhi()
             }
             else
@@ -908,7 +913,9 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         if nil == userDefaults.value(forKey: "isDengLu") || userDefaults.value(forKey: "isDengLu") as! String == "0" {
             userDefaults.set("0", forKey: "isDengLu")
         }else{
-            shouyejiekou()
+            if city != "" {
+               shouyejiekou()
+            }
         }
         //表头透明
     self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -928,14 +935,15 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
         shuliang.delegate = self
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        guard let text = textField.text else{
-            return true
+        let textLength = (textField.text?.count)! + string.count - range.length
+        if textLength == 0 {
+            shuliang.text = "1"
+            return false
         }
-        
-        let textLength = text.count + string.count - range.length
-        print(textField.text as Any)
-        return textLength <= 3
+        if textLength > 3 {
+            return false
+        }
+        return true
     }
     // 键盘改变
     @objc func keyboardWillChange(_ notification: Notification) {
@@ -1094,11 +1102,29 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                 if nil != dic["isOpen"]{
                     isOpen = dic["isOpen"] as! Int
                 }
+               
                 userDefaults.set(userType, forKey: "userType")
 //                userDefaults.set(isFirmAdit, forKey: "isFirmAdit")
 //                userDefaults.set(isRealAuthentication, forKey: "isRealAuthentication")
+                if isOpen != 1 {
+                    let sheet = UIAlertController(title: "温馨提示:", message: "未获取到当前城市，或当前城市未开通服务，请手动选择城市。", preferredStyle: .alert)
+                    
+                    let cancel = UIAlertAction(title: "确定", style: .cancel, handler: { (_) in
+                        //跳页到城市
+                        let chengshiList: XL_chengshiListViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "chengshilist") as! XL_chengshiListViewController
+                        //block 传值调用
+                        chengshiList.Cityblock = {(cityname: [String:Any]) in
+                            self.city = cityname["cityName"] as! String
+                            userDefaults.set(cityname["cityName"]!, forKey: "cityName")
+                            self.dizhi()
+                        }
+                        self.navigationController?.pushViewController(chengshiList, animated: true)
+                    })
+                    sheet.addAction(cancel)
+                    self.present(sheet, animated: true, completion: nil)
+                }
                 userDefaults.set(phone, forKey: "phone")
-                userDefaults.set(isOpen, forKey: "isOpen")
+                
                 if bySsMoney != "" {
                     //alert
                     let sheet = UIAlertController(title: "温馨提示:", message: "您获得了 \(bySsMoney)个飕飕币～", preferredStyle: .alert)
@@ -1114,7 +1140,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
                     self.xiadananniu.setTitle("立即下单", for: .normal)
                 }
                 self.zhuangtai()
-//                isOpen(int):是否开通配送员(1.是2否)
+//                isOpen(int): 当前城市是否开通 (1.是2否)
 //                bySsMoney(String):被发送飕飕币数量
 
             }else if (res as! [String: Any])["code"] as! String == "1000" {

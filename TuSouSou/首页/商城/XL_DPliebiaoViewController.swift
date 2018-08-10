@@ -119,7 +119,7 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
                     }
                 }
                 if x == 1 {
-                    showConfirm(title: "温习提示", message: "请挑选商品再下订单哟～", in: self, Quxiao: { (quxiao) in
+                    showConfirm(title: "温馨提示", message: "请挑选商品再下订单哟～", in: self, Quxiao: { (quxiao) in
                         
                     }) { (queding) in
                         
@@ -142,8 +142,6 @@ class XL_DPliebiaoViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     func showConfirm(title: String, message: String, in viewController: UIViewController,Quxiao:((UIAlertAction)->Void)?,
                      Queding: ((UIAlertAction)->Void)?) {
-        
-        
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: Quxiao))
         alert.addAction(UIAlertAction(title: "确定", style: .default, handler: Queding))

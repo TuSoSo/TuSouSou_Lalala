@@ -846,8 +846,27 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
             if newString.count != 0 {
                 zhuan = newString
             }
+            if textField.text == "0" && string == "0" {
+                return false
+            }
+            if string == "." {
+                if (textField.text?.contains("."))! || textField.text?.count == 0 {
+                    return false
+                }
+            }
             if newString.contains(".") {
                 let arr = newString.components(separatedBy: ".")
+                
+                if  arr[0].count == 0 {
+                    if arr[1].count > 0 {
+                        textField.text = "0" + "." + arr[1]
+                        self.dikoujisuan(string: "0" + "." + arr[1])
+                    }else{
+                        textField.text = "0"
+                        self.dikoujisuan(string: "0")
+                    }
+                    return false
+                }
                 if  arr[1].count > 0 {
                     if arr[1].count > 4 {
                         return false
@@ -874,8 +893,29 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         if textField == xiaofeiTF {
             if ButtonRMB.isSelected == true{
                 var newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+                if textField.text == "0" && string == "0" {
+                    return false
+                }
+                if string == "." {
+                    if (textField.text?.contains("."))! || textField.text?.count == 0 {
+                        return false
+                    }
+                }
                 if newString.contains(".") {
+//                    if string == "." {
+//                        return false
+//                    }
                     let arr = newString.components(separatedBy: ".")
+                    if  arr[0].count == 0 {
+                        if arr[1].count > 0 {
+                            textField.text = "0" + "." + arr[1]
+                            self.dikoujisuan(string: "0" + "." + arr[1])
+                        }else{
+                            textField.text = "0"
+                            self.dikoujisuan(string: "0")
+                        }
+                        return false
+                    }
                     if arr.count > 2 {
                         return false
                     }
@@ -900,11 +940,40 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                     }
                     return false
                 }
+                if Float(newString)! < 1 {
+                    
+                    showConfirm(title: "温馨提示", message: "小费最低为 1 元", in: self, confirme: { (ss) in
+                        textField.text = "0"
+                        self.jisuanfangfa(xxff: "0")
+                    }) { (ss) in
+                        textField.text = "1"
+                        self.jisuanfangfa(xxff: "1")
+                    }
+                    return false
+                }
                 self.jisuanfangfa(xxff: newString)
             }else{
                 let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+                if textField.text == "0" && string == "0" {
+                    return false
+                }
+                if string == "." {
+            if (textField.text?.contains("."))! || textField.text?.count == 0 {
+                        return false
+                    }
+                }
                 if newString.contains(".") {
                     let arr = newString.components(separatedBy: ".")
+                    if  arr[0].count == 0 {
+                        if arr[1].count > 0 {
+                            textField.text = "0" + "." + arr[1]
+                            self.dikoujisuan(string: "0" + "." + arr[1])
+                        }else{
+                            textField.text = "0"
+                            self.dikoujisuan(string: "0")
+                        }
+                        return false
+                    }
                     if  arr[1].count > 0 {
                         if arr[1].count > 4 {
                             return false
@@ -1039,44 +1108,45 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         zhifuButton0.isSelected = false
         zhifuButton1.isSelected = false
     }
+    var diandianjiji = 1
+    
     @IBAction func querenzhifu(_ sender: Any) {
 
         if paymentMethod.count == 0 {
             XL_waringBox().warningBoxModeText(message: "请选择支付方式", view: self.view)
         }else{
-            if zhifuButton0.isSelected == true {
-                 zhifu_xiao()
-                 zhifubaoZhiFu()
-            }else if zhifuButton1.isSelected == true {
-                WXZhiFu()
-                zhifu_xiao()
-                
-            }else if zhifuButton2.isSelected == true{
-                //判断支付密码，没有的话 跳  设置支付密码按钮，有的话 判断是否是免密  如果没有免密，弹出支付密码界面，并调支付密码接口，成功后调取 支付接口
-                if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
-                    // 跳 设置支付密码
-                    self.tiaoye(rukou: "1")
-                }else{
-                    if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
-                        // 不免密 跳验证密码
-                        if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
-                            //输入支付密码验证后再跳页
-                            let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: HeJijine.text!,isMove:true)
-                            payAlert.show(view: self.view)
-                            payAlert.completeBlock = ({(password:String) -> Void in
-                                //调验证支付吗接口
-                                self.yanzhengzhifumima(password: password)
-                                print("输入的密码是:" + password)
-                            })
-                        }
+            if diandianjiji != 2 {
+                diandianjiji = 2
+                if zhifuButton0.isSelected == true {
+                    zhifu_xiao()
+                }else if zhifuButton1.isSelected == true {
+                    zhifu_xiao()
+                    
+                }else if zhifuButton2.isSelected == true{
+                    //判断支付密码，没有的话 跳  设置支付密码按钮，有的话 判断是否是免密  如果没有免密，弹出支付密码界面，并调支付密码接口，成功后调取 支付接口
+                    if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
+                        // 跳 设置支付密码
+                        self.tiaoye(rukou: "1")
                     }else{
-                        //直接接口
-                        zhifu_xiao()
-                        
+                        if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
+                            // 不免密 跳验证密码
+                            if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
+                                //输入支付密码验证后再跳页
+                                let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: HeJijine.text!,isMove:true)
+                                payAlert.show(view: self.view)
+                                payAlert.completeBlock = ({(password:String) -> Void in
+                                    //调验证支付吗接口
+                                    self.yanzhengzhifumima(password: password)
+                                    print("输入的密码是:" + password)
+                                })
+                            }
+                        }else{
+                            //直接接口
+                            zhifu_xiao()
+                            
+                        }
                     }
                 }
-                
-               
             }
         }
         
@@ -1091,7 +1161,6 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
 //                self.tiaoye(rukou: "1")
-                self.zhifuhuidiao()
                 self.zhifu_xiao()
             }else{
                 let msg = (res as! [String: Any])["msg"] as! String
@@ -1110,9 +1179,9 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     }
     func zhifu_xiao (){
         var ssbSum = ""
-        if ButtonSSB.isSelected == true {
-            ssbSum = xiaofeiTF.text!
-        }
+//        if ButtonSSB.isSelected == true {
+            ssbSum = souBzhiF.text!
+//        }
         var isDirectSend = "1"
         
         if uiswitch0.isOn == false {
@@ -1123,16 +1192,23 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         }else{
             
             let method = "/order/commitOrder"
-            let dic:[String:Any] = ["orderId":dingdanID!,"sendTime":sendTime,"isToday":isToday,"isDirectSend":isDirectSend,"tipType":tipType,"tip":xiaofeiTF.text!,"remarks":beizhuTF.text!,"paymentMethod":paymentMethod,"postAmount":peisongfei,"amount":HeJijine.text!,"ssbSum":ssbSum,"dkAmount":dikoudejine]
-            //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
+            let dic:[String:Any] = ["orderId":dingdanID!,"sendTime":sendTime,"isToday":isToday,"isDirectSend":isDirectSend,"tipType":tipType,"tip":xiaofeiTF.text!,"remarks":beizhuTF.text!,"paymentMethod":paymentMethod,"postAmount":peisongfei,"amount":HeJijine.text!,"ssbSum":ssbSum,"dkAmount":dikoudejine,"orderType":orderType!]
+            print(dic)
+            XL_waringBox().warningBoxModeIndeterminate(message: "准备支付中...", view: self.view)
             XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
                 print(res)
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
                 if (res as! [String: Any])["code"] as! String == "0000" {
                     userDefaults.set(self.dingdanhao!, forKey: "dingdanhao")
-                    if self.zhifuButton2.isSelected == true{
+                    
+                    if self.zhifuButton0.isSelected == true {
+                        self.zhifubaoZhiFu()
+                    }else if self.zhifuButton1.isSelected == true {
+                        self.WXZhiFu()
+                    }else if self.zhifuButton2.isSelected == true{
                         self.zhifuhuidiao()
                     }
+                    
                 }else{
                     let msg = (res as! [String: Any])["msg"] as! String
                     XL_waringBox().warningBoxModeText(message: msg, view: self.view)
@@ -1147,17 +1223,20 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
     func zhifuhuidiao() {
         let method = "/order/payAfterHandler"
         let dicc:[String:Any] = ["orderCode":dingdanhao!]
-        //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
+        XL_waringBox().warningBoxModeIndeterminate(message: "支付中...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
+            self.diandianjiji = 1
+            XL_waringBox().warningBoxModeText(message: "下单成功了哟～", view: (self.navigationController?.view)!)
             userDefaults.set("", forKey: "dingdanhao")
         self.navigationController?.popToRootViewController(animated: true)
         }) { (error) in
-            
+            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             print(error)
         }
     }
     func WXZhiFu() {
+        
         let method = "/weipay/App"
         let totalAmount = Float(HeJijine.text!)! * 100
         
@@ -1167,7 +1246,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
              print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             let data :[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-           
+           self.diandianjiji = 1
             let orderBody = XL_weixinObjc()
             orderBody.appid = data["appid"] as? String
             orderBody.noncestr = data["noncestr"] as? String
@@ -1205,7 +1284,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
             let data :[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
             let appScheme = "TuSouSou"
             let orderString = data["orderString"] as! String
-            
+            self.diandianjiji = 1
             AlipaySDK.defaultService().payOrder(orderString, fromScheme: appScheme) { (resultDic) -> () in
                 for (key,value) in resultDic! {
                      print("\(key) : \(value)")
@@ -1292,7 +1371,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
         }
         let indexPath = IndexPath(row: 1, section: 1)
         _tableview.reloadRows(at: [indexPath], with: .fade)
-       self.view.bringSubview(toFront: xiaView)
+//       self.view.bringSubview(toFront: xiaView)
 //        _tableview.reloadData()
     }
     func isPurnFloat(string: String) -> Bool {

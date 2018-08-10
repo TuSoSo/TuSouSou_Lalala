@@ -155,6 +155,16 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
     //MARK: textfieldDelegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        if textField.tag == 333 {
+            if newString.length > 18 {
+                return false
+            }
+        }
+        if textField.tag == 336 {
+            if newString.length > 11 {
+                return false
+            }
+        }
         qiyeDic["\(textField.tag - 330)"] = newString
         return true
     }
@@ -162,7 +172,15 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
         if textField.tag == 333 {
             if !textField.text!.chk18PaperId() {
                 textField.text = ""
-                XL_waringBox().warningBoxModeText(message: "请输入正确的身份证号", view: self.view)
+                self.view.endEditing(true)
+                XL_waringBox().warningBoxModeText(message: "请输入正确的身份证号,如果X需大写哟～", view: self.view)
+                return false
+            }
+        }
+        if textField.tag == 336 {
+            if !textField.text!.isPhoneNumber() {
+                textField.text = ""
+                XL_waringBox().warningBoxModeText(message: "请输入正确的手机号", view: self.view)
                 return false
             }
         }
@@ -272,7 +290,7 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
            
             let imagearr:[Any] = [imageDic["shang"]!,imageDic["xia"]!,imageDic["fa"]!]
             let namearr:[Any] = ["FacePic","licensePic","idCardPic1"]
-            let keyArr = ["userId","firmName","firmAddress","firmLinkman","idCard","licenseNo","corporation","phone"]
+            let keyArr = ["userId","firmName","firmAddress","firmLinkman","idCard","licenseNo","corporation","phone","cityName"]
             var valueArr = [userId]
             var xxxx = 0
             for i in 0..<7 {
@@ -283,6 +301,7 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
                     valueArr.append("")
                 }
             }
+            valueArr.append(userDefaults.value(forKey: "cityName") as! String)
             if xxxx == 1  {
                 XL_waringBox().warningBoxModeText(message: "请填写完整信息！", view: self.view)
             }else{

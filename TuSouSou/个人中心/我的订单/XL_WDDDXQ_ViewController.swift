@@ -487,7 +487,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "抵扣:"
                         var dikoudikou = "¥ 0.00"
                         if nil != SPDic["dkAmount"] {
-                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Float)!)
+                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Double)!)
                         }
                         youlabel.text = dikoudikou
                         cell.contentView.addSubview(youlabel)
@@ -624,7 +624,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "抵扣:"
                         var dikoudikou = "¥ 0.00"
                         if nil != SPDic["dkAmount"] {
-                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Float)!)
+                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Double)!)
                         }
                         youlabel.text = dikoudikou
                         cell.contentView.addSubview(youlabel)
@@ -770,7 +770,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "抵扣:"
                         var dikoudikou = "¥ 0.00"
                         if nil != SPDic["dkAmount"] {
-                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Float)!)
+                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Double)!)
                         }
                         youlabel.text = dikoudikou
                         cell.contentView.addSubview(youlabel)
@@ -842,7 +842,7 @@ class XL_WDDDXQ_ViewController: UIViewController,UITableViewDelegate,UITableView
                         zuolabel.text = "抵扣:"
                         var dikoudikou = "¥ 0.00"
                         if nil != SPDic["dkAmount"] {
-                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Float)!)
+                            dikoudikou = String(format: "¥ %.2f", (SPDic["dkAmount"] as? Double)!)
                         }
                         youlabel.text = dikoudikou
                         cell.contentView.addSubview(youlabel)

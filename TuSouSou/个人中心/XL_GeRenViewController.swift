@@ -26,6 +26,7 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
     }
     override func viewWillAppear(_ animated: Bool) {
+        self.view.endEditing(true)
         if (nil != userDefaults.value(forKey: "dingtui")&&userDefaults.value(forKey: "dingtui")as!String=="1") || (nil != userDefaults.value(forKey: "gongtui")&&userDefaults.value(forKey: "gongtui")as!String=="1") || (nil != userDefaults.value(forKey: "xitui")&&userDefaults.value(forKey: "xitui")as!String=="1") {
             xiaoxi_tupian.image = UIImage(named: "我的03")//有红点
         }else{
@@ -92,13 +93,13 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
             let WDXX: XL_WDKF_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wdkf") as? XL_WDKF_ViewController
             self.navigationController?.pushViewController(WDXX!, animated: true)
         }else if indexPath.row == 3 {
-            if userDefaults.value(forKey: "isFirmAdit") as! Int == 4  {
+            if userDefaults.value(forKey: "zhenshiqiye") as! Int == 4  {
                 let WDXX: XL_WDdianou_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wddianpu") as? XL_WDdianou_ViewController
                 self.navigationController?.pushViewController(WDXX!, animated: true)
-            }else if userDefaults.value(forKey: "isFirmAdit") as! Int == 2{
+            }else if userDefaults.value(forKey: "zhenshiqiye") as! Int == 2{
                  XL_waringBox().warningBoxModeText(message: "企业认证中", view: self.view)
             }else{
-                if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+                if userDefaults.value(forKey: "zhenshigeren") as! Int == 1 || userDefaults.value(forKey: "zhenshigeren") as! Int == 3{
                     //弹框 --- 请先完成实名认证
                     let sheet = UIAlertController(title: "温馨提示:", message: "请先完成实名认证再进行企业认证", preferredStyle: .alert)
                     let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
@@ -112,7 +113,7 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
                     sheet.addAction(queding)
                     sheet.addAction(cancel)
                     self.present(sheet, animated: true, completion: nil)
-                }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+                }else if userDefaults.value(forKey: "zhenshigeren") as! Int == 4 {
                     //请先企业认证
                     //跳企业认证
                     let sheet = UIAlertController(title: "温馨提示:", message: "请先完成企业认证", preferredStyle: .alert)
@@ -165,17 +166,17 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 //企业认证不等于4 都是个人
                 
                 if nil != data["name"] {
-//                    userDefaults.set(0, forKey: "isFirmAdit")
+                    userDefaults.set(0, forKey: "zhenshiqiye")
                     self.name.text = (data["name"] as? String)! + " (个人版)"
                     if nil != data["isAuthentic"] {
-//                        userDefaults.set(data["isAuthentic"], forKey: "isRealAuthentication")
+                        userDefaults.set(data["isAuthentic"], forKey: "zhenshigeren")
                     }
                     if nil != data["isPass"] {
                         if data["isPass"] as!Int == 4{
                             self.name.text = (data["name"] as? String)! + " (企业版)"
-//                            userDefaults.set(4, forKey: "isFirmAdit")
+                            userDefaults.set(4, forKey: "zhenshiqiye")
                         }else{
-//                            userDefaults.set(data["isPass"], forKey: "isFirmAdit")
+                            userDefaults.set(data["isPass"], forKey: "zhenshiqiye")
                         }
                     }
                 }

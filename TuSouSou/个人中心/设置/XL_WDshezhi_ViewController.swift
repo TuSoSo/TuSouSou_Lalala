@@ -15,7 +15,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet weak var tableshezhi: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.title = "设置"
         yonghuxinxichaxun()
         DelegateTable()
@@ -33,12 +33,12 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                if nil != dic["isAuthentic"]{
-                    userDefaults.set(dic["isAuthentic"], forKey: "isRealAuthentication")
-                }
-                if nil != dic["firmAuthentic"]{
-                    userDefaults.set(dic["firmAuthentic"], forKey: "isFirmAdit")
-                }
+//                if nil != dic["isAuthentic"]{
+//                    userDefaults.set(dic["isAuthentic"], forKey: "zhenshigeren")
+//                }
+//                if nil != dic["firmAuthentic"]{
+//                    userDefaults.set(dic["firmAuthentic"], forKey: "zhenshiqiye")
+//                }
                 if nil != dic["attestation"] {
                     userDefaults.set(dic["attestation"], forKey: "attestation")
                 }
@@ -71,7 +71,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             }else {
                 //调接口
                 self.fankuijiekou(content: login.text!)
-//                XL_waringBox().warningBoxModeText(message: "反馈成功", view: self.view)
+                //                XL_waringBox().warningBoxModeText(message: "反馈成功", view: self.view)
             }
         })
         alertController.addAction(cancelAction)
@@ -84,13 +84,13 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
         let method = "/user/feedback"
         let userId = userDefaults.value(forKey: "userId")
         let dic:[String:Any] = ["userId":userId!,"content":content]
-//        XL_waringBox().warningBoxModeIndeterminate(message: "加载中...", view: self.view)
+        //        XL_waringBox().warningBoxModeIndeterminate(message: "加载中...", view: self.view)
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
                 XL_waringBox().warningBoxModeText(message: "感谢您的宝贵意见", view: self.view)
-//                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+                //                let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 
             }else{
                 let msg = (res as! [String: Any])["msg"] as! String
@@ -153,8 +153,8 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
                 Isrenzheng.textAlignment = .right
                 if indexPath.row == 3 {
                     //是否认证
-//                    Isrenzheng.text = "未认证"
-                    let xx = userDefaults.value(forKey: "isFirmAdit") as! Int
+                    //                    Isrenzheng.text = "未认证"
+                    let xx = userDefaults.value(forKey: "zhenshiqiye") as! Int
                     switch xx {
                     case 1:
                         Isrenzheng.text = "未认证"
@@ -175,7 +175,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
                     
                     var xx = 1
                     if nil != userDefaults.value(forKey: "attestation"){
-                       xx = userDefaults.value(forKey: "attestation") as! Int
+                        xx = userDefaults.value(forKey: "attestation") as! Int
                     }
                     switch xx {
                     case 1:
@@ -219,24 +219,24 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             self.navigationController?.pushViewController(WDXX!, animated: true)
         }else if indexPath.row == 3 {
             //企业认证
-            if userDefaults.value(forKey: "isFirmAdit") as! Int == 4 || userDefaults.value(forKey: "isFirmAdit") as! Int == 2 {
+            if userDefaults.value(forKey: "zhenshiqiye") as! Int == 4 || userDefaults.value(forKey: "zhenshiqiye") as! Int == 2 {
                 
             }else{
-                if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+                if userDefaults.value(forKey: "zhenshigeren") as! Int == 1 || userDefaults.value(forKey: "zhenshigeren") as! Int == 3{
                     //弹框 --- 请先完成实名认证
                     let sheet = UIAlertController(title: "温馨提示:", message: "请先完成实名认证再进行企业认证", preferredStyle: .alert)
                     let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
                         //接口 取回 token 调 阿里
                         let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
                         ShimingRZ?.jiemian = 1
-                       ShimingRZ?.yyy = 1
+                        ShimingRZ?.yyy = 1
                         self.navigationController?.pushViewController(ShimingRZ!, animated: true)
                     }
                     let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
                     sheet.addAction(queding)
                     sheet.addAction(cancel)
                     self.present(sheet, animated: true, completion: nil)
-                }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+                }else if userDefaults.value(forKey: "zhenshigeren") as! Int == 4 {
                     //跳企业认证
                     let qiyeRZ: XL_QiyeRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qiyerz") as? XL_QiyeRZ_ViewController
                     self.navigationController?.pushViewController(qiyeRZ!, animated: true)
@@ -244,27 +244,12 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             }
         }else if indexPath.row == 4 {
             //成为配送员
-            if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
-                //弹框 --- 请先完成实名认证
-                let sheet = UIAlertController(title: "温馨提示:", message: "请先完成实名认证再进行配送员认证", preferredStyle: .alert)
-                let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
-                    //接口 取回 token 调 阿里
-                    let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
-                    ShimingRZ?.jiemian = 1
-                    self.navigationController?.pushViewController(ShimingRZ!, animated: true)
-                }
-                let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-                sheet.addAction(queding)
-                sheet.addAction(cancel)
-                self.present(sheet, animated: true, completion: nil)
-            }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
-                if userDefaults.value(forKey: "attestation") as! Int == 1 || userDefaults.value(forKey: "attestation") as! Int == 3 {
-                    if userDefaults.value(forKey: "isOpen") as! Int == 1 {
-                        let WDXX: XL_PeiSongYuan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "peisongyuan") as? XL_PeiSongYuan_ViewController
-                        self.navigationController?.pushViewController(WDXX!, animated: true)
-                    }else {
-                        XL_waringBox().warningBoxModeText(message: "尚未开通，暂不能申请成为配送员", view: self.view)
-                    }
+            if userDefaults.value(forKey: "attestation") as! Int == 1 || userDefaults.value(forKey: "attestation") as! Int == 3 {
+                if userDefaults.value(forKey: "isoopp") as! Int == 1 {
+                    let WDXX: XL_PeiSongYuan_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "peisongyuan") as? XL_PeiSongYuan_ViewController
+                    self.navigationController?.pushViewController(WDXX!, animated: true)
+                }else {
+                    XL_waringBox().warningBoxModeText(message: "尚未开通，暂不能申请成为配送员", view: self.view)
                 }
             }
         }
@@ -289,7 +274,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
             self.showConfirm(title: "温馨提示", message: "关闭后，将不再受到订单等推送通知", in: self, Quxiao: { (_) in
                 self.uiswitch.isOn = true
                 userDefaults.set(true, forKey: "Tuisong")
-//                self.tuisonggaibian()
+                //                self.tuisonggaibian()
             }) { (_) in
                 self.uiswitch.isOn = false
                 userDefaults.set(false, forKey: "Tuisong")
@@ -304,7 +289,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
         var alias: String = " "
         if nil == userDefaults.value(forKey: "Tuisong") ||  (userDefaults.value(forKey: "Tuisong") as! Bool){
             if nil != userDefaults.value(forKey: "userId"){
-               alias = userDefaults.value(forKey: "userId") as! String
+                alias = userDefaults.value(forKey: "userId") as! String
             }
         }
         if alias == " " {
@@ -331,13 +316,13 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
         viewController.present(alert, animated: true)
     }
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

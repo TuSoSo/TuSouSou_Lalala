@@ -24,9 +24,9 @@ let QianWaiWangIP = "www.tusousouxr.com"
 //宋浩然
 //let QianWaiWangIP = "192.168.1.175:8085"
 //小调
-//let QianWaiWangIP = "192.168.1.181:8088"
-//小展
-//let QianWaiWangIP = "192.168.1.189:8080"
+//let QianWaiWangIP = "192.168.124.40:8088"
+//小展http://xbxhp396.55555.io:40432
+//let QianWaiWangIP = "xbxhp396.55555.io:40432"
 //二号
 //let QianWaiWangIP = "192.168.1.115:8080"
 let url = "\(Scheme)\(QianWaiWangIP)\(AppName)\(apath)"
@@ -40,7 +40,7 @@ let WeiXin_AppID = "wx678a8d37c4aec635"
 let WX_APPSecret = "12331718a11c60a7bd1a298aa5307a3a"
 let qqAppID = "1106864369"
 let JPush_AppKey = "52e431d282ea45ce6fab0437"
-let isProduction = true
+let isProduction = true //true 是 生产   false 是 开发
 
 let userDefaults = UserDefaults.standard
 //是否登录: isDengLu

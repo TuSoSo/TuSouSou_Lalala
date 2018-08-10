@@ -139,6 +139,11 @@ class XL_PeiSongYuan_ViewController: UIViewController,UIImagePickerControllerDel
     //MARK: textfieldDelegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        if textField.tag == 331 {
+            if newString.length > 18 {
+                return false
+            }
+        }
         qiyeDic["\(textField.tag - 330)"] = newString
         return true
     }
@@ -147,10 +152,11 @@ class XL_PeiSongYuan_ViewController: UIViewController,UIImagePickerControllerDel
         peisongyuanjiekou()
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField.tag == 330 {
+        if textField.tag == 331 {
             if !textField.text!.chk18PaperId() {
+                self.view.endEditing(true)
                 textField.text = ""
-                XL_waringBox().warningBoxModeText(message: "请输入正确的身份证号", view: self.view)
+                XL_waringBox().warningBoxModeText(message: "请输入正确的身份证号,如果X需大写哟～", view: self.view)
                 return false
             }
         }

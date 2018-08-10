@@ -301,36 +301,40 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         baiVV.addSubview(weixintishi)
         self.view.addSubview(baiVV)
     }
+    var diandianjiji = 1
     @objc func ZFaction() {
         if shouName.text != "收件人姓名"  {
             if paymentMethod.count == 0 {
                 XL_waringBox().warningBoxModeText(message: "请选择支付方式", view: self.view)
             }else{
-                if zhifuButton0.isSelected == true {
-                    zhifu_xiao()
-                }else if zhifuButton1.isSelected == true {
-                    zhifu_xiao()
-                }else if zhifuButton2.isSelected == true{
-                    //判断支付密码，没有的话 跳  设置支付密码按钮，有的话 判断是否是免密  如果没有免密，弹出支付密码界面，并调支付密码接口，成功后调取 支付接口
-                    if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
-                        // 跳 设置支付密码
-                        self.tiaoye(rukou: "1")
-                    }else{
-                        if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
-                            // 不免密 跳验证密码
-                            if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
-                                //输入支付密码验证后再跳页
-                                let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: HJJE.text!,isMove:true)
-                                payAlert.show(view: self.view)
-                                payAlert.completeBlock = ({(password:String) -> Void in
-                                    //调验证支付吗接口
-                                    self.yanzhengzhifumima(password: password)
-                                    print("输入的密码是:" + password)
-                                })
-                            }
+                if diandianjiji != 2 {
+                    diandianjiji = 2
+                    if zhifuButton0.isSelected == true {
+                        zhifu_xiao()
+                    }else if zhifuButton1.isSelected == true {
+                        zhifu_xiao()
+                    }else if zhifuButton2.isSelected == true{
+                        //判断支付密码，没有的话 跳  设置支付密码按钮，有的话 判断是否是免密  如果没有免密，弹出支付密码界面，并调支付密码接口，成功后调取 支付接口
+                        if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
+                            // 跳 设置支付密码
+                            self.tiaoye(rukou: "1")
                         }else{
-                            //直接接口
-                            zhifu_xiao()
+                            if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
+                                // 不免密 跳验证密码
+                                if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
+                                    //输入支付密码验证后再跳页
+                                    let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: HJJE.text!,isMove:true)
+                                    payAlert.show(view: self.view)
+                                    payAlert.completeBlock = ({(password:String) -> Void in
+                                        //调验证支付吗接口
+                                        self.yanzhengzhifumima(password: password)
+                                        print("输入的密码是:" + password)
+                                    })
+                                }
+                            }else{
+                                //直接接口
+                                zhifu_xiao()
+                            }
                         }
                     }
                 }
@@ -398,6 +402,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                 shang = shouPhone.text!.substring(fromIndex: 4)
             }
             let dic:[String:Any] = ["merchantUserId":shangID!,"userId":userId!,"sendTime":sendTime,"isToday":isToday,"isDirectSend":isDirectSend,"remarks":beizhuTF.text!,"paymentMethod":paymentMethod,"amount":HJJE.text!,"postAmount":peisongfei,"ssbSum":souBzhiF.text!,"addressName":shouName.text!,"addressPhone":shang,"addressLocation":shouLoction.text!,"longitude":shangLon,"latitude":shangLat,"list":list,"dkAmount":dikoudejine]
+            print(dic)
             XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
                 print(res)
                 XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
@@ -427,6 +432,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         let dicc:[String:Any] = ["orderCode":string]
         XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
+            self.diandianjiji = 1
             userDefaults.set("", forKey: "dingdanhao")
             XL_waringBox().warningBoxModeText(message: "下单成功了哟～", view: (self.navigationController?.view)!)
             //跳转到 订单
@@ -443,6 +449,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
         //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
+            self.diandianjiji = 1
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             let data :[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
             let orderBody = XL_weixinObjc()
@@ -477,6 +484,7 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             let data :[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
             let appScheme = "TuSouSou"
             let orderString = data["orderString"] as! String
+            self.diandianjiji = 1
             AlipaySDK.defaultService().payOrder(orderString, fromScheme: appScheme) { (resultDic) -> () in
                 for (key,value) in resultDic! {
                     print("\(key) : \(value)")
@@ -1203,7 +1211,6 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
             zhifuButton1.isSelected = false
             zhifuButton0.isSelected = false
         }
-//        tablequeren.reloadData()
         let indexPath = IndexPath(row: 1, section: 3)
         tablequeren.reloadRows(at: [indexPath], with: .none)
     }

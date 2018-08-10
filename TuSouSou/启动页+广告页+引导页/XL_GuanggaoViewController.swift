@@ -43,6 +43,7 @@ class XL_GuanggaoViewController: UIViewController {
                 self.donghua(url_str: url)
                 self.guanggaoUrl = data["url"] as? String
                 self.isTrue = 1
+                userDefaults.set(data["isOpen"] as! Int, forKey: "isoopp")
             }
         }) { (error) in
             print(error)

@@ -90,32 +90,41 @@ class XL_QD_ViewController: UIViewController,UIWebViewDelegate,UIGestureRecogniz
         if self.mfLotteryNmber > 0 {
             youcishu()
         }else{
-            if isAuthentic == 2 { // 是否实名认证 1是2否
-                //跳实名认证
+            if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+                //接口 取回 token 调 阿里
                 let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
                 ShimingRZ?.jiemian = 1
                 self.navigationController?.pushViewController(ShimingRZ!, animated: true)
-            }else{
+            }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+                //显示界面
                 //弹出需要使用飕飕币
                 if lotteryNmber > 0 {
                     
                     let alertController = UIAlertController(title: "温馨提示", message: "您确定使用\(xuyaosousoubi)飕飕币用来抽奖?",preferredStyle: .alert)
-                
+                    
                     let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
                     let QuedingAction = UIAlertAction(title: "确定", style: .default) { (ss) in
                         //飕飕币接口 判断 飕飕币是否够
                         //如果够 调这个。  不够 提示飕飕币不够
                         self.sousoubi_jiekou()
                         
-                        }
+                    }
                     alertController.addAction(cancelAction)
                     alertController.addAction(QuedingAction)
-                
+                    
                     self.present(alertController, animated: true, completion: nil)
                 }else{
-                    XL_waringBox().warningBoxModeIndeterminate(message: "今天您已经没有次数了哟～", view: self.view)
+                    XL_waringBox().warningBoxModeText(message: "今天您已经没有次数了哟～", view: self.view)
                 }
             }
+//            if isAuthentic == 2 { // 是否实名认证 1是2否
+//                //跳实名认证
+//                let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
+//                ShimingRZ?.jiemian = 1
+//                self.navigationController?.pushViewController(ShimingRZ!, animated: true)
+//            }else{
+//
+//            }
         }
     }
     func youcishu() {

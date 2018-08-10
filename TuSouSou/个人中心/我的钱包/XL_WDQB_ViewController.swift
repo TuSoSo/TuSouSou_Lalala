@@ -55,6 +55,8 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         super.viewDidLoad()
         zhexiantu()
         self.title = "我的钱包"
+        let names = Notification.Name(rawValue: "wodelaotian")
+        NotificationCenter.default.addObserver(self, selector: #selector(wodelaotian), name: names, object:  nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
@@ -66,6 +68,9 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         YinCangJieMian()
         youAnniu()
         qiye()
+    }
+    @objc func wodelaotian() {
+        youhui()
     }
     @objc func chenggongle(notification:NSNotification) {
         //jiemianshuaxin
@@ -803,44 +808,47 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             yyyyy()
         }else{
             if nil != self.shuruDic["15"] && self.shuruDic["15"]!.count > 0 {
-                
-                if self.ZHIWEI != 0{
-                    yyyyy()
-                    let time: TimeInterval = 0.3
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
-                        //code
-                        print("销售提现")
-                        var lalala = ""
-                        
-                        lalala = self.shuruDic["15"]!
-                        
-                        // 跳页 传值 完善信息 图片上传 判断支付mi码
-                        
-                        if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
-                            // 跳 设置支付密码
-                            self.tiaoye(rukou: "1")
-                        }else{
-                            if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
-                                // 不免密 跳验证密码
-                                if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
-                                    //输入支付密码验证后再跳页
-                                    let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "",isMove:true)
-                                    payAlert.tag = 909090
-                                    payAlert.show(view: self.view)
-                                    payAlert.completeBlock = ({(password:String) -> Void in
-                                        //调验证支付吗接口
-                                        self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "3")
-                                        print("输入的密码是:" + password)
-                                    })
-                                }
+                if Double(self.shuruDic["15"]!)! > 0.0 {
+                    if self.ZHIWEI != 0{
+                        yyyyy()
+                        let time: TimeInterval = 0.3
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
+                            //code
+                            print("销售提现")
+                            var lalala = ""
+                            
+                            lalala = self.shuruDic["15"]!
+                            
+                            // 跳页 传值 完善信息 图片上传 判断支付mi码
+                            
+                            if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
+                                // 跳 设置支付密码
+                                self.tiaoye(rukou: "1")
                             }else{
-                                //直接接口
-                                self.TXVIEW(lalala: lalala, withdrawType: "3")
+                                if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
+                                    // 不免密 跳验证密码
+                                    if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
+                                        //输入支付密码验证后再跳页
+                                        let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "",isMove:true)
+                                        payAlert.tag = 909090
+                                        payAlert.show(view: self.view)
+                                        payAlert.completeBlock = ({(password:String) -> Void in
+                                            //调验证支付吗接口
+                                            self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "3")
+                                            print("输入的密码是:" + password)
+                                        })
+                                    }
+                                }else{
+                                    //直接接口
+                                    self.TXVIEW(lalala: lalala, withdrawType: "3")
+                                }
                             }
                         }
+                    }else{
+                        XL_waringBox().warningBoxModeText(message: "请选择提现方式!", view: self.view)
                     }
                 }else{
-                    XL_waringBox().warningBoxModeText(message: "请选择提现方式!", view: self.view)
+                     XL_waringBox().warningBoxModeText(message: "提现金额要大于0哟～", view: self.view)
                 }
             }else{
                 XL_waringBox().warningBoxModeText(message: "提现金额要大于0哟～", view: self.view)
@@ -903,42 +911,47 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         }else{
             print("提成现金")
             if nil != self.shuruDic["14"] && self.shuruDic["14"]!.count > 0 {
-                if self.ZHIWEI != 0{
-                    yyyyy()
-                    let time: TimeInterval = 0.3
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
-                        //code
-                        var lalala = ""
-                        lalala = self.shuruDic["14"]!
-                        
-                        if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
-                            // 跳 设置支付密码
-                            self.tiaoye(rukou: "1")
-                        }else{
-                            if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
-                                // 不免密 跳验证密码
-                                if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
-                                    //输入支付密码验证后再跳页
-                                    let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "",isMove:true)
-                                    payAlert.tag = 909091
-                                    payAlert.show(view: self.view)
-                                    payAlert.completeBlock = ({(password:String) -> Void in
-                                        //调验证支付吗接口
-                                        self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "1")
-                                        print("输入的密码是:" + password)
-                                    })
-                                }
+                if Double(self.shuruDic["14"]!)! >= self.minimumAmount {
+                    if self.ZHIWEI != 0{
+                        yyyyy()
+                        let time: TimeInterval = 0.3
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
+                            //code
+                            var lalala = ""
+                            lalala = self.shuruDic["14"]!
+                            
+                            if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
+                                // 跳 设置支付密码
+                                self.tiaoye(rukou: "1")
                             }else{
-                                //直接接口
-                                self.TXVIEW(lalala: lalala, withdrawType: "1")
+                                if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
+                                    // 不免密 跳验证密码
+                                    if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
+                                        //输入支付密码验证后再跳页
+                                        let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "",isMove:true)
+                                        payAlert.tag = 909091
+                                        payAlert.show(view: self.view)
+                                        payAlert.completeBlock = ({(password:String) -> Void in
+                                            //调验证支付吗接口
+                                            self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "1")
+                                            print("输入的密码是:" + password)
+                                        })
+                                    }
+                                }else{
+                                    //直接接口
+                                    self.TXVIEW(lalala: lalala, withdrawType: "1")
+                                }
                             }
                         }
+                    }else{
+                        XL_waringBox().warningBoxModeText(message: "请选择提现方式!", view: self.view)
                     }
                 }else{
-                    XL_waringBox().warningBoxModeText(message: "请选择提现方式!", view: self.view)
+                     XL_waringBox().warningBoxModeText(message: "飕飕币数量不能小于\(minimumAmount)个哟～", view: self.view)
                 }
+                
             }else{
-                //            XL_waringBox().warningBoxModeText(message: "飕飕币数需要大于0哟！", view: self.view)
+                     XL_waringBox().warningBoxModeText(message: "请输入飕飕币数量", view: self.view)
             }
         }
     }
@@ -952,26 +965,30 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         }else{
             print("转到余额确定")
             if nil != self.shuruDic["13"] && self.shuruDic["13"]!.count > 0 {
-                if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
-                    // 跳 设置支付密码
-                    self.tiaoye(rukou: "1")
-                }else{
-                    if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
-                        // 不免密 跳验证密码
-                        if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
-                            //输入支付密码验证后再跳页
-                            let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "",isMove:true)
-                            payAlert.show(view: self.view)
-                            payAlert.completeBlock = ({(password:String) -> Void in
-                                //调验证支付吗接口
-                                self.yanzhengzhifumima(password: password,pass:2)
-                                print("输入的密码是:" + password)
-                            })
-                        }
+                if Double(self.shuruDic["13"]!)! > 0.0 {
+                    if userDefaults.value(forKey: "isPayPassWord") as! Int == 2 {
+                        // 跳 设置支付密码
+                        self.tiaoye(rukou: "1")
                     }else{
-                        //直接接口
-                        daoyue()
+                        if nil == userDefaults.value(forKey: "xemmzf") || !(userDefaults.value(forKey: "xemmzf") as! Bool) {
+                            // 不免密 跳验证密码
+                            if  userDefaults.value(forKey: "isPayPassWord") as! Int == 1{
+                                //输入支付密码验证后再跳页
+                                let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "",isMove:true)
+                                payAlert.show(view: self.view)
+                                payAlert.completeBlock = ({(password:String) -> Void in
+                                    //调验证支付吗接口
+                                    self.yanzhengzhifumima(password: password,pass:2)
+                                    print("输入的密码是:" + password)
+                                })
+                            }
+                        }else{
+                            //直接接口
+                            daoyue()
+                        }
                     }
+                }else {
+                    XL_waringBox().warningBoxModeText(message: "飕飕币数需要大于0哟！", view: self.view)
                 }
             }else{
                 XL_waringBox().warningBoxModeText(message: "飕飕币数需要大于0哟！", view: self.view)
@@ -1025,34 +1042,59 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
         }else{
             self.view.endEditing(true)
             if nil != self.shuruDic["10"] && self.shuruDic["10"]!.count > 0 {
-                if self.ZHIWEI != 0{
-                    let time: TimeInterval = 0.3
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
-                        //code
-                        print("1 秒后输出")
-                        print("充值确定")
-                        var lalala = ""
-                        lalala = self.shuruDic["10"]!
-                        let now = Date()
-                        let timeInterval:TimeInterval = now.timeIntervalSince1970
-                        let timeStamp = Int(timeInterval)
-                        let outRefundNo = String(format: "%@%d", userDefaults.value(forKey: "userId") as! String ,timeStamp)
-                        userDefaults.set(lalala, forKey: "hahaha")
-                        userDefaults.set(2, forKey: "xixi")
-                        if self.ZHIWEI == 1 {
-                            self.zhifubaoZhiFu(string: outRefundNo, jine: lalala)
-                            userDefaults.set("2", forKey: "chongzhi")
-                        }else if self.ZHIWEI == 2 {
-                            self.WXZhiFu(string: outRefundNo, jine: lalala)
-                            userDefaults.set("3", forKey: "chongzhi")
+                if Double(self.shuruDic["10"]!)! > 0.0 {
+                    if self.ZHIWEI != 0{
+                        let time: TimeInterval = 0.3
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
+                            //code
+                            print("1 秒后输出")
+                            print("充值确定")
+                            var lalala = ""
+                            lalala = self.shuruDic["10"]!
+                            
+                            userDefaults.set("1", forKey: "xlxla")
+                            userDefaults.set(2, forKey: "xixi")
+                            if self.ZHIWEI == 1 {
+                                //                            self.zhifubaoZhiFu(jine: lalala)
+                                self.CZORDER(jine: lalala, paymentMethod: "2")
+                            }else if self.ZHIWEI == 2 {
+                                //                            self.WXZhiFu(jine: lalala)
+                                self.CZORDER(jine: lalala, paymentMethod: "3")
+                            }
                         }
+                    }else{
+                        XL_waringBox().warningBoxModeText(message: "请选择支付方式！", view: self.view)
                     }
                 }else{
-                    XL_waringBox().warningBoxModeText(message: "请选择支付方式！", view: self.view)
+                    XL_waringBox().warningBoxModeText(message: "充值金额需大于0!", view: self.view)
                 }
             }else{
                 XL_waringBox().warningBoxModeText(message: "请填写充值金额!", view: self.view)
             }
+        }
+    }
+    func CZORDER(jine: String,paymentMethod:String) {
+        let method = "/order/topUpOrder"
+        //        paymentMethod 2 支付宝 3 微信
+        let userId = userDefaults.value(forKey: "userId")
+        let dicc:[String:Any] = ["userId":userId!,"amount":jine,"paymentMethod":paymentMethod]
+        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
+            print(res)
+            if (res as! [String: Any])["code"] as! String == "0000" {
+                //                self.tiaoye(rukou: "1")
+                let data = (res as! [String: Any])["data"] as! [String:Any]
+                let orderCode = data["orderCode"] as! String
+                if paymentMethod == "2" {
+                    self.zhifubaoZhiFu(string: orderCode, jine: jine)
+                }else if paymentMethod == "3" {
+                    self.WXZhiFu(string: orderCode, jine: jine)
+                }
+            }else{
+                let msg = (res as! [String: Any])["msg"] as! String
+                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+            }
+        }) { (error) in
+            print(error)
         }
     }
     func WXZhiFu(string:String,jine:String) {
@@ -1082,6 +1124,8 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
             req.timeStamp = UInt32(orderBody.timestamp!)!
             req.package = orderBody.package
             req.sign = orderBody.sign
+            
+//            req.setValue("www.baidu.com", forKey: "notify_url")
             WXApi.send(req)
             
         }) { (error) in
@@ -1269,23 +1313,49 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-        
+        if textField.text == "0" && string == "0" {
+            return false
+        }
+        if string == "." {
+            if (textField.text?.contains("."))! || textField.text?.count == 0 {
+                return false
+            }
+        }
         if textField.tag == 10/*充值输入框*/ {
+            
             if newString.contains(".") {
                 let arr = newString.components(separatedBy: ".")
+                
                 if  arr[1].count > 0 {
                     if arr[1].count > 2 {
                         return false
                     }
                 }
+                if  arr[0].count == 0 {
+                    if arr[1].count > 0 {
+                        textField.text = "0" + "." + arr[1]
+                    }else{
+                        textField.text = "0"
+                    }
+                    return false
+                }
             }
         }else if textField.tag == 11/*输入飕飕币*/ {
             if newString.contains(".") {
                 let arr = newString.components(separatedBy: ".")
+              
                 if  arr[1].count > 0 {
                     if arr[1].count > 4 {
                         return false
                     }
+                }
+                if  arr[0].count == 0 {
+                    if arr[1].count > 0 {
+                        textField.text = "0" + "." + arr[1]
+                    }else{
+                        textField.text = "0"
+                    }
+                    return false
                 }
             }
         }else if textField.tag == 12/*输入手机号*/ {
@@ -1302,25 +1372,55 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                         return false
                     }
                 }
+                if  arr[0].count == 0 {
+                    if arr[1].count > 0 {
+                        textField.text = "0" + "." + arr[1]
+                        jisuan(string: "0" + "." + arr[1])
+                    }else{
+                        textField.text = "0"
+                        jisuan(string: "0")
+                    }
+                    return false
+                }
             }
         }else if textField.tag == 14/*输入飕飕币*/ {
             jisuan(string: newString)
             if newString.contains(".") {
                 let arr = newString.components(separatedBy: ".")
+                
                 if  arr[1].count > 0 {
                     if arr[1].count > 4 {
                         jisuan(string: newString)
                         return false
                     }
                 }
+                if  arr[0].count == 0 {
+                    if arr[1].count > 0 {
+                        textField.text = "0" + "." + arr[1]
+                        jisuan(string: "0" + "." + arr[1])
+                    }else{
+                        textField.text = "0"
+                        jisuan(string: "0")
+                    }
+                    return false
+                }
             }
         }else if textField.tag == 15/*输入金钱*/ {
             if newString.contains(".") {
                 let arr = newString.components(separatedBy: ".")
+                
                 if  arr[1].count > 0 {
                     if arr[1].count > 2 {
                         return false
                     }
+                }
+                if  arr[0].count == 0 {
+                    if arr[1].count > 0 {
+                        textField.text = "0" + "." + arr[1]
+                    }else{
+                        textField.text = "0"
+                    }
+                    return false
                 }
             }
         }

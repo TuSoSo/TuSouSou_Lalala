@@ -38,39 +38,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
 //                XL_waringBox().warningBoxModeText(message: "登录成功", view: self.view)
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.Dic = dic
-                self.renzhengxinxi()
-                
-            }else{
-                let msg = (res as! [String: Any])["msg"] as! String
-                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
-            }
-        }) { (error) in
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
-            print(error)
-        }
-    }
-    func renzhengxinxi() {
-        let method = "/user/approve"
-        let userId:String = userDefaults.value(forKey: "userId") as! String
-        let dic:[String:Any] = ["userId":userId]
-        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
-            print(res)
-            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
-            if (res as! [String: Any])["code"] as! String == "0000" {
-                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
-                //实人
-                if nil != dic["isAuthentic"]{
-                    userDefaults.set(dic["isAuthentic"], forKey: "isRealAuthentication")
-                }
-                //企业
-                if nil != dic["firmAuthentic"]{
-                    userDefaults.set(dic["firmAuthentic"], forKey: "isFirmAdit")
-                }
-                //配送员
-                if nil != dic["attestation"] {
-                    userDefaults.set(dic["attestation"], forKey: "attestation")
-                }
+//                self.renzhengxinxi()
                 self.tableGRziliao.reloadData()
             }else{
                 let msg = (res as! [String: Any])["msg"] as! String
@@ -82,6 +50,38 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
             print(error)
         }
     }
+//    func renzhengxinxi() {
+//        let method = "/user/approve"
+//        let userId:String = userDefaults.value(forKey: "userId") as! String
+//        let dic:[String:Any] = ["userId":userId]
+//        XL_QuanJu().PuTongWangluo(methodName: method, methodType: .post, rucan: dic, success: { (res) in
+//            print(res)
+//            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+//            if (res as! [String: Any])["code"] as! String == "0000" {
+//                let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
+//                //实人
+//                if nil != dic["isAuthentic"]{
+//                    userDefaults.set(dic["isAuthentic"], forKey: "zhenshigeren")
+//                }
+//                //企业
+//                if nil != dic["firmAuthentic"]{
+//                    userDefaults.set(dic["firmAuthentic"], forKey: "zhenshiqiye")
+//                }
+//                //配送员
+//                if nil != dic["attestation"] {
+//                    userDefaults.set(dic["attestation"], forKey: "attestation")
+//                }
+//                self.tableGRziliao.reloadData()
+//            }else{
+//                let msg = (res as! [String: Any])["msg"] as! String
+//                XL_waringBox().warningBoxModeText(message: msg, view: self.view)
+//            }
+//        }) { (error) in
+//            XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
+//            XL_waringBox().warningBoxModeText(message: "网络连接失败", view: self.view)
+//            print(error)
+//        }
+//    }
     func tableDelegate() {
         tableGRziliao.delegate = self
         tableGRziliao.dataSource = self
@@ -212,7 +212,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 zuoLabel.text = "实名认证"
                 let shimingLabel = UILabel(frame: CGRect(x: Width - 150, y: 11, width: 120, height: 22))
                 shimingLabel.font = UIFont.systemFont(ofSize: 14)
-                let xx = String(format: "%d",userDefaults.value(forKey: "isRealAuthentication") as! Int)
+                let xx = String(format: "%d",userDefaults.value(forKey: "zhenshigeren") as! Int)
                 switch xx {
                 case "1":
                     shimingLabel.text = "未认证"
@@ -235,7 +235,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 let qiyeLabel = UILabel(frame: CGRect(x: Width - 150, y: 11, width: 120, height: 22))
                 qiyeLabel.font = UIFont.systemFont(ofSize: 14)
                 qiyeLabel.text = "未认证"
-                let xx = String(format: "%d", userDefaults.value(forKey: "isFirmAdit") as! Int)
+                let xx = String(format: "%d", userDefaults.value(forKey: "zhenshiqiye") as! Int)
                 switch xx {
                 case "1":
                     qiyeLabel.text = "未认证"
@@ -292,12 +292,12 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
         }else if indexPath.section == 1{
             if indexPath.row == 0 {
                 //跳实名认证
-                if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+                if userDefaults.value(forKey: "zhenshigeren") as! Int == 1 || userDefaults.value(forKey: "zhenshigeren") as! Int == 3{
                     //接口 取回 token 调 阿里
                     let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
                     ShimingRZ?.jiemian = 1
                 self.navigationController?.pushViewController(ShimingRZ!, animated: true)
-                }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+                }else if userDefaults.value(forKey: "zhenshigeren") as! Int == 4 {
                     //显示界面
                     let ShimingRZ: XL_ShimingRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shimingrz") as? XL_ShimingRZ_ViewController
                     ShimingRZ?.jiemian = 2
@@ -305,9 +305,9 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                 }
             }else if indexPath.row == 1 {
                 //如果企业认证通过则不跳页
-                if userDefaults.value(forKey: "isFirmAdit") as! Int == 4 || userDefaults.value(forKey: "isFirmAdit") as! Int == 2 {
+                if userDefaults.value(forKey: "zhenshiqiye") as! Int == 4 || userDefaults.value(forKey: "zhenshiqiye") as! Int == 2 {
                 }else{
-                if userDefaults.value(forKey: "isRealAuthentication") as! Int == 1 || userDefaults.value(forKey: "isRealAuthentication") as! Int == 3{
+                if userDefaults.value(forKey: "zhenshigeren") as! Int == 1 || userDefaults.value(forKey: "zhenshigeren") as! Int == 3{
                     //弹框 --- 请先完成实名认证
                     let sheet = UIAlertController(title: "温馨提示:", message: "请先完成实名认证再进行企业认证", preferredStyle: .alert)
                     let queding = UIAlertAction(title: "确定", style: .default) { (ss) in
@@ -321,7 +321,7 @@ class XL_GRziliaoViewController: UIViewController,UITableViewDelegate,UIImagePic
                     sheet.addAction(queding)
                     sheet.addAction(cancel)
                     self.present(sheet, animated: true, completion: nil)
-                }else if userDefaults.value(forKey: "isRealAuthentication") as! Int == 4 {
+                }else if userDefaults.value(forKey: "zhenshigeren") as! Int == 4 {
                     //跳企业认证
                     let qiyeRZ: XL_QiyeRZ_ViewController? = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "qiyerz") as? XL_QiyeRZ_ViewController
                     self.navigationController?.pushViewController(qiyeRZ!, animated: true)

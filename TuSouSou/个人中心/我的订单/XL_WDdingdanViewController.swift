@@ -9,7 +9,7 @@
 import UIKit
 
 class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
-    var state: String? //是否可查看详情
+    var state = "1" //是否可查看详情
     var xll = 0
     @IBOutlet weak var daipingButton: UIButton!
     @IBOutlet weak var quanbuButton: UIButton!
@@ -61,7 +61,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         quanbuButton.isSelected = true
         youView.backgroundColor = UIColor.white
         zuoView.backgroundColor = UIColor.orange
-//        jiekou(index: tpye)
+        //        jiekou(index: tpye)
         self.title = "我的订单"
         // Do any additional setup after loading the view.
     }
@@ -100,7 +100,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
             print(res)
             XL_waringBox().warningBoxModeHide(isHide: true, view: self.view)
             if (res as! [String: Any])["code"] as! String == "0000" {
-//                XL_waringBox().warningBoxModeText(message: "加载成功", view: self.view)
+                //                XL_waringBox().warningBoxModeText(message: "加载成功", view: self.view)
                 let dic:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.DDArr += dic["orderList"] as! [[String : Any]]
                 self.count = dic["count"] as! Int
@@ -156,13 +156,13 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         switch orderType {
         case "1":
             tou.text = "网递订单(寄)"
-             imageSHA.image = UIImage(named: "ji")
+            imageSHA.image = UIImage(named: "ji")
         case "2":
             tou.text = "网递订单(取)"
-             imageSHA.image = UIImage(named: "qu")
+            imageSHA.image = UIImage(named: "qu")
         case "3":
             tou.text = "商品订单"
-             imageSHA.image = UIImage(named: "ji")
+            imageSHA.image = UIImage(named: "ji")
         default:
             break
         }
@@ -246,17 +246,26 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
             self.navigationController?.pushViewController(wwddxq!, animated: true)
         }else if state == "2"{
             if DDArr[indexPath.row]["orderState"] as? String == "6"{
-                if let block = self.Dingdanblock {
-                    var ss: [String] = [String(format: "%@", DDArr[indexPath.row]["postAmount"] as! String)]
-                    ss.append(DDArr[indexPath.row]["id"] as! String)
-                    block(ss)
+                if  Float(DDArr[indexPath.row]["postAmount"] as! String)! != 0 && Float(DDArr[indexPath.row]["amount"] as! String)! != 0 {
+                    if let block = self.Dingdanblock {
+                        var ss: [String] = []
+                        if Float(DDArr[indexPath.row]["postAmount"] as! String)! <= Float(DDArr[indexPath.row]["amount"] as! String)! {
+                            ss.append(DDArr[indexPath.row]["postAmount"] as! String)
+                        }else{
+                            ss.append(DDArr[indexPath.row]["amount"] as! String)
+                        }
+                        ss.append(DDArr[indexPath.row]["id"] as! String)
+                        block(ss)
+                    }
+                    self.navigationController?.popViewController(animated: true)
+                }else{
+                    XL_waringBox().warningBoxModeText(message: "此订单不能开发票哟～", view: self.view)
                 }
-                self.navigationController?.popViewController(animated: true)
             }else{
                 XL_waringBox().warningBoxModeText(message: "只有已完成的订单才可以开发票哟～～", view: self.view)
             }
         }
-    
+        
     }
     @objc func quxiaodingdan(sender: UITapGestureRecognizer) {
         let location = sender.location(in: self.tableWDdingdan)
@@ -275,7 +284,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         let indexPath = tableWDdingdan.indexPathForRow(at: location)
         jixuzhifu(str: (indexPath?.row)!)
     }
-  
+    
     func quxiao(str:Int) {
         let method = "/order/orderCancel"
         let userId = userDefaults.value(forKey: "userId")
@@ -344,7 +353,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         let method = "/AliPay/Refund"
         let totalAmount = jine
         let dicc:[String:Any] = ["outTradeNo":dingdanhao,"tradeNo":"","refundAmount":totalAmount,"refundReason":"","outRequestNo":""]
- 
+        
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
             self.quxiaohuidiao(dingdanhao: dingdanhao)
@@ -360,7 +369,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         let jine = DDArr[str]["amount"] as! String
         
         shangchengzhifu(paymentMethod: paymentMethod, orderCode:orderCode,jine:jine )
-       
+        
     }
     func shangchengzhifu(paymentMethod:String,orderCode:String,jine:String) {
         if  paymentMethod == "1" {
@@ -393,7 +402,7 @@ class XL_WDdingdanViewController: UIViewController,UITableViewDataSource,UITable
         let totalAmount = Float(jine)! * 100
         
         let dicc:[String:Any] = ["outTradeNo":string,"totalAmount":totalAmount]
-       userDefaults.set(string, forKey: "dingdanhao")
+        userDefaults.set(string, forKey: "dingdanhao")
         //        XL_waringBox().warningBoxModeIndeterminate(message: "下单中...", view: self.view)
         XL_QuanJu().SanFangWangluo(methodName: method, methodType: .post, rucan: dicc, success: { (res) in
             print(res)
