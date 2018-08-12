@@ -11,7 +11,6 @@ import UIKit
 class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
     var yyy = 0
     
-    
     var qiyeDic:[String:String] = [:]
     
     let zuoArr:[String] = ["企业名称:","企业地址:","法人姓名:","身份证号:","执照编号:","联系人姓名:","联系人电话:"]
