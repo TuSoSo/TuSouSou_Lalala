@@ -833,9 +833,13 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                                         payAlert.tag = 909090
                                         payAlert.show(view: self.view)
                                         payAlert.completeBlock = ({(password:String) -> Void in
-                                            //调验证支付吗接口
-                                            self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "3")
-                                            print("输入的密码是:" + password)
+                                            if password == ""{
+                                            }else{
+                                                //调验证支付吗接口
+                                                self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "3")
+                                                print("输入的密码是:" + password)
+                                            }
+                                           
                                         })
                                     }
                                 }else{
@@ -932,9 +936,13 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                                         payAlert.tag = 909091
                                         payAlert.show(view: self.view)
                                         payAlert.completeBlock = ({(password:String) -> Void in
-                                            //调验证支付吗接口
-                                            self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "1")
-                                            print("输入的密码是:" + password)
+                                            if password == ""{
+                                            }else{
+                                                //调验证支付吗接口
+                                                self.yanzhengzhifumima(password: password, lalala: lalala, withdrawType: "1")
+                                                print("输入的密码是:" + password)
+                                            }
+                                            
                                         })
                                     }
                                 }else{
@@ -977,9 +985,13 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                                 let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "",isMove:true)
                                 payAlert.show(view: self.view)
                                 payAlert.completeBlock = ({(password:String) -> Void in
-                                    //调验证支付吗接口
-                                    self.yanzhengzhifumima(password: password,pass:2)
-                                    print("输入的密码是:" + password)
+                                    if password == ""{
+                                    }else{
+                                        //调验证支付吗接口
+                                        self.yanzhengzhifumima(password: password,pass:2)
+                                        print("输入的密码是:" + password)
+
+                                    }
                                 })
                             }
                         }else{
@@ -1183,9 +1195,13 @@ class XL_WDQB_ViewController: UIViewController,UITextFieldDelegate {
                                 let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "",isMove:true)
                                 payAlert.show(view: self.view)
                                 payAlert.completeBlock = ({(password:String) -> Void in
-                                    //调验证支付吗接口
-                                    self.yanzhengzhifumima(password: password,pass:1)
-                                    print("输入的密码是:" + password)
+                                    if password == ""{
+                                    }else{
+                                        //调验证支付吗接口
+                                        self.yanzhengzhifumima(password: password,pass:1)
+                                        print("输入的密码是:" + password)
+                                    }
+                                    
                                 })
                             }
                         }else{

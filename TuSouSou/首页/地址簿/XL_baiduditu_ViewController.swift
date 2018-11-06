@@ -135,7 +135,6 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
     func sousuo(la: Double, lo: Double) {
         let reverseGeocodeSearchOption = BMKReverseGeoCodeOption()
         let pt = CLLocationCoordinate2D(latitude: la, longitude: lo)
-        
         reverseGeocodeSearchOption.reverseGeoPoint = pt
 //        let array = _mapView.annotations
 //        _mapView.removeAnnotations(array)
@@ -206,7 +205,7 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
     func didUpdateUserHeading(_ userLocation: BMKUserLocation!) {
         _mapView.updateLocationData(userLocation)
     }
-    
+    var result = ""
     func onGetPoiResult(_ searcher: BMKPoiSearch!, result poiResult: BMKPoiResult!, errorCode: BMKSearchErrorCode) {
         if errorCode == BMK_SEARCH_NO_ERROR {
             poiLisrArray = []
@@ -225,11 +224,43 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
                     self.tableView.reloadData()
                 }
             }else{
-                XL_waringBox().warningBoxModeText(message: "搜索不到\(searchBar.text as? String)", view: self.view)
+                if result.count > 1 {
+                let citySearchOption = BMKCitySearchOption()
+                citySearchOption.pageIndex = 0
+                citySearchOption.pageCapacity = 50
+                citySearchOption.city = city
+                let index = result.index(result.startIndex, offsetBy:result.count - 2)
+                result = result.substring(to: index)
+                citySearchOption.keyword = result
+                let flag: Bool = _poisearch.poiSearch(inCity: citySearchOption)
+                if flag {
+                    print("POI成功")
+                }else{
+                    print("POI失败")
+                }
+                }else{
+                   XL_waringBox().warningBoxModeText(message: "搜索不到\(searchBar.text as! String)", view: self.view)
+                }
             }
         }
         else{
-            XL_waringBox().warningBoxModeText(message: "搜索不到\(searchBar.text as? String)", view: self.view)
+            if result.count > 1 {
+                let citySearchOption = BMKCitySearchOption()
+                citySearchOption.pageIndex = 0
+                citySearchOption.pageCapacity = 50
+                citySearchOption.city = city
+                let index = result.index(result.startIndex, offsetBy:result.count - 2)
+                result = result.substring(to: index)
+                citySearchOption.keyword = result
+                let flag: Bool = _poisearch.poiSearch(inCity: citySearchOption)
+                if flag {
+                    print("POI成功")
+                }else{
+                    print("POI失败")
+                }
+            }else{
+                XL_waringBox().warningBoxModeText(message: "搜索不到\(searchBar.text as! String)", view: self.view)
+            }
         }
     }
     
@@ -282,6 +313,7 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
         citySearchOption.pageCapacity = 50
         citySearchOption.city = city
         citySearchOption.keyword = searchBar.text
+        result = searchBar.text!
         let flag: Bool = _poisearch.poiSearch(inCity: citySearchOption)
         if flag {
             print("POI成功")
@@ -297,6 +329,7 @@ class XL_baiduditu_ViewController: UIViewController,BMKGeoCodeSearchDelegate,BMK
         citySearchOption.pageCapacity = 50
         citySearchOption.city = city
         citySearchOption.keyword = searchBar.text
+        result = searchBar.text!
         let flag: Bool = _poisearch.poiSearch(inCity: citySearchOption)
         if flag {
             print("POI成功")

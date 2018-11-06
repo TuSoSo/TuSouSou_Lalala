@@ -1135,9 +1135,13 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
                                 let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: HeJijine.text!,isMove:true)
                                 payAlert.show(view: self.view)
                                 payAlert.completeBlock = ({(password:String) -> Void in
-                                    //调验证支付吗接口
-                                    self.yanzhengzhifumima(password: password)
-                                    print("输入的密码是:" + password)
+                                    if password == ""{
+                                        self.diandianjiji = 1
+                                    }else{
+                                        //调验证支付吗接口
+                                        self.yanzhengzhifumima(password: password)
+                                        print("输入的密码是:" + password)
+                                    }
                                 })
                             }
                         }else{
@@ -1163,6 +1167,7 @@ class XL_KuaiDixiadan_ViewController: UIViewController, UITableViewDelegate, UIT
 //                self.tiaoye(rukou: "1")
                 self.zhifu_xiao()
             }else{
+                self.diandianjiji = 1
                 let msg = (res as! [String: Any])["msg"] as! String
                 XL_waringBox().warningBoxModeText(message: msg, view: self.view)
             }

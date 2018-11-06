@@ -70,6 +70,9 @@ class XL_GeRenViewController: UIViewController,UITableViewDelegate,UITableViewDa
         return 6
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if UIDevice.current.is5s(){
+            return 44
+        }
         return 56
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

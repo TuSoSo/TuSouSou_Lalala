@@ -82,7 +82,6 @@
 		0F7B3D8F20CA1462006EB908 /* PayAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B3D8E20CA1461006EB908 /* PayAlert.swift */; };
 		0F8025FB20C0E2BF00865A21 /* XL_WDxiaoxi_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8025FA20C0E2BF00865A21 /* XL_WDxiaoxi_ViewController.swift */; };
 		0F8836D82088880F000C6CA6 /* XL_weixinObjc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8836D72088880F000C6CA6 /* XL_weixinObjc.swift */; };
-		0F8836DA208DF001000C6CA6 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F8836D9208DF001000C6CA6 /* Alamofire.framework */; };
 		0F8836DE208EBCF1000C6CA6 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8836DD208EBCF1000C6CA6 /* SwiftyJSON.swift */; };
 		0F9723DB20BF838A0064A678 /* XL_WDDDXQ_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9723DA20BF838A0064A678 /* XL_WDDDXQ_ViewController.swift */; };
 		0F9723E220BF9D330064A678 /* WNRatingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9723DD20BF9D330064A678 /* WNRatingBar.swift */; };
@@ -357,7 +356,6 @@
 		0F7B3D8E20CA1461006EB908 /* PayAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayAlert.swift; sourceTree = "<group>"; };
 		0F8025FA20C0E2BF00865A21 /* XL_WDxiaoxi_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDxiaoxi_ViewController.swift; sourceTree = "<group>"; };
 		0F8836D72088880F000C6CA6 /* XL_weixinObjc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_weixinObjc.swift; sourceTree = "<group>"; };
-		0F8836D9208DF001000C6CA6 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F8836DD208EBCF1000C6CA6 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		0F9723DA20BF838A0064A678 /* XL_WDDDXQ_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XL_WDDDXQ_ViewController.swift; sourceTree = "<group>"; };
 		0F9723DD20BF9D330064A678 /* WNRatingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WNRatingBar.swift; sourceTree = "<group>"; };
@@ -498,7 +496,6 @@
 				0FFEB78C20E75D2E003D5B3F /* WindVane.framework in Frameworks */,
 				0FFEB78620E75D2E003D5B3F /* RPSDK.framework in Frameworks */,
 				0FFEB78020E75D2E003D5B3F /* AliReachability.framework in Frameworks */,
-				0F8836DA208DF001000C6CA6 /* Alamofire.framework in Frameworks */,
 				0F701C4F20871FDF000F7F67 /* libssl.a in Frameworks */,
 				0FFEB78220E75D2E003D5B3F /* WindVaneBridge.framework in Frameworks */,
 				0F7019EB2085DCB6000F7F67 /* CFNetwork.framework in Frameworks */,
@@ -1186,7 +1183,6 @@
 				0F6EE58320BD77FF0062039C /* libstdc++.tbd */,
 				0F6EE58120BD77ED0062039C /* libsqlite3.tbd */,
 				0F6EE57F20BD77CD0062039C /* libiconv.tbd */,
-				0F8836D9208DF001000C6CA6 /* Alamofire.framework */,
 				0F701BF020871FDE000F7F67 /* libcrypto.a */,
 				0F701BFA20871FDE000F7F67 /* libssl.a */,
 				0F701BEF20871FDE000F7F67 /* 支付宝 */,
@@ -1720,7 +1716,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TuSouSou/TuSouSou.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: zenggang dai (33XJ9875UT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: zenggang dai (ZX7GYT2Q58)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ZX7GYT2Q58;
 				ENABLE_BITCODE = NO;
@@ -1743,7 +1739,7 @@
 					"\"$(SRCROOT)/支付宝\"",
 				);
 				INFOPLIST_FILE = TuSouSou/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1813,12 +1809,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Tusousou.TuSouSou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d37f76a6-75d2-41df-a764-4f09000104ba";
-				PROVISIONING_PROFILE_SPECIFIER = Tusousou_KaiFa;
+				PROVISIONING_PROFILE = "ad1b7e05-98e7-4def-a72b-04105a9b19fe";
+				PROVISIONING_PROFILE_SPECIFIER = TuSousou_Shengchan;
 				SWIFT_OBJC_BRIDGING_HEADER = "TuSouSou/OC-Swift桥连接/TuSouSou-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1829,7 +1825,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TuSouSou/TuSouSou.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: zenggang dai (33XJ9875UT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: zenggang dai (ZX7GYT2Q58)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ZX7GYT2Q58;
 				ENABLE_BITCODE = NO;
@@ -1852,7 +1848,7 @@
 					"\"$(SRCROOT)/支付宝\"",
 				);
 				INFOPLIST_FILE = TuSouSou/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1922,11 +1918,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Tusousou.TuSouSou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d37f76a6-75d2-41df-a764-4f09000104ba";
-				PROVISIONING_PROFILE_SPECIFIER = Tusousou_KaiFa;
+				PROVISIONING_PROFILE = "ad1b7e05-98e7-4def-a72b-04105a9b19fe";
+				PROVISIONING_PROFILE_SPECIFIER = TuSousou_Shengchan;
 				SWIFT_OBJC_BRIDGING_HEADER = "TuSouSou/OC-Swift桥连接/TuSouSou-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

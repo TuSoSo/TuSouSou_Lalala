@@ -326,9 +326,14 @@ class XL_SPxiadanViewController: UIViewController,UITableViewDelegate,UITableVie
                                     let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: false, jine: HJJE.text!,isMove:true)
                                     payAlert.show(view: self.view)
                                     payAlert.completeBlock = ({(password:String) -> Void in
-                                        //调验证支付吗接口
-                                        self.yanzhengzhifumima(password: password)
-                                        print("输入的密码是:" + password)
+                                        if password == ""{
+                                            self.diandianjiji = 1
+                                        }else{
+                                            //调验证支付吗接口
+                                            self.yanzhengzhifumima(password: password)
+                                            print("输入的密码是:" + password)
+                                        }
+                                      
                                     })
                                 }
                             }else{

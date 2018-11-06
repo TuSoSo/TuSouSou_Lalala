@@ -16,6 +16,9 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
     var tencentAuth: TencentOAuth!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+//        if UIDevice.current.is5s() {
+//            exit(0)
+//        }
         if isJailBreak() {
             let alertWindow = UIWindow(frame: UIScreen.main.bounds)
             alertWindow.rootViewController = UIViewController()
@@ -149,6 +152,7 @@ class AppDelegate: UIResponder,WXApiDelegate,BMKGeneralDelegate,UIApplicationDel
         let urlString = "itms-apps://itunes.apple.com/app/id\(appID)"
         let url = NSURL(string: urlString)
         UIApplication.shared.openURL(url! as URL)
+        
     }
     //MARK:微信三方登录
     func application(_ application: UIApplication, handleOpen url: URL) -> Bool {

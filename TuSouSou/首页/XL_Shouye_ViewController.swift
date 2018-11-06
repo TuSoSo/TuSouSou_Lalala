@@ -1234,7 +1234,7 @@ class XL_ShouYe_ViewController: UIViewController,UITextFieldDelegate,CLLocationM
 //        let divisor = pow(10.0, Double(places))
 //
 //        return (self * divisor).rounded() / divisor
-//
+//ß
 //    }
 //
 //}
@@ -1243,7 +1243,12 @@ extension UIDevice {
         if UIScreen.main.bounds.height == 812 {
             return true
         }
-        
+        return false
+    }
+    public func is5s() -> Bool {
+        if UIScreen.main.bounds.height < 600 {
+            return true
+        }
         return false
     }
 }

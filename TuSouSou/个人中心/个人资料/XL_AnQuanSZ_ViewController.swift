@@ -78,9 +78,13 @@ class XL_AnQuanSZ_ViewController: UIViewController,UITableViewDelegate,UITableVi
                     let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "", isMove:false)
                     payAlert.show(view: self.view)
                     payAlert.completeBlock = ({(password:String) -> Void in
-                        //调验证支付吗接口
-                        self.yanzhengzhifumima(password: password, gai:2)
-                        print("输入的密码是:" + password)
+                        if password == ""{
+                        }else{
+                            //调验证支付吗接口
+                            self.yanzhengzhifumima(password: password, gai:2)
+                            print("输入的密码是:" + password)
+                        }
+                        
                     })
                 }else{
                     self.tiaoye(rukou: "1")
@@ -107,9 +111,13 @@ class XL_AnQuanSZ_ViewController: UIViewController,UITableViewDelegate,UITableVi
                 let payAlert = PayAlert(frame: UIScreen.main.bounds, jineHide: true, jine: "", isMove:false)
                 payAlert.show(view: self.view)
                 payAlert.completeBlock = ({(password:String) -> Void in
-                    //调验证支付吗接口
-                    self.yanzhengzhifumima(password: password, gai: 1)
-                    print("输入的密码是:" + password)
+                    if password == ""{
+                    }else{
+                        //调验证支付吗接口
+                        self.yanzhengzhifumima(password: password, gai: 1)
+                        print("输入的密码是:" + password)
+                    }
+                   
                 })
             }else{
                 tiaoye(rukou: "1")

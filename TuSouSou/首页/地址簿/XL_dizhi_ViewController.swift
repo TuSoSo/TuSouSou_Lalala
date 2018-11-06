@@ -92,7 +92,9 @@ class XL_dizhi_ViewController: UIViewController,CLLocationManagerDelegate,CNCont
     }
     
     @IBAction func queding(_ sender: Any) {
-        if Name.text?.count == 0 || dingweiDZ.text?.count == 0 {
+        if dingweiDZ.text == "请选择地址" {
+            XL_waringBox().warningBoxModeText(message: "请选择地址！", view: self.view)
+        }else if Name.text?.count == 0 || dingweiDZ.text?.count == 0 {
             XL_waringBox().warningBoxModeText(message: "请完善信息！", view: self.view)
         }else if  !(Pone.text?.isPhoneNumber())!{
             XL_waringBox().warningBoxModeText(message: "请填写正确的手机号！", view: self.view)

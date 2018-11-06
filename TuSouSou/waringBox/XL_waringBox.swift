@@ -26,9 +26,10 @@ class XL_waringBox: UIView {
     func warningBoxModeIndeterminate(message: String, view: UIView) {
         let hud = MBProgressHUD.showAdded(to: view, animated: true)
         hud.show(animated: true)
-        hud.mode = .indeterminate
+        hud.mode = .customView
         hud.label.text = message
         hud.label.font = UIFont.systemFont(ofSize: 12)
+        hud.bezelView.addSubview(UIImageView(image:UIImage(named: "抽奖")))
         hud.removeFromSuperViewOnHide = true
     }
     ///隐藏显示的提示框

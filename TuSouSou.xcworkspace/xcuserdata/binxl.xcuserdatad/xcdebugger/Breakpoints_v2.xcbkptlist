@@ -42,12 +42,12 @@
                   moduleName = "TuSouSou"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/binxl/Desktop/TuSouSou/TuSouSou/%E7%99%BB%E9%99%86/XL_DengLuWanshan_ViewController.swift"
-                  timestampString = "555577509.826028"
+                  timestampString = "558953094.015089"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "74"
                   endingLineNumber = "74"
-                  offsetFromSymbolStart = "1304">
+                  offsetFromSymbolStart = "1806">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -57,12 +57,12 @@
                   moduleName = "TuSouSou"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/binxl/Desktop/TuSouSou/TuSouSou/%E7%99%BB%E9%99%86/XL_DengLuWanshan_ViewController.swift"
-                  timestampString = "555577509.827921"
+                  timestampString = "558953094.023419"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "74"
                   endingLineNumber = "74"
-                  offsetFromSymbolStart = "3076">
+                  offsetFromSymbolStart = "4343">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -144,6 +144,22 @@
             startingLineNumber = "92"
             endingLineNumber = "92"
             landmarkName = "dianjiWebView()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TuSouSou/&#x9996;&#x9875;/&#x5feb;&#x9012;&#x4e0b;&#x5355;/XL_KuaiDixiadan_ViewController.swift"
+            timestampString = "556780648.791537"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1166"
+            endingLineNumber = "1166"
+            landmarkName = "yanzhengzhifumima(password:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

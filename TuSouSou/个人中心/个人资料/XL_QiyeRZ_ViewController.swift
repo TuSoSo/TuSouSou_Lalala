@@ -19,7 +19,6 @@ class XL_QiyeRZ_ViewController: UIViewController,UIImagePickerControllerDelegate
     var imageDic:[String : Any] = [:]
     var isSHX = 0
     
-    
     @IBOutlet weak var tableQiye: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()

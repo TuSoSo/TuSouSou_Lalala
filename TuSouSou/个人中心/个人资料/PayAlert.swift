@@ -47,7 +47,7 @@ class PayAlert: UIView,UITextFieldDelegate {
         
         let btn:UIButton = UIButton(type: .custom)
         btn.frame =  CGRect(x: 0, y: 0, width: 46, height: 46)
-        btn .addTarget(self, action: #selector(close), for: .touchUpInside)
+        btn .addTarget(self, action: #selector(xxxx), for: .touchUpInside)
         btn .setTitle("╳", for: .normal)
         btn .setTitleColor(UIColor.black, for: .normal)
         contentView!.addSubview(btn)
@@ -145,7 +145,10 @@ class PayAlert: UIView,UITextFieldDelegate {
         }
         return true;
     }
-    
+     @objc func xxxx() {
+        completeBlock?("")
+        self.removeFromSuperview()
+    }
     func setCircleShow(count:NSInteger){
         for circle in pwdCircleArr {
             circle.isHidden = true;

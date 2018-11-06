@@ -79,7 +79,7 @@ class XL_YiYaohaoyou_ViewController: UIViewController,UITableViewDelegate,UITabl
         let shijianLabel:UILabel = cell.viewWithTag(40) as! UILabel
         nameLabel.text = "被邀请人"
         if nil != (invitationList[indexPath.row]["user"] as! [String: Any])["name"] {
-            nameLabel.text = (invitationList[indexPath.row]["user"] as! [String: Any])["name"] as? String
+            nameLabel.text = (invitationList[indexPath.row]["user"] as! [String: Any])["roleName"] as? String
         }
         dianhuaLabel.text = invitationList[indexPath.row]["phone"] as? String
         shijianLabel.text = invitationList[indexPath.row]["createDate"] as? String

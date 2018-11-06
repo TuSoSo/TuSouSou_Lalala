@@ -140,7 +140,8 @@ class XL_ShimingRZ_ViewController: UIViewController {
             }else if (res as! [String: Any])["code"] as! String == "1003"{
                 let data:[String:Any] = (res as! [String: Any])["data"] as! [String:Any]
                 self.remainder = data["remainder"] as! String
-                let aaa = UIAlertController(title: "警告！", message: "同一张身份证只能认证一次，该身份证已通过认证，此账号剩余认证次数仅剩\(self.remainder)次，请慎用。", preferredStyle: .alert)
+                let msg = (res as! [String: Any])["msg"] as! String
+                let aaa = UIAlertController(title: "警告！", message: "\(msg)\n此账号剩余认证次数仅剩\(self.remainder)次，请慎用。", preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
                 aaa.addAction(cancelAction)
                 self.present(aaa, animated: true, completion: nil)

@@ -99,7 +99,6 @@ class XL_YQHY_ViewController: UIViewController,UIActionSheetDelegate{
     @IBAction func shareWX(_ sender: Any) {
         sendWXFX(inScene: WXSceneSession)
     }
-    
     @IBAction func PYQ(_ sender: Any) {
         sendWXFX(inScene: WXSceneTimeline)
     }

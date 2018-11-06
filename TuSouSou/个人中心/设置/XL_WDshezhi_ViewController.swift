@@ -154,6 +154,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
                 if indexPath.row == 3 {
                     //是否认证
                     //                    Isrenzheng.text = "未认证"
+                    if nil != userDefaults.value(forKey: "zhenshiqiye"){
                     let xx = userDefaults.value(forKey: "zhenshiqiye") as! Int
                     switch xx {
                     case 1:
@@ -168,7 +169,7 @@ class XL_WDshezhi_ViewController: UIViewController,UITableViewDataSource,UITable
                         Isrenzheng.text = "未认证"
                         break
                     }
-                    
+                    }
                     cell.contentView.addSubview(Isrenzheng)
                 }else if indexPath.row == 4 {
                     //是否认证
